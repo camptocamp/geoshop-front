@@ -130,6 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = 'fr-ch'
+DEFAULT_CURRENCY = 'CHF'
 
 LOCALE_PATHS = [
     './conf/locale',
