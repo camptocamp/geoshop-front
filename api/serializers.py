@@ -33,7 +33,7 @@ class WKTPolygonField(serializers.Field):
     Polygons are serialized to POLYGON((Long, Lat)) notation
     """
 
-    def to_representation(self, value):
+    def to_representation(self, value) -> str:
         if isinstance(value, dict) or value is None:
             return value
         new_value = copy.copy(value)
@@ -207,7 +207,7 @@ class MetadataSerializer(serializers.HyperlinkedModelSerializer):
                 'request': self.context['request']
             }).data for m in qset]
 
-    def get_legend_link(self, obj):
+    def get_legend_link(self, obj) -> str:
         return obj.get_legend_link()
 
 
@@ -489,7 +489,7 @@ class ExtractOrderSerializer(serializers.ModelSerializer):
         help_text='Input the translated string value, for example "Privé"')
     client = UserIdentitySerializer()
     invoice_contact = IdentitySerializer()
-    geom = WKTPolygonField()
+    geom = WKTPolygonField() # TODO type can not be detected this is a sting
     geom_srid = serializers.IntegerField()
     geom_area = serializers.FloatField()
 
