@@ -383,7 +383,7 @@ class ExtractOrderView(views.APIView):
             # Replace items in the order by the only concerned item
             order_data['items'].append(item_data)
             # Once fetched by extract, status of item changes
-            item.status = OrderItem.OrderItemStatus.IN_EXTRACT
+            item.orderitem_status = OrderItem.OrderItemStatus.IN_EXTRACT
             item.save()
         if len(response_data) == 0:
             return Response(status=status.HTTP_204_NO_CONTENT)
@@ -478,7 +478,7 @@ class ProductViewSet(MultiSerializerMixin, viewsets.ReadOnlyModelViewSet):
     """
     querysets = {
         'default': Product.objects.all(),
-        'list': Product.objects.filter(status=Product.ProductStatus.PUBLISHED)
+        'list': Product.objects.filter(productStatus=Product.ProductStatus.PUBLISHED)
     }
     filter_backends = (FullTextSearchFilter,)
     serializers = {
