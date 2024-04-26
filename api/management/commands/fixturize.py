@@ -33,4 +33,5 @@ class Command(BaseCommand):
         extract_group.permissions.add(extract_permission)
         extract_group.save()
         extract_user.groups.add(extract_group)
+        extract_user.identity.company_name = 'ACME'
         extract_user.save()

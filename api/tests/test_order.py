@@ -153,6 +153,7 @@ class OrderTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
         ordered_item = response.data['items'][0]
         self.assertEqual(ordered_item['product'], data['items'][0]['product'], 'Check product')
+        self.assertEqual(ordered_item['product_provider'], self.config.provider.identity.company_name, 'Check provider is present')
         self.assertEqual(ordered_item['price_status'], OrderItem.PricingStatus.PENDING, 'Check quote is needed')
         self.assertIsNone(response.data['processing_fee'], 'Check quote is needed')
         self.assertIsNone(response.data['total_without_vat'], 'Check quote is needed')

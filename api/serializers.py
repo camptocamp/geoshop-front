@@ -240,8 +240,11 @@ class OrderItemSerializer(serializers.ModelSerializer):
         queryset=Product.objects.all(),
         slug_field='label')
     product_id = serializers.PrimaryKeyRelatedField(read_only=True)
-
+    product_provider = serializers.SerializerMethodField()
     available_formats = serializers.ListField(read_only=True)
+
+    def get_product_provider(self, obj):
+        return obj.product.provider.identity.company_name
 
     class Meta:
         model = OrderItem
