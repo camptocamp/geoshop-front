@@ -159,7 +159,7 @@ class ProductGroupTests(APITestCase):
         response = self.client.put(url, {'extract_result': extract_file, 'comment': 'ok'})
         self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED, response.content)
         self.assertEqual(
-            Order.objects.get(pk=self.config.order.id).status,
+            Order.objects.get(pk=self.config.order.id).order_status,
             Order.OrderStatus.PARTIALLY_DELIVERED,
             "Check order status is partially delivered"
         )

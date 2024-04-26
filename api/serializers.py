@@ -295,7 +295,7 @@ class OrderSerializer(serializers.ModelSerializer):
             'processing_fee_currency', 'processing_fee',
             'total_cost_currency', 'total_cost',
             'part_vat_currency', 'part_vat',
-            'status']
+            'order_status']
 
     def create(self, validated_data):
         items_data = validated_data.pop('items', None)
@@ -328,7 +328,7 @@ class OrderSerializer(serializers.ModelSerializer):
         return order
 
     def update(self, instance, validated_data):
-        if instance.status != Order.OrderStatus.DRAFT:
+        if instance.order_status != Order.OrderStatus.DRAFT:
             raise serializers.ValidationError()
 
         items_data = validated_data.pop('items', None)

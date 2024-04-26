@@ -591,8 +591,8 @@ class Order(models.Model):
     order_type = models.ForeignKey(
         OrderType, models.PROTECT, verbose_name=_("order_type")
     )
-    status = models.CharField(
-        _("status"),
+    order_status = models.CharField(
+        _("order_status"),
         max_length=20,
         choices=OrderStatus.choices,
         default=OrderStatus.DRAFT,
@@ -653,7 +653,7 @@ class Order(models.Model):
         """Admins confirmation they have given a manual price"""
         price_is_set = self.set_price()
         if price_is_set:
-            self.status = self.OrderStatus.QUOTE_DONE
+            self.order_status = self.OrderStatus.QUOTE_DONE
             self.save()
             send_geoshop_email(
                 _("Geoshop - Quote has been done"),
@@ -726,10 +726,10 @@ class Order(models.Model):
                 item.ask_validation()
                 item.save()
         if has_all_prices_calculated:
-            self.status = Order.OrderStatus.READY
+            self.order_status = Order.OrderStatus.READY
         else:
             self.ask_price()
-            self.status = Order.OrderStatus.PENDING
+            self.order_status = Order.OrderStatus.PENDING
 
     def next_status_on_extract_input(self):
         """Controls status when Extract uploads a file or cancel an order item"""
@@ -738,7 +738,7 @@ class Order(models.Model):
             Order.OrderStatus.IN_EXTRACT,
             Order.OrderStatus.PARTIALLY_DELIVERED,
         ]
-        if self.status not in previous_accepted_status:
+        if self.order_status not in previous_accepted_status:
             raise Exception("Order has an inappropriate status after input")
         items_statuses = set(self.items.all().values_list("status", flat=True))
 
@@ -747,15 +747,15 @@ class Order(models.Model):
             or OrderItem.OrderItemStatus.PENDING in items_statuses
         ):
             if OrderItem.OrderItemStatus.PROCESSED in items_statuses:
-                self.status = Order.OrderStatus.PARTIALLY_DELIVERED
+                self.order_status = Order.OrderStatus.PARTIALLY_DELIVERED
             else:
-                self.status = Order.OrderStatus.READY
+                self.order_status = Order.OrderStatus.READY
         else:
             if OrderItem.OrderItemStatus.PROCESSED in items_statuses:
                 if OrderItem.OrderItemStatus.VALIDATION_PENDING in items_statuses:
-                    self.status = Order.OrderStatus.PARTIALLY_DELIVERED
+                    self.order_status = Order.OrderStatus.PARTIALLY_DELIVERED
                 else:
-                    self.status = Order.OrderStatus.PROCESSED
+                    self.order_status = Order.OrderStatus.PROCESSED
                     self.date_processed = timezone.now()
                     send_geoshop_email(
                         _("Geoshop - Download ready"),
@@ -774,8 +774,8 @@ class Order(models.Model):
                         },
                     )
             else:
-                self.status = Order.OrderStatus.REJECTED
-        return self.status
+                self.order_status = Order.OrderStatus.REJECTED
+        return self.order_status
 
     @property
     def geom_srid(self):

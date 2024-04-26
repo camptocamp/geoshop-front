@@ -113,14 +113,14 @@ class PricingTests(APITestCase):
         )
         self.config.order.order_type = self.config.order_types['private']
         self.config.order.save()
-        self.assertEqual(self.config.order.status, Order.OrderStatus.DRAFT)
+        self.assertEqual(self.config.order.order_status, Order.OrderStatus.DRAFT)
         self.assertEqual(order_item.price_status, OrderItem.PricingStatus.PENDING, 'pricing status stays pending')
 
         # Client asks for a quote bescause order item pricing status is PENDING
         self.config.order.confirm()
         # An email is sent to admins, asking them to set a manual price
         self.assertEqual(len(mail.outbox), 1, 'An email has been sent to admins')
-        self.assertEqual(self.config.order.status, Order.OrderStatus.PENDING, 'Order status is now pending')
+        self.assertEqual(self.config.order.order_status, Order.OrderStatus.PENDING, 'Order status is now pending')
         # An admin sets price manually, this is normally done in admin interface
         order_item.set_price(
             price=self.config.unit_price,
@@ -130,10 +130,10 @@ class PricingTests(APITestCase):
         # The admin confirms he's done with the quote
         self.config.order.quote_done()
         self.assertEqual(len(mail.outbox), 2, 'An email has been sent to the client')
-        self.assertEqual(self.config.order.status, Order.OrderStatus.QUOTE_DONE, 'Order status has quote done')
+        self.assertEqual(self.config.order.order_status, Order.OrderStatus.QUOTE_DONE, 'Order status has quote done')
         self.assertEqual(order_item.price_status, OrderItem.PricingStatus.CALCULATED, 'Price is calculated')
         self.config.order.confirm()
-        self.assertEqual(self.config.order.status, Order.OrderStatus.READY, 'Order is ready for Extract')
+        self.assertEqual(self.config.order.order_status, Order.OrderStatus.READY, 'Order is ready for Extract')
 
     def test_undefined_price(self):
         undefined_price = self.config.products['yet_unknown_pricing'].pricing.get_price(self.config.order.geom)
@@ -191,11 +191,11 @@ class PricingTests(APITestCase):
         orderitem2.save()
         self.config.order.set_price()
         self.config.order.save()
-        self.assertEqual(self.config.order.status, Order.OrderStatus.DRAFT)
+        self.assertEqual(self.config.order.order_status, Order.OrderStatus.DRAFT)
         self.assertEqual(orderitem2.price_status, OrderItem.PricingStatus.CALCULATED, 'pricing status stays pending')
         # Client confirms order
         self.config.order.confirm()
-        self.assertEqual(self.config.order.status, Order.OrderStatus.READY, 'Order status is now pending')
+        self.assertEqual(self.config.order.order_status, Order.OrderStatus.READY, 'Order status is now pending')
 
     def test_user_not_subscribed(self):
         self.config.user_private.identity.subscribed = False
@@ -212,14 +212,14 @@ class PricingTests(APITestCase):
         orderitem2.save()
         self.config.order.set_price()
         self.config.order.save()
-        self.assertEqual(self.config.order.status, Order.OrderStatus.DRAFT)
+        self.assertEqual(self.config.order.order_status, Order.OrderStatus.DRAFT)
         self.assertEqual(orderitem2.price_status, OrderItem.PricingStatus.PENDING, 'pricing status stays pending')
         # Client asks for a quote bescause order item pricing status is PENDING
         self.config.order.confirm()
 
         # An email is sent to admins, asking them to set a manual price
         self.assertEqual(len(mail.outbox), 1, 'An email has been sent to admins')
-        self.assertEqual(self.config.order.status, Order.OrderStatus.PENDING, 'Order status is now pending')
+        self.assertEqual(self.config.order.order_status, Order.OrderStatus.PENDING, 'Order status is now pending')
 
     def test_invoice_contact_subscribed_to_product(self):
         self.assertFalse(self.config.user_private.identity.subscribed)

@@ -6,7 +6,7 @@ from django.urls import include, path, re_path
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
-from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
