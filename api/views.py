@@ -383,7 +383,7 @@ class ExtractOrderView(views.APIView):
             # Replace items in the order by the only concerned item
             order_data['items'].append(item_data)
             # Once fetched by extract, status of item changes
-            item.orderitem_status = OrderItem.OrderItemStatus.IN_EXTRACT
+            item.status = OrderItem.OrderItemStatus.IN_EXTRACT
             item.save()
         if len(response_data) == 0:
             return Response(status=status.HTTP_204_NO_CONTENT)

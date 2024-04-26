@@ -33,7 +33,7 @@ class ProductGroupTests(APITestCase):
             pricing=self.config.pricings['free'],
             provider=self.extract_config.user,
             metadata=self.config.public_metadata,
-            status=Product.ProductStatus.PUBLISHED
+            product_status=Product.ProductStatus.PUBLISHED
         )
 
         self.child_group = Product.objects.create(
@@ -42,7 +42,7 @@ class ProductGroupTests(APITestCase):
             pricing=self.config.pricings['free'],
             provider=self.extract_config.user,
             metadata=self.config.public_metadata,
-            status=Product.ProductStatus.PUBLISHED
+            product_status=Product.ProductStatus.PUBLISHED
         )
         self.formats = DataFormat.objects.bulk_create([
             DataFormat(name="DXF"),
@@ -62,7 +62,7 @@ class ProductGroupTests(APITestCase):
                     (2520000, 1210000),
                     (2537498, 1210000)
                 ))),
-                status=Product.ProductStatus.PUBLISHED
+                product_status=Product.ProductStatus.PUBLISHED
             ),
             Product(
                 label="Réseau d'eau de la commune de Morpork",
@@ -77,7 +77,7 @@ class ProductGroupTests(APITestCase):
                     (2550000, 1180000),
                     (2533183, 1180000)
                 ))),
-                status=Product.ProductStatus.PUBLISHED_ONLY_IN_GROUP
+                product_status=Product.ProductStatus.PUBLISHED_ONLY_IN_GROUP
             ),
             Product(
                 label="Réseau d'eau du Klatch",
@@ -86,7 +86,7 @@ class ProductGroupTests(APITestCase):
                 provider=user_extern_extract,
                 metadata=self.config.public_metadata,
                 geom=MultiPolygon(Polygon.from_bbox((2564000, 1212000, 2570000, 1207000))),
-                status=Product.ProductStatus.PUBLISHED_ONLY_IN_GROUP
+                product_status=Product.ProductStatus.PUBLISHED_ONLY_IN_GROUP
             )
         ])
         ProductFormat.objects.bulk_create([

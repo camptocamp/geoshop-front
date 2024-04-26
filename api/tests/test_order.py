@@ -350,7 +350,7 @@ class OrderTests(APITestCase):
             label=product_name_to_order,
             pricing=self.config.pricings['free'],
             metadata=approval_needed_metadata,
-            status=Product.ProductStatus.PUBLISHED,
+            product_status=Product.ProductStatus.PUBLISHED,
             provider=self.config.provider
         )
 
@@ -362,7 +362,7 @@ class OrderTests(APITestCase):
                 pricing=self.config.pricings['free'],
                 provider=self.config.provider,
                 metadata=self.config.public_metadata,
-                status=Product.ProductStatus.PUBLISHED
+                product_status=Product.ProductStatus.PUBLISHED
             )
             ProductFormat.objects.bulk_create([
                 ProductFormat(product=sensitive_product, data_format=self.config.formats['dxf']),
