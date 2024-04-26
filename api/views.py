@@ -478,7 +478,7 @@ class ProductViewSet(MultiSerializerMixin, viewsets.ReadOnlyModelViewSet):
     """
     querysets = {
         'default': Product.objects.all(),
-        'list': Product.objects.filter(productStatus=Product.ProductStatus.PUBLISHED)
+        'list': Product.objects.filter(product_status=Product.ProductStatus.PUBLISHED)
     }
     filter_backends = (FullTextSearchFilter,)
     serializers = {

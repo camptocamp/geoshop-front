@@ -198,7 +198,7 @@ class ProductAdmin(CustomGeoModelAdmin):
     raw_id_fields = ('metadata', 'group')
     exclude = ('ts',)
     search_fields = ['label']
-    list_filter = ('productStatus',)
+    list_filter = ('product_status',)
     readonly_fields = ('thumbnail_tag',)
 
 
