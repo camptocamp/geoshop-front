@@ -58,7 +58,7 @@ class OrderTests(APITestCase):
         order_item_id2 = response.data[0]['items'][1]['id']
 
         response = self.client.get(url, format='json')
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT, response.content) # FIXME: fix this in the view
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT, response.content)
 
         url = reverse('extract_orderitem', kwargs={'pk': order_item_id1})
         extract_file = SimpleUploadedFile("result.zip", self.empty_zip_data, content_type="multipart/form-data")

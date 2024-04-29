@@ -489,7 +489,7 @@ class ExtractOrderSerializer(serializers.ModelSerializer):
         help_text='Input the translated string value, for example "Privé"')
     client = UserIdentitySerializer()
     invoice_contact = IdentitySerializer()
-    geom = WKTPolygonField() # TODO type can not be detected this is a sting
+    geom = WKTPolygonField()
     geom_srid = serializers.IntegerField()
     geom_area = serializers.FloatField()
 
