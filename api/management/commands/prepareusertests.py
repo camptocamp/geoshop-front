@@ -22,7 +22,7 @@ class Command(BaseCommand):
         # Set all ready orders to ARCHIVED
         orders_ready = Order.objects.filter(status=Order.OrderStatus.READY).all()
         for order in orders_ready:
-            order.status = Order.OrderStatus.ARCHIVED
+            order.order_status = Order.OrderStatus.ARCHIVED
             order.save()
 
         # Create users
@@ -277,7 +277,7 @@ class Command(BaseCommand):
         order_mka2.invoice_contact = contact_mka2
         order_mka2.set_price()
         order_mka2.date_ordered = datetime.datetime(2018, 12, 1, 8, 20, 3, 0, tzinfo=datetime.timezone.utc)
-        order_mka2.status = Order.OrderStatus.ARCHIVED
+        order_mka2.order_status = Order.OrderStatus.ARCHIVED
         order_mka2.save()
 
         order_download.set_price()
@@ -287,7 +287,7 @@ class Command(BaseCommand):
             order_item.extract_result = extract_file
             order_item.status = OrderItem.OrderItemStatus.PROCESSED
             order_item.save()
-        order_download.status = Order.OrderStatus.PROCESSED
+        order_download.order_status = Order.OrderStatus.PROCESSED
 
         # Creating zip with all zips without background process unsupported by manage.py
         zip_list_path = list(order_download.items.all().values_list('extract_result', flat=True))

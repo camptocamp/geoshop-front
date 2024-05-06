@@ -140,7 +140,7 @@ class OrderAdmin(CustomGeoModelAdmin):
     raw_id_fields = ['client', 'invoice_contact']
     ordering = ['-id']
     actions = ['quote']
-    list_filter = ['status', 'date_ordered']
+    list_filter = ['order_status', 'date_ordered']
 
     def title_small(self, order):
         title = order.title
@@ -168,7 +168,7 @@ class OrderAdmin(CustomGeoModelAdmin):
             for item in obj.items.all():
                 item.status = OrderItem.OrderItemStatus.PENDING
                 item.save()
-            obj.status = Order.OrderStatus.READY
+            obj.order_status = Order.OrderStatus.READY
             obj.save()
             self.message_user(
                 request,
@@ -198,7 +198,7 @@ class ProductAdmin(CustomGeoModelAdmin):
     raw_id_fields = ('metadata', 'group')
     exclude = ('ts',)
     search_fields = ['label']
-    list_filter = ('status',)
+    list_filter = ('product_status',)
     readonly_fields = ('thumbnail_tag',)
 
 

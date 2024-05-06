@@ -16,6 +16,8 @@ from rest_framework.response import Response
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.parsers import MultiPartParser
 
+from drf_spectacular.utils import extend_schema
+
 from allauth.account.views import ConfirmEmailView
 
 from .models import (
@@ -88,6 +90,9 @@ class CurrentUserView(views.APIView):
     """
     permission_classes = [permissions.IsAuthenticated]
 
+    @extend_schema(
+        responses=UserIdentitySerializer,
+    )
     def get(self, request):
         user = request.user
         ser = UserIdentitySerializer(user, context={'request': request})
@@ -202,7 +207,7 @@ class OrderItemViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         order = instance.order
-        if order.status not in [Order.OrderStatus.DRAFT, Order.OrderStatus.PENDING]:
+        if order.order_status not in [Order.OrderStatus.DRAFT, Order.OrderStatus.PENDING]:
             return Response(
                 {"detail": _("This orderitem cannot be deleted anymore.")},
                 status=status.HTTP_403_FORBIDDEN
@@ -271,18 +276,18 @@ class OrderViewSet(MultiSerializerMixin, viewsets.ModelViewSet):
     def update(self, request, pk=None, *args, **kwargs):
         queryset = self.get_queryset()
         order = get_object_or_404(queryset, pk=pk)
-        if order.status == Order.OrderStatus.DRAFT:
+        if order.order_status == Order.OrderStatus.DRAFT:
             return super(OrderViewSet, self).update(request, pk, *args, **kwargs)
         raise PermissionDenied(detail='Order status is not DRAFT.')
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        if instance.status == Order.OrderStatus.DRAFT:
+        if instance.order_status == Order.OrderStatus.DRAFT:
             response = super(OrderViewSet, self).destroy(request, *args, **kwargs)
             return response
 
-        if instance.status == Order.OrderStatus.QUOTE_DONE:
-            instance.status = Order.OrderStatus.REJECTED
+        if instance.order_status == Order.OrderStatus.QUOTE_DONE:
+            instance.order_status = Order.OrderStatus.REJECTED
             instance.save()
             return Response(
                 status=status.HTTP_204_NO_CONTENT
@@ -299,7 +304,7 @@ class OrderViewSet(MultiSerializerMixin, viewsets.ModelViewSet):
         Returns the last saved order having a "DRAFT" status. If there's no DRAFT, returns a 204.
         """
         user = self.request.user
-        last_draft = Order.objects.filter(client_id=user.id, status=Order.OrderStatus.DRAFT).first()
+        last_draft = Order.objects.filter(client_id=user.id, order_status=Order.OrderStatus.DRAFT).first()
         if last_draft:
             serializer = OrderSerializer(last_draft, context={'request': request}, partial=True)
             return Response(serializer.data)
@@ -311,7 +316,7 @@ class OrderViewSet(MultiSerializerMixin, viewsets.ModelViewSet):
         Confirms order meaning it can not be edited anymore by user.
         """
         order = self.get_object()
-        if order.status not in [Order.OrderStatus.DRAFT, Order.OrderStatus.QUOTE_DONE]:
+        if order.order_status not in [Order.OrderStatus.DRAFT, Order.OrderStatus.QUOTE_DONE]:
             raise PermissionDenied(detail='Order status is not DRAFT or QUOTE_DONE')
         items = order.items.all()
         if not items:
@@ -349,12 +354,15 @@ class ExtractOrderView(views.APIView):
     """
     permission_classes = [ExtractGroupPermission]
 
+    @extend_schema(
+            responses=ExtractOrderSerializer
+    )
     def get(self, request, *args, **kwargs):
         # Start by getting orderitems that are PENDING and that will be extracted by current user
         order_items = OrderItem.objects.filter(
             (
-                Q(order__status=Order.OrderStatus.READY) |
-                Q(order__status=Order.OrderStatus.PARTIALLY_DELIVERED)
+                Q(order__order_status=Order.OrderStatus.READY) |
+                Q(order__order_status=Order.OrderStatus.PARTIALLY_DELIVERED)
             ) &
             Q(product__provider=request.user) &
             Q(status=OrderItem.OrderItemStatus.PENDING)
@@ -470,7 +478,7 @@ class ProductViewSet(MultiSerializerMixin, viewsets.ReadOnlyModelViewSet):
     """
     querysets = {
         'default': Product.objects.all(),
-        'list': Product.objects.filter(status=Product.ProductStatus.PUBLISHED)
+        'list': Product.objects.filter(product_status=Product.ProductStatus.PUBLISHED)
     }
     filter_backends = (FullTextSearchFilter,)
     serializers = {

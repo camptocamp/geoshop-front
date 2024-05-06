@@ -65,7 +65,7 @@ class OrderTests(APITestCase):
         response = self.client.put(url, {'extract_result': extract_file, 'comment': 'ok'})
         self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED, response.content)
         self.assertEqual(
-            Order.objects.get(pk=order_id).status,
+            Order.objects.get(pk=order_id).order_status,
             Order.OrderStatus.PARTIALLY_DELIVERED,
             "Check order status is partially delivered"
         )
@@ -75,7 +75,7 @@ class OrderTests(APITestCase):
         response = self.client.put(url, {'extract_result': extract_file})
         self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED, response.content)
         self.assertEqual(
-            Order.objects.get(pk=order_id).status,
+            Order.objects.get(pk=order_id).order_status,
             Order.OrderStatus.PROCESSED,
             "Check order status is processed"
         )
@@ -86,7 +86,7 @@ class OrderTests(APITestCase):
         url = reverse('order-detail', kwargs={'pk': order_id})
         response = self.client.get(url)
         self.assertEqual(
-            response.data['status'], Order.OrderStatus.PROCESSED, 'Check order status is processed')
+            response.data['order_status'], Order.OrderStatus.PROCESSED, 'Check order status is processed')
         url = reverse('orderitem-download-link', kwargs={'pk': order_item_id1})
         response = self.client.get(url)
         self.assertIsNotNone(response.data['download_link'], 'Check file is visible for user')
@@ -123,7 +123,7 @@ class OrderTests(APITestCase):
         response = self.client.put(url, {'is_rejected': True, 'comment': 'Interdit de commander ces données'})
         self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED, response.content)
         self.assertEqual(
-            Order.objects.get(pk=self.config.order.id).status,
+            Order.objects.get(pk=self.config.order.id).order_status,
             Order.OrderStatus.READY,
             "Check order status is still ready"
         )
@@ -133,7 +133,7 @@ class OrderTests(APITestCase):
         response = self.client.put(url, {'extract_result': extract_file})
         self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED, response.content)
         self.assertEqual(
-            Order.objects.get(pk=self.config.order.id).status,
+            Order.objects.get(pk=self.config.order.id).order_status,
             Order.OrderStatus.PROCESSED,
             "Check order status is processed"
         )
@@ -150,7 +150,7 @@ class OrderTests(APITestCase):
         response = self.client.put(url, {'is_rejected': True, 'comment': 'Interdit de commander ces données'})
         self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED, response.content)
         self.assertEqual(
-            Order.objects.get(pk=self.config.order.id).status,
+            Order.objects.get(pk=self.config.order.id).order_status,
             Order.OrderStatus.READY,
             "Check order status is still ready for extract"
         )
@@ -159,7 +159,7 @@ class OrderTests(APITestCase):
         response = self.client.put(url, {'is_rejected': True, 'comment': 'Interdit de commander ces données'})
         self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED, response.content)
         self.assertEqual(
-            Order.objects.get(pk=self.config.order.id).status,
+            Order.objects.get(pk=self.config.order.id).order_status,
             Order.OrderStatus.REJECTED,
             "Check order status is rejected"
         )
@@ -188,7 +188,7 @@ class OrderTests(APITestCase):
         response = self.client.put(url, {'is_rejected': True, 'comment': 'Interdit de commander ces données'})
         self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED, response.content)
         self.assertEqual(
-            Order.objects.get(pk=self.config.order.id).status,
+            Order.objects.get(pk=self.config.order.id).order_status,
             Order.OrderStatus.READY,
             "Check order status is still ready for extract"
         )
@@ -211,7 +211,7 @@ class OrderTests(APITestCase):
         response = self.client.put(url, {'extract_result': extract_file})
         self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED, response.content)
         self.assertEqual(
-            Order.objects.get(pk=self.config.order.id).status,
+            Order.objects.get(pk=self.config.order.id).order_status,
             Order.OrderStatus.PROCESSED,
             "Check order status is processed"
         )

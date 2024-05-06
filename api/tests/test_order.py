@@ -177,7 +177,7 @@ class OrderTests(APITestCase):
         url = reverse('order-detail', kwargs={'pk':order_id})
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
-        self.assertEqual(response.data['status'], Order.OrderStatus.QUOTE_DONE, 'Check quote has been done')
+        self.assertEqual(response.data['order_status'], Order.OrderStatus.QUOTE_DONE, 'Check quote has been done')
         self.assertEqual(response.data['processing_fee'], '150.00', 'Check price is ok')
         self.assertEqual(response.data['total_without_vat'], '550.00', 'Check price is ok')
         url = reverse('order-confirm', kwargs={'pk':order_id})
@@ -255,7 +255,7 @@ class OrderTests(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.config.client_token)
         response = self.client.post(url, self.order_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED, response.content)
-        self.assertEqual(response.data['status'], Order.OrderStatus.DRAFT, 'status is DRAFT')
+        self.assertEqual(response.data['order_status'], Order.OrderStatus.DRAFT, 'status is DRAFT')
         order_id = response.data['id']
         # PATCH order with a product
         data1 = {
@@ -268,7 +268,7 @@ class OrderTests(APITestCase):
         url = reverse('order-detail', kwargs={'pk':order_id})
         response = self.client.patch(url, data1, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
-        self.assertEqual(response.data['status'], Order.OrderStatus.DRAFT, 'status is DRAFT')
+        self.assertEqual(response.data['order_status'], Order.OrderStatus.DRAFT, 'status is DRAFT')
         self.assertEqual(len(response.data['items']), 1, 'One product is present')
         data2 = {
             "items": [
@@ -350,7 +350,7 @@ class OrderTests(APITestCase):
             label=product_name_to_order,
             pricing=self.config.pricings['free'],
             metadata=approval_needed_metadata,
-            status=Product.ProductStatus.PUBLISHED,
+            product_status=Product.ProductStatus.PUBLISHED,
             provider=self.config.provider
         )
 
@@ -362,7 +362,7 @@ class OrderTests(APITestCase):
                 pricing=self.config.pricings['free'],
                 provider=self.config.provider,
                 metadata=self.config.public_metadata,
-                status=Product.ProductStatus.PUBLISHED
+                product_status=Product.ProductStatus.PUBLISHED
             )
             ProductFormat.objects.bulk_create([
                 ProductFormat(product=sensitive_product, data_format=self.config.formats['dxf']),
