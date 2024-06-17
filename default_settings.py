@@ -25,8 +25,8 @@ ALLOWED_HOSTS = os.environ["ALLOWED_HOST"].split(",")
 EMAIL_HOST = os.environ.get('EMAIL_HOST', 'localhost')
 
 #
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'no-reply@ne.ch')
-ADMIN_EMAIL_LIST = os.environ.get('ADMIN_EMAIL_LIST', 'no-reply@ne.ch')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'no-reply@ne.ch') # TODO what is a good the default value?
+ADMIN_EMAIL_LIST = os.environ.get('ADMIN_EMAIL_LIST', 'no-reply@ne.ch') # TODO what is a good the default value?
 
 # Application definition
 
@@ -130,7 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'fr-ch'
+LANGUAGE_CODE = 'fr-ch' # TODO make this configurable
 DEFAULT_CURRENCY = 'CHF'
 
 LOCALE_PATHS = [
@@ -243,6 +243,10 @@ INTRA_LEGEND_URL = os.environ.get('INTRA_LEGEND_URL', '')
 
 # Geometries settings
 DEFAULT_SRID = 2056
+
+# Default Extent
+# default extent is set to the BBOX of switzerland
+SWISS_EXTENT = (2828694.200665463,1075126.8548189853,2484749.5514877755,1299777.3195268118)
 
 # Controls values of metadata accessibility field that will turn the metadata public
 METADATA_PUBLIC_ACCESSIBILITIES = ['PUBLIC', 'APPROVAL_NEEDED']
