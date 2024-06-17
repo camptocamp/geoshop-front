@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+from django.utils.translation import gettext_lazy as _
 
 load_dotenv()
 
@@ -130,13 +131,21 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'fr-ch' # TODO make this configurable
+LANGUAGE_CODE = 'en' # TODO make this configurable
 DEFAULT_CURRENCY = 'CHF'
 
 LOCALE_PATHS = [
-    './conf/locale',
     './api/locale',
+    './locale',
 ]
+
+LANGUAGES = (
+    ('de', _('German')),
+    ('it', _('Italian')),
+    ('fr', _('French')), # TODO is not needed as it is default
+    ('en', _('English')),
+    ('rm', _('Romansh')),
+)
 
 TIME_ZONE = 'Europe/Zurich'
 DATE_FORMAT = '%d.%m.%Y'
