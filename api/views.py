@@ -520,6 +520,8 @@ class RegisterView(generics.CreateAPIView):
                 'messages': [_('A new user account needs to be validated:')],
                 'admin_url': 'admin:auth_user_change',
                 'admin_url_params': user.id,
+                'current_site':request.get_host(),
+                'protocol': request.scheme
             }
         )
         send_geoshop_email(

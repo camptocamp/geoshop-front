@@ -24,10 +24,14 @@ if os.name == 'nt' and os.environ.get('DEBUG'):
 
 ALLOWED_HOSTS = os.environ["ALLOWED_HOST"].split(",")
 EMAIL_HOST = os.environ.get('EMAIL_HOST', 'localhost')
+EMAIL_PORT = os.environ.get('EMAIL_PORT', 1025)
+# Setting to test email sending in console
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 
 #
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'no-reply@ne.ch') # TODO what is a good the default value?
 ADMIN_EMAIL_LIST = os.environ.get('ADMIN_EMAIL_LIST', 'no-reply@ne.ch') # TODO what is a good the default value?
+REPLY_TO_EMAIL = os.environ.get('REPLY_TO_EMAIL', 'info@test.ch') # TODO what is a good the default value?
 
 # Application definition
 
@@ -106,7 +110,7 @@ SPECIAL_DATABASE_CONFIG = {
     # A search config with this name must exist on your database, please refer to
     # https://www.postgresql.org/docs/current/textsearch-intro.html#TEXTSEARCH-INTRO-CONFIGURATIONS
     'FTS_SEARCH_CONFIG': 'fr'
-}
+} #TODO configure this using the settings of the language
 
 
 # Password validation
@@ -131,7 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en' # TODO make this configurable
+LANGUAGE_CODE = 'en'
 DEFAULT_CURRENCY = 'CHF'
 
 LOCALE_PATHS = [
@@ -142,7 +146,7 @@ LOCALE_PATHS = [
 LANGUAGES = (
     ('de', _('German')),
     ('it', _('Italian')),
-    ('fr', _('French')), # TODO is not needed as it is default
+    ('fr', _('French')),
     ('en', _('English')),
     ('rm', _('Romansh')),
 )

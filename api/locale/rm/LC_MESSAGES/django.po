@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-17 17:08+0200\n"
+"POT-Creation-Date: 2024-06-21 12:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -688,8 +688,12 @@ msgstr ""
 msgid "Send confirmation email to client"
 msgstr ""
 
-#: api/templates/email_admin_fr-ch.html:4
+#: api/templates/email_admin.html:4
 msgid "Dear administrator,"
+msgstr ""
+
+#: api/templates/email_admin.html:27
+msgid "Cet email vous a été envoyé car vous êtes administrateur du Geoshop."
 msgstr ""
 
 #: api/templates/email_base_template.html:92
@@ -700,6 +704,24 @@ msgstr ""
 msgid ""
 "This is an automated email, please do not reply. For any question, feel free "
 "to contact us at"
+msgstr ""
+
+#: api/templates/email_download_ready.html:4
+#, python-format
+msgid " L'extraction pour la commande n°%(order_id)s a été réalisée. "
+msgstr ""
+
+#: api/templates/email_download_ready.html:6
+msgid ""
+" Connectez-vous sur le géoshop et téléchargez les produits commandés dans la "
+"section \"Mes commandes\"\n"
+"        ou en cliquant directement sur ce lien: "
+msgstr ""
+
+#: api/templates/email_download_ready.html:13
+msgid ""
+"Veuillez prendre note que les liens de téléchargement ne sont disponibles "
+"que pendant 1 mois."
 msgstr ""
 
 #: api/templates/email_password_reset.html:4
@@ -717,58 +739,99 @@ msgstr ""
 msgid "Your username, in case you’ve forgotten:"
 msgstr ""
 
-#: api/views.py:212
+#: api/templates/email_quote_done.html:4
+#, python-format
+msgid "Le devis pour la commande n°%(order_id)s a été réalisé."
+msgstr ""
+
+#: api/templates/email_quote_done.html:5
+msgid ""
+"Connectez-vous sur le géoshop et confirmez ou annulez votre commande dans la "
+"section \\"
+msgstr ""
+
+#: api/templates/email_user_change.html:3
+msgid ""
+"\n"
+"        <p>Vos demandes de modification de profil ont été envoyées aux "
+"administrateurs du Geoshop.</p>\n"
+"        <p>\n"
+"          Elles seront analysées et reportées dans les jours à venir.\n"
+"          Vous serez averti par email une fois les modifications "
+"effectuées.\n"
+"        </p>\n"
+msgstr ""
+
+#: api/templates/email_user_footer.html:4
+msgid "Cet email est adressé à"
+msgstr ""
+
+#: api/templates/email_validation_needed.html:6
+msgid ""
+"Votre accord est nécessaire en vue de traiter une commande du géoshop. "
+"Cliquez sur ce lien pour valider ou refuser la commande:"
+msgstr ""
+
+#: api/templates/email_welcome_user.html:4
+msgid "Votre demande de création de compte est en cours de vérification."
+msgstr ""
+
+#: api/templates/email_welcome_user.html:5
+msgid "Vous recevrez un email lorsque votre inscription sera validée."
+msgstr ""
+
+#: api/views.py:216
 msgid "This orderitem cannot be deleted anymore."
 msgstr ""
 
-#: api/views.py:232 api/views.py:608
+#: api/views.py:236 api/views.py:614
 msgid "Zip does not exist"
 msgstr ""
 
-#: api/views.py:297
+#: api/views.py:301
 msgid "This order cannot be deleted anymore."
 msgstr ""
 
-#: api/views.py:344
+#: api/views.py:348
 msgid "Full zip is not ready"
 msgstr ""
 
-#: api/views.py:432
+#: api/views.py:436
 msgid "Password reset e-mail has been sent."
 msgstr ""
 
-#: api/views.py:459
+#: api/views.py:463
 msgid "Password has been reset with the new password."
 msgstr ""
 
-#: api/views.py:517
+#: api/views.py:521
 msgid "Geoshop - New user request"
 msgstr ""
 
-#: api/views.py:520
+#: api/views.py:524
 msgid "A new user account needs to be validated:"
 msgstr ""
 
-#: api/views.py:526
+#: api/views.py:532
 msgid "Geoshop - New account pending"
 msgstr ""
 
-#: api/views.py:532 api/views.py:657
+#: api/views.py:538 api/views.py:663
 msgid "Your data was successfully submitted"
 msgstr ""
 
-#: api/views.py:641
+#: api/views.py:647
 msgid "Geoshop - User change request"
 msgstr ""
 
-#: api/views.py:645
+#: api/views.py:651
 msgid "The user {} has requested some changes for his user profile."
 msgstr ""
 
-#: api/views.py:651
+#: api/views.py:657
 msgid "Geoshop - Your changes request"
 msgstr ""
 
-#: api/views.py:674
+#: api/views.py:680
 msgid "ok"
 msgstr ""

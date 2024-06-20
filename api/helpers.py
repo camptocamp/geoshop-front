@@ -29,7 +29,8 @@ class RandomFileName(object):
 
 
 def _render_email_templates(template_name, template_data):
-    html_template_name = '{}_{}.html'.format(template_name, LANG)
+    html_template_name = '{}.html'.format(template_name)
+    template_data['REPLY_TO_EMAIL'] = settings.REPLY_TO_EMAIL
     return (
         render_to_string(html_template_name, template_data),
         get_template(html_template_name).render(template_data),
