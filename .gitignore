@@ -68,7 +68,6 @@ nosetests.xml
 coverage.xml
 
 # Translations
-# FIXME why exclude the .mo files? -> NOTE this will require to compile them in the container!
 *.mo
 *.pot
 
