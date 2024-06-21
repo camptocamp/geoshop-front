@@ -88,30 +88,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.environ["PGDATABASE"],
-        'USER': os.environ["PGUSER"],
-        'HOST': os.environ["PGHOST"],
-        'PORT': os.environ["PGPORT"],
-        'PASSWORD': os.environ["PGPASSWORD"],
-        'OPTIONS': {
-            'options': '-c search_path=' + os.environ["PGSCHEMA"] + ',public'
-        },
-    }
-}
-
-# Special needs for geoshop running on PostgreSQL
-SPECIAL_DATABASE_CONFIG = {
-    # A search config with this name must exist on your database, please refer to
-    # https://www.postgresql.org/docs/current/textsearch-intro.html#TEXTSEARCH-INTRO-CONFIGURATIONS
-    'FTS_SEARCH_CONFIG': 'fr'
-} #TODO configure this using the settings of the language
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -135,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = os.getenv('DEFAULT_LANGUAGE', 'en')
 DEFAULT_CURRENCY = 'CHF'
 
 LOCALE_PATHS = [
@@ -162,6 +138,30 @@ USE_TZ = True
 SITE_ID = 2
 
 VAT = 0.081
+
+# Database
+# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.environ["PGDATABASE"],
+        'USER': os.environ["PGUSER"],
+        'HOST': os.environ["PGHOST"],
+        'PORT': os.environ["PGPORT"],
+        'PASSWORD': os.environ["PGPASSWORD"],
+        'OPTIONS': {
+            'options': '-c search_path=' + os.environ["PGSCHEMA"] + ',public'
+        },
+    }
+}
+
+# Special needs for geoshop running on PostgreSQL
+SPECIAL_DATABASE_CONFIG = {
+    # A search config with this name must exist on your database, please refer to
+    # https://www.postgresql.org/docs/current/textsearch-intro.html#TEXTSEARCH-INTRO-CONFIGURATIONS
+    'FTS_SEARCH_CONFIG': LANGUAGE_CODE
+}
 
 LOGGING = {
     'version': 1,
