@@ -10,22 +10,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
+        migrations.RenameField(
             model_name='order',
-            name='status',
+            old_name='status',
+            new_name='order_status',
         ),
-        migrations.RemoveField(
+        migrations.RenameField(
             model_name='product',
-            name='status',
-        ),
-        migrations.AddField(
-            model_name='order',
-            name='order_status',
-            field=models.CharField(choices=[('DRAFT', 'Draft'), ('PENDING', 'Pending'), ('QUOTE_DONE', 'Quote done'), ('READY', 'Ready'), ('IN_EXTRACT', 'In extract'), ('PARTIALLY_DELIVERED', 'Partially delivered'), ('PROCESSED', 'Processed'), ('ARCHIVED', 'Archived'), ('REJECTED', 'Rejected')], default='DRAFT', max_length=20, verbose_name='order_status'),
-        ),
-        migrations.AddField(
-            model_name='product',
-            name='product_status',
-            field=models.CharField(choices=[('DRAFT', 'Draft'), ('PUBLISHED', 'Published'), ('PUBLISHED_ONLY_IN_GROUP', 'Published only in group'), ('DEPRECATED', 'Deprecated')], default='DRAFT', max_length=30, verbose_name='product_status'),
+            old_name='status',
+            new_name='product_status',
         ),
     ]
