@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load l10n %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% block csslink %}
+  {% endblock %}
+  <title>{% trans "Metadata" %} {{ name }}</title>
+  <style>    
+    html,
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      margin: 0;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 500;
+      margin-top: 0;
+      margin-bottom: 0.2rem;
+    }
+
+    p, ul {
+      margin-top: 0;
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: auto;
+    }
+
+    .list-unstyled {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .max-width-img img {
+      max-width: 90%;
+      height: auto;
+    }
+
+    table {
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+
+    table, td, tr, tbody {
+      border-collapse: collapse;
+      vertical-align: top;
+      border-width: 0;
+    }
+
+    td {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-style: solid;
+      border-color: lightgrey;
+      border-bottom-width: 1px;
+    }
+  </style>
+</head>
+
+<body>
+  {% block body %}
+  {% endblock %}
+</body>
+
+</html>
