@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+from django.utils.translation import gettext_lazy as _
 
 load_dotenv()
 
@@ -23,10 +24,14 @@ if os.name == 'nt' and os.environ.get('DEBUG'):
 
 ALLOWED_HOSTS = os.environ["ALLOWED_HOST"].split(",")
 EMAIL_HOST = os.environ.get('EMAIL_HOST', 'localhost')
+EMAIL_PORT = os.environ.get('EMAIL_PORT', 1025)
+# Setting to test email sending in console
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 
 #
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'no-reply@ne.ch')
-ADMIN_EMAIL_LIST = os.environ.get('ADMIN_EMAIL_LIST', 'no-reply@ne.ch')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'DEFAUL_FROM_EMAIL@example.com')
+ADMIN_EMAIL_LIST = os.environ.get('ADMIN_EMAIL_LIST', 'ADMIN_EMAIL_LIST@example.com')
+REPLY_TO_EMAIL = os.environ.get('REPLY_TO_EMAIL', 'REPLY_TO_EMAIL@example.ch')
 
 # Application definition
 
@@ -83,30 +88,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.environ["PGDATABASE"],
-        'USER': os.environ["PGUSER"],
-        'HOST': os.environ["PGHOST"],
-        'PORT': os.environ["PGPORT"],
-        'PASSWORD': os.environ["PGPASSWORD"],
-        'OPTIONS': {
-            'options': '-c search_path=' + os.environ["PGSCHEMA"] + ',public'
-        },
-    }
-}
-
-# Special needs for geoshop running on PostgreSQL
-SPECIAL_DATABASE_CONFIG = {
-    # A search config with this name must exist on your database, please refer to
-    # https://www.postgresql.org/docs/current/textsearch-intro.html#TEXTSEARCH-INTRO-CONFIGURATIONS
-    'FTS_SEARCH_CONFIG': 'fr'
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -130,13 +111,21 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'fr-ch'
+LANGUAGE_CODE = os.getenv('DEFAULT_LANGUAGE', 'en')
 DEFAULT_CURRENCY = 'CHF'
 
 LOCALE_PATHS = [
-    './conf/locale',
     './api/locale',
+    './locale',
 ]
+
+LANGUAGES = (
+    ('de', _('German')),
+    ('it', _('Italian')),
+    ('fr', _('French')),
+    ('en', _('English')),
+    ('rm', _('Romansh')),
+)
 
 TIME_ZONE = 'Europe/Zurich'
 DATE_FORMAT = '%d.%m.%Y'
@@ -149,6 +138,30 @@ USE_TZ = True
 SITE_ID = 2
 
 VAT = 0.081
+
+# Database
+# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.environ["PGDATABASE"],
+        'USER': os.environ["PGUSER"],
+        'HOST': os.environ["PGHOST"],
+        'PORT': os.environ["PGPORT"],
+        'PASSWORD': os.environ["PGPASSWORD"],
+        'OPTIONS': {
+            'options': '-c search_path=' + os.environ["PGSCHEMA"] + ',public'
+        },
+    }
+}
+
+# Special needs for geoshop running on PostgreSQL
+SPECIAL_DATABASE_CONFIG = {
+    # A search config with this name must exist on your database, please refer to
+    # https://www.postgresql.org/docs/current/textsearch-intro.html#TEXTSEARCH-INTRO-CONFIGURATIONS
+    'FTS_SEARCH_CONFIG': LANGUAGE_CODE
+}
 
 LOGGING = {
     'version': 1,
@@ -243,6 +256,10 @@ INTRA_LEGEND_URL = os.environ.get('INTRA_LEGEND_URL', '')
 
 # Geometries settings
 DEFAULT_SRID = 2056
+
+# Default Extent
+# default extent is set to the BBOX of switzerland
+SWISS_EXTENT = (2828694.200665463,1075126.8548189853,2484749.5514877755,1299777.3195268118)
 
 # Controls values of metadata accessibility field that will turn the metadata public
 METADATA_PUBLIC_ACCESSIBILITIES = ['PUBLIC', 'APPROVAL_NEEDED']

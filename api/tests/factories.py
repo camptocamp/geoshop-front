@@ -27,7 +27,7 @@ class BaseObjectsFactory:
             username=self.private_username,
             password=self.password
         )
-        self.user_private.identity.email = 'user@sitn.com'
+        self.user_private.identity.email = 'user@example.com'
         self.user_private.identity.save()
 
         if webclient:

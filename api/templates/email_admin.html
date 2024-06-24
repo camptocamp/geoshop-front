@@ -16,14 +16,14 @@
   {% endif %}
   {% if admin_url %}
   <p>
-    <a href="https://sitn.ne.ch{% url admin_url admin_url_params %}">
-      {% url admin_url admin_url_params %}
+    <a href="{{ protocol }}://{{ current_site }}{% url admin_url admin_url_params %}">
+      {{ protocol }}://{{ current_site }}{% url admin_url admin_url_params %}
     </a>
   </p>
   {% endif %}
 {% endblock %}
 {% block footer %}
         <p>
-        Cet email vous a été envoyé car vous êtes administrateur du Geoshop.
+        {% trans "Cet email vous a été envoyé car vous êtes administrateur du Geoshop." %}
         </p>
 {% endblock %}
