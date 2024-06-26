@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-21 12:53+0200\n"
+"POT-Creation-Date: 2024-06-24 17:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -136,8 +136,8 @@ msgstr "contact"
 msgid "copyright"
 msgstr "copyright"
 
-#: api/models.py:85 api/models.py:99 api/models.py:110 api/models.py:184
-#: api/models.py:326 api/models.py:394
+#: api/models.py:85 api/models.py:99 api/models.py:110
+#: api/models.py:184 api/models.py:326 api/models.py:394
 msgid "name"
 msgstr "nom"
 
@@ -273,19 +273,21 @@ msgstr "lien géoportail"
 msgid "documents"
 msgstr "documents"
 
-#: api/models.py:222
+#: api/models.py:222 api/templates/metadata.html:57
 msgid "contact_persons"
-msgstr "contact"
+msgstr "Interlocuteurs"
 
 #: api/models.py:230
 msgid "modified_user"
 msgstr "modifié par"
 
-#: api/models.py:234
+#: api/models.py:234 api/templates/metadata.html:38
+#: api/templates/metadata_simple.html:23
 msgid "data_last_update_date"
 msgstr "Dernière mise à jour des données"
 
-#: api/models.py:237
+#: api/models.py:237 api/templates/metadata.html:48
+#: api/templates/metadata_simple.html:33
 msgid "update_frequency"
 msgstr "Fréquence de mise à jour"
 
@@ -297,9 +299,9 @@ msgstr "métadonnée"
 msgid "Can view metadata with accessibility set to \"internal\""
 msgstr "Accès aux métadonnées intranet"
 
-#: api/models.py:270
+#: api/models.py:270 api/templates/metadata.html:97
 msgid "legend"
-msgstr "légende"
+msgstr "Légende"
 
 #: api/models.py:279
 msgid "image"
@@ -414,10 +416,8 @@ msgid "Label contains forbidden characters"
 msgstr "L'étiquette' contient des caractères spéciaux interdits."
 
 #: api/models.py:457
-#, fuzzy
-#| msgid "price_status"
 msgid "product_status"
-msgstr "statut du prix"
+msgstr "Statut"
 
 #: api/models.py:465
 msgid "group"
@@ -439,7 +439,8 @@ msgstr "rang"
 msgid "thumbnail_link"
 msgstr "lien vers l'aperçu"
 
-#: api/models.py:494 api/models.py:819 api/models.py:1016 api/models.py:1028
+#: api/models.py:494 api/models.py:819 api/models.py:1016
+#: api/models.py:1028
 msgid "product"
 msgstr "produit"
 
@@ -549,7 +550,8 @@ msgstr "date de traitement"
 msgid "download_guid"
 msgstr "GUID de téléchargement"
 
-#: api/models.py:609 api/models.py:624 api/models.py:814 api/serializers.py:316
+#: api/models.py:609 api/models.py:624 api/models.py:814
+#: api/serializers.py:319
 msgid "order"
 msgstr "commande"
 
@@ -681,15 +683,15 @@ msgstr "Format invalide: GeoJSON, WKT EWKT ou HEXEWKB non reconnu."
 msgid "Unable to convert to python object: {}"
 msgstr "Impossible à convertir en objet Python"
 
-#: api/serializers.py:311
+#: api/serializers.py:314
 msgid "Geoshop - Invalid geometry"
 msgstr "Geoshop - Géométrie invalide"
 
-#: api/serializers.py:314
+#: api/serializers.py:317
 msgid "A new order has been submitted and its geometry is invalid:"
 msgstr "Une nouvelle commande a été soumise et sa géométrie est invalide:"
 
-#: api/serializers.py:638
+#: api/serializers.py:641
 msgid "The two password fields didn't match."
 msgstr "Les deux mots de passe ne correspondent pas"
 
@@ -801,58 +803,74 @@ msgstr ""
 msgid "Vous recevrez un email lorsque votre inscription sera validée."
 msgstr ""
 
-#: api/views.py:216
+#: api/templates/metadata.html:15 api/templates/metadata_simple.html:10
+msgid "metadata_description"
+msgstr "Description du contenu des données"
+
+#: api/templates/metadata.html:28
+msgid "source_scale"
+msgstr "Échelle de la source"
+
+#: api/templates/metadata.html:77
+msgid "external_links"
+msgstr "Liens"
+
+#: api/templates/metadata_base_template.html:13
+msgid "Metadata"
+msgstr "Métadonnée"
+
+#: api/views.py:212
 msgid "This orderitem cannot be deleted anymore."
 msgstr "Ce produit ne peut plus être enlevé du panier."
 
-#: api/views.py:236 api/views.py:614
+#: api/views.py:232 api/views.py:610
 msgid "Zip does not exist"
 msgstr "Le fichier zip n'existe pas"
 
-#: api/views.py:301
+#: api/views.py:297
 msgid "This order cannot be deleted anymore."
 msgstr "Cette commande ne peut pas être annulée."
 
-#: api/views.py:348
+#: api/views.py:344
 msgid "Full zip is not ready"
 msgstr "Le zip contenant l'ensemble des fichiers n'est pas encore prêt."
 
-#: api/views.py:436
+#: api/views.py:432
 msgid "Password reset e-mail has been sent."
 msgstr "L'email pour la réinitialisation du mot de passe a été envoyé"
 
-#: api/views.py:463
+#: api/views.py:459
 msgid "Password has been reset with the new password."
 msgstr "Votre nouveau mot de passe est sauvegardé"
 
-#: api/views.py:521
+#: api/views.py:517
 msgid "Geoshop - New user request"
 msgstr "Geoshop - Nouvel utilisateur à valider"
 
-#: api/views.py:524
+#: api/views.py:520
 msgid "A new user account needs to be validated:"
 msgstr "Un nouveau compte utilisateur est en attente de validation."
 
-#: api/views.py:532
+#: api/views.py:528
 msgid "Geoshop - New account pending"
 msgstr "Geoshop - Nouveau compte en attente"
 
-#: api/views.py:538 api/views.py:663
+#: api/views.py:534 api/views.py:659
 msgid "Your data was successfully submitted"
 msgstr "Vos données ont été correctement soumises"
 
-#: api/views.py:647
+#: api/views.py:643
 msgid "Geoshop - User change request"
 msgstr "Geoshop - Demande de modifications de la part d'un utilisateur"
 
-#: api/views.py:651
+#: api/views.py:647
 msgid "The user {} has requested some changes for his user profile."
 msgstr "{} a fait une demande de modification de son profil."
 
-#: api/views.py:657
+#: api/views.py:653
 msgid "Geoshop - Your changes request"
 msgstr "Geoshop - Votre demande de modification"
 
-#: api/views.py:680
+#: api/views.py:676
 msgid "ok"
 msgstr "ok"
