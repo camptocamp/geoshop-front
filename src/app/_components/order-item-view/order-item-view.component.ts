@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {IOrderItem, Order} from '../../_models/IOrder';
 import {GeoshopUtils} from '../../_helpers/GeoshopUtils';
 import {ApiOrderService} from '../../_services/api-order.service';
-import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {ConstantsService} from '../../constants.service';
 
 @Component({

@@ -6,7 +6,7 @@ import {IIdentity} from '../../_models/IIdentity';
 import {ApiService} from '../../_services/api.service';
 import {map} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {StepperSelectionEvent} from '@angular/cdk/stepper';
 import {PHONE_REGEX, IDE_REGEX} from '../../_helpers/regex';
 import {ConstantsService} from '../../constants.service';
