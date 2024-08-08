@@ -111,11 +111,11 @@ export class MapComponent implements OnInit {
 
           for (const feature of features) {
             const categoryId = feature.get('layer_name');
-            if (this.configService.config?.geocoderLayers) {
-              if (this.configService.config.geocoderLayers.indexOf(categoryId) < 0) {
-                continue;
-              }
-            }
+            //if (this.configService.config?.geocoderLayers) {
+              // if (this.configService.config.geocoderLayers.indexOf(categoryId) < 0) {
+              //   continue;
+              // }
+            // }
 
             let currentCategory = this.geocoderGroupOptions.find(x => x.id === categoryId);
             if (currentCategory) {
