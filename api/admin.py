@@ -27,7 +27,7 @@ from .models import (
 
 UserModel = get_user_model()
 
-class CustomModelAdmin(admin.GeoModelAdmin):
+class CustomModelAdmin(admin.ModelAdmin):
     """
     This is just a cosmetic class adding custom CSS and Replacing CharField Widget by
     a TextField widget when Charfields are longer than 300 characters.
