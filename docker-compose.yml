@@ -39,10 +39,11 @@ services:
     env_file: .env
     environment:
       PGHOST: "db"
-    command:
-      - bash
-      - -c
-      - "python manage.py migrate && python manage.py collectstatic --noinput && python manage.py compilemessages --locale=fr && python manage.py fixturize"
+    command: >
+        poetry run python3 manage.py migrate &&
+        poetry run python3 manage.py collectstatic --noinput &&
+        poetry run python3 manage.py compilemessages --locale=fr &&
+        poetry run python3 manage.py fixturize
     volumes:
       - "static-files:/app/geoshop_back/static:rw"
     networks:
@@ -58,12 +59,12 @@ services:
     env_file: .env
     environment:
       PGHOST: "db"
-    command: "gunicorn wsgi -b :8000 --timeout 90"
+    command: "poetry run gunicorn wsgi -b :8000 --timeout 90"
     restart: unless-stopped
     volumes:
       - "static-files:/app/geoshop_back/static:ro"
     ports:
-      - "8080:8000"
+      - "8000:8000"
     networks:
       - geoshop
 

@@ -2,7 +2,7 @@
 name = "geoshop-back"
 version = "0.1.0"
 description = "Backend for the geoshop service"
-authors = ["Your Name <you@example.com>"]
+authors = ["Andrey Rusakov <andrey.rusakov@camptocamp.com>"]
 license = "BSD 3-Clause License"
 
 [tool.poetry.dependencies]
@@ -51,6 +51,7 @@ uritemplate = "^4.1.1"
 urllib3 = "^2.2.2"
 whitenoise = "^6.7.0"
 Django = "^5.1"
+GDAL = "3.4.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

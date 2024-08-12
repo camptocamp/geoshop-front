@@ -248,6 +248,17 @@ offline = ["drf-spectacular-sidecar"]
 sidecar = ["drf-spectacular-sidecar"]
 
 [[package]]
+name = "gdal"
+version = "3.4.1"
+description = "GDAL: Geospatial Data Abstraction Library"
+category = "main"
+optional = false
+python-versions = ">=3.6.0"
+
+[package.extras]
+numpy = ["numpy (>1.0.0)"]
+
+[[package]]
 name = "gunicorn"
 version = "23.0.0"
 description = "WSGI HTTP Server for UNIX"
@@ -556,7 +567,7 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "d40f265cf78f88a1020b6e6d72e38a5d54f4bd998cf148426bb9b97f20334ec4"
+content-hash = "f3584eb0e4027d97596bbc423a93d522ccca5af8b80816953b66b176ed4f4b72"
 
 [metadata.files]
 asgiref = []
@@ -577,6 +588,7 @@ djangorestframework = []
 djangorestframework-gis = []
 djangorestframework-simplejwt = []
 drf-spectacular = []
+gdal = []
 gunicorn = []
 idna = []
 inflection = []
