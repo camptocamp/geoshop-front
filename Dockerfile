@@ -1,14 +1,16 @@
-FROM ubuntu:oracular AS builder
+FROM python:3.12.5-slim-bookworm
 LABEL Maintainer="andrey.rusakov@camptocamp.com" Vendor="Camptocamp"
 
-WORKDIR /app/geoshop_back/
-COPY . /app/geoshop_back/
+ENV  POETRY_NO_INTERACTION=1 \
+     POETRY_VIRTUALENVS_CREATE=false \
+     POETRY_CACHE_DIR='/var/cache/pypoetry' \
+     POETRY_HOME='/usr/local'
 
-RUN apt update && \
-    apt upgrade -y && \
-    apt install -y bash postgresql curl \
-                   python3 python3-poetry python3-setuptools gunicorn \
-                   libgdal-dev libffi-dev && \
-    cd /app/geoshop_back/ && \
-    poetry update && \
-    poetry install --no-root
+WORKDIR /app/geoshop_back/
+COPY poetry.lock pyproject.toml /app/geoshop_back/
+
+RUN apt update && apt install -y libgdal-dev libffi-dev && \
+    pip install poetry && \
+    poetry install --only=main
+
+COPY . /app/geoshop_back/

@@ -248,17 +248,6 @@ offline = ["drf-spectacular-sidecar"]
 sidecar = ["drf-spectacular-sidecar"]
 
 [[package]]
-name = "gdal"
-version = "3.4.1"
-description = "GDAL: Geospatial Data Abstraction Library"
-category = "main"
-optional = false
-python-versions = ">=3.6.0"
-
-[package.extras]
-numpy = ["numpy (>1.0.0)"]
-
-[[package]]
 name = "gunicorn"
 version = "23.0.0"
 description = "WSGI HTTP Server for UNIX"
@@ -355,7 +344,7 @@ optional = false
 python-versions = ">=3.8"
 
 [[package]]
-name = "psycopg2"
+name = "psycopg2-binary"
 version = "2.9.9"
 description = "psycopg2 - Python-PostgreSQL Database Adapter"
 category = "main"
@@ -567,7 +556,7 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "f3584eb0e4027d97596bbc423a93d522ccca5af8b80816953b66b176ed4f4b72"
+content-hash = "ebe7bf894d453c6048eb5a9949303d9685323d5581ed75b7e5758de0c22c68db"
 
 [metadata.files]
 asgiref = []
@@ -588,7 +577,6 @@ djangorestframework = []
 djangorestframework-gis = []
 djangorestframework-simplejwt = []
 drf-spectacular = []
-gdal = []
 gunicorn = []
 idna = []
 inflection = []
@@ -597,7 +585,7 @@ jsonschema-specifications = []
 markdown = []
 oauthlib = []
 packaging = []
-psycopg2 = []
+psycopg2-binary = []
 py-moneyed = []
 pycparser = []
 pyjwt = []
