@@ -14,3 +14,6 @@ RUN apt update && apt install -y libgdal-dev libffi-dev && \
     poetry install --only=main
 
 COPY . /app/geoshop_back/
+
+# Copy default settings to settings only if there is no such file
+RUN mv -vn /app/geoshop_back/default_settings.py /app/geoshop_back/settings.py
