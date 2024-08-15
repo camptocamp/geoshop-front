@@ -1,20 +1,19 @@
-FROM ghcr.io/osgeo/gdal:ubuntu-small-3.5.2
+FROM python:3.12.5-slim-bookworm
+LABEL Maintainer="andrey.rusakov@camptocamp.com" Vendor="Camptocamp"
 
-RUN apt-get update --fix-missing && \
-    apt-get install gettext python3-pip libcairo2-dev build-essential python3-dev \
-    pipenv python3-setuptools python3-wheel python3-cffi libcairo2 libpango-1.0-0 \
-    libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info libpq-dev -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+ENV  POETRY_NO_INTERACTION=1 \
+     POETRY_VIRTUALENVS_CREATE=false \
+     POETRY_CACHE_DIR='/var/cache/pypoetry' \
+     POETRY_HOME='/usr/local'
 
-COPY ./requirements.txt /app/geoshop_back/requirements.txt
 WORKDIR /app/geoshop_back/
-RUN pip3 install -r requirements.txt
+COPY poetry.lock pyproject.toml /app/geoshop_back/
 
-# Update C env vars so compiler can find gdal
-ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
-ENV C_INCLUDE_PATH=/usr/include/gdal
-ENV PYTHONUNBUFFERED 1
+RUN apt update && apt install -y libgdal-dev libffi-dev && \
+    pip install poetry && \
+    poetry install --only=main
 
 COPY . /app/geoshop_back/
-RUN mv /app/geoshop_back/default_settings.py /app/geoshop_back/settings.py
+
+# Copy default settings to settings only if there is no such file
+RUN mv -vn /app/geoshop_back/default_settings.py /app/geoshop_back/settings.py
