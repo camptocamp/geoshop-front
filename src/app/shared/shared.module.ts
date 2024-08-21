@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {IconTextComponent} from './icon-text/icon-text.component';
 import {MatIconModule} from '@angular/material/icon';
-import {MatLegacyCardModule as MatCardModule} from '@angular/material/legacy-card';
+import {MatCardModule} from '@angular/material/card';
 import {CommonModule} from '@angular/common';
-import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
+import {MatButtonModule} from '@angular/material/button';
 import {ConfirmDialogComponent} from '../_components/confirm-dialog/confirm-dialog.component';
-import {MatLegacyDialogModule as MatDialogModule} from '@angular/material/legacy-dialog';
+import {MatDialogModule} from '@angular/material/dialog';
 import {OrderItemViewComponent} from '../_components/order-item-view/order-item-view.component';
-import {MatLegacyTableModule as MatTableModule} from '@angular/material/legacy-table';
+import {MatTableModule} from '@angular/material/table';
 import {WidgetHostDirective} from '../_directives/widget-host.directive';
 import {SafeHtmlPipe} from '../_pipes/SafeHtmlPipe';
 
