@@ -33,6 +33,7 @@ import {ActivatedRoute} from '@angular/router';
 import {CartEffects} from './_store/cart/cart.effects';
 import * as fromAuth from './_store/auth/auth.action';
 import {CommonModule} from '@angular/common';
+import { OidcAuthConfigModule } from './auth/oidc-auth-config.module';
 
 registerLocaleData(localeCH);
 
@@ -74,7 +75,8 @@ const MODULES = [
     HttpClientModule,
     MODULES,
     StoreModule.forRoot(reducers, {metaReducers}),
-    EffectsModule.forRoot([AuthEffects, CartEffects])
+    EffectsModule.forRoot([AuthEffects, CartEffects]),
+    OidcAuthConfigModule
   ],
   providers: [
     {

@@ -24,7 +24,9 @@
       <button class="form-login-button" color="primary" mat-raised-button type="submit" [disabled]="form.pristine || form.invalid">
         {{ LOGIN}}
       </button>
-
+      <button class="form-login-button" color="primary" mat-raised-button (click)="oidcAuthClick()">
+        Login with Zitadel
+      </button>
       <button mat-button color="accent" [routerLink]="'/auth/forget'" class="flex-row forgotten-button" >
         <span i18n="@@login.pw_forgotten">Mot de passe oublié</span>
         <mat-icon>help_outline</mat-icon>
