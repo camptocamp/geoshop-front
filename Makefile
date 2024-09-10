@@ -5,7 +5,7 @@ export DOCKER_BUILDKIT=1
 
 .PHONY: install
 install: ## Install npm dependencies
-	npm run build
+	npm install
 
 .PHONY: build
 build: install ## Build npm project

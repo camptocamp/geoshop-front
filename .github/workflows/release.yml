@@ -1,0 +1,34 @@
+name: GHCR Release CI
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  tests:
+    name: Release new Docker Image in GHCR
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{github.repository_owner}}
+          password: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Build Docker images for GHCR
+        run: make build_ghcr
+
+      - name: Push Docker images to GHCR
+        run: make push_ghcr
