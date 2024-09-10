@@ -3,6 +3,8 @@ DOCKER_TAG ?= latest
 
 export DOCKER_BUILDKIT=1
 
+.DEFAULT_GOAL := help
+
 .PHONY: install
 install: ## Install npm dependencies
 	npm install
