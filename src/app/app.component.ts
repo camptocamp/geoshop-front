@@ -1,9 +1,9 @@
-import {Component, OnDestroy} from '@angular/core';
-import {AppState, getUser, selectCartTotal, selectOrder} from './_store';
-import {Store} from '@ngrx/store';
-import {NavigationEnd, Router} from '@angular/router';
-import {filter} from 'rxjs/operators';
-import {combineLatest} from 'rxjs';
+import { Component, OnDestroy } from '@angular/core';
+import { AppState, getUser, selectCartTotal, selectOrder } from './_store';
+import { Store } from '@ngrx/store';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
 import * as fromAuth from './_store/auth/auth.action';
 
 @Component({
@@ -31,9 +31,9 @@ export class AppComponent implements OnDestroy {
 
         if (navEnd instanceof NavigationEnd) {
           if (navEnd.url.indexOf('orders') > -1) {
-            this.subTitle = $localize `Mes commandes`;
+            this.subTitle = $localize`Mes commandes`;
           } else if (navEnd.url.indexOf('new-order') > -1 && numberOfItemInTheCart > 0) {
-            this.subTitle = $localize `Votre commande de ${numberOfItemInTheCart} produits`;
+            this.subTitle = $localize`Votre commande de ${numberOfItemInTheCart} produits`;
           } else {
             this.subTitle = '';
           }
@@ -48,9 +48,17 @@ export class AppComponent implements OnDestroy {
       if (user && user.tokenRefresh) {
         this.refreshTokenInterval = setInterval(() => {
           if (user.tokenRefresh) {
-            this.store.dispatch(fromAuth.refreshToken({token: user.tokenRefresh}));
+            this.store.dispatch(fromAuth.refreshToken({ token: user.tokenRefresh }));
           }
         }, 120000);
+      }
+    });
+  }
+
+  forceTokenRefresh() {
+    this.store.select(getUser).subscribe(user => {
+      if (user && user.tokenRefresh) {
+        this.store.dispatch(fromAuth.refreshToken({ token: user.tokenRefresh }));
       }
     });
   }

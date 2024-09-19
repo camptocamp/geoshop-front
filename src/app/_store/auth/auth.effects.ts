@@ -44,6 +44,17 @@ export class AuthEffects {
         ))
     ));
 
+  oidcLoginSuccess$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(LoginActions.oidcLogin),
+      exhaustMap(action =>
+        action.isAuthenticated ?
+          this.apiService.checkOidcToken(action.accessToken).pipe(
+            map(payload => LoginActions.loginSuccess(payload)),
+            catchError(error => of(LoginActions.loginFailure(error)))):
+          of(LoginActions.loginFailure({error: {detail: "OIDC Error!"}, message:"Error message", name:"Error name!", status:10000}))
+      )));
+
   refreshToken$ = createEffect(() =>
     this.action$.pipe(
       ofType(LoginActions.refreshToken),
@@ -80,7 +91,7 @@ export class AuthEffects {
                   let dialogRef: MatDialogRef<ConfirmDialogComponent> | null = this.dialog.open(ConfirmDialogComponent, {
                     disableClose: false,
                   });
-  
+
                   dialogRef.componentInstance.noButtonTitle = 'Ignorer';
                   dialogRef.componentInstance.yesButtonTitle = 'Recharger';
                   dialogRef.componentInstance.confirmMessage = `

@@ -1,8 +1,10 @@
 import {createAction, props} from '@ngrx/store';
 import {ICredentials, IIdentity} from '../../_models/IIdentity';
 import {IApiResponseError} from '../../_models/IApi';
+import { LoginResponse } from 'angular-auth-oidc-client';
 
 export const LOGIN = '[Auth] Login';
+export const OIDC_LOGIN = '[Auth] Oidc Login';
 export const REFRESH_TOKEN = '[Auth] Refresh token';
 export const REFRESH_TOKEN_SUCCESS = '[Auth] Refresh token success';
 export const REFRESH_TOKEN_FAILURE = '[Auth] Refresh token failure';
@@ -14,6 +16,11 @@ export const LOGOUT_SUCCESS = '[Auth] Logout success';
 export const login = createAction(
   LOGIN,
   props<{ credentials: ICredentials, callbackUrl: string }>()
+);
+
+export const oidcLogin = createAction(
+  OIDC_LOGIN,
+  props<LoginResponse>()
 );
 
 export const refreshToken = createAction(
