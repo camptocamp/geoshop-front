@@ -83,7 +83,7 @@
             },
             "development": {
               "optimization": false,
-              "localize": false,
+              "localize": true,
               "outputHashing": "none",
               "sourceMap": true,
               "namedChunks": true,
