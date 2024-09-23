@@ -2,11 +2,13 @@
 FROM node:22.6.0-slim AS builder
 
 # Accept build arguments and set them as environment variables
-ARG API_URL
+ARG API_BASE_URL
+ARG API_ROOTURL
 ARG MEDIA_URL
 ARG GEOCODER_URL
-ENV API_URL=${API_URL}
 ENV MEDIA_URL=${MEDIA_URL}
+ENV API_BASE_URL=${API_BASE_URL}
+ENV API_ROOTURL=${API_ROOTURL}
 
 WORKDIR /usr/app
 

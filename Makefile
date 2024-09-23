@@ -23,7 +23,8 @@ build: install ## Build npm project
 build_docker: ## Build docker image
 	docker build --tag=camptocamp/geoshop-front:$(VERSION) \
 		--build-arg=VERSION=$(VERSION) \
-		--build-arg=API_URL=$(API_URL) \
+		--build-arg=API_BASE_URL=$(API_BASE_URL) \
+		--build-arg=API_ROOTURL=$(API_ROOTURL) \
 		--build-arg=MEDIA_URL=$(MEDIA_URL) .
 	docker tag camptocamp/geoshop-front:$(VERSION) camptocamp/geoshop-front:$(DOCKER_TAG)
 
@@ -31,7 +32,8 @@ build_docker: ## Build docker image
 build_ghcr: ## Build docker image tagged for GHCR
 	docker build --tag=ghcr.io/camptocamp/geoshop-front:$(VERSION) \
 		--build-arg=VERSION=$(VERSION) \
-		--build-arg=API_URL=$(API_URL) \
+		--build-arg=API_BASE_URL=$(API_BASE_URL) \
+		--build-arg=API_ROOTURL=$(API_ROOTURL) \
 		--build-arg=MEDIA_URL=$(MEDIA_URL) .
 	docker tag ghcr.io/camptocamp/geoshop-front:$(VERSION) ghcr.io/camptocamp/geoshop-front:$(DOCKER_TAG)
 
