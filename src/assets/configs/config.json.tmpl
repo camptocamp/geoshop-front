@@ -67,4 +67,15 @@
       "height": 1189
     }
   ]
+  "oidcConfig": {
+    "authority": "PLEASE_CONFIGURE_OIDC_URL",
+    "redirectUrl": "http://localhost:4200/auth/oidc",
+    "postLogoutRedirectUri": "http://localhost:4200/signedout",
+    "clientId": "PLEASE_CONFIGURE_CLIENT_ID",
+    "scope": "openid profile email address phone",
+    "responseType": "code",
+    "silentRenew": true,
+    "useRefreshToken": true,
+    "renewTimeBeforeTokenExpiresInSeconds": 30
+  }
 }

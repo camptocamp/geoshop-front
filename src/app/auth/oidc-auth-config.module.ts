@@ -1,21 +1,23 @@
 import { NgModule } from '@angular/core';
-import { AuthModule } from 'angular-auth-oidc-client';
+import { AuthModule, StsConfigLoader, StsConfigStaticLoader } from 'angular-auth-oidc-client';
+import { ConfigService } from '../_services/config.service';
 
+
+const authFactory = (configService: ConfigService) => {
+  const config = configService.config;
+  return new StsConfigStaticLoader(config!.oidcConfig);
+};
 
 @NgModule({
-    imports: [AuthModule.forRoot({
-        config: {
-            authority: 'https://geoshop-demo-syazg0.zitadel.cloud',
-            redirectUrl: 'http://localhost:4200/auth/oidc',
-            postLogoutRedirectUri: 'http://localhost:4200/signedout',
-            clientId: '282433642351939593',
-            scope: 'openid profile email address phone', // 'openid profile ' + your scopes
-            responseType: 'code',
-            silentRenew: true,
-            useRefreshToken: true,
-            renewTimeBeforeTokenExpiresInSeconds: 30,
-          }
-      })],
-    exports: [AuthModule],
+  imports: [
+    AuthModule.forRoot({
+      loader: {
+        provide: StsConfigLoader,
+        useFactory: authFactory,
+        deps: [ConfigService],
+      },
+    }),
+  ],
+  exports: [AuthModule],
 })
 export class OidcAuthConfigModule {}
