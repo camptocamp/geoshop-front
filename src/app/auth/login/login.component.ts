@@ -7,6 +7,7 @@ import {ICredentials} from '../../_models/IIdentity';
 import {ActivatedRoute} from '@angular/router';
 import { ConstantsService } from 'src/app/constants.service';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { ConfigService } from 'src/app/_services/config.service';
 
 @Component({
   selector: 'gs2-login',
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private store: Store<AppState>, private route: ActivatedRoute,
               private el: ElementRef,
+              private readonly config: ConfigService,
               private readonly oidcSecurityService: OidcSecurityService) {
     this.route.queryParams.subscribe(queryParams => {
       this.callbackUrl = queryParams.callback;
@@ -64,6 +66,10 @@ export class LoginComponent implements OnInit {
       this.hasClickOnLogin = true;
       this.store.dispatch(AuthActions.login(payload));
     }
+  }
+
+  get oidcEnabled():boolean {
+    return this.config.config?.oidcConfig ? true : false;
   }
 
   oidcAuthClick() {
