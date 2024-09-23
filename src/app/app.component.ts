@@ -55,14 +55,6 @@ export class AppComponent implements OnDestroy {
     });
   }
 
-  forceTokenRefresh() {
-    this.store.select(getUser).subscribe(user => {
-      if (user && user.tokenRefresh) {
-        this.store.dispatch(fromAuth.refreshToken({ token: user.tokenRefresh }));
-      }
-    });
-  }
-
   ngOnDestroy() {
     if (this.refreshTokenInterval) {
       clearInterval(this.refreshTokenInterval);

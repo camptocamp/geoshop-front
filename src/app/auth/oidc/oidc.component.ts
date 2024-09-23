@@ -1,6 +1,6 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { AppState } from 'src/app/_store';
 import * as AuthActions from '../../_store/auth/auth.action';
 

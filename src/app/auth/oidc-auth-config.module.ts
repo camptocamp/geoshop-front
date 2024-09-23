@@ -5,7 +5,7 @@ import { ConfigService } from '../_services/config.service';
 
 const authFactory = (configService: ConfigService) => {
   const config = configService.config;
-  return new StsConfigStaticLoader(config!.oidcConfig);
+  return config?.oidcConfig ? new StsConfigStaticLoader(config.oidcConfig) : [];
 };
 
 @NgModule({
