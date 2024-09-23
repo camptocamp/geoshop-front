@@ -24,7 +24,7 @@
       <button class="form-login-button" color="primary" mat-raised-button type="submit" [disabled]="form.pristine || form.invalid">
         {{ LOGIN}}
       </button>
-      <button *ngIf="oidcEnabled" class="form-login-button" color="primary" mat-raised-button (click)="oidcAuthClick()" >
+      <button *ngIf="oidcEnabled" i18n="@@login.login_oidc" class="form-login-button" color="primary" mat-raised-button (click)="oidcAuthClick()" >
         Login with Zitadel
       </button>
       <button mat-button color="accent" [routerLink]="'/auth/forget'" class="flex-row forgotten-button" >
