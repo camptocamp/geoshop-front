@@ -286,10 +286,13 @@ export class MapService {
       return of([]);
     }
     const url = new URL(urlText);
-    url.searchParams.append('partitionlimit', '10');
-    url.searchParams.append('query', inputText);
+    url.searchParams.append('format', 'geojson');
+    url.searchParams.append('limit', '10');
+    url.searchParams.append('countrycodes', 'CH');
+    url.searchParams.append('q', inputText);
     return this.httpClient.get(url.toString()).pipe(
       map((featureCollectionData) => {
+        console.log(featureCollectionData);
         const featureCollection = this.geoJsonFormatter.readFeatures(featureCollectionData);
         if (coordinateResult) {
           featureCollection.push(coordinateResult);
