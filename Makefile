@@ -3,11 +3,6 @@ DOCKER_TAG ?= latest
 
 export DOCKER_BUILDKIT=1
 
-# Load environment variables from .env file
-ifneq (,$(wildcard .env))
-    include .env
-    export $(shell sed 's/=.*//' .env)
-endif
 
 .DEFAULT_GOAL := help
 
@@ -22,19 +17,13 @@ build: install ## Build npm project
 .PHONY: build_docker
 build_docker: ## Build docker image
 	docker build --tag=camptocamp/geoshop-front:$(VERSION) \
-		--build-arg=VERSION=$(VERSION) \
-		--build-arg=API_BASE_URL=$(API_BASE_URL) \
-		--build-arg=API_ROOTURL=$(API_ROOTURL) \
-		--build-arg=MEDIA_URL=$(MEDIA_URL) .
+		--build-arg=VERSION=$(VERSION) .
 	docker tag camptocamp/geoshop-front:$(VERSION) camptocamp/geoshop-front:$(DOCKER_TAG)
 
 .PHONY: build_ghcr
 build_ghcr: ## Build docker image tagged for GHCR
 	docker build --tag=ghcr.io/camptocamp/geoshop-front:$(VERSION) \
-		--build-arg=VERSION=$(VERSION) \
-		--build-arg=API_BASE_URL=$(API_BASE_URL) \
-		--build-arg=API_ROOTURL=$(API_ROOTURL) \
-		--build-arg=MEDIA_URL=$(MEDIA_URL) .
+		--build-arg=VERSION=$(VERSION) .
 	docker tag ghcr.io/camptocamp/geoshop-front:$(VERSION) ghcr.io/camptocamp/geoshop-front:$(DOCKER_TAG)
 
 .PHONY: push_ghcr
