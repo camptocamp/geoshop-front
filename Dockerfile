@@ -17,11 +17,11 @@ RUN npm ci
 
 COPY . .
 
+# FIXME: should be doen in one RUN statement!
 RUN apt-get update && apt-get install -y gettext-base
 RUN envsubst < /usr/app/src/assets/configs/config.json.tmpl > /usr/app/src/assets/configs/config.json
 
 RUN npm run build --localize
-
 # Serve with nginx unpprevileged
 FROM nginxinc/nginx-unprivileged:stable
 
