@@ -8,9 +8,6 @@ RUN npm ci
 
 COPY . .
 
-# Install gettext-base for envsubst command, used in k8s deployment
-RUN apt-get update && apt-get install -y gettext-base
-
 RUN npm run build
 # Serve with nginx unpprevileged
 FROM nginxinc/nginx-unprivileged:stable
