@@ -41,8 +41,7 @@
               "src/theme.scss",
               "src/styles.scss"
             ],
-            "scripts": [
-            ],
+            "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -89,8 +88,15 @@
               "vendorChunk": true,
               "buildOptimizer": false
             },
+            "en": {
+              "localize": [
+                "en"
+              ]
+            },
             "de": {
-              "localize": ["de"]
+              "localize": [
+                "de"
+              ]
             }
           },
           "defaultConfiguration": "development"
@@ -104,14 +110,14 @@
             "production": {
               "browserTarget": "front:build:production"
             },
-            "development":{
+            "development": {
               "browserTarget": "front:build:development"
             },
             "de": {
               "browserTarget": "front:build:development,de"
             }
           },
-            "defaultConfiguration": "development"
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -148,11 +154,23 @@
               "devServerTarget": "front:serve:production"
             }
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

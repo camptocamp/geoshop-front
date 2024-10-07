@@ -483,6 +483,10 @@
           <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="login.login_oidc" datatype="html">
+        <source>Login with Zitadel</source>
+        <target>Login with Zitadel</target>
+      </trans-unit>
       <trans-unit id="login.pw_forgotten" datatype="html">
         <source>Mot de passe oublié</source>
         <target>Passwort vergessen</target>

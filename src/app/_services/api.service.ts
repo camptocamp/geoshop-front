@@ -8,6 +8,7 @@ import {ICredentials, IIdentity} from '../_models/IIdentity';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {IMetadata} from '../_models/IMetadata';
 import {IUser, IUserChangeResponse, IUserToPost} from '../_models/IUser';
+import { LoginResponse } from 'angular-auth-oidc-client';
 
 @Injectable({
   providedIn: 'root'
@@ -85,6 +86,25 @@ export class ApiService {
     } catch {
       return of(null);
     }
+  }
+
+  checkOidcToken(token: string): Observable<{ identity: Partial<IIdentity>; callbackUrl: string; }> {
+    this._getApiUrl();
+
+    const url = new URL(`${this.apiUrl}/oidc/token`);
+    return this.http.post<{access: string; refresh: string}>(url.toString(), {token})
+    .pipe(
+      switchMap(x => {
+        return this.getProfile(x.access)
+          .pipe(map(p => Object.assign({token: x.access, tokenRefresh: x.refresh}, p)));
+      }),
+      map(x => {
+        return {
+          identity: x,
+          callbackUrl: "/"
+        };
+      })
+    );
   }
 
   login(authenticate: ICredentials, callbackUrl: string): Observable<{ identity: Partial<IIdentity>; callbackUrl: string; }> {

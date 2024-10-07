@@ -1,3 +1,5 @@
+import { OpenIdConfiguration } from "angular-auth-oidc-client";
+
 export interface IBasemap {
   id: string;
   label: string;
@@ -21,6 +23,7 @@ export interface IConfig {
   resolutions: number[];
   epsg: string;
   pageformats: Array<IPageFormat>;
+  oidcConfig: OpenIdConfiguration;
 }
 
 export interface IPageFormat {
