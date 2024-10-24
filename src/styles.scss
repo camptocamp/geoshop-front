@@ -74,11 +74,11 @@ ul {
 }
 
 .info-container {
-  color: mat.get-color-from-palette($accent);
+  color: mat.m2-get-color-from-palette($accent);
   margin: 1em 0;
 
   mat-icon {
-    color: mat.get-color-from-palette($accent);
+    color: mat.m2-get-color-from-palette($accent);
     margin-right: 10px;
   }
 }
