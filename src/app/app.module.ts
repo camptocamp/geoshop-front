@@ -8,7 +8,7 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ConfigService} from './_services/config.service';
 import {CustomIconService} from './_services/custom-icon.service';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {AccountOverlayComponent} from './_components/account-overlay/account-overlay.component';
 import {HelpOverlayComponent} from './_components/help-overlay/help-overlay.component';
 import {MatRippleModule} from '@angular/material/core';
@@ -61,52 +61,46 @@ const MODULES = [
   MatTooltipModule
 ];
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    AccountOverlayComponent,
-    HelpOverlayComponent,
-    CartOverlayComponent,
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    MODULES,
-    StoreModule.forRoot(reducers, {metaReducers}),
-    EffectsModule.forRoot([AuthEffects, CartEffects]),
-    OidcAuthConfigModule
-  ],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeApp,
-      deps: [ConfigService, [new Inject(Store)]],
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor,
-      multi: true,
-    },
-    {
-      provide: LOCALE_ID,
-      useValue: 'fr-CH'
-    },
-    {
-      provide: DEFAULT_CURRENCY_CODE,
-      useValue: 'CHF'
-    },
-    CustomIconService
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        AccountOverlayComponent,
+        HelpOverlayComponent,
+        CartOverlayComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        MODULES,
+        StoreModule.forRoot(reducers, { metaReducers }),
+        EffectsModule.forRoot([AuthEffects, CartEffects]),
+        OidcAuthConfigModule], providers: [
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeApp,
+            deps: [ConfigService, [new Inject(Store)]],
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptor,
+            multi: true,
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorInterceptor,
+            multi: true,
+        },
+        {
+            provide: LOCALE_ID,
+            useValue: 'fr-CH'
+        },
+        {
+            provide: DEFAULT_CURRENCY_CODE,
+            useValue: 'CHF'
+        },
+        CustomIconService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {
   constructor(overlayContainer: OverlayContainer, route: ActivatedRoute) {
     route.queryParams.subscribe(res => {
