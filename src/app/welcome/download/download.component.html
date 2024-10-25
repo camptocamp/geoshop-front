@@ -2,18 +2,20 @@
 
   <mat-card>
     <div *ngIf="!order">
-      <mat-card-title i18n>GeoShop - {{ DOWNLAOD }}</mat-card-title>
+      <mat-card-header>
+        <mat-card-title i18n>GeoShop - {{ DOWNLAOD }}</mat-card-title>
+      </mat-card-header>
       <mat-card-content>
         <mat-spinner class="flex" diameter="48" color="accent" style="margin-right: 10px"></mat-spinner>
       </mat-card-content>
     </div>
-
     <div *ngIf="order">
-
-      <mat-card-title>N°{{order.id}} - {{order.title}}</mat-card-title>
-      <mat-card-subtitle i18n>
-        Commande du {{order.date_ordered | date}}.<span class="text-ellipsis-2">{{order.description}}</span>
-      </mat-card-subtitle>
+      <mat-card-header>
+        <mat-card-title>N°{{order.id}} - {{order.title}}</mat-card-title>
+        <mat-card-subtitle i18n>
+          Commande du {{order.date_ordered | date}}.<span class="text-ellipsis-2">{{order.description}}</span>
+        </mat-card-subtitle>
+      </mat-card-header>
       <mat-card-content>
         <div *ngIf="order && order.order_status === 'PROCESSED'" class="mb-2">
           <div class="flex">

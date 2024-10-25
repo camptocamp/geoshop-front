@@ -57,16 +57,17 @@ ul {
 }
 
 .basemap-button {
-  &.mat-mini-fab {
+  &.mat-mdc-mini-fab {
     .mat-button-wrapper {
       padding: 0;
     }
   }
 }
 
-.mat-menu-item {
+.mat-mdc-menu-item {
   display: flex !important;
   align-items: center;
+  font-size: 14px;
 
   img {
     margin-right: 10px;
@@ -109,4 +110,4 @@ ul {
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto; }

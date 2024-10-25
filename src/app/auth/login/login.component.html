@@ -1,6 +1,8 @@
 <mat-card>
+  <mat-card-header>
     <mat-card-title i18n="@@login.auth_title">GeoShop - Authentification</mat-card-title>
     <mat-card-subtitle>{{ LOGIN }}</mat-card-subtitle>
+  </mat-card-header>
   <mat-card-content>
     <form [formGroup]="form" (ngSubmit)="submit()">
       <mat-form-field color="primary">

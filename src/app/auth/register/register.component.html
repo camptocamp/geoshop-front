@@ -4,7 +4,6 @@
     <mat-card-subtitle>Une fois soumise, votre inscription sera contrôlée et validée par le SITN</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-
     <mat-horizontal-stepper #stepper [linear]="true" (selectionChange)="setFocusOn($event)">
       <mat-step [stepControl]="formCredentials" label="Identifiants">
         <form [formGroup]="formCredentials" class="flex-column">
