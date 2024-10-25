@@ -11,10 +11,11 @@ import {GeoshopUtils} from '../../../_helpers/GeoshopUtils';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {StoreService} from '../../../_services/store.service';
 import {Router} from '@angular/router';
-import {MatDialogRef} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../../../_components/confirm-dialog/confirm-dialog.component';
 import Geometry from 'ol/geom/Geometry';
 import { ConstantsService } from 'src/app/constants.service';
+import { Feature } from 'ol';
 import { HttpResponse } from '@angular/common/http';
 
 // TODO tranlsate after updating SnackBar!
@@ -29,7 +30,7 @@ export class OrderComponent implements OnInit {
 
   // Map
   @Input() minimap: Map;
-  @Input() vectorSource: VectorSource<Geometry>;
+  @Input() vectorSource: VectorSource<Feature<Geometry>>;
 
   // Order items
   @ViewChild(WidgetHostDirective) orderItemTemplate: WidgetHostDirective;
