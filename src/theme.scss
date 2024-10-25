@@ -1,10 +1,44 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the theme object.
+$front-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+  density: (
+    scale: 0,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+:root {
+  @include mat.all-component-themes($front-theme);
+}
+
+// Comment out the line below if you want to use the pre-defined typography utility classes.
+// For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.
+// @include mat.typography-hierarchy($front-theme);
+
+// Comment out the line below if you want to use the deprecated `color` inputs.
+// @include mat.color-variants-backwards-compatibility($front-theme);
 /**
 * Generated theme by Material Theme Generator
 * https://materialtheme.arcsine.dev
 */
-@use '@angular/material' as mat;
 
-@import '@angular/material/theming';
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 
@@ -142,18 +176,6 @@ $dark-theme-background-palette: mat.$m2-dark-theme-background-palette (
   disabled-list-option: $dark-bg-lighter-10,
 );
 
-// Compute font config
-// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
-//  The following line adds:
-//    1. Default typography styles for all components
-//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
-//  If you specify typography styles for the components you use elsewhere, you should delete this line.
-//  If you don't need the default component typographies but still want the hierarchy styles,
-//  you can delete this line and instead use:
-//    `@include mat.legacy-typography-hierarchy($fontConfig);`
-@include mat.all-legacy-component-typographies($fontConfig);
-@include mat.legacy-core();
-
 // Theme Config
 
 body {
@@ -226,7 +248,6 @@ $theme: mat.m2-define-light-theme($theme-primary, $theme-accent, $theme-warn);
 $altTheme: mat.m2-define-dark-theme($theme-primary, $theme-accent, $theme-warn);
 
 // Theme Init
-@include mat.all-legacy-component-themes($theme);
 $primary: map-get($theme, primary);
 $accent: map-get($theme, accent);
 $warning: map-get($theme, warn);
@@ -234,7 +255,6 @@ $dark: #393939;
 $info: #4177F6;
 
 .theme-alternate {
-  @include mat.all-legacy-component-themes($altTheme);
 
   #geocoder-container {
     background-color: $dark;

@@ -2,7 +2,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import Map from 'ol/Map';
 import VectorSource from 'ol/source/Vector';

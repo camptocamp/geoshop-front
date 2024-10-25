@@ -19,21 +19,22 @@ import {EffectsModule} from '@ngrx/effects';
 import {AuthEffects} from './_store/auth/auth.effects';
 import {reducers, metaReducers, AppState, getUser} from './_store';
 import {TokenInterceptor} from './_interceptors/tokenInterceptor';
-import {MatLegacyMenuModule as MatMenuModule} from '@angular/material/legacy-menu';
+import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
-import {MatLegacyDialogModule as MatDialogModule} from '@angular/material/legacy-dialog';
-import {MatLegacySnackBarModule as MatSnackBarModule} from '@angular/material/legacy-snack-bar';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ErrorInterceptor} from './_interceptors/errorInterceptor';
-import {MatLegacyTooltipModule as MatTooltipModule} from '@angular/material/legacy-tooltip';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {OverlayContainer} from '@angular/cdk/overlay';
 import {ActivatedRoute} from '@angular/router';
 import {CartEffects} from './_store/cart/cart.effects';
 import * as fromAuth from './_store/auth/auth.action';
 import {CommonModule} from '@angular/common';
 import { OidcAuthConfigModule } from './auth/oidc-auth-config.module';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 registerLocaleData(localeCH);
 
@@ -99,7 +100,8 @@ const MODULES = [
             useValue: 'CHF'
         },
         CustomIconService,
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptorsFromDi()),
+        provideAnimationsAsync()
     ] })
 export class AppModule {
   constructor(overlayContainer: OverlayContainer, route: ActivatedRoute) {
