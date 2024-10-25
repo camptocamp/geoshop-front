@@ -384,6 +384,20 @@ asgiref = ">=3.6"
 django = ">=3.2"
 
 [[package]]
+name = "django-extended-ol"
+version = "1.0.0"
+description = "An openlayers widget for Django with extended capabilities"
+optional = false
+python-versions = ">=3.10"
+files = [
+    {file = "django_extended_ol-1.0.0-py3-none-any.whl", hash = "sha256:c696802f54c344ecf79531945abf7a569523991eed093c1dec40618625193c0f"},
+    {file = "django_extended_ol-1.0.0.tar.gz", hash = "sha256:588edc02c23b1d5b6dbd121db3512f8e65b301a9a98e5e5b09c04910aa1d6572"},
+]
+
+[package.dependencies]
+Django = ">=5.0"
+
+[[package]]
 name = "django-filter"
 version = "24.3"
 description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
@@ -1083,13 +1097,13 @@ files = [
 
 [[package]]
 name = "setuptools"
-version = "75.1.0"
+version = "75.2.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "setuptools-75.1.0-py3-none-any.whl", hash = "sha256:35ab7fd3bcd95e6b7fd704e4a1539513edad446c097797f2985e0e4b960772f2"},
-    {file = "setuptools-75.1.0.tar.gz", hash = "sha256:d59a21b17a275fb872a9c3dae73963160ae079f1049ed956880cd7c09b120538"},
+    {file = "setuptools-75.2.0-py3-none-any.whl", hash = "sha256:a7fcb66f68b4d9e8e66b42f9876150a3371558f98fa32222ffaa5bced76406f8"},
+    {file = "setuptools-75.2.0.tar.gz", hash = "sha256:753bb6ebf1f465a1912e19ed1d41f403a79173a9acf66a42e7e6aec45c3c16ec"},
 ]
 
 [package.extras]
@@ -1129,13 +1143,13 @@ files = [
 
 [[package]]
 name = "tzdata"
-version = "2024.1"
+version = "2024.2"
 description = "Provider of IANA time zone data"
 optional = false
 python-versions = ">=2"
 files = [
-    {file = "tzdata-2024.1-py2.py3-none-any.whl", hash = "sha256:9068bc196136463f5245e51efda838afa15aaeca9903f49050dfa2679db4d252"},
-    {file = "tzdata-2024.1.tar.gz", hash = "sha256:2674120f8d891909751c38abcdfd386ac0a5a1127954fbc332af6b5ceae07efd"},
+    {file = "tzdata-2024.2-py2.py3-none-any.whl", hash = "sha256:a48093786cdcde33cad18c2555e8532f34422074448fbc874186f0abd79565cd"},
+    {file = "tzdata-2024.2.tar.gz", hash = "sha256:7d85cc416e9382e69095b7bdf4afd9e3880418a2413feec7069d533d6b4e31cc"},
 ]
 
 [[package]]
@@ -1194,4 +1208,4 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "1658b91377739be6d4d98f75238e147d6d81db66c74b01befa032f19c577d602"
+content-hash = "7a880e55b38381e9a1b5d44df751b837b1b45400a999ab47821d1e48846332d7"
