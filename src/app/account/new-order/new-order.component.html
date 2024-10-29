@@ -88,7 +88,7 @@
             <div matSuffix class="flex-row">
               <mat-spinner *ngIf="isSearchLoading" diameter="16" color="accent"
                            style="margin-right: 10px"></mat-spinner>
-              <button mat-button *ngIf="customerCtrl?.value" mat-icon-button aria-label="Clear"
+              <button mat-icon-button *ngIf="customerCtrl?.value" aria-label="Clear"
                       (click)="resetCustomerSearch()">
                 <mat-icon>close</mat-icon>
               </button>
@@ -101,7 +101,6 @@
             </mat-autocomplete>
           </mat-form-field>
           <button class="autocomplete-action-button"
-                  mat-button
                   mat-mini-fab
                   matTooltip="Créer un nouveau contact"
                   aria-label="Créer un nouveau contact"
@@ -110,7 +109,6 @@
             <mat-icon>add</mat-icon>
           </button>
           <button class="autocomplete-action-button"
-                  mat-button
                   mat-mini-fab
                   matTooltip="Annuler les changements"
                   aria-label="Annuler les changements"
@@ -120,7 +118,6 @@
             <mat-icon>clear</mat-icon>
           </button>
           <button class="autocomplete-action-button"
-                  mat-button
                   mat-mini-fab
                   matTooltip="Supprimer ce contact"
                   aria-label="Supprimer ce contact"
