@@ -5,7 +5,7 @@
   "projects": {
     "front": {
       "i18n": {
-        "sourceLocale": "fr-CH",
+        "sourceLocale": "de-CH",
         "locales": {
           "de": {
             "translation": "src/locale/messages.de.xlf"
