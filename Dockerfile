@@ -8,7 +8,7 @@ RUN npm ci --legacy-peer-deps
 
 COPY . .
 
-RUN npm run build
+RUN npm run build -- --localize && ls dist/
 # Serve with nginx unpprevileged
 FROM nginxinc/nginx-unprivileged:stable
 
@@ -17,4 +17,4 @@ FROM nginxinc/nginx-unprivileged:stable
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Copy build artifacts
-COPY --from=builder /usr/app/dist/ /usr/share/nginx/html
+COPY --from=builder /usr/app/dist/ /usr/share/nginx/html/
