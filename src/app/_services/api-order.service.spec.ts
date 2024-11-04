@@ -1,12 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ApiOrderService } from './api-order.service';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('ApiOrderService', () => {
   let service: ApiOrderService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        HttpClient,
+        HttpHandler
+      ],
+    });
     service = TestBed.inject(ApiOrderService);
   });
 

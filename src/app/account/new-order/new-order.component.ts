@@ -151,6 +151,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       select(selectOrder),
       switchMap(x => this.apiOrderService.getFullOrder(x)),
     ).subscribe(order => {
+      console.log("HERE: " + order);
       if (order) {
         this.currentOrder = order;
         this.updateForms(this.currentOrder);
