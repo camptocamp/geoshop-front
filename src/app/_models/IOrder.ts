@@ -78,7 +78,7 @@ export interface IOrderSummary {
   total_with_vat: string;
   invoice_reference: string;
   email_deliver: string;
-  status: OrderStatus;
+  order_status: OrderStatus;
   date_ordered: string | undefined;
   date_processed: string | undefined;
   statusAsReadableIconText?: IStatusAsReadableIcon;
@@ -115,7 +115,7 @@ export interface IOrder {
   geom: string | undefined;
   invoice_reference: string;
   email_deliver: string;
-  status: OrderStatus;
+  order_status: OrderStatus;
   date_ordered: string | undefined;
   date_processed: string | undefined;
   invoice_contact: string | number;
@@ -162,7 +162,7 @@ export class Order {
   geom: Polygon;
   invoice_reference: string;
   email_deliver: string;
-  status: OrderStatus;
+  order_status: OrderStatus;
   date_ordered: Date | undefined;
   date_processed: Date | undefined;
   invoice_contact: number;
@@ -175,7 +175,7 @@ export class Order {
   }
 
   get isQuotationCalculationFinished() {
-    return this.status === 'QUOTE_DONE';
+    return this.order_status === 'QUOTE_DONE';
   }
 
   private _invoiceContact: Contact | undefined;
@@ -237,7 +237,7 @@ export class Order {
       part_vat_currency: this.part_vat_currency,
       processing_fee: this.processing_fee,
       processing_fee_currency: this.processing_fee_currency,
-      status: this.status,
+      order_status: this.order_status,
       title: this.title,
       total_with_vat: this.total_with_vat,
       total_with_vat_currency: this.total_with_vat_currency,
@@ -286,7 +286,7 @@ export class Order {
       color: ''
     };
 
-    switch (order.status) {
+    switch (order.order_status) {
       case 'DRAFT':
         result = {
           text: ConstantsService.ORDER_STATUS.DRAFT,

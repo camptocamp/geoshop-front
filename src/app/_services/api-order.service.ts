@@ -253,33 +253,6 @@ export class ApiOrderService {
     });
   }
 
-  public downloadOrder(orderId: number, isOrderItem = false) {
-    this._getApiUrl();
-
-    const orderText = isOrderItem ? 'orderitem' : 'order';
-    const url = new URL(`${this.apiUrl}/${orderText}/${orderId}/download_link/`);
-
-    return this.http.get<IOrderDowloadLink | null>(url.toString())
-      .pipe(
-        catchError(() => {
-          return of(null);
-        })
-      );
-  }
-
-  public downloadOrderByUUID(uuid: string) {
-    this._getApiUrl();
-
-    const url = new URL(`${this.apiUrl}/download/${uuid}/get_link/`);
-
-    return this.http.get<IOrderDowloadLink | null>(url.toString())
-      .pipe(
-        catchError(() => {
-          return of(null);
-        })
-      );
-  }
-
   getContact(contactId: number | string) {
     this._getApiUrl();
 
