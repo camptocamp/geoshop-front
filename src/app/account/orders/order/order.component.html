@@ -3,7 +3,6 @@
                      (afterExpand)="displayMiniMap()">
   <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'">
     <mat-panel-title class="main-title">
-      STATIS: {{order?.order_status}}
       <gs2-icon-text [text]="order?.statusAsReadableIconText?.text"
                      [matIconName]="order?.statusAsReadableIconText?.iconName"
                      [fontColor]="order?.statusAsReadableIconText?.color"
