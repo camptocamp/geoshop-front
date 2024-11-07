@@ -48,8 +48,8 @@
       <th mat-header-cell *matHeaderCellDef>{{ DOWNLAOD }}</th>
       <td mat-cell *matCellDef="let element">
         <button class="download-button" mat-raised-button color="primary"
-                *ngIf="element.status === 'PROCESSED'"
-                (click)="downloadOrder($event, element.id)">
+                *ngIf="element.status === 'PROCESSED' && element.download_guid"
+                (click)="downloadOrder($event, element)">
           {{ DOWNLAOD }}
         </button>
         <span *ngIf="element.status !== 'PROCESSED'">{{ getOrderStatus(element) }}</span>

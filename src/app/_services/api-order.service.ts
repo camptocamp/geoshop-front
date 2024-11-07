@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, zip } from 'rxjs';
 import { IOrder, IOrderDowloadLink, IOrderItem, IOrderSummary, IOrderToPost, IOrderType, Order } from '../_models/IOrder';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ConfigService } from './config.service';
 import { IApiResponse } from '../_models/IApi';
 import { catchError, flatMap, map } from 'rxjs/operators';
@@ -244,31 +244,13 @@ export class ApiOrderService {
       );
   }
 
-  public downloadOrder(orderId: number, isOrderItem = false) {
+  public downloadResult(guid: string): Observable<HttpResponse<Blob|null>> {
     this._getApiUrl();
-
-    const orderText = isOrderItem ? 'orderitem' : 'order';
-    const url = new URL(`${this.apiUrl}/${orderText}/${orderId}/download_link/`);
-
-    return this.http.get<IOrderDowloadLink | null>(url.toString())
-      .pipe(
-        catchError(() => {
-          return of(null);
-        })
-      );
-  }
-
-  public downloadOrderByUUID(uuid: string) {
-    this._getApiUrl();
-
-    const url = new URL(`${this.apiUrl}/download/${uuid}/get_link/`);
-
-    return this.http.get<IOrderDowloadLink | null>(url.toString())
-      .pipe(
-        catchError(() => {
-          return of(null);
-        })
-      );
+    const url = new URL(`${this.apiUrl}/download/${guid}/result`);
+    return this.http.get(url.toString(), {
+      observe: 'response',
+      responseType: 'blob'
+    });
   }
 
   getContact(contactId: number | string) {

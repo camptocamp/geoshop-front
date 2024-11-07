@@ -15,6 +15,7 @@ import {MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef} from '
 import {ConfirmDialogComponent} from '../../../_components/confirm-dialog/confirm-dialog.component';
 import Geometry from 'ol/geom/Geometry';
 import { ConstantsService } from 'src/app/constants.service';
+import { HttpResponse } from '@angular/common/http';
 
 // TODO tranlsate after updating SnackBar!
 @Component({
@@ -56,28 +57,17 @@ export class OrderComponent implements OnInit {
       return;
     }
 
-    this.apiOrderService.downloadOrder(this.order.id).subscribe(link => {
-      if (!link) {
-        this.snackBar.open(
-          'Aucun fichier disponible', 'Ok', {panelClass: 'notification-info'}
-        );
-        return;
-      }
-
-      if (link.detail) {
-        this.snackBar.open(
-          link.detail, 'Ok', {panelClass: 'notification-info'}
-        );
-        return;
-      }
-
-      if (link.download_link) {
-        const downloadLink = (link as IOrderDowloadLink).download_link;
-        if (downloadLink) {
-          const urlsParts = downloadLink.split('/');
-          const filename = urlsParts.pop() || urlsParts.pop();
-          GeoshopUtils.downloadData(downloadLink, filename || 'download.zip');
-        }
+    this.apiOrderService.downloadResult(this.order.download_guid!).subscribe({
+      next: (response: HttpResponse<Blob>) => {
+        const link = document.createElement('a');
+        // TODO: resolve filename properly after upgrading to the latest Angular
+        link.download = 'result.zip';
+        link.href = window.URL.createObjectURL(response.body!);
+        link.click();
+        window.URL.revokeObjectURL(link.href);
+      },
+      error: (error: any) => {
+        this.snackBar.open(error.detail ?? 'Aucun fichier disponible', 'Ok', { panelClass: 'notification-info' });
       }
     });
   }
