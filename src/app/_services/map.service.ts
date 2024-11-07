@@ -16,7 +16,7 @@ import { Draw, Modify } from 'ol/interaction';
 import { Feature } from 'ol';
 import { FeatureLike } from 'ol/Feature';
 import Polygon, { fromExtent } from 'ol/geom/Polygon';
-import WMTS, {Options} from 'ol/source/WMTS';
+import WMTS, { Options } from 'ol/source/WMTS';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
 import { register } from 'ol/proj/proj4';
 import DragPan from 'ol/interaction/DragPan';
@@ -49,6 +49,7 @@ import { DragAndDropEvent } from 'ol/interaction/DragAndDrop';
 import { shiftKeyOnly } from 'ol/events/condition';
 import { createBox } from 'ol/interaction/Draw';
 import { CoordinateSearchService } from './coordinate-search.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -123,6 +124,7 @@ export class MapService {
 
   constructor(
     private configService: ConfigService,
+    private route: ActivatedRoute,
     private coordinateSearchService: CoordinateSearchService,
     private store: Store<AppState>,
     private snackBar: MatSnackBar,
@@ -136,23 +138,26 @@ export class MapService {
       // @ts-ignore
       this.map = null;
     }
-    this.initializeMap().then(() => {
+    this.route.queryParamMap.subscribe(params => {
+      this.initialExtent = params.get("initialExtent")?.split(",", -1).map(parseFloat) ?? this.configService.config!.initialExtent;
+      console.log(this.initialExtent);
+      this.initializeMap().then(() => {
+        this.initializeDrawing();
+        this.initializeInteraction();
+        this.initializeDragInteraction();
+        this.initializeDelKey();
+        this.store.select(selectOrder).subscribe(order => {
+          if (!this.featureFromDrawing && order && order.geom) {
+            const geometry = this.geoJsonFormatter.readGeometry(order.geom);
+            const feature = new Feature(geometry);
+            this.drawingSource.addFeature(feature);
+          }
+        });
 
-      this.initializeDrawing();
-      this.initializeInteraction();
-      this.initializeDragInteraction();
-      this.initializeDelKey();
-      this.store.select(selectOrder).subscribe(order => {
-        if (!this.featureFromDrawing && order && order.geom) {
-          const geometry = this.geoJsonFormatter.readGeometry(order.geom);
-          const feature = new Feature(geometry);
-          this.drawingSource.addFeature(feature);
-        }
+        this.initialized = true;
+      }).catch(() => {
+        this.initialized = true;
       });
-
-      this.initialized = true;
-    }).catch(() => {
-      this.initialized = true;
     });
   }
 
@@ -238,7 +243,7 @@ export class MapService {
   public async createTileLayer(baseMapConfig: IBasemap, isVisible: boolean): Promise<TileLayer<TileSource> | undefined> {
     if (!this.resolutions || !this.initialExtent) {
       this.resolutions = this.configService.config!.resolutions;
-      this.initialExtent = this.configService.config!.initialExtent;
+
       await this.debounce(200);
     }
     const matrixIds = [];
@@ -355,7 +360,6 @@ export class MapService {
       + '+towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs');
     register(proj4);
 
-    this.initialExtent = this.configService.config.initialExtent;
     this.resolutions = this.configService.config.resolutions;
     this.projection = new Projection({
       code: EPSG,
