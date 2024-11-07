@@ -1,10 +1,10 @@
 <mat-horizontal-stepper #stepper [linear]="true">
-  <mat-step [stepControl]="orderFormGroup" label="Détails du mandat">
+  <mat-step [stepControl]="orderFormGroup" i18n-label label="Détails du mandat">
     <form [formGroup]="orderFormGroup">
 
       <!-- Order type -->
       <mat-form-field>
-        <mat-label>Type de mandat</mat-label>
+        <mat-label i18n>Type de mandat</mat-label>
         <mat-select formControlName="orderType" required (selectionChange)="clearForms()"
                     [compareWith]="orderTypeCompareWith">
           <mat-option *ngFor="let orderType of orderTypes" [value]="orderType">
@@ -16,16 +16,16 @@
 
       <!-- title -->
       <mat-form-field>
-        <mat-label>Titre du mandat</mat-label>
+        <mat-label i18n>Titre du mandat</mat-label>
         <textarea matInput required formControlName="title"></textarea>
         <mat-error *ngIf="orderFormGroup.get('title')?.hasError('required')">{{ REQUIRED }}</mat-error>
-        <mat-error *ngIf="orderFormGroup.get('title')?.hasError('pattern')">
+        <mat-error *ngIf="orderFormGroup.get('title')?.hasError('pattern')" i18n>
           Le titre contient des caractères non supportés (parenthèses, guillemets, etc.)</mat-error>
       </mat-form-field>
 
       <!-- Description -->
       <mat-form-field *ngIf="orderFormGroup.get('orderType')?.value?.id !== 1">
-        <mat-label>Description du mandat</mat-label>
+        <mat-label i18n>Description du mandat</mat-label>
         <textarea matInput
                   formControlName="description"
                   placeholder="Renseigner une courte description du mandat..."></textarea>
@@ -34,7 +34,7 @@
 
       <!-- My reference -->
       <mat-form-field>
-        <mat-label>Votre référence reportée sur la facture</mat-label>
+        <mat-label i18n>Votre référence reportée sur la facture</mat-label>
         <input matInput type="text" formControlName="invoice_reference"/>
       </mat-form-field>
 
@@ -42,17 +42,17 @@
       <mat-radio-group class="flex-column"
                       formControlName="emailDeliverChoice"
                       aria-label="Choisir l'email de livraison">
-      <mat-radio-button value="1">Les données seront envoyées à l'adresse email de
+      <mat-radio-button value="1" i18n>Les données seront envoyées à l'adresse email de
         l'utilisateur courant: {{(currentUser$|async)?.email}}</mat-radio-button>
-      <mat-radio-button value="2">Adresse de livraison des données différente</mat-radio-button>
+      <mat-radio-button value="2" i18n>Adresse de livraison des données différente</mat-radio-button>
       </mat-radio-group>
 
       <mat-form-field *ngIf="orderFormGroup?.get('emailDeliverChoice')?.value == '2'">
-        <mat-label>Saisir l'adresse email de livraison</mat-label>
+        <mat-label i18n>Saisir l'adresse email de livraison</mat-label>
         <input matInput type="email" formControlName="emailDeliver" autocomplete="on"/>
-        <mat-error *ngIf="orderFormGroup?.get('emailDeliver')?.hasError('pattern')">Adresse email non valide</mat-error>
+        <mat-error i18n *ngIf="orderFormGroup?.get('emailDeliver')?.hasError('pattern')">Adresse email non valide</mat-error>
       </mat-form-field>
-      
+
       <div class="bottom-container flex-row">
         <button color="warn" mat-button (click)="resetForms();stepper.selectedIndex = 0">{{ BACK }}</button>
         <button color="primary" matStepperNext mat-raised-button>{{ NEXT }}</button>
@@ -60,19 +60,19 @@
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="contactFormGroup" label="Facturation / Tiers">
+  <mat-step [stepControl]="contactFormGroup" i18n-label label="Facturation / Tiers">
 
     <form class="form-no-full-height" [formGroup]="addressChoiceForm">
       <mat-radio-group *ngIf="IsOrderTypePrivate" class="flex-column"
                        formControlName="addressChoice"
                        aria-label="Choisir une option">
-        <mat-radio-button value="1">La facturation est adressée à
+        <mat-radio-button value="1" i18n>La facturation est adressée à
           l'utilisateur courant: {{(currentUser$|async)?.username}} ({{(currentUser$|async)?.email}})</mat-radio-button>
-        <mat-radio-button value="2">La facturation est adressée à un mandant</mat-radio-button>
+        <mat-radio-button value="2" i18n>La facturation est adressée à un mandant</mat-radio-button>
       </mat-radio-group>
     </form>
 
-    <mat-label *ngIf="!IsOrderTypePrivate">Vous devez spécifier les informations de contact du tiers pour un mandat
+    <mat-label *ngIf="!IsOrderTypePrivate" i18n>Vous devez spécifier les informations de contact du tiers pour un mandat
        de type {{ orderFormGroup.get('orderType')?.value?.name | lowercase }}.</mat-label>
 
     <form class="form-height-mini" [formGroup]="contactFormGroup">
@@ -157,7 +157,7 @@
 
           <!-- Email -->
           <mat-form-field [style.color]="contactFormGroup?.get('email')?.touched ? '#26a59a' : 'black'">
-            <mat-label>Courriel mandant</mat-label>
+            <mat-label i18n>Courriel mandant</mat-label>
             <input matInput required type="email" formControlName="email">
             <mat-error *ngIf="contactFormGroup?.get('email')?.hasError('required')">{{ REQUIRED }}</mat-error>
             <mat-error *ngIf="contactFormGroup?.get('email')?.hasError('pattern')">{{ WRONG_EMAIL }}
@@ -175,7 +175,7 @@
 
           <!-- IDE number -->
           <mat-form-field>
-            <mat-label>Numéro d’identification des entreprises (IDE)</mat-label>
+            <mat-label i18n>Numéro d’identification des entreprises (IDE)</mat-label>
             <input matInput type="text" formControlName="ide_id">
             <mat-error *ngIf="contactFormGroup?.get('ide_id')?.hasError('pattern')" i18n="@@new-order.bad_IDE_format">Mauvais format du numéro IDE, accepté : CHE-012.345.678</mat-error>
           </mat-form-field>
@@ -241,7 +241,7 @@
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="orderItemFormGroup" label="Aperçu de la commande">
+  <mat-step [stepControl]="orderItemFormGroup" i18n-label label="Aperçu de la commande">
     <form *ngIf="currentOrder" [formGroup]="orderItemFormGroup" (submit)="confirm()">
 
       <div class="table-container">
