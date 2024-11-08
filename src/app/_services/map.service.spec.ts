@@ -5,6 +5,7 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { AppState } from '../_store';
 import { of } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 class StoreMock {
   select =  jasmine.createSpy().and.returnValue(of(jasmine.createSpy()));
@@ -16,6 +17,9 @@ describe('MapService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports:[
+        RouterModule.forRoot([]),
+      ],
       providers: [
         HttpClient,
         HttpHandler,

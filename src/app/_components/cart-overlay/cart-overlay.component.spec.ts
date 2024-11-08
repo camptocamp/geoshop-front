@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { RouterModule } from '@angular/router';
 
 class StoreMock {
   select =  jasmine.createSpy().and.returnValue(of(jasmine.createSpy()));
@@ -25,6 +26,7 @@ describe('CartOverlayComponent', () => {
         MatButtonModule,
         MatIconModule,
         MatDividerModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {provide: Store<AppState>, useClass: StoreMock},
