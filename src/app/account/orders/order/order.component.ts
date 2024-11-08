@@ -37,7 +37,7 @@ export class OrderComponent implements OnInit {
   selectedOrder: Order;
 
   // Constants
-  readonly DOWNLAOD = ConstantsService.DOWNLAOD;
+  readonly DOWNLOAD = ConstantsService.DOWNLOAD;
 
   constructor(private cfr: ComponentFactoryResolver,
               private snackBar: MatSnackBar,

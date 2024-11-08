@@ -3,7 +3,7 @@
   <mat-card>
     <div *ngIf="!order">
       <mat-card-header>
-        <mat-card-title i18n>GeoShop - {{ DOWNLAOD }}</mat-card-title>
+        <mat-card-title i18n>GeoShop - {{ DOWNLOAD }}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <mat-spinner class="flex" diameter="48" color="accent" style="margin-right: 10px"></mat-spinner>
@@ -20,7 +20,7 @@
         <div *ngIf="order && order.order_status === 'PROCESSED'" class="mb-2">
           <div class="flex">
             <button mat-raised-button color="primary" class="action-button" (click)="downloadOrder($event)">
-              <mat-icon>download</mat-icon> {{ DOWNLAOD }}
+              <mat-icon>download</mat-icon> {{ DOWNLOAD }}
             </button>
           </div>
         </div>

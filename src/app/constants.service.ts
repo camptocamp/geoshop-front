@@ -9,7 +9,7 @@ export class ConstantsService {
   constructor() { }
 
   static readonly REQUIRED: string = $localize`:@@required:Required`;
-  static readonly DOWNLAOD: string = $localize`:@@download:Download`;
+  static readonly DOWNLOAD: string = $localize`:@@download:Download`;
   static readonly LOGIN: string = $localize`:@@login:Login`;
   static readonly NEXT: string = $localize`:@@logout:Suivant`;
   static readonly PREVIOUS: string = $localize`:@@previous:Retour`;

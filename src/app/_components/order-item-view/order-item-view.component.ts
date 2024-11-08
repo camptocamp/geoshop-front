@@ -18,7 +18,7 @@ export class OrderItemViewComponent implements OnInit {
   @Input() showAction = true;
 
   // Constants
-  readonly DOWNLAOD = ConstantsService.DOWNLAOD;
+  readonly DOWNLOAD = ConstantsService.DOWNLOAD;
 
   constructor(private apiOrderService: ApiOrderService,
     private snackBar: MatSnackBar) {

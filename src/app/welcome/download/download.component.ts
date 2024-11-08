@@ -35,7 +35,7 @@ export class DownloadComponent implements OnInit, OnDestroy {
   vectorSource: VectorSource<Feature<Geometry>>;
 
   // Constants
-  readonly DOWNLAOD = ConstantsService.DOWNLAOD;
+  readonly DOWNLOAD = ConstantsService.DOWNLOAD;
 
   constructor(
     private apiOrderService: ApiOrderService,
