@@ -140,7 +140,6 @@ export class MapService {
     }
     this.route.queryParamMap.subscribe(params => {
       this.initialExtent = params.get("initialExtent")?.split(",", -1).map(parseFloat) ?? this.configService.config!.initialExtent;
-      console.log(this.initialExtent);
       this.initializeMap().then(() => {
         this.initializeDrawing();
         this.initializeInteraction();

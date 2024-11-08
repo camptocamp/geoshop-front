@@ -53,7 +53,6 @@ export class OrderComponent implements OnInit {
   downloadOrder(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
-
     if (!this.order || !this.order.id) {
       return;
     }
