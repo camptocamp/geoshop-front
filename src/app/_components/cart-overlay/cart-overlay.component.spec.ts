@@ -1,17 +1,41 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CartOverlayComponent } from './cart-overlay.component';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/_store';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { of } from 'rxjs';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { RouterModule } from '@angular/router';
+
+class StoreMock {
+  select =  jasmine.createSpy().and.returnValue(of(jasmine.createSpy()));
+  dispatch = jasmine.createSpy();
+}
 
 describe('CartOverlayComponent', () => {
   let component: CartOverlayComponent;
   let fixture: ComponentFixture<CartOverlayComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ CartOverlayComponent ]
+      declarations: [ CartOverlayComponent ],
+      imports: [
+        MatButtonModule,
+        MatIconModule,
+        MatDividerModule,
+        RouterModule.forRoot([]),
+      ],
+      providers: [
+        {provide: Store<AppState>, useClass: StoreMock},
+        HttpClient,
+        HttpHandler
+      ],
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartOverlayComponent);

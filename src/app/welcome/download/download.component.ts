@@ -1,6 +1,6 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -15,6 +15,7 @@ import { ConfigService} from '../../_services/config.service';
 import { MapService} from '../../_services/map.service';
 import Geometry from 'ol/geom/Geometry';
 import { ConstantsService } from 'src/app/constants.service';
+import { Feature } from 'ol';
 import { HttpResponse } from '@angular/common/http';
 
 
@@ -31,10 +32,10 @@ export class DownloadComponent implements OnInit, OnDestroy {
   private uuid: string;
   order: Order;
   minimap: Map;
-  vectorSource: VectorSource<Geometry>;
+  vectorSource: VectorSource<Feature<Geometry>>;
 
   // Constants
-  readonly DOWNLAOD = ConstantsService.DOWNLAOD;
+  readonly DOWNLOAD = ConstantsService.DOWNLOAD;
 
   constructor(
     private apiOrderService: ApiOrderService,

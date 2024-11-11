@@ -8,13 +8,14 @@ import {OrderItemViewComponent} from '../../../_components/order-item-view/order
 import {WidgetHostDirective} from '../../../_directives/widget-host.directive';
 import {ApiOrderService} from '../../../_services/api-order.service';
 import {GeoshopUtils} from '../../../_helpers/GeoshopUtils';
-import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {StoreService} from '../../../_services/store.service';
 import {Router} from '@angular/router';
-import {MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../../../_components/confirm-dialog/confirm-dialog.component';
 import Geometry from 'ol/geom/Geometry';
 import { ConstantsService } from 'src/app/constants.service';
+import { Feature } from 'ol';
 import { HttpResponse } from '@angular/common/http';
 
 // TODO tranlsate after updating SnackBar!
@@ -29,14 +30,14 @@ export class OrderComponent implements OnInit {
 
   // Map
   @Input() minimap: Map;
-  @Input() vectorSource: VectorSource<Geometry>;
+  @Input() vectorSource: VectorSource<Feature<Geometry>>;
 
   // Order items
   @ViewChild(WidgetHostDirective) orderItemTemplate: WidgetHostDirective;
   selectedOrder: Order;
 
   // Constants
-  readonly DOWNLAOD = ConstantsService.DOWNLAOD;
+  readonly DOWNLOAD = ConstantsService.DOWNLOAD;
 
   constructor(private cfr: ComponentFactoryResolver,
               private snackBar: MatSnackBar,
@@ -52,7 +53,6 @@ export class OrderComponent implements OnInit {
   downloadOrder(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
-
     if (!this.order || !this.order.id) {
       return;
     }

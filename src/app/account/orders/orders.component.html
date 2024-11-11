@@ -2,13 +2,13 @@
   <mat-form-field class="filter-container" color="primary" appearance="fill">
     <mat-label i18n>Rechercher une commande...</mat-label>
     <input matInput [formControl]="orderFilterControl">
-    <button mat-button matPrefix mat-icon-button>
+    <button matPrefix mat-icon-button>
       <mat-icon>search</mat-icon>
     </button>
     <div matSuffix class="flex-row">
       <mat-spinner mat-icon-button *ngIf="isSearchLoading$|async" diameter="15" color="accent"
                    style="margin-right: 10px"></mat-spinner>
-      <button mat-button *ngIf="orderFilterControl.value" aria-label="Clear" mat-icon-button
+      <button mat-icon-button *ngIf="orderFilterControl.value" aria-label="Clear"
               (click)="orderFilterControl.setValue('');">
         <mat-icon>close</mat-icon>
       </button>

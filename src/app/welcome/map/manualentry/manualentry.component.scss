@@ -1,11 +1,11 @@
 :host {
-  .mat-dialog-content {
+  .mat-mdc-dialog-content {
     display: flex;
     flex-direction: column;
     user-select: none;
     margin-top: 5px;
   }
-  .mat-dialog-actions {
+  .mat-mdc-dialog-actions {
     justify-content: space-between;
   }
   .cdk-drag-handle {

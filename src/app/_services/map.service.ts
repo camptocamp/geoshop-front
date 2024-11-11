@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ConfigService } from 'src/app/_services/config.service';
-import { MatLegacySnackBar as MatSnackBar, MatLegacySnackBarRef as MatSnackBarRef, LegacySimpleSnackBar as SimpleSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 
 // Openlayers imports
 import Map from 'ol/Map';
@@ -68,9 +68,9 @@ export class MapService {
   // Drawing
   private transformInteraction: Transform;
   private isDrawModeActivated = false;
-  private drawingSource: VectorSource<Geometry>;
-  private geocoderSource: VectorSource<Geometry>;
-  private drawingLayer: VectorLayer<VectorSource<Geometry>>;
+  private drawingSource: VectorSource<Feature<Geometry>>;
+  private geocoderSource: VectorSource<Feature<Geometry>>;
+  private drawingLayer: VectorLayer<VectorSource<Feature<Geometry>>>;
   private modifyInteraction: Modify;
   private drawInteraction: Draw;
   private featureFromDrawing: Feature<Geometry> | null;
@@ -140,7 +140,6 @@ export class MapService {
     }
     this.route.queryParamMap.subscribe(params => {
       this.initialExtent = params.get("initialExtent")?.split(",", -1).map(parseFloat) ?? this.configService.config!.initialExtent;
-      console.log(this.initialExtent);
       this.initializeMap().then(() => {
         this.initializeDrawing();
         this.initializeInteraction();

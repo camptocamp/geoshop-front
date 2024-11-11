@@ -2,18 +2,21 @@
   <!-- TODO where is this used -> needs translation if used-->
   <mat-card>
     <div *ngIf="!order">
-      <mat-card-title>GeoShop - Validation</mat-card-title>
+      <mat-card-header>
+        <mat-card-title>GeoShop - Validation</mat-card-title>
+      </mat-card-header>
       <mat-card-content>
         <mat-spinner class="flex" diameter="48" color="accent" style="margin-right: 10px"></mat-spinner>
       </mat-card-content>
     </div>
 
     <div *ngIf="order">
-
-      <mat-card-title>{{orderitem.product}} - à valider</mat-card-title>
-      <mat-card-subtitle>
-        Cette page permet d'autoriser ou d'annuler l'utilisation d'un produit commandé sur le geoshop.
-      </mat-card-subtitle>
+      <mat-card-header>
+        <mat-card-title>{{orderitem.product}} - à valider</mat-card-title>
+        <mat-card-subtitle>
+          Cette page permet d'autoriser ou d'annuler l'utilisation d'un produit commandé sur le geoshop.
+        </mat-card-subtitle>
+      </mat-card-header>
       <mat-card-content>
         <h4>Titre du mandat {{order.order_type | lowercase}}:</h4>
         <p>{{order.title}}</p>

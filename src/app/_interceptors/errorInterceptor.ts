@@ -1,4 +1,4 @@
-import {HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse} from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {AppState} from '../_store';
@@ -6,7 +6,7 @@ import {Store} from '@ngrx/store';
 import * as fromAuth from '../_store/auth/auth.action';
 import {catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {

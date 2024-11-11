@@ -2,7 +2,7 @@
   display: flex;
   height: calc(100vh - 64px);
 
-  .mat-card {
+  .mat-mdc-card {
     margin: 10px auto;
     flex: 1;
     max-width: 960px;
@@ -20,7 +20,7 @@
     display: flex;
     justify-content: flex-end;
 
-    .mat-button {
+    .mat-mdc-button {
       &:only-child {
         margin-right: auto;
       }

@@ -5,7 +5,7 @@
       <div mat-dialog-content>
         <mat-form-field>
           <mat-label>Format de la page</mat-label>
-          <mat-select [(ngModel)]="data.selectedPageFormat">
+          <mat-select [formControl]="data.selectedPageFormat">
             <mat-option *ngFor="let pageFormat of data.pageFormats" [value]="pageFormat">
               {{pageFormat.name}}
             </mat-option>
@@ -13,7 +13,7 @@
         </mat-form-field>
         <mat-form-field>
           <mat-label>Echelles</mat-label>
-          <mat-select [(ngModel)]="data.selectedPageFormatScale">
+          <mat-select [formControl]="data.selectedPageFormatScale">
             <mat-option *ngFor="let pageFormatScale of data.pageFormatScales" [value]="pageFormatScale">
               {{pageFormatScale}}
             </mat-option>
@@ -21,7 +21,7 @@
         </mat-form-field>
         <mat-form-field>
           <mat-label>Rotation</mat-label>
-          <input matInput type="number" min=0 max=360 [(ngModel)]="data.rotationPageFormat" value=0>
+          <input matInput type="number" min=0 max=360 [formControl]="data.rotationPageFormat" value=0>
         </mat-form-field>
       </div>
     </mat-tab>
@@ -29,19 +29,19 @@
       <div mat-dialog-content>
         <mat-form-field>
           <mat-label>Ouest (X min)</mat-label>
-          <input matInput type="number" min=2500000 max=2580000 [(ngModel)]="data.xMin">
+          <input matInput type="number" min=2500000 max=2580000 [formControl]="data.xMin">
         </mat-form-field>
         <mat-form-field>
           <mat-label>Sud (Y min)</mat-label>
-          <input matInput type="number" min=1180000 max=1240000 [(ngModel)]="data.yMin">
+          <input matInput type="number" min=1180000 max=1240000 [formControl]="data.yMin">
         </mat-form-field>
         <mat-form-field>
           <mat-label>Est (X max)</mat-label>
-          <input matInput type="number" min=2500000 max=2580000 [(ngModel)]="data.xMax">
+          <input matInput type="number" min=2500000 max=2580000 [formControl]="data.xMax">
         </mat-form-field>
         <mat-form-field>
           <mat-label>Nord (Y max)</mat-label>
-          <input matInput type="number" min=1180000 max=1240000 [(ngModel)]="data.yMax">
+          <input matInput type="number" min=1180000 max=1240000 [formControl]="data.yMax">
         </mat-form-field>
       </div>
     </mat-tab>

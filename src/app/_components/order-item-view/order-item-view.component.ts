@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { IOrderItem, Order } from '../../_models/IOrder';
-import { ApiOrderService } from '../../_services/api-order.service';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
-import { ConstantsService } from '../../constants.service';
+import {Component, Input, OnInit} from '@angular/core';
+import {IOrderItem, Order} from '../../_models/IOrder';
+import {ApiOrderService} from '../../_services/api-order.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ConstantsService} from '../../constants.service';
 import { HttpResponse } from '@angular/common/http';
 
 @Component({
@@ -18,7 +18,7 @@ export class OrderItemViewComponent implements OnInit {
   @Input() showAction = true;
 
   // Constants
-  readonly DOWNLAOD = ConstantsService.DOWNLAOD;
+  readonly DOWNLOAD = ConstantsService.DOWNLOAD;
 
   constructor(private apiOrderService: ApiOrderService,
     private snackBar: MatSnackBar) {

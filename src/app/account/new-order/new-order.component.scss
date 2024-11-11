@@ -21,12 +21,12 @@
         height: calc(100vh - 64px - 72px - 41px - 24px);
       }
 
-      .mat-form-field {
+      .mat-mdc-form-field {
         margin-top: 10px;
       }
     }
 
-    .mat-raised-button {
+    .mat-mdc-raised-button {
       margin-left: auto;
     }
   }
@@ -40,7 +40,7 @@
     color: white;
   }
 
-  .mat-card {
+  .mat-mdc-card {
     margin: 0 auto;
   }
 
@@ -105,7 +105,7 @@
         hyphens: auto;
       }
 
-      .mat-form-field {
+      .mat-mdc-form-field {
         width: 100%;
       }
     }

@@ -8,7 +8,7 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ConfigService} from './_services/config.service';
 import {CustomIconService} from './_services/custom-icon.service';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {AccountOverlayComponent} from './_components/account-overlay/account-overlay.component';
 import {HelpOverlayComponent} from './_components/help-overlay/help-overlay.component';
 import {MatRippleModule} from '@angular/material/core';
@@ -19,21 +19,22 @@ import {EffectsModule} from '@ngrx/effects';
 import {AuthEffects} from './_store/auth/auth.effects';
 import {reducers, metaReducers, AppState, getUser} from './_store';
 import {TokenInterceptor} from './_interceptors/tokenInterceptor';
-import {MatLegacyMenuModule as MatMenuModule} from '@angular/material/legacy-menu';
+import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
-import {MatLegacyDialogModule as MatDialogModule} from '@angular/material/legacy-dialog';
-import {MatLegacySnackBarModule as MatSnackBarModule} from '@angular/material/legacy-snack-bar';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ErrorInterceptor} from './_interceptors/errorInterceptor';
-import {MatLegacyTooltipModule as MatTooltipModule} from '@angular/material/legacy-tooltip';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {OverlayContainer} from '@angular/cdk/overlay';
 import {ActivatedRoute} from '@angular/router';
 import {CartEffects} from './_store/cart/cart.effects';
 import * as fromAuth from './_store/auth/auth.action';
 import {CommonModule} from '@angular/common';
 import { OidcAuthConfigModule } from './auth/oidc-auth-config.module';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 registerLocaleData(localeCH);
 
@@ -61,52 +62,47 @@ const MODULES = [
   MatTooltipModule
 ];
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    AccountOverlayComponent,
-    HelpOverlayComponent,
-    CartOverlayComponent,
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    MODULES,
-    StoreModule.forRoot(reducers, {metaReducers}),
-    EffectsModule.forRoot([AuthEffects, CartEffects]),
-    OidcAuthConfigModule
-  ],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeApp,
-      deps: [ConfigService, [new Inject(Store)]],
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor,
-      multi: true,
-    },
-    {
-      provide: LOCALE_ID,
-      useValue: 'fr-CH'
-    },
-    {
-      provide: DEFAULT_CURRENCY_CODE,
-      useValue: 'CHF'
-    },
-    CustomIconService
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        AccountOverlayComponent,
+        HelpOverlayComponent,
+        CartOverlayComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        MODULES,
+        StoreModule.forRoot(reducers, { metaReducers }),
+        EffectsModule.forRoot([AuthEffects, CartEffects]),
+        OidcAuthConfigModule], providers: [
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeApp,
+            deps: [ConfigService, [new Inject(Store)]],
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptor,
+            multi: true,
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorInterceptor,
+            multi: true,
+        },
+        {
+            provide: LOCALE_ID,
+            useValue: 'fr-CH'
+        },
+        {
+            provide: DEFAULT_CURRENCY_CODE,
+            useValue: 'CHF'
+        },
+        CustomIconService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideAnimationsAsync()
+    ] })
 export class AppModule {
   constructor(overlayContainer: OverlayContainer, route: ActivatedRoute) {
     route.queryParams.subscribe(res => {

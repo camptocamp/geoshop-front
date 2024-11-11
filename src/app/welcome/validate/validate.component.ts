@@ -2,7 +2,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import Map from 'ol/Map';
 import VectorSource from 'ol/source/Vector';
@@ -13,6 +13,7 @@ import { ApiOrderService } from '../../_services/api-order.service';
 import { ConfigService } from '../../_services/config.service';
 import { MapService } from '../../_services/map.service';
 import Geometry from 'ol/geom/Geometry';
+import { Feature } from 'ol';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class ValidateComponent implements OnInit, OnDestroy {
   order: Order;
   orderitem: OrderItem;
   minimap: Map;
-  vectorSource: VectorSource<Geometry>;
+  vectorSource: VectorSource<Feature<Geometry>>;
 
 
   constructor(
