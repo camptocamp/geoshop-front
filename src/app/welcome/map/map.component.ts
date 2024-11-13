@@ -11,29 +11,14 @@ import Feature from 'ol/Feature';
 import {MatDialog} from '@angular/material/dialog';
 import {ManualentryComponent} from './manualentry/manualentry.component';
 
-export const nameOfCategoryForGeocoder: { [prop: string]: string; } = {
-  neophytes: 'Plantes invasives',
-  search_satac: 'N° SATAC',
-  search_entree_sortie: 'Entrée/sortie autoroute',
-  rt16_giratoires: 'Giratoires',
-  batiments_ofs: 'Bâtiments regBL et n° egid',
-  axe_mistra: 'Routes et axes',
-  search_arrets_tp: 'Arrêts transports publics',
-  ImmeublesCantonHistorique: 'Biens-fonds historiques',
-  point_interet: 'Points d\'intérêt',
-  axe_rue: 'Axes et rues',
-  nom_local_lieu_dit: 'Noms locaux et lieux-dits',
-  search_cours_eau: 'Cours d\'eau',
-  ImmeublesCanton: 'Biens-fonds',
-  search_fo_administrations: 'Administrations forestières',
-  search_uap_publique: 'Unité d\'aménagement publique',
-  adresses_sitn: 'Adresses',
-  recenter_to: 'Recentrer sur',
-  localite: 'Localité',
-  search_fo09: 'Secours en forêt',
-  search_conc_hydr: 'Concessions hydrauliques',
-  communes: 'Communes',
-  cadastres: 'Cadastres',
+export const nameOfCategoryForGeocoder: { [prop: string]: string; } = { // TODO this should be translated
+  zipcode: 'Ortschaftenverzeichnis PLZ',
+  gg25: 'Gemeinden',
+  district: 'Bezirke',
+  kantone: 'Kantone',
+  gazetteer: 'OEV Haltestellen',
+  address: 'Adressen',
+  parcel: 'Parzellen',
 };
 
 @Component({
@@ -110,17 +95,12 @@ export class MapComponent implements OnInit {
           this.geocoderGroupOptions = [];
 
           for (const feature of features) {
-            const categoryId = feature.get('layer_name');
-            if (this.configService.config?.geocoderLayers) {
-              if (this.configService.config.geocoderLayers.indexOf(categoryId) < 0) {
-                continue;
-              }
-            }
+            const categoryId = feature.get('origin') || feature.get('origin') !== '' ? feature.get('origin') : 'Allgemein'; // TODO add to translation Allgemein
 
             let currentCategory = this.geocoderGroupOptions.find(x => x.id === categoryId);
             if (currentCategory) {
               currentCategory.items.push({
-                label: feature.get('label'),
+                label: this.mapService.stripHtmlTags(feature.get('label')),
                 feature
               });
             } else {
@@ -128,7 +108,7 @@ export class MapComponent implements OnInit {
                 id: categoryId,
                 label: nameOfCategoryForGeocoder[categoryId],
                 items: [{
-                  label: feature.get('label'),
+                  label: this.mapService.stripHtmlTags(feature.get('label')),
                   feature
                 }]
               };
