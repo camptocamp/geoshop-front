@@ -290,8 +290,12 @@ export class MapService {
       return of([]);
     }
     const url = new URL(urlText);
-    url.searchParams.append('partitionlimit', '10');
-    url.searchParams.append('query', inputText);
+    url.searchParams.append('searchText', inputText);
+    url.searchParams.append('limit', '5');  // TODO find a good limit or this
+    url.searchParams.append('geometryFormat', 'geojson');
+    url.searchParams.append('type', 'locations');
+    url.searchParams.append('sr', '2056');
+    url.searchParams.append('origins','district,gg25,parcel,address');
     return this.httpClient.get(url.toString()).pipe(
       map((featureCollectionData) => {
         const featureCollection = this.geoJsonFormatter.readFeatures(featureCollectionData);
@@ -301,6 +305,35 @@ export class MapService {
         return featureCollection;
       })
     );
+  }
+
+  public stripHtmlTags(html: string): string {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
+  }
+
+  public createPolygonFromBBOX(bboxString: string): Polygon {
+    const coords = bboxString
+      .replace('BOX(', '')
+      .replace(')', '')
+      .split(',')
+      .map(coord => coord.trim().split(' ').map(Number));
+
+    const [minX, minY] = coords[0];
+    const [maxX, maxY] = coords[1];
+    console.log(coords);
+    console.log(minX, minY, maxX, maxY);
+
+    const polygonCoords = [
+      [minX, minY],
+      [maxX, minY],
+      [maxX, maxY],
+      [minX, maxY],
+      [minX, minY]
+    ];
+
+    return new Polygon([polygonCoords]);
   }
 
   /**
@@ -323,9 +356,19 @@ export class MapService {
     let poly: Polygon;
     const geometry = feature.getGeometry();
     if (geometry instanceof Point) {
-      const text = boundingExtent([geometry.getCoordinates()]);
-      const bv = 50;
-      poly = fromExtent(buffer(text, bv));
+      // TODO if the BBOX is just a point
+      const bboxstring = feature.get('geom_st_box2d');
+
+      poly = this.createPolygonFromBBOX(bboxstring);
+      feature.setGeometry(poly);
+
+      this.drawingSource.addFeature(feature);
+      this.modifyInteraction.setActive(true);
+
+      this.map.getView().fit(poly, {
+        padding: [75, 75, 75, 75]
+      });
+
     } else {
       const originalExtent = feature.getGeometry()?.getExtent();
       if (originalExtent) {

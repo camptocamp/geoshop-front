@@ -109,26 +109,21 @@ export class MapComponent implements OnInit {
           this.shouldDisplayClearButton = true;
           this.geocoderGroupOptions = [];
 
-          for (const feature of features) {
-            const categoryId = feature.get('layer_name');
-            if (this.configService.config?.geocoderLayers) {
-              if (this.configService.config.geocoderLayers.indexOf(categoryId) < 0) {
-                continue;
-              }
-            }
+          for (const feature of features) { // TODO the following part needs to be adapted for the swiss topo API search
+            const categoryId = feature.get('objectclass');
 
             let currentCategory = this.geocoderGroupOptions.find(x => x.id === categoryId);
             if (currentCategory) {
               currentCategory.items.push({
-                label: feature.get('label'),
-                feature
+              label: categoryId, // TODO this should be a translated ctegory
+              feature
               });
             } else {
               currentCategory = {
-                id: categoryId,
-                label: nameOfCategoryForGeocoder[categoryId],
+                id: feature.get('objectclass'),
+                label: feature.get('objectclass'), // TODO this should be a translated ctegory
                 items: [{
-                  label: feature.get('label'),
+                  label: this.mapService.stripHtmlTags(feature.get('label')),
                   feature
                 }]
               };
@@ -143,7 +138,7 @@ export class MapComponent implements OnInit {
     return value.label;
   }
 
-  displayGeocoderResultOnTheMap(evt: MatAutocompleteSelectedEvent) {
+  displayGeocoderResultOnTheMap(evt: MatAutocompleteSelectedEvent) { // TODO this adds the feature from the auto complete on the map
     this.mapService.addFeatureFromGeocoderToDrawing(evt.option.value.feature);
     this.shouldDisplayClearButton = true;
   }
