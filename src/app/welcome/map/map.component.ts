@@ -11,29 +11,14 @@ import Feature from 'ol/Feature';
 import {MatDialog} from '@angular/material/dialog';
 import {ManualentryComponent} from './manualentry/manualentry.component';
 
-export const nameOfCategoryForGeocoder: { [prop: string]: string; } = {
-  neophytes: 'Plantes invasives',
-  search_satac: 'N° SATAC',
-  search_entree_sortie: 'Entrée/sortie autoroute',
-  rt16_giratoires: 'Giratoires',
-  batiments_ofs: 'Bâtiments regBL et n° egid',
-  axe_mistra: 'Routes et axes',
-  search_arrets_tp: 'Arrêts transports publics',
-  ImmeublesCantonHistorique: 'Biens-fonds historiques',
-  point_interet: 'Points d\'intérêt',
-  axe_rue: 'Axes et rues',
-  nom_local_lieu_dit: 'Noms locaux et lieux-dits',
-  search_cours_eau: 'Cours d\'eau',
-  ImmeublesCanton: 'Biens-fonds',
-  search_fo_administrations: 'Administrations forestières',
-  search_uap_publique: 'Unité d\'aménagement publique',
-  adresses_sitn: 'Adresses',
-  recenter_to: 'Recentrer sur',
-  localite: 'Localité',
-  search_fo09: 'Secours en forêt',
-  search_conc_hydr: 'Concessions hydrauliques',
-  communes: 'Communes',
-  cadastres: 'Cadastres',
+export const nameOfCategoryForGeocoder: { [prop: string]: string; } = { // TODO this should be translated
+  zipcode: 'Ortschaftenverzeichnis PLZ',
+  gg25: 'Gemeinden',
+  district: 'Bezirke',
+  kantone: 'Kantone',
+  gazetteer: 'OEV Haltestellen',
+  address: 'Adressen',
+  parcel: 'Parzellen',
 };
 
 @Component({
@@ -109,19 +94,19 @@ export class MapComponent implements OnInit {
           this.shouldDisplayClearButton = true;
           this.geocoderGroupOptions = [];
 
-          for (const feature of features) { // TODO the following part needs to be adapted for the swiss topo API search
-            const categoryId = feature.get('objectclass');
+          for (const feature of features) {
+            const categoryId = feature.get('origin') || feature.get('origin') !== '' ? feature.get('origin') : 'Allgemein'; // TODO add to translation Allgemein
 
             let currentCategory = this.geocoderGroupOptions.find(x => x.id === categoryId);
             if (currentCategory) {
               currentCategory.items.push({
-              label: categoryId, // TODO this should be a translated ctegory
-              feature
+                label: this.mapService.stripHtmlTags(feature.get('label')),
+                feature
               });
             } else {
               currentCategory = {
-                id: feature.get('objectclass'),
-                label: feature.get('objectclass'), // TODO this should be a translated ctegory
+                id: categoryId,
+                label: nameOfCategoryForGeocoder[categoryId],
                 items: [{
                   label: this.mapService.stripHtmlTags(feature.get('label')),
                   feature
@@ -138,7 +123,7 @@ export class MapComponent implements OnInit {
     return value.label;
   }
 
-  displayGeocoderResultOnTheMap(evt: MatAutocompleteSelectedEvent) { // TODO this adds the feature from the auto complete on the map
+  displayGeocoderResultOnTheMap(evt: MatAutocompleteSelectedEvent) {
     this.mapService.addFeatureFromGeocoderToDrawing(evt.option.value.feature);
     this.shouldDisplayClearButton = true;
   }

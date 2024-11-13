@@ -291,7 +291,7 @@ export class MapService {
     }
     const url = new URL(urlText);
     url.searchParams.append('searchText', inputText);
-    url.searchParams.append('limit', '5');  // TODO find a good limit or this
+    url.searchParams.append('limit', '5');  // TODO find a good limit for this
     url.searchParams.append('geometryFormat', 'geojson');
     url.searchParams.append('type', 'locations');
     url.searchParams.append('sr', '2056');
@@ -322,9 +322,6 @@ export class MapService {
 
     const [minX, minY] = coords[0];
     const [maxX, maxY] = coords[1];
-    console.log(coords);
-    console.log(minX, minY, maxX, maxY);
-
     const polygonCoords = [
       [minX, minY],
       [maxX, minY],
@@ -396,6 +393,7 @@ export class MapService {
       return;
     }
     const EPSG = this.configService.config.epsg || 'EPSG2056';
+    // TODO is this correct or is this cauing the projection shift -> check this
     proj4.defs(EPSG,
       '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333'
       + ' +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel '
