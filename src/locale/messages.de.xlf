@@ -623,6 +623,182 @@
           <context context-type="linenumber">29</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="login.pw_forgotten" datatype="html">
+        <source>Mot de passe oublié</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8c798fd058ea113beb5299140af0cb78f228e5a0" datatype="html">
+        <source>Inscription au GeoShop</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f225f1ef56189bacd405b1f18135b367fb0a5576" datatype="html">
+        <source>Une fois soumise, votre inscription sera contrôlée et validée par le SITN</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ab01d7da7e575d80c1a7dc662bc56ce70294aec9" datatype="html">
+        <source>Identifiants</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6765b4c916060f6bc42d9bb69e80377dbcb5e4e9" datatype="html">
+        <source>Login</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="508949b1c3344e14a84b3db2bba915761e476620" datatype="html">
+        <source>Identifiant déjà pris</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="df9d935c95f3e8eda64cfd0967fbb9cb358409e4" datatype="html">
+        <source>Mot de passe</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="208cd8305e230542d733f001398dc545e85f75d1" datatype="html">
+        <source>Confirmation du mot de passe</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4bc739bb719943ca5f639fa5d48380cf291c4ddc" datatype="html">
+        <source> Mot de passe différent </source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">31,33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="be2bc63e2cd1274d4e43b10423d6b8f6cd829584" datatype="html">
+        <source>Prénom</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="01afa66a69c6cf5671972200a4e4e2720815b344" datatype="html">
+        <source>Nom</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3d1ca149ef3415a4dc6c6102c62db928b2cff6fc" datatype="html">
+        <source>Courriel</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c34e20a0eb6652aedd651c9cfe3fc0c26b6fdc6c" datatype="html">
+        <source>Téléphone</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="095251e18316664f72427a9dcee50a8751a7ac3d" datatype="html">
+        <source>Nom de l&apos;entreprise</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="02e0f155af77a78fdf52162ce6e3929a0e287e97" datatype="html">
+        <source>N° IDE</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6ac03a1726b9d9ce9816d0a44c559dc458773523" datatype="html">
+        <source>Mauvais format du numéro IDE, accepté : CHE-012.345.678 </source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">97,98</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1b183c6fd6c8745f7016052eae1f1f7f122d869e" datatype="html">
+        <source>Adresse (utilisée pour la facturation)</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">103</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f9a56e980f6f92dd76a83b98fe559006495d5aa1" datatype="html">
+        <source>Date de naissance si adresse hors canton de Neuchâtel</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0e843aedab874e0f74ced4cd0d5e02cf58a40a69" datatype="html">
+        <source>En vous inscrivant sur le géoshop, vous vous soumettez aux conditions générales d&apos;utilisation</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">143</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f54f63ce77c1a6ed61ed2ed1c8d7a9951b0e3328" datatype="html">
+        <source>Ouvrir les conditions générales d&apos;utilisation</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">144</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="db0949a9948149ef4e62fdf42fc2ee5281f3c777" datatype="html">
+        <source>Remettre à zéro</source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">153</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="548f6a45c6e0afa80be451b16f92f6ba7f7e243c" datatype="html">
+        <source> Créer </source>
+        <target>DE: ---</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">158,159</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="2848e8f3d69e0f895e3935f2f92cade234ee3aeb" datatype="html">
         <source>Réinitialiser son mot de passe</source>
         <target>Passwort zurücksetzen</target>

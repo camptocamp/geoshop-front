@@ -34,14 +34,14 @@
         <source>S&apos;authentifier</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_components/account-overlay/account-overlay.component.html</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="account.create_account" datatype="html">
         <source>Créer un compte</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_components/account-overlay/account-overlay.component.html</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="cart.empty" datatype="html">
@@ -160,6 +160,17 @@
           <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="b85a13b6384860a0b330ff8b29ff1f89779f4b63" datatype="html">
+        <source>Dont TVA 8.1 %</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_components/order-item-view/order-item-view.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
+          <context context-type="linenumber">268</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="order.format" datatype="html">
         <source> Format</source>
         <context-group purpose="location">
@@ -209,186 +220,209 @@
           <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="fa00e1421e6d6789af990afebe0cbd76ae21db3e" datatype="html">
+        <source>Renseigner une courte description du mandat...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="a6979d1d2366eff97c4ed5ac1b4b7966ba2620b9" datatype="html">
         <source>Votre référence reportée sur la facture</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f754b702397fe306ba6f9a35380489c127fc9d7b" datatype="html">
+        <source>Choisir l&apos;email de livraison</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="82336380104b44b9f6ffd944b18581e0df8ee4d8" datatype="html">
         <source>Les données seront envoyées à l&apos;adresse email de l&apos;utilisateur courant: <x id="INTERPOLATION" equiv-text="{{(currentUser$|async)?.email}}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">45,46</context>
+          <context context-type="linenumber">47,48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="45276644993a243f5ee2db9bbecab8b394b3b704" datatype="html">
         <source>Adresse de livraison des données différente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9aba3a673d5879a7673129949ba76e6edc64ae8f" datatype="html">
         <source>Saisir l&apos;adresse email de livraison</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">51</context>
+          <context context-type="linenumber">53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b31a40b4c92eaa780488985d8394d3722f8d5518" datatype="html">
         <source>Adresse email non valide</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ec909904e183423b3459cde71d47adebdcf34d18" datatype="html">
         <source>Facturation / Tiers</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1a980ed1c52b04484b874f8c92ebfc7ff202d169" datatype="html">
         <source>La facturation est adressée à l&apos;utilisateur courant: <x id="INTERPOLATION" equiv-text="{{(currentUser$|async)?.username}}"/> (<x id="INTERPOLATION_1" equiv-text="{{(currentUser$|async)?.email}}"/>)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">69,70</context>
+          <context context-type="linenumber">71,72</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fe02a25e2d95aaf7e73c099289e2f99d4d379660" datatype="html">
         <source>La facturation est adressée à un mandant</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">71</context>
+          <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5c839344200383e0ae0d32a81e464c338d292d45" datatype="html">
         <source>Vous devez spécifier les informations de contact du tiers pour un mandat de type <x id="INTERPOLATION" equiv-text="{{ orderFormGroup.get(&apos;orderType&apos;)?.value?.name | lowercase }}"/>.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">75,76</context>
+          <context context-type="linenumber">77,78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b36745cef500d283ac3cda4a1abfabf848bc3e92" datatype="html">
         <source>Courriel mandant</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">160</context>
+          <context context-type="linenumber">159</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b39eaa79a930a8a7e02414a66aa20e2f4ce211c7" datatype="html">
         <source>Numéro d’identification des entreprises (IDE)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">178</context>
+          <context context-type="linenumber">177</context>
         </context-group>
       </trans-unit>
       <trans-unit id="new-order.bad_IDE_format" datatype="html">
         <source>Mauvais format du numéro IDE, accepté : CHE-012.345.678</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">180</context>
+          <context context-type="linenumber">179</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e4ffe798cbb859b9801a58dd9ff1a52385e28a15" datatype="html">
         <source>Téléphone mandant</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">185</context>
+          <context context-type="linenumber">184</context>
         </context-group>
       </trans-unit>
       <trans-unit id="71134e1f8e386768460814d4d54b826ea9e1790a" datatype="html">
         <source>Adresse</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">200</context>
+          <context context-type="linenumber">199</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a76e7d5ee693cf3d9b2bd738ac5062c457a6dd2e" datatype="html">
         <source>Complément d&apos;adresse</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">205</context>
+          <context context-type="linenumber">204</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">109</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f61844fc6aac98f584eb5f115b7a9d210c18ce29" datatype="html">
         <source>Code postal</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">210</context>
+          <context context-type="linenumber">209</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">114</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b55c73c9a72989148ce4b995834ff07c999bd717" datatype="html">
         <source>Ville</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">215</context>
+          <context context-type="linenumber">214</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">120</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b619ba2da27be97b7ce282010ecd62dedb8ca431" datatype="html">
         <source>Pays</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">220</context>
+          <context context-type="linenumber">219</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">125</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0a307552c4bcc25561c74e97e69070ae539a335b" datatype="html">
         <source>Aperçu de la commande</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">244</context>
+          <context context-type="linenumber">243</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c636dac74a6334afdb5a46b0f00d3eab112ac86a" datatype="html">
         <source> Description / Disponibilité </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">252,254</context>
+          <context context-type="linenumber">251,253</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6a2ba9564b69d972da37a12b9585bcf695840b7b" datatype="html">
         <source> Un ou plusieurs produits commandés doivent être devisés préalablement.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> N&apos;hésitez pas à demander gratuitement votre devis sans engagement.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> Vous pourrez ensuite définitevement valider votre commande. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">259,263</context>
+          <context context-type="linenumber">258,262</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c89e723452bbac4e2efcba2d065cfa270b69157c" datatype="html">
         <source>Frais de traitement</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">266</context>
+          <context context-type="linenumber">265</context>
         </context-group>
       </trans-unit>
       <trans-unit id="85cb84b6f88dadcd6440896192d753ca27820f71" datatype="html">
         <source>Total TTC</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">267</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="b85a13b6384860a0b330ff8b29ff1f89779f4b63" datatype="html">
-        <source>Dont TVA 8.1 %</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">269</context>
+          <context context-type="linenumber">266</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1247d29f880201e6abc4d51cd3d370bd42c881f0" datatype="html">
         <source>Même format pour tous les produits</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">277</context>
+          <context context-type="linenumber">276</context>
         </context-group>
       </trans-unit>
       <trans-unit id="21fded46b491c78ba3517620dccc07ea6bb4054e" datatype="html">
         <source>Prix</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">304</context>
+          <context context-type="linenumber">303</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4359053901144852078" datatype="html">
@@ -396,6 +430,20 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
           <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7079597122499354381" datatype="html">
+        <source>Acheter maintenant</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8353026757372386829" datatype="html">
+        <source>Demander un devis</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
+          <context context-type="linenumber">102</context>
         </context-group>
       </trans-unit>
       <trans-unit id="order.delete" datatype="html">
@@ -487,7 +535,7 @@
         <source>GeoShop - Authentification</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/forget/forget.component.html</context>
-          <context context-type="linenumber">2</context>
+          <context context-type="linenumber">3</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/reset/reset.component.html</context>
@@ -498,63 +546,210 @@
         <source>Mot de passe oublié</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/forget/forget.component.html</context>
-          <context context-type="linenumber">3</context>
+          <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
       <trans-unit id="main.info" datatype="html">
         <source>info</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/forget/forget.component.html</context>
-          <context context-type="linenumber">6</context>
+          <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="auth.forgot_pw" datatype="html">
         <source> Veuillez saisir le courriel correspondant à votre compte et un lien vous sera envoyé pour mettre à jour votre mot de passe. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/forget/forget.component.html</context>
-          <context context-type="linenumber">7,11</context>
+          <context context-type="linenumber">9,13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="auth.required" datatype="html">
         <source>Requis</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/forget/forget.component.html</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">19</context>
         </context-group>
       </trans-unit>
       <trans-unit id="auth.mail_awaiting" datatype="html">
         <source>Courriel attendu</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/forget/forget.component.html</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="main.send" datatype="html">
         <source> Envoyer </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/forget/forget.component.html</context>
-          <context context-type="linenumber">22,24</context>
+          <context context-type="linenumber">24,26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.auth_title" datatype="html">
         <source>GeoShop - Authentification</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
-          <context context-type="linenumber">2</context>
+          <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.login_oidc" datatype="html">
         <source> Login with Zitadel </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
-          <context context-type="linenumber">27,29</context>
+          <context context-type="linenumber">29,31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.pw_forgotten" datatype="html">
         <source>Mot de passe oublié</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8c798fd058ea113beb5299140af0cb78f228e5a0" datatype="html">
+        <source>Inscription au GeoShop</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f225f1ef56189bacd405b1f18135b367fb0a5576" datatype="html">
+        <source>Une fois soumise, votre inscription sera contrôlée et validée par le SITN</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ab01d7da7e575d80c1a7dc662bc56ce70294aec9" datatype="html">
+        <source>Identifiants</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6765b4c916060f6bc42d9bb69e80377dbcb5e4e9" datatype="html">
+        <source>Login</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="508949b1c3344e14a84b3db2bba915761e476620" datatype="html">
+        <source>Identifiant déjà pris</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="df9d935c95f3e8eda64cfd0967fbb9cb358409e4" datatype="html">
+        <source>Mot de passe</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="208cd8305e230542d733f001398dc545e85f75d1" datatype="html">
+        <source>Confirmation du mot de passe</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4bc739bb719943ca5f639fa5d48380cf291c4ddc" datatype="html">
+        <source> Mot de passe différent </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">31,33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="be2bc63e2cd1274d4e43b10423d6b8f6cd829584" datatype="html">
+        <source>Prénom</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="01afa66a69c6cf5671972200a4e4e2720815b344" datatype="html">
+        <source>Nom</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3d1ca149ef3415a4dc6c6102c62db928b2cff6fc" datatype="html">
+        <source>Courriel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c34e20a0eb6652aedd651c9cfe3fc0c26b6fdc6c" datatype="html">
+        <source>Téléphone</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="095251e18316664f72427a9dcee50a8751a7ac3d" datatype="html">
+        <source>Nom de l&apos;entreprise</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="02e0f155af77a78fdf52162ce6e3929a0e287e97" datatype="html">
+        <source>N° IDE</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6ac03a1726b9d9ce9816d0a44c559dc458773523" datatype="html">
+        <source>Mauvais format du numéro IDE, accepté : CHE-012.345.678 </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">97,98</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1b183c6fd6c8745f7016052eae1f1f7f122d869e" datatype="html">
+        <source>Adresse (utilisée pour la facturation)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">103</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f9a56e980f6f92dd76a83b98fe559006495d5aa1" datatype="html">
+        <source>Date de naissance si adresse hors canton de Neuchâtel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0e843aedab874e0f74ced4cd0d5e02cf58a40a69" datatype="html">
+        <source>En vous inscrivant sur le géoshop, vous vous soumettez aux conditions générales d&apos;utilisation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">143</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f54f63ce77c1a6ed61ed2ed1c8d7a9951b0e3328" datatype="html">
+        <source>Ouvrir les conditions générales d&apos;utilisation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">144</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="db0949a9948149ef4e62fdf42fc2ee5281f3c777" datatype="html">
+        <source>Remettre à zéro</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">153</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="548f6a45c6e0afa80be451b16f92f6ba7f7e243c" datatype="html">
+        <source> Créer </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
+          <context context-type="linenumber">158,159</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2848e8f3d69e0f895e3935f2f92cade234ee3aeb" datatype="html">
@@ -775,32 +970,32 @@
           <context context-type="linenumber">87,89</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="326c7fd92feb74d2bafff7d0e5c4c521b33f6e66" datatype="html">
+      <trans-unit id="69d89a5deefcde8d93c5deb9071274accdc46740" datatype="html">
         <source>GeoShop - <x id="INTERPOLATION" equiv-text="{{ DOWNLOAD }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/download/download.component.html</context>
-          <context context-type="linenumber">5</context>
+          <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ffb93609ac760be90dc5cf4d42ec7552b3ebdec4" datatype="html">
+      <trans-unit id="27f55a83f4598e0b06a98fba72e542457e1174a0" datatype="html">
         <source> Commande du <x id="INTERPOLATION" equiv-text="{{order.date_ordered | date}}"/>.<x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-ellipsis-2&quot;&gt;"/><x id="INTERPOLATION_1" equiv-text="{{order.description}}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/download/download.component.html</context>
-          <context context-type="linenumber">14,15</context>
+          <context context-type="linenumber">15,16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c7cd7f4f60d186332cf75d7b6258547279e0c3a0" datatype="html">
         <source>Votre commande n&apos;est plus disponible.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/download/download.component.html</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="90fc48ee672e421aeecabfc1afae279dfb12bcbf" datatype="html">
         <source>Les liens de téléchargement ne sont valables que pendant un mois. <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> N&apos;hésitez pas à nous contacter si vous souhaitez une nouvelle extraction.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/download/download.component.html</context>
-          <context context-type="linenumber">27,28</context>
+          <context context-type="linenumber">29,30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a5dd139cda95e1f79ce82badbaa71b9cbe738c8e" datatype="html">
