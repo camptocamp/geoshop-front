@@ -24,7 +24,7 @@ import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import Point from 'ol/geom/Point';
 import GeoJSON from 'ol/format/GeoJSON';
 import Projection from 'ol/proj/Projection';
-import { boundingExtent, buffer, getArea } from 'ol/extent';
+import { boundingExtent, buffer, Extent, getArea } from 'ol/extent';
 import MultiPoint from 'ol/geom/MultiPoint';
 import { fromLonLat } from 'ol/proj';
 import KML from 'ol/format/KML';
@@ -138,24 +138,28 @@ export class MapService {
       // @ts-ignore
       this.map = null;
     }
-    this.route.queryParamMap.subscribe(params => {
-      this.initialExtent = params.get("initialExtent")?.split(",", -1).map(parseFloat) ?? this.configService.config!.initialExtent;
-      this.initializeMap().then(() => {
-        this.initializeDrawing();
-        this.initializeInteraction();
-        this.initializeDragInteraction();
-        this.initializeDelKey();
-        this.store.select(selectOrder).subscribe(order => {
-          if (!this.featureFromDrawing && order && order.geom) {
-            const geometry = this.geoJsonFormatter.readGeometry(order.geom);
-            const feature = new Feature(geometry);
-            this.drawingSource.addFeature(feature);
-          }
-        });
-
-        this.initialized = true;
-      }).catch(() => {
-        this.initialized = true;
+    this.initialExtent = this.configService.config!.initialExtent;
+    this.initializeMap().then(() => {
+      this.initializeDrawing();
+      this.initializeInteraction();
+      this.initializeDragInteraction();
+      this.initializeDelKey();
+      this.store.select(selectOrder).subscribe(order => {
+        if (!this.featureFromDrawing && order && order.geom) {
+          const geometry = this.geoJsonFormatter.readGeometry(order.geom);
+          const feature = new Feature(geometry);
+          this.drawingSource.addFeature(feature);
+        }
+      });
+      this.initialized = true;
+    }).catch(() => {
+      this.initialized = true;
+    }).then(() => {
+      this.route.queryParamMap.subscribe(params => {
+        const bounds = params.get("bounds")?.split(",", -1).map(parseFloat)
+        if (bounds) {
+          this.map.getView().fit(new Polygon([[[bounds[0], bounds[1]], [bounds[2], bounds[3]]]]));
+        }
       });
     });
   }
@@ -295,7 +299,7 @@ export class MapService {
     url.searchParams.append('geometryFormat', 'geojson');
     url.searchParams.append('type', 'locations');
     url.searchParams.append('sr', '2056');
-    url.searchParams.append('origins','district,gg25,parcel,address');
+    url.searchParams.append('origins', 'district,gg25,parcel,address');
     return this.httpClient.get(url.toString()).pipe(
       map((featureCollectionData) => {
         const featureCollection = this.geoJsonFormatter.readFeatures(featureCollectionData);
