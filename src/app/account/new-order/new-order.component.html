@@ -28,6 +28,7 @@
         <mat-label i18n>Description du mandat</mat-label>
         <textarea matInput
                   formControlName="description"
+                  i18n-placeholder
                   placeholder="Renseigner une courte description du mandat..."></textarea>
         <mat-error *ngIf="orderFormGroup.get('description')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
@@ -41,6 +42,7 @@
       <!-- Email for delivery -->
       <mat-radio-group class="flex-column"
                       formControlName="emailDeliverChoice"
+                      i18n-aria-label
                       aria-label="Choisir l'email de livraison">
       <mat-radio-button value="1" i18n>Les données seront envoyées à l'adresse email de
         l'utilisateur courant: {{(currentUser$|async)?.email}}</mat-radio-button>

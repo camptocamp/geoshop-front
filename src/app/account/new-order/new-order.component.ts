@@ -98,8 +98,8 @@ export class NewOrderComponent implements OnInit, OnDestroy {
 
   get buttonConfirmLabel() {
     return this.currentOrder.items.every(x => x.price_status !== 'PENDING') ?
-      'Acheter maintenant' :
-      'Demander un devis';
+      $localize`Acheter maintenant` :
+      $localize`Demander un devis`;
   }
 
   get isOrderHasPendingItem() {
