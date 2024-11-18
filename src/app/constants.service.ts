@@ -32,4 +32,9 @@ export class ConstantsService {
     // CONFIRM_REQUEST: $localize `:@@order.rejected:Rejected`, // TODO: looks not used
     UNKNOWN: $localize `:@@order.unkown:Etat inconnu`
   };
+
+  static ORDER_NAME = {
+    PUBLIC: $localize `:@@order.public:Public`,
+    PRIVATE: $localize `:@@order.private:Privé`
+  }
 }

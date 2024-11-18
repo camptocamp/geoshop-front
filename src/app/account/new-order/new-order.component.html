@@ -8,7 +8,7 @@
         <mat-select formControlName="orderType" required (selectionChange)="clearForms()"
                     [compareWith]="orderTypeCompareWith">
           <mat-option *ngFor="let orderType of orderTypes" [value]="orderType">
-            {{orderType.name}}
+            {{getLocalizedTypeName(orderType)}}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="orderFormGroup.get('orderType')?.hasError('required')">{{ REQUIRED }}</mat-error>

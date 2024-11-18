@@ -1,26 +1,26 @@
-import {Component, HostBinding, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {ApiService} from '../../_services/api.service';
-import {PHONE_REGEX, IDE_REGEX, EMAIL_REGEX, EXTRACT_FORBIDDEN_REGEX} from '../../_helpers/regex';
-import {Observable, Subject} from 'rxjs';
-import {IIdentity} from '../../_models/IIdentity';
-import {debounceTime, filter, map, mergeMap, startWith, switchMap, takeUntil} from 'rxjs/operators';
-import {IProduct} from '../../_models/IProduct';
-import {select, Store} from '@ngrx/store';
-import {AppState, getUser, selectOrder, selectAllProduct} from '../../_store';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
-import {IOrder, IOrderType, Order, IOrderItem} from '../../_models/IOrder';
-import {ApiOrderService} from '../../_services/api-order.service';
-import {MatStepper} from '@angular/material/stepper';
-import {StoreService} from '../../_services/store.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {Contact, IContact} from '../../_models/IContact';
-import {Router} from '@angular/router';
+import { Component, HostBinding, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { ApiService } from '../../_services/api.service';
+import { PHONE_REGEX, IDE_REGEX, EMAIL_REGEX, EXTRACT_FORBIDDEN_REGEX } from '../../_helpers/regex';
+import { Observable, Subject } from 'rxjs';
+import { IIdentity } from '../../_models/IIdentity';
+import { debounceTime, filter, map, mergeMap, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { IProduct } from '../../_models/IProduct';
+import { select, Store } from '@ngrx/store';
+import { AppState, getUser, selectOrder, selectAllProduct } from '../../_store';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { IOrder, IOrderType, Order, IOrderItem } from '../../_models/IOrder';
+import { ApiOrderService } from '../../_services/api-order.service';
+import { MatStepper } from '@angular/material/stepper';
+import { StoreService } from '../../_services/store.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Contact, IContact } from '../../_models/IContact';
+import { Router } from '@angular/router';
 import * as fromCart from '../../_store/cart/cart.action';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {ConfirmDialogComponent} from '../../_components/confirm-dialog/confirm-dialog.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../_components/confirm-dialog/confirm-dialog.component';
 import { ConstantsService } from 'src/app/constants.service';
 
 @Component({
@@ -33,7 +33,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject<boolean>();
 
   @HostBinding('class') class = 'main-container';
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('stepper') stepper: MatStepper;
 
   // constants
@@ -42,7 +42,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   readonly WRONG_PHONE = ConstantsService.WRONG_PHONE;
   readonly NEXT = ConstantsService.NEXT;
   readonly PREVIOUS = ConstantsService.PREVIOUS;
-  readonly BACK: string = $localize `Réinitialiser`;
+  readonly BACK: string = $localize`Réinitialiser`;
 
 
   orderFormGroup: UntypedFormGroup;
@@ -73,7 +73,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   get IsOrderTypePrivate() {
-    return this.orderFormGroup?.get('orderType')?.value?.name === ConstantsService.ORDERTYPE_PRIVATE;
+    return this.orderFormGroup?.get('orderType')?.value?.name.startsWith('Priv');
   }
 
   get orderTypeCtrl() {
@@ -109,13 +109,13 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   constructor(private formBuilder: UntypedFormBuilder,
-              private apiOrderService: ApiOrderService,
-              private apiService: ApiService,
-              private storeService: StoreService,
-              private snackBar: MatSnackBar,
-              private router: Router,
-              private store: Store<AppState>,
-              private dialog: MatDialog) {
+    private apiOrderService: ApiOrderService,
+    private apiService: ApiService,
+    private storeService: StoreService,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private store: Store<AppState>,
+    private dialog: MatDialog) {
 
     this.createForms();
   }
@@ -130,7 +130,10 @@ export class NewOrderComponent implements OnInit, OnDestroy {
 
     this.apiOrderService.getOrderTypes()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(orderTypes => this.orderTypes = orderTypes);
+      .subscribe(orderTypes => {
+        console.log(orderTypes);
+        this.orderTypes = orderTypes;
+      });
 
     this.filteredCustomers$ = this.contactFormGroup.get('customer')?.valueChanges.pipe(
       debounceTime(500),
@@ -151,7 +154,6 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       select(selectOrder),
       switchMap(x => this.apiOrderService.getFullOrder(x)),
     ).subscribe(order => {
-      console.log("HERE: " + order);
       if (order) {
         this.currentOrder = order;
         this.updateForms(this.currentOrder);
@@ -220,7 +222,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     });
     this.orderTypeCtrl?.valueChanges.subscribe(
       (choice) => {
-        if (choice.name === ConstantsService.ORDERTYPE_PRIVATE) {
+        if (choice.name === ConstantsService.ORDER_NAME.PRIVATE) {
           this.addressChoiceCtrl?.setValue('1');
         } else {
           this.addressChoiceCtrl?.setValue('2');
@@ -324,9 +326,9 @@ export class NewOrderComponent implements OnInit, OnDestroy {
 
       if (item.data_format && item.available_formats &&
         item.available_formats.indexOf(item.data_format) > -1) {
-          itemFormControl.setValue(item.data_format);
-        }
+        itemFormControl.setValue(item.data_format);
       }
+    }
 
     // create table source only on order PUT, don't refresh table on PATCH
     if (this.isOrderPatchLoading) {
@@ -498,22 +500,22 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     if (this.currentOrder.id === -1) {
       this.currentOrder.invoiceContact = invoiceContact;
       this.apiOrderService.createOrder(this.currentOrder.toPostAsJson, invoiceContact, this.IsAddressForCurrentUser)
-      .subscribe(newOrder => {
-        if (newOrder) {
-          this.resetCustomerForm();
-          this.storeService.addOrderToStore(new Order(newOrder as IOrder));
-          this.stepper.next();
-        }
-      });
+        .subscribe(newOrder => {
+          if (newOrder) {
+            this.resetCustomerForm();
+            this.storeService.addOrderToStore(new Order(newOrder as IOrder));
+            this.stepper.next();
+          }
+        });
     } else {
       this.apiOrderService.updateOrder(this.currentOrder, invoiceContact, this.IsAddressForCurrentUser)
-      .subscribe(newOrder => {
-        if (newOrder) {
-          this.resetCustomerForm();
-          this.storeService.addOrderToStore(new Order(newOrder as IOrder));
-          this.stepper.next();
-        }
-      });
+        .subscribe(newOrder => {
+          if (newOrder) {
+            this.resetCustomerForm();
+            this.storeService.addOrderToStore(new Order(newOrder as IOrder));
+            this.stepper.next();
+          }
+        });
     }
   }
 
@@ -610,5 +612,15 @@ export class NewOrderComponent implements OnInit, OnDestroy {
         dialogRef = null;
       });
     }
+  }
+
+  public getLocalizedTypeName(type: IOrderType): string {
+    switch (type.name) {
+      case 'Privé':
+        return ConstantsService.ORDER_NAME.PRIVATE;
+      case 'Public':
+        return ConstantsService.ORDER_NAME.PUBLIC;
+    };
+    return type.name;
   }
 }

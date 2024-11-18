@@ -81,32 +81,18 @@
           <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="help.pricing" datatype="html">
-        <source> Informations sur la tarificatio </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/_components/help-overlay/help-overlay.component.html</context>
-          <context context-type="linenumber">9,11</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="help.conditions" datatype="html">
-        <source> Conditions d&apos;utilisation </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/_components/help-overlay/help-overlay.component.html</context>
-          <context context-type="linenumber">14,16</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="b6b06490c915e07bc8ba7c88177574efa714af32" datatype="html">
         <source>Avez-vous des questions ?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_components/help-overlay/help-overlay.component.html</context>
-          <context context-type="linenumber">19</context>
+          <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="main.phone" datatype="html">
         <source>phone</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_components/help-overlay/help-overlay.component.html</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">16</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/profile.component.html</context>
@@ -121,7 +107,7 @@
         <source>email</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_components/help-overlay/help-overlay.component.html</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">23</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/profile.component.html</context>
@@ -890,6 +876,20 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.service.ts</context>
           <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="order.public" datatype="html">
+        <source>Public</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/constants.service.ts</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="order.private" datatype="html">
+        <source>Privé</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/constants.service.ts</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="catalog_productSearch" datatype="html">

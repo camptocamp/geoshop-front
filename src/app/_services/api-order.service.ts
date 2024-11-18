@@ -8,6 +8,7 @@ import { catchError, flatMap, map } from 'rxjs/operators';
 import { Contact, IContact } from '../_models/IContact';
 import { GeoshopUtils } from '../_helpers/GeoshopUtils';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConstantsService } from '../constants.service';
 
 
 @Injectable({
@@ -244,7 +245,7 @@ export class ApiOrderService {
       );
   }
 
-  public downloadResult(guid: string): Observable<HttpResponse<Blob|null>> {
+  public downloadResult(guid: string): Observable<HttpResponse<Blob | null>> {
     this._getApiUrl();
     const url = new URL(`${this.apiUrl}/download/${guid}/result`);
     return this.http.get(url.toString(), {

@@ -959,6 +959,22 @@
           <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="order.public" datatype="html">
+        <source>Public</source>
+        <target>Öffentlich</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/constants.service.ts</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="order.private" datatype="html">
+        <source>Privé</source>
+        <target>Privat</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/constants.service.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="catalog_productSearch" datatype="html">
         <source>Rechercher un produit...</source>
         <target>Suche nach Produkt...</target>
