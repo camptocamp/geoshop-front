@@ -33,6 +33,7 @@ export class GeoHelper {
   }
 
   public static async generateMiniMap(configService: ConfigService, mapService: MapService) {
+    mapService.initialize();
     const EPSG = configService.config?.epsg || 'EPSG:2056';
     if (!mapService.FirstBaseMapLayer) {
       proj4.defs(EPSG,
@@ -63,7 +64,7 @@ export class GeoHelper {
     });
 
     const baseMapConfig = configService.config?.basemaps[0];
-    
+
     let layers;
     if (baseMapConfig) {
       const tileLayer = await mapService.createTileLayer(baseMapConfig, true);
