@@ -8,7 +8,6 @@ import {ICredentials, IIdentity} from '../_models/IIdentity';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {IMetadata} from '../_models/IMetadata';
 import {IUser, IUserChangeResponse, IUserToPost} from '../_models/IUser';
-import { LoginResponse } from 'angular-auth-oidc-client';
 
 @Injectable({
   providedIn: 'root'
