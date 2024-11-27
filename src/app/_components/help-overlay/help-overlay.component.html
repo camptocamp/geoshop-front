@@ -6,6 +6,18 @@
   </div>
 </a>
 
+<a *ngIf="tariffsUrl" color="primary" mat-button href="{{tariffsUrl}}" target="_blank">
+  <div class="flex-row" i18n>
+    Informations sur la tarification
+  </div>
+</a>
+
+<a *ngIf="conditionsUrl" color="primary" mat-button href="{{conditionsUrl}}" target="_blank">
+  <div class="flex-row" i18n>
+    Conditions d'utilisation
+  </div>
+</a>
+
 <!-- TODO: add links to the pricing document -->
 <!-- TODO: add links to the usage conditions -->
 <hr>
