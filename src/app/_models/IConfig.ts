@@ -16,7 +16,11 @@ export interface IConfig {
   baseMapUrl: string;
   geocoderUrl: string;
   geocoderLayers: string[];
-  contact: { phone: { label: string; number: string }; email: string; };
+  contact: {
+    links: {conditions: string; tariffs:string;};
+    phone: { label: string; number: string };
+    email: string;
+  };
   basemaps: Array<IBasemap>;
   initialCenter: number[];
   initialExtent: number[];
