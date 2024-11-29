@@ -691,26 +691,28 @@ msgstr ""
 
 #: api/templates/email_admin.html:4
 msgid "Dear administrator,"
-msgstr ""
+msgstr "Lieber Administrator,"
 
 #: api/templates/email_admin.html:27
 msgid "Cet email vous a été envoyé car vous êtes administrateur du Geoshop."
-msgstr ""
+msgstr "Diese e-Mail wurde Ihnen zugestellt, da Sie Administrator des GeoShops sind.""
 
 #: api/templates/email_base_template.html:92
 msgid "Dear user,"
-msgstr ""
+msgstr "Lieber Anwender,"
 
 #: api/templates/email_base_template.html:103
 msgid ""
 "This is an automated email, please do not reply. For any question, feel free "
 "to contact us at"
 msgstr ""
+"Dies ist eine automatisierte e-Mail, bitte antworten Sie nicht direkt auf diese e-Mail."
+" Bei Fragen kontaktieren Sie uns bitte unter:"
 
 #: api/templates/email_download_ready.html:4
 #, python-format
 msgid " L'extraction pour la commande n°%(order_id)s a été réalisée. "
-msgstr ""
+msgstr " Die Daten für den Autrag n°%(order_id) wurden bereit gestellt. ""
 
 #: api/templates/email_download_ready.html:6
 msgid ""
@@ -718,12 +720,17 @@ msgid ""
 "section \"Mes commandes\"\n"
 "        ou en cliquant directement sur ce lien: "
 msgstr ""
+" Öffnen Sie den GeoShop und laden Sie die bestellten Produkte im "
+"Abschnitt \"Meine Bestellungen\"\n"
+"          oder durch Klick auf folgende Adresse: "
 
 #: api/templates/email_download_ready.html:13
 msgid ""
 "Veuillez prendre note que les liens de téléchargement ne sont disponibles "
 "que pendant 1 mois."
 msgstr ""
+"Bitte beachten Sie das die bestellten Produkte nur während "
+"einem Monat herunter geladen werden können."
 
 #: api/templates/email_password_reset.html:4
 #, python-format
@@ -731,25 +738,29 @@ msgid ""
 "You're receiving this email because you requested a password reset for your "
 "user account at %(site_name)s."
 msgstr ""
+"Sie erhalten diese e-Mail, da Sie eine Passwort zurücksetzen Anfrage für Ihren "
+"Zugang bei %(site_name) erstellt haben."
 
 #: api/templates/email_password_reset.html:6
 msgid "Please go to the following page and choose a new password:"
-msgstr ""
+msgstr "Bitte gehen Sie zu folgender Seite and wählen ein neues Passwort:""
 
 #: api/templates/email_password_reset.html:10
 msgid "Your username, in case you’ve forgotten:"
-msgstr ""
+msgstr "Ihr Benutzername:""
 
 #: api/templates/email_quote_done.html:4
 #, python-format
 msgid "Le devis pour la commande n°%(order_id)s a été réalisé."
-msgstr ""
+msgstr "Das Angebot für die Bestellung Nr. (order_id) wurde erstellt."
 
 #: api/templates/email_quote_done.html:5
 msgid ""
 "Connectez-vous sur le géoshop et confirmez ou annulez votre commande dans la "
 "section \\"
 msgstr ""
+"Öffnen Sie den GeoShop und bestätigen oder stornieren Sie Ihre Bestellung im "
+"Abschnitt \\"
 
 #: api/templates/email_user_change.html:3
 msgid ""
@@ -762,24 +773,35 @@ msgid ""
 "effectuées.\n"
 "        </p>\n"
 msgstr ""
+"\n"
+"        <p>Ihre Änderung wurde an die Administratoren des "
+"Geoshops gesendet.</p>\n"
+"        <p>\n"
+"          Diese wird geprüft und baldmöglichst übernommen.\n"
+"          Sie werden per e-Mail informiert, sobald die Änderung durchgeführt "
+"wurde.\n"
+"        </p>\n"
+
 
 #: api/templates/email_user_footer.html:4
 msgid "Cet email est adressé à"
-msgstr ""
+msgstr "Diese e-Mail wird gesendet an"
 
 #: api/templates/email_validation_needed.html:6
 msgid ""
 "Votre accord est nécessaire en vue de traiter une commande du géoshop. "
 "Cliquez sur ce lien pour valider ou refuser la commande:"
 msgstr ""
+"Ihre Zustimmung ist erforderlich zur Bearbeitung einer Bestellung im GeoShop. "
+"Klicken Sie auf die folgende Adresse, um die Bestellung zu validieren oder abzulehnen:"
 
 #: api/templates/email_welcome_user.html:4
 msgid "Votre demande de création de compte est en cours de vérification."
-msgstr ""
+msgstr "Ihr Antrag zur Eröffnung eines Zugangs wird geprüft.""
 
 #: api/templates/email_welcome_user.html:5
 msgid "Vous recevrez un email lorsque votre inscription sera validée."
-msgstr ""
+msgstr "Sie erhalten eine e-Mail, sobald Ihr Antrag bearbeitet wurde."
 
 #: api/views.py:216
 msgid "This orderitem cannot be deleted anymore."
