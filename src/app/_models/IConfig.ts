@@ -23,6 +23,7 @@ export interface IConfig {
   resolutions: number[];
   epsg: string;
   pageformats: Array<IPageFormat>;
+  features: string[];
   oidcConfig: OpenIdConfiguration;
 }
 

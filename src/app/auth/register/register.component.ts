@@ -5,11 +5,12 @@ import {Store} from '@ngrx/store';
 import {IIdentity} from '../../_models/IIdentity';
 import {ApiService} from '../../_services/api.service';
 import {map} from 'rxjs/operators';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Route, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {StepperSelectionEvent} from '@angular/cdk/stepper';
 import {PHONE_REGEX, IDE_REGEX} from '../../_helpers/regex';
 import {ConstantsService} from '../../constants.service';
+import { ConfigService } from 'src/app/_services/config.service';
 
 @Component({
   selector: 'gs2-register',
@@ -126,10 +127,14 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     return this.formCredentials.get('passwords')?.get('passwordConfirm');
   }
 
-  constructor(private store: Store<AppState>, private apiService: ApiService,
+  constructor(private apiService: ApiService,
+              private readonly configService: ConfigService,
               private router: Router,
               private snackBar: MatSnackBar
   ) {
+    if ((this.configService.config?.features.indexOf('registration') ?? -1) == -1) {
+      this.router.navigate(["/"]);
+    };
   }
 
   private static passwordMatchValidator(g: UntypedFormGroup) {
