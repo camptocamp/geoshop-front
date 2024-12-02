@@ -61,7 +61,7 @@ export class ModifyProfileComponent implements OnInit {
   onModifyUserSubmit(): void {
 
     if (this.formModifyUser.pristine) {
-      this.snackBar.open('Vous n\'avez rien modifié !', 'Ok', {panelClass: 'notification-error'});
+      this.snackBar.open($localize`Vous n\'avez rien modifié !`, 'Ok', {panelClass: 'notification-error'});
       return;
     }
 

@@ -30,6 +30,22 @@
           <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="3371294027067955482" datatype="html">
+        <source>Métadonnée indisponible pour le moment.</source>
+        <target>English: Métadonnée indisponible pour le moment.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_components/cart-overlay/cart-overlay.component.ts</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1231832313211082983" datatype="html">
+        <source>Voulez-vous supprimer le panier (remise à zéro) ?</source>
+        <target>English: Voulez-vous supprimer le panier (remise à zéro) ?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_components/cart-overlay/cart-overlay.component.ts</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="account.log_in" datatype="html">
         <source>S&apos;authentifier</source>
         <context-group purpose="location">
@@ -172,6 +188,44 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_components/order-item-view/order-item-view.component.html</context>
           <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8151944010898811895" datatype="html">
+        <source>Décision soumise avec succès</source>
+        <target>EN:: Décision soumise avec succès</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/api-order.service.ts</context>
+          <context context-type="linenumber">83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5947760680752260655" datatype="html">
+        <source>Commande passée avec succès! Vous recevrez un email lorsque tous les téléchargements seront prêts.</source>
+        <target>EN: Commande...</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/api-order.service.ts</context>
+          <context context-type="linenumber">238</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4637514545679027566" datatype="html">
+        <source>Utilisateur non connecté</source>
+        <target>EN: Utilisateur...</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_store/auth/auth.effects.ts</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_store/auth/auth.effects.ts</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="936038030241635079" datatype="html">
+        <source>
+                    Vous aviez une commande non finalisée dans votre panier la dernière fois que vous vous êtes déconnecté,
+                    voulez-vous la recharger?</source>
+        <target>TODO: English</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_store/auth/auth.effects.ts</context>
+          <context context-type="linenumber">97,99</context>
         </context-group>
       </trans-unit>
       <trans-unit>
