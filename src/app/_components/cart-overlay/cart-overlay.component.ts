@@ -101,7 +101,7 @@ export class CartOverlayComponent implements OnInit, OnDestroy {
               autoFocus: false,
             });
           } else {
-            this.snackBar.open('Métadonnée indisponible pour le moment.', 'Fermer', {duration: 3000});
+            this.snackBar.open($localize`Métadonnée indisponible pour le moment.`, 'Fermer', {duration: 3000});
           }
         });
     }
@@ -111,8 +111,7 @@ export class CartOverlayComponent implements OnInit, OnDestroy {
     let dialogRef: MatDialogRef<ConfirmDialogComponent> | null = this.dialog.open(ConfirmDialogComponent, {
       disableClose: false,
     });
-
-    dialogRef.componentInstance.confirmMessage = 'Voulez-vous supprimer le panier (remise à zéro) ?';
+    dialogRef.componentInstance.confirmMessage = $localize`Voulez-vous supprimer le panier (remise à zéro) ?`;
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.store.dispatch(fromCart.deleteOrder());

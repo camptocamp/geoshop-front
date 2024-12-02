@@ -80,7 +80,7 @@ export class ApiOrderService {
     }).pipe(
       map(() => {
         this.snackBar.open(
-          'Décision soumise avec succès', 'Ok', {
+          $localize`Décision soumise avec succès`, 'Ok', {
           panelClass: 'notification-info'
         }
         );
@@ -235,7 +235,7 @@ export class ApiOrderService {
       .pipe(
         map(() => {
           this.snackBar.open(
-            'Commande passée avec succès! Vous recevrez un email lorsque tous les téléchargements seront prêts.', 'Ok', {
+            $localize`Commande passée avec succès! Vous recevrez un email lorsque tous les téléchargements seront prêts.`, 'Ok', {
             panelClass: 'notification-info'
           }
           );

@@ -91,7 +91,7 @@ export class OrderComponent implements OnInit {
       }
       this.storeService.addOrderToStore(new Order(copy));
       this.snackBar.open(
-        'La commande a été dupliquée dans votre panier.', 'Ok', {
+        $localize`La commande a été dupliquée dans votre panier.`, 'Ok', {
           panelClass: 'notification-info',
           duration: 5000,
         }

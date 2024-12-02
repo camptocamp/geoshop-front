@@ -470,6 +470,7 @@ export class MapService {
 
   private addSingleFeatureToDrawingSource(features: FeatureLike[], sourceName: string): boolean {
     if (!sourceName.endsWith('kml') || features.length === 0) {
+      // TODO: Translate???
       this.snackBar.open(`Le fichier "${sourceName}" ne contient aucune donnée exploitable.
       Le format supporté est le "kml".`, 'Ok', {
         panelClass: 'notification-info'
@@ -478,6 +479,7 @@ export class MapService {
     }
 
     if (features.length > 1) {
+      // TODO: Translate???
       this.snackBar.open(`Le fichier "${sourceName}" contient plusieurs géométries.
       Un seul polygone sera affiché ici.`, 'Ok', {
         panelClass: 'notification-info'
@@ -641,6 +643,7 @@ export class MapService {
   }
 
   private displayAreaMessage(area: string) {
+    // TODO: Translate???
     this.snackBarRef = this.snackBar.open(`L'aire du polygone sélectionné est de ${area}`, 'Cancel', {
       duration: 5000,
       panelClass: 'primary-container'

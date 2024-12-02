@@ -14,7 +14,7 @@ export class ForgetComponent implements OnInit {
 
   @HostBinding('class') class = 'main-container';
 
-  private readonly successMessage = 'Le mot de passe a été envoyé à l\'adresse : ';
+  private readonly successMessage = $localize`Le mot de passe a été envoyé à l\'adresse : `;
   form: UntypedFormGroup;
 
   get email() {

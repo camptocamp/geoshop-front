@@ -66,9 +66,9 @@ export class AuthEffects {
             ) :
             of(LoginActions.refreshTokenFailure({
               error: {
-                detail: 'Utilisateur non connecté'
+                detail: $localize`Utilisateur non connecté`
               },
-              message: 'Utilisateur non connecté',
+              message: $localize`Utilisateur non connecté`,
               name: '',
               status: 401
             }));
@@ -91,10 +91,10 @@ export class AuthEffects {
                   let dialogRef: MatDialogRef<ConfirmDialogComponent> | null = this.dialog.open(ConfirmDialogComponent, {
                     disableClose: false,
                   });
-
+                  // TODO: Translate???
                   dialogRef.componentInstance.noButtonTitle = 'Ignorer';
                   dialogRef.componentInstance.yesButtonTitle = 'Recharger';
-                  dialogRef.componentInstance.confirmMessage = `
+                  dialogRef.componentInstance.confirmMessage = $localize`
                     Vous aviez une commande non finalisée dans votre panier la dernière fois que vous vous êtes déconnecté,
                     voulez-vous la recharger?`;
                   dialogRef.afterClosed().subscribe(result => {
