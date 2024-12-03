@@ -25,7 +25,9 @@ export class ErrorInterceptor implements HttpInterceptor {
             this.router.navigate(['/auth/login']);
           } else {
             const messages = [];
-            for (const attr in response.error) {
+            const err = response.error;
+
+            for (const attr in err) {
               if (response.error[attr]) {
                 if (Array.isArray(response.error[attr])) {
                   messages.push(...response.error[attr]);
