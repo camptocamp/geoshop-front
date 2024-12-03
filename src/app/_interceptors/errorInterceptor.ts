@@ -1,12 +1,38 @@
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
-import {Injectable} from '@angular/core';
-import {AppState} from '../_store';
-import {Store} from '@ngrx/store';
+import { Observable, throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { AppState } from '../_store';
+import { Store } from '@ngrx/store';
 import * as fromAuth from '../_store/auth/auth.action';
-import {catchError} from 'rxjs/operators';
-import {Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+function formatArea(area: number): string {
+  return area > 100000 ?
+    `${Math.round((area / 1000000) * 100) / 100}km²` :
+    `${Math.round(area * 100) / 100}m²`;
+}
+
+function formatAreaError(err: { message: [string], expected: [number], actual: [number] }): string {
+  const over = err.actual[0] - err.expected[0];
+  return $localize`Selected area is too large, allowed: ${formatArea(err.expected[0])}, selected: ${formatArea(err.actual[0])}, overflow: ${formatArea(over)}`;
+}
+
+function formatGenericError(err: any): string {
+  const messages = [];
+  for (const attr in err) {
+    if (!err[attr]) {
+      continue;
+    }
+    if (Array.isArray(err[attr])) {
+      messages.push(...err[attr]);
+    } else if (err[attr] === 'string') {
+      messages.push(err[attr]);
+    }
+  }
+  return messages.join("\n");
+}
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -24,22 +50,18 @@ export class ErrorInterceptor implements HttpInterceptor {
             this.store.dispatch(fromAuth.logout());
             this.router.navigate(['/auth/login']);
           } else {
-            const messages = [];
+            let message = "";
             const err = response.error;
-
-            for (const attr in err) {
-              if (response.error[attr]) {
-                if (Array.isArray(response.error[attr])) {
-                  messages.push(...response.error[attr]);
-                } else if (response.error[attr] === 'string') {
-                  messages.push(response.error[attr]);
-                }
-              }
+            // TODO: Better error type recognition
+            if (Array.isArray(err.message) && err.message[0] === 'Order area is too large') {
+              message = formatAreaError(err);
+            } else {
+              message = formatGenericError(err);
             }
-            if (messages.length === 0) {
-              messages.push(response.message);
+            if (message.length === 0) {
+              message = response.message;
             }
-            this.snackBar.open(messages.join('\r\n'), 'Ok', {panelClass: 'notification-error'});
+            this.snackBar.open(message, 'Ok', { panelClass: 'notification-error' });
           }
         }
 
