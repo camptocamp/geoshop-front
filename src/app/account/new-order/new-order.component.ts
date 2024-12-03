@@ -131,7 +131,6 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     this.apiOrderService.getOrderTypes()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(orderTypes => {
-        console.log(orderTypes);
         this.orderTypes = orderTypes;
       });
 
@@ -615,7 +614,6 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   public getLocalizedTypeName(type: IOrderType): string {
-    console.log(type.name.toLocaleLowerCase());
     switch (type.id) {
       case 0:
         return ConstantsService.ORDER_NAME.PRIVATE;
