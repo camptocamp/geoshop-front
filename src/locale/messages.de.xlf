@@ -36,7 +36,7 @@
       </trans-unit>
       <trans-unit id="3371294027067955482" datatype="html">
         <source>Métadonnée indisponible pour le moment.</source>
-        <target>TODO: GERMAN</target>
+        <target>Metadaten aktuell nicht verfügbar.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_components/cart-overlay/cart-overlay.component.ts</context>
           <context context-type="linenumber">104</context>
@@ -44,7 +44,7 @@
       </trans-unit>
       <trans-unit id="1231832313211082983" datatype="html">
         <source>Voulez-vous supprimer le panier (remise à zéro) ?</source>
-        <target>TODO: GERMAN</target>
+        <target>Möchten Sie den Warenkorb leeren?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_components/cart-overlay/cart-overlay.component.ts</context>
           <context context-type="linenumber">114</context>
@@ -210,7 +210,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="6578332984012136226" datatype="html">
-        <source>TODO-GERMAN: Selected area is too large, allowed: <x id="PH" equiv-text="formatArea(err.expected[0])"/>, selected: <x id="PH_1" equiv-text="formatArea(err.actual[0])"/>, overflow: <x id="PH_2" equiv-text="formatArea(over)"/></source>
+	<source>Selected area is too large, allowed: <x id="PH" equiv-text="formatArea(err.expected[0])"/>, selected: <x id="PH_1" equiv-text="formatArea(err.actual[0])"/>, overflow: <x id="PH_2" equiv-text="formatArea(over)"/></source>
+	<target>Das ausgewählte Gebiet ist zu gross, erlaubt: <x id="PH" equiv-text="formatArea(err.expected[0])"/>, ausgewählt: <x id="PH_1" equiv-text="formatArea(err.actual[0])"/>, Unterschied: <x id="PH_2" equiv-text="formatArea(over)"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_interceptors/errorInterceptor.ts</context>
           <context context-type="linenumber">19</context>
@@ -218,7 +219,7 @@
       </trans-unit>
       <trans-unit id="8151944010898811895" datatype="html">
         <source>Décision soumise avec succès</source>
-        <target>TODO: German</target>
+        <target>Die Auswahl wurde erfolgreich übermittelt</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/api-order.service.ts</context>
           <context context-type="linenumber">83</context>
@@ -226,7 +227,7 @@
       </trans-unit>
       <trans-unit id="5947760680752260655" datatype="html">
         <source>Commande passée avec succès! Vous recevrez un email lorsque tous les téléchargements seront prêts.</source>
-        <target>TODO: German</target>
+        <target>Die Bestellung wurde erfolgreich entgegen genommen. Sie werden eine e-Mail erhalten, wenn die Daten bereit stehen.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/api-order.service.ts</context>
           <context context-type="linenumber">238</context>
@@ -247,7 +248,7 @@
         <source>
                     Vous aviez une commande non finalisée dans votre panier la dernière fois que vous vous êtes déconnecté,
                     voulez-vous la recharger?</source>
-        <target>TODO: German</target>
+        <target>Sie haben eine offene Bestellung in Ihrem Warenkorb aus einem früheren Vorgang, möchten Sie mit dieser fortfahren?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_store/auth/auth.effects.ts</context>
           <context context-type="linenumber">97,99</context>
