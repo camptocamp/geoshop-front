@@ -1,10 +1,10 @@
 <div cdkDrag cdkDragRootElement=".cdk-overlay-pane">
   <h1 mat-dialog-title cdkDragHandle>Saisie manuelle</h1>
   <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)" dynamicHeight>
-    <mat-tab label="Format pré-configuré">
+    <mat-tab i18n-label label="Format pré-configuré">
       <div mat-dialog-content>
         <mat-form-field>
-          <mat-label>Format de la page</mat-label>
+          <mat-label i18n>Format de la page</mat-label>
           <mat-select [formControl]="data.selectedPageFormat">
             <mat-option *ngFor="let pageFormat of data.pageFormats" [value]="pageFormat">
               {{pageFormat.name}}
@@ -12,7 +12,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Echelles</mat-label>
+          <mat-label i18n>Echelles</mat-label>
           <mat-select [formControl]="data.selectedPageFormatScale">
             <mat-option *ngFor="let pageFormatScale of data.pageFormatScales" [value]="pageFormatScale">
               {{pageFormatScale}}
@@ -20,34 +20,34 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Rotation</mat-label>
+          <mat-label i18n>Rotation</mat-label>
           <input matInput type="number" min=0 max=360 [formControl]="data.rotationPageFormat" value=0>
         </mat-form-field>
       </div>
     </mat-tab>
-    <mat-tab label="Rectangle englobant">
+    <mat-tab i18n-label label="Rectangle englobant">
       <div mat-dialog-content>
         <mat-form-field>
-          <mat-label>Ouest (X min)</mat-label>
+          <mat-label i18n>Ouest (X min)</mat-label>
           <input matInput type="number" min=2500000 max=2580000 [formControl]="data.xMin">
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Sud (Y min)</mat-label>
+          <mat-label i18n>Sud (Y min)</mat-label>
           <input matInput type="number" min=1180000 max=1240000 [formControl]="data.yMin">
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Est (X max)</mat-label>
+          <mat-label i18n>Est (X max)</mat-label>
           <input matInput type="number" min=2500000 max=2580000 [formControl]="data.xMax">
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Nord (Y max)</mat-label>
+          <mat-label i18n>Nord (Y max)</mat-label>
           <input matInput type="number" min=1180000 max=1240000 [formControl]="data.yMax">
         </mat-form-field>
       </div>
     </mat-tab>
   </mat-tab-group>
   <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Annuler</button>
+    <button mat-button (click)="onNoClick()" i18n>Annuler</button>
     <button mat-button [mat-dialog-close]="data">Ok</button>
   </div>
 </div>
