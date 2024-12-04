@@ -294,6 +294,14 @@
           <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="fa00e1421e6d6789af990afebe0cbd76ae21db3e" datatype="html">
+        <source>Renseigner une courte description du mandat...</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="a6979d1d2366eff97c4ed5ac1b4b7966ba2620b9" datatype="html">
         <source>Votre référence reportée sur la facture</source>
         <target>Ihre Rechnungsreferenz</target>
@@ -356,6 +364,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
           <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5c839344200383e0ae0d32a81e464c338d292d45" datatype="html">
+        <source>Vous devez spécifier les informations de contact du tiers pour un mandat de type <x id="INTERPOLATION" equiv-text="{{ orderFormGroup.get(&apos;orderType&apos;)?.value?.name | lowercase }}"/>.</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
+          <context context-type="linenumber">77,78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4f2d7b652f61d816a265e2de92d27c2c28913291" datatype="html">
@@ -614,6 +630,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/orders/orders.component.html</context>
           <context context-type="linenumber">19,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a3585c98825466e76166413256b1de0f43c469a2" datatype="html">
+        <source>GeoShop - Modification du profil</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/profile/modify-profile.component.html</context>
+          <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
       <trans-unit id="profile.username_unchangabel" datatype="html">
@@ -1285,6 +1309,86 @@
           <context context-type="linenumber">27,28</context>
         </context-group>
       </trans-unit>
+<trans-unit id="1abf463668afa2062ca698cabb5a103217406af8" datatype="html">
+        <source>Format pré-configuré</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ed4621596bf8a1ac831857652d9af867b0593691" datatype="html">
+        <source>Format de la page</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="95bf15a2734646bea8c71e60fdd071ebbe3e864c" datatype="html">
+        <source>Echelles</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="877b172d1c398beab3648952aab19eb52fe66ebd" datatype="html">
+        <source>Rotation</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6c772d531ec433b9f6d7a82a4dbc28b18d2264e2" datatype="html">
+        <source>Rectangle englobant</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="597bb8c1f6a67879128f1e28f4a2b4895e906f29" datatype="html">
+        <source>Ouest (X min)</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="64611d4b2b8e4f4436249d38d7a28767826b70e3" datatype="html">
+        <source>Sud (Y min)</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7770827ed4617f1dfe1d3174ad320b9cd4f7e719" datatype="html">
+        <source>Est (X max)</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b45e74376e66843302e126145838a6e603bb8ffb" datatype="html">
+        <source>Nord (Y max)</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="12380235948088ddf227ad226ce8a2ae63878fe5" datatype="html">
+        <source>Annuler</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="a5dd139cda95e1f79ce82badbaa71b9cbe738c8e" datatype="html">
         <source>Rechercher un lieu ou une paire de coordonnées...</source>
         <target>Suche nach Ort oder Koordinaten...</target>
@@ -1383,6 +1487,64 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/map/map.component.html</context>
           <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2ca1910b4a34f125cf1ada39e13b0b94b221805b" datatype="html">
+        <source>GeoShop - Validation</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/validate/validate.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e35122bf515768e7d60a89575daabff6afa2010c" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="- à valider&lt;/mat-card-title&gt;
+        &lt;mat-ca"/> - à valider</source>
+        <target>DE::<x id="INTERPOLATION" equiv-text="- à valider&lt;/mat-card-title&gt;
+        &lt;mat-ca"/> - à valider</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/validate/validate.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d5b4f067d3af1bcd3e4bdec579470e39ec0c311f" datatype="html">
+        <source>Titre du mandat <x id="INTERPOLATION" equiv-text="{{order.order_type | lowercase}}"/>:</source>
+        <target>DE:: Titre du mandat <x id="INTERPOLATION" equiv-text="{{order.order_type | lowercase}}"/>:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/validate/validate.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cd3ffbd49e1e02cd93392409c5b1bbd1f893ed27" datatype="html">
+        <source>Description fournie par le client:</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/validate/validate.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0a2c76650f701d340b63dcb4adc44eb7937db9c7" datatype="html">
+        <source>Détails du client:</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/validate/validate.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f9f4aebb800bb2e3d1a719002e413ff430814ebf" datatype="html">
+        <source>ACCEPTER</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/validate/validate.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cf6e4386d7852f55976ec923447b71c88544fe4b" datatype="html">
+        <source>REFUSER</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/validate/validate.component.html</context>
+          <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
     </body>
