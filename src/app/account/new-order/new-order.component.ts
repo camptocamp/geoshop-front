@@ -73,7 +73,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   get IsOrderTypePrivate() {
-    return this.orderFormGroup?.get('orderType')?.value?.name.startsWith('Priv');
+    return this.orderFormGroup?.get('orderType')?.value?.id === 1;
   }
 
   get orderTypeCtrl() {
@@ -201,9 +201,8 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     return returnValue;
   }
 
-  private getOrderType(id: string | number) {
-    return this.orderTypes.find(x => typeof id === 'number' ?
-      id === x.id : id === x.name) || {
+  private getOrderType(id: number) {
+    return this.orderTypes.find(x => id === x.id) || {
       id: 1,
       name: ConstantsService.ORDERTYPE_PRIVATE
     };
@@ -221,11 +220,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     });
     this.orderTypeCtrl?.valueChanges.subscribe(
       (choice) => {
-        if (choice.name === ConstantsService.ORDER_NAME.PRIVATE) {
-          this.addressChoiceCtrl?.setValue('1');
-        } else {
-          this.addressChoiceCtrl?.setValue('2');
-        }
+        this.addressChoiceCtrl?.setValue(choice.id);
       }
     );
     this.emailDeliverChoiceCtrl?.valueChanges.subscribe(
@@ -270,7 +265,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     this.isCustomerSelected = order.HasInvoiceContact;
 
     this.orderFormGroup?.setValue({
-      orderType: this.getOrderType(order.order_type),
+      orderType: this.getOrderType(parseInt(order.order_type)),
       title: order.title,
       invoice_reference: order.invoice_reference,
       emailDeliver: order.email_deliver,
@@ -428,7 +423,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   resetForms() {
     this.isCustomerSelected = this.currentOrder.HasInvoiceContact;
     this.orderFormGroup.reset({
-      orderType: this.getOrderType(this.currentOrder.order_type),
+      orderType: this.getOrderType(parseInt(this.currentOrder.order_type)),
       title: this.currentOrder.title,
       invoice_reference: this.currentOrder.invoice_reference,
       emailDeliver: this.currentOrder.email_deliver,
