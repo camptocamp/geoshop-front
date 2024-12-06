@@ -88,6 +88,20 @@
           <context context-type="linenumber">1</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="4709450557795328287" datatype="html">
+        <source>Non</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_components/confirm-dialog/confirm-dialog.component.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7180575964287205441" datatype="html">
+        <source>Oui</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_components/confirm-dialog/confirm-dialog.component.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="help.show" datatype="html">
         <source>Voir l&apos;aide</source>
         <context-group purpose="location">
