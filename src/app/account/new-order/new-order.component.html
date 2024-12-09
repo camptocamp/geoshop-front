@@ -1,3 +1,4 @@
+<!-- TODO: Create proper layout so navigation buttons will be always in the bottom -->
 <mat-horizontal-stepper #stepper [linear]="true">
   <mat-step [stepControl]="orderFormGroup" i18n-label label="Détails du mandat">
     <form [formGroup]="orderFormGroup">
@@ -63,7 +64,6 @@
   </mat-step>
 
   <mat-step [stepControl]="contactFormGroup" i18n-label label="Facturation / Tiers">
-
     <form class="form-no-full-height" [formGroup]="addressChoiceForm">
       <mat-radio-group *ngIf="IsOrderTypePrivate" class="flex-column"
                        formControlName="addressChoice"
