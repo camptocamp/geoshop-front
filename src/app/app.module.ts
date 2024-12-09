@@ -1,7 +1,9 @@
 import {BrowserModule} from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER, LOCALE_ID, DEFAULT_CURRENCY_CODE, Inject } from '@angular/core';
+import { NgModule, APP_INITIALIZER, DEFAULT_CURRENCY_CODE, Inject } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
-import localeCH from '@angular/common/locales/fr-CH';
+import frCH from '@angular/common/locales/fr-CH';
+import deCH from '@angular/common/locales/de-CH';
+import enCH from '@angular/common/locales/en-CH';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -36,7 +38,9 @@ import {CommonModule} from '@angular/common';
 import { OidcAuthConfigModule } from './auth/oidc-auth-config.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-registerLocaleData(localeCH);
+registerLocaleData(frCH);
+registerLocaleData(deCH);
+registerLocaleData(enCH);
 
 export function initializeApp(configService: ConfigService, store: Store<AppState>) {
   return () => configService.load().then(() => {
@@ -90,10 +94,6 @@ const MODULES = [
             provide: HTTP_INTERCEPTORS,
             useClass: ErrorInterceptor,
             multi: true,
-        },
-        {
-            provide: LOCALE_ID,
-            useValue: 'fr-CH'
         },
         {
             provide: DEFAULT_CURRENCY_CODE,

@@ -1,4 +1,4 @@
-import {Component, ComponentFactoryResolver, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, ComponentFactoryResolver, EventEmitter, Inject, Input, LOCALE_ID, OnInit, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {IOrderDowloadLink, IOrderSummary, Order} from '../../../_models/IOrder';
 import {IProduct} from '../../../_models/IProduct';
 import Map from 'ol/Map';
