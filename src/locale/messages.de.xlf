@@ -382,9 +382,9 @@
           <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="5c839344200383e0ae0d32a81e464c338d292d45" datatype="html">
-        <source>Vous devez spécifier les informations de contact du tiers pour un mandat de type <x id="INTERPOLATION" equiv-text="{{ orderFormGroup.get(&apos;orderType&apos;)?.value?.name | lowercase }}"/>.</source>
-        <target>Für einen Autrag der Art <x id="INTERPOLATION" equiv-text="{{ orderFormGroup.get(&apos;orderType&apos;)?.value?.name | lowercase }}"/> müssen Sie die Kontaktdaten des Mandanten ausfüllen.</target>
+      <trans-unit id="4d77f464384c488d79c2e9696c185a5214b8f5f7" datatype="html">
+        <source>Vous devez spécifier les informations de contact du tiers pour un mandat de type &quot;<x id="INTERPOLATION" equiv-text="{{ getLocalizedTypeName(orderFormGroup.get(&apos;orderType&apos;)?.value) }}"/>&quot;.</source>
+        <target>Für einen Autrag der Art &quot;<x id="INTERPOLATION" equiv-text="{{ getLocalizedTypeName(orderFormGroup.get(&apos;orderType&apos;)?.value) }}"/>&quot; müssen Sie die Kontaktdaten des Mandanten ausfüllen.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
           <context context-type="linenumber">77,78</context>
@@ -460,6 +460,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
           <context context-type="linenumber">160</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3cca1879b5875ec21ff338fc007e98a82f573486" datatype="html">
+        <source>Société</source>
+        <target>Unternehmen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
+          <context context-type="linenumber">179</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b39eaa79a930a8a7e02414a66aa20e2f4ce211c7" datatype="html">
@@ -1259,6 +1267,22 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.html</context>
           <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5618137344171566342" datatype="html">
+        <source>Le produit est déjà dans le panier</source>
+        <target>Das Produkt befindet sich bereits im Warenkorb</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.ts</context>
+          <context context-type="linenumber">109</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9059155436017318544" datatype="html">
+        <source>Fermer</source>
+        <target>Schliessen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.ts</context>
+          <context context-type="linenumber">109</context>
         </context-group>
       </trans-unit>
       <trans-unit id="dialog.metadata" datatype="html">

@@ -244,91 +244,91 @@
         <source>Détails du mandat</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">2</context>
+          <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f2c09b79a691f34bb113626c2c39ff2e65e9b288" datatype="html">
         <source>Type de mandat</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">7</context>
+          <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="abbcad693756205a5d922b7d8ca8426cacee19db" datatype="html">
         <source>Titre du mandat</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">19</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3a91fa310bf2d8914049a423b9aef423254bf5d1" datatype="html">
         <source> Le titre contient des caractères non supportés (parenthèses, guillemets, etc.)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">22,23</context>
+          <context context-type="linenumber">23,24</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8a42a54e7409ff982bad097852b234ea8dd894e4" datatype="html">
         <source>Description du mandat</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">29</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fa00e1421e6d6789af990afebe0cbd76ae21db3e" datatype="html">
         <source>Renseigner une courte description du mandat...</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a6979d1d2366eff97c4ed5ac1b4b7966ba2620b9" datatype="html">
         <source>Votre référence reportée sur la facture</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f754b702397fe306ba6f9a35380489c127fc9d7b" datatype="html">
         <source>Choisir l&apos;email de livraison</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="82336380104b44b9f6ffd944b18581e0df8ee4d8" datatype="html">
         <source>Les données seront envoyées à l&apos;adresse email de l&apos;utilisateur courant: <x id="INTERPOLATION" equiv-text="{{(currentUser$|async)?.email}}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">47,48</context>
+          <context context-type="linenumber">48,49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="45276644993a243f5ee2db9bbecab8b394b3b704" datatype="html">
         <source>Adresse de livraison des données différente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">49</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9aba3a673d5879a7673129949ba76e6edc64ae8f" datatype="html">
         <source>Saisir l&apos;adresse email de livraison</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b31a40b4c92eaa780488985d8394d3722f8d5518" datatype="html">
         <source>Adresse email non valide</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">56</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ec909904e183423b3459cde71d47adebdcf34d18" datatype="html">
         <source>Facturation / Tiers</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">65</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1a980ed1c52b04484b874f8c92ebfc7ff202d169" datatype="html">
@@ -345,8 +345,8 @@
           <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="5c839344200383e0ae0d32a81e464c338d292d45" datatype="html">
-        <source>Vous devez spécifier les informations de contact du tiers pour un mandat de type <x id="INTERPOLATION" equiv-text="{{ orderFormGroup.get(&apos;orderType&apos;)?.value?.name | lowercase }}"/>.</source>
+      <trans-unit id="4d77f464384c488d79c2e9696c185a5214b8f5f7" datatype="html">
+        <source>Vous devez spécifier les informations de contact du tiers pour un mandat de type &quot;<x id="INTERPOLATION" equiv-text="{{ getLocalizedTypeName(orderFormGroup.get(&apos;orderType&apos;)?.value) }}"/>&quot;.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
           <context context-type="linenumber">77,78</context>
@@ -1129,6 +1129,20 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.html</context>
           <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5618137344171566342" datatype="html">
+        <source>Le produit est déjà dans le panier</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.ts</context>
+          <context context-type="linenumber">109</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9059155436017318544" datatype="html">
+        <source>Fermer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.ts</context>
+          <context context-type="linenumber">109</context>
         </context-group>
       </trans-unit>
       <trans-unit id="dialog.metadata" datatype="html">
