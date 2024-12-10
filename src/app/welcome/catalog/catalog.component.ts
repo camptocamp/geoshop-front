@@ -106,7 +106,7 @@ export class CatalogComponent implements OnInit {
         product_id: product.id
       });
     } else {
-      this.snackBar.open('Le produit est déjà dans le panier', 'Fermer', {duration: 3000});
+      this.snackBar.open($localize`Le produit est déjà dans le panier`, $localize`Fermer`, {duration: 3000});
     }
     this.store.dispatch(updateOrder({order}));
   }
