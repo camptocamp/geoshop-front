@@ -368,10 +368,10 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     this.customerCtrl?.setValue('');
     this.isCustomerSelected = true;
     this.isNewInvoiceContact = true;
-
+    this.updateContactForm('2');
     for (const key in this.invoiceContactsFormControls) {
       if (key === 'country') {
-        this.contactFormGroup.get(key)?.setValue('Suisse');
+        this.contactFormGroup.get(key)?.setValue($localize`Suisse`);
       } else {
         this.contactFormGroup.get(key)?.setValue('');
       }
