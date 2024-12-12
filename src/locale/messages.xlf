@@ -182,7 +182,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">275</context>
+          <context context-type="linenumber">271</context>
         </context-group>
       </trans-unit>
       <trans-unit id="order.format" datatype="html">
@@ -516,49 +516,49 @@
         <source>Aperçu de la commande</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">250</context>
+          <context context-type="linenumber">246</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c636dac74a6334afdb5a46b0f00d3eab112ac86a" datatype="html">
         <source> Description / Disponibilité </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">258,260</context>
+          <context context-type="linenumber">254,256</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6a2ba9564b69d972da37a12b9585bcf695840b7b" datatype="html">
         <source> Un ou plusieurs produits commandés doivent être devisés préalablement.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> N&apos;hésitez pas à demander gratuitement votre devis sans engagement.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> Vous pourrez ensuite définitevement valider votre commande. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">265,269</context>
+          <context context-type="linenumber">261,265</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c89e723452bbac4e2efcba2d065cfa270b69157c" datatype="html">
         <source>Frais de traitement</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">272</context>
+          <context context-type="linenumber">268</context>
         </context-group>
       </trans-unit>
       <trans-unit id="85cb84b6f88dadcd6440896192d753ca27820f71" datatype="html">
         <source>Total TTC</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">273</context>
+          <context context-type="linenumber">269</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1247d29f880201e6abc4d51cd3d370bd42c881f0" datatype="html">
         <source>Même format pour tous les produits</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">283</context>
+          <context context-type="linenumber">279</context>
         </context-group>
       </trans-unit>
       <trans-unit id="21fded46b491c78ba3517620dccc07ea6bb4054e" datatype="html">
         <source>Prix</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">310</context>
+          <context context-type="linenumber">306</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4359053901144852078" datatype="html">
@@ -572,21 +572,14 @@
         <source>Acheter maintenant</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
-          <context context-type="linenumber">101</context>
+          <context context-type="linenumber">102</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8353026757372386829" datatype="html">
         <source>Demander un devis</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
-          <context context-type="linenumber">102</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7734965975022713233" datatype="html">
-        <source>Suisse</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
-          <context context-type="linenumber">374</context>
+          <context context-type="linenumber">103</context>
         </context-group>
       </trans-unit>
       <trans-unit id="order.delete" datatype="html">
@@ -948,6 +941,13 @@
           <context context-type="linenumber">158,159</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="7357049916461888222" datatype="html">
+        <source>Le compte est en cours de validation. Vous recevrez un courriel de confirmation sous peu.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.ts</context>
+          <context context-type="linenumber">176</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="2848e8f3d69e0f895e3935f2f92cade234ee3aeb" datatype="html">
         <source>Réinitialiser son mot de passe</source>
         <context-group purpose="location">
@@ -1100,6 +1100,20 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.service.ts</context>
           <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="country.ch.name" datatype="html">
+        <source>Suisse</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/constants.service.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="country.fr.name" datatype="html">
+        <source>France</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/constants.service.ts</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="catalog_productSearch" datatype="html">

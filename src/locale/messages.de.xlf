@@ -1061,6 +1061,14 @@
           <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="7357049916461888222" datatype="html">
+        <source>Le compte est en cours de validation. Vous recevrez un courriel de confirmation sous peu.</source>
+        <target>Ihr Antrag wird nun geprüft. Nach der Bearbeitung werden Sie eine Bestätigungs-E-Mail erhalten.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/register/register.component.ts</context>
+          <context context-type="linenumber">176</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="3c61ea855eb003bf89e2e45ff21ef90b31698b7e" datatype="html">
         <source> Mot de passe différent </source>
         <target> Unterschiedliches Passwort </target>
@@ -1227,6 +1235,22 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.service.ts</context>
           <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="country.ch.name" datatype="html">
+        <source>Suisse</source>
+        <target>Schweiz</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/constants.service.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="country.fr.name" datatype="html">
+        <source>France</source>
+        <target>Frankreich</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/constants.service.ts</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="catalog_productSearch" datatype="html">
