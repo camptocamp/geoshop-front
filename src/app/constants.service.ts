@@ -40,10 +40,10 @@ export class ConstantsService {
 
   static COUNTRIES = {
     CH: {
-      name: $localize`@@country.ch.name:Suisse`
+      name: $localize`:@@country.ch.name:Suisse`
     },
     FR: {
-      name: $localize`@@country.fr.name:France`
+      name: $localize`:@@country.fr.name:France`
     }
   };
 }

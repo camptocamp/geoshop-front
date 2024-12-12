@@ -173,7 +173,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       this.apiService.register(user)
         .subscribe(async (res) => {
           if (res) {
-            this.snackBar.open('Le compte est en cours de validation. Vous recevrez un courriel de confirmation sous peu.',
+            this.snackBar.open($localize`Le compte est en cours de validation. Vous recevrez un courriel de confirmation sous peu.`,
               'Ok', {
                 panelClass: 'notification-success'
               });
