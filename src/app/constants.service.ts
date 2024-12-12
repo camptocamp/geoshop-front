@@ -37,4 +37,13 @@ export class ConstantsService {
     PUBLIC: $localize `:@@order.public:Public`,
     PRIVATE: $localize `:@@order.private:Privé`
   }
+
+  static COUNTRIES = {
+    CH: {
+      name: $localize`@@country.ch.name:Suisse`
+    },
+    FR: {
+      name: $localize`@@country.fr.name:France`
+    }
+  };
 }

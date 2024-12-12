@@ -225,12 +225,8 @@
           <mat-form-field> <!-- TODO Why is there only Suiss and France?-->
             <mat-label i18n>Pays</mat-label>
             <mat-select formControlName="country">
-              <mat-option [value]="'Suisse'">
-                Suisse
-              </mat-option>
-              <mat-option [value]="'France'">
-                France
-              </mat-option>
+              <mat-option [value]="'{{COUNTRIES.CH.name}}'">{{COUNTRIES.CH.name}}</mat-option>
+              <mat-option [value]="'{{COUNTRIES.FR.name}}'">{{COUNTRIES.FR.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 

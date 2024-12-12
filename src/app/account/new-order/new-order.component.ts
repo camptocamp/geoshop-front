@@ -43,6 +43,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   readonly NEXT = ConstantsService.NEXT;
   readonly PREVIOUS = ConstantsService.PREVIOUS;
   readonly BACK: string = $localize`Réinitialiser`;
+  readonly COUNTRIES = ConstantsService.COUNTRIES;
 
 
   orderFormGroup: UntypedFormGroup;
@@ -371,7 +372,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     this.updateContactForm('2');
     for (const key in this.invoiceContactsFormControls) {
       if (key === 'country') {
-        this.contactFormGroup.get(key)?.setValue($localize`Suisse`);
+        this.contactFormGroup.get(key)?.setValue(this.COUNTRIES.CH.name);
       } else {
         this.contactFormGroup.get(key)?.setValue('');
       }
