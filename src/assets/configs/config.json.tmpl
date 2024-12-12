@@ -68,6 +68,9 @@
     }
   ],
   "oidcConfig": {
+    "customParamsAuthRequest": {
+        "prompt": "select_account"
+    },
     "authority": "${OIDC_OP_BASE_URL}",
     "redirectUrl": "${FRONTEND_BASE_URL}/auth/oidc",
     "postLogoutRedirectUri": "${FRONTEND_BASE_URL}/signedout",
