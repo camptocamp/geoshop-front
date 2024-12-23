@@ -67,7 +67,7 @@ export class OrderComponent implements OnInit {
         window.URL.revokeObjectURL(link.href);
       },
       error: (error: any) => {
-        this.snackBar.open(error.detail ?? 'Aucun fichier disponible', 'Ok', { panelClass: 'notification-info' });
+        this.snackBar.open(error.detail ?? $localize`Aucun fichier disponible`, 'Ok', { panelClass: 'notification-info' });
       }
     });
   }
@@ -115,9 +115,9 @@ export class OrderComponent implements OnInit {
       return;
     }
 
-    dialogRef.componentInstance.noButtonTitle = 'Annuler';
-    dialogRef.componentInstance.yesButtonTitle = 'Confirmer';
-    dialogRef.componentInstance.confirmMessage = 'Etes-vous sûr de vouloir confimrer la commande ?';
+    dialogRef.componentInstance.noButtonTitle = $localize`Annuler`;
+    dialogRef.componentInstance.yesButtonTitle = $localize`Confirmer`;
+    dialogRef.componentInstance.confirmMessage = $localize`Etes-vous sûr de vouloir confimrer la commande?`;
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.apiOrderService.confirmOrder(this.selectedOrder.id).subscribe(confirmed => {
@@ -146,9 +146,9 @@ export class OrderComponent implements OnInit {
       return;
     }
 
-    dialogRef.componentInstance.noButtonTitle = 'Annuler';
-    dialogRef.componentInstance.yesButtonTitle = 'Supprimer';
-    dialogRef.componentInstance.confirmMessage = `Etes-vous sûr de vouloir supprimer la commande "${this.order.title}" ?`;
+    dialogRef.componentInstance.noButtonTitle = $localize`Annuler`;
+    dialogRef.componentInstance.yesButtonTitle = $localize`Supprimer`;
+    dialogRef.componentInstance.confirmMessage = $localize`Etes-vous sûr de vouloir supprimer la commande "${this.order.title}" ?`;
     dialogRef.afterClosed().subscribe(result => {
       if (result && this.order.id) {
         this.apiOrderService.delete(this.order.id).subscribe(confirmed => {

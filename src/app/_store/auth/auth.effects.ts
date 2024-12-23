@@ -92,8 +92,8 @@ export class AuthEffects {
                     disableClose: false,
                   });
                   // TODO: Translate???
-                  dialogRef.componentInstance.noButtonTitle = 'Ignorer';
-                  dialogRef.componentInstance.yesButtonTitle = 'Recharger';
+                  dialogRef.componentInstance.noButtonTitle = $localize`Ignorer`;
+                  dialogRef.componentInstance.yesButtonTitle = $localize`Recharger`;
                   dialogRef.componentInstance.confirmMessage = $localize`
                     Vous aviez une commande non finalisée dans votre panier la dernière fois que vous vous êtes déconnecté,
                     voulez-vous la recharger?`;
