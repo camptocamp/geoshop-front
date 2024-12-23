@@ -691,6 +691,14 @@
           <context context-type="linenumber">469</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="2477113259664468311" datatype="html">
+        <source>Le contact &lt;b style=&apos;color:#26a59a;&apos;&gt;<x id="PH" equiv-text="this.currentSelectedContact.first_name"/> <x id="PH_1" equiv-text="this.currentSelectedContact.last_name"/>&lt;/b&gt; a été modifié. Voulez-vous continuer?</source>
+        <target>DE:::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
+          <context context-type="linenumber">471</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="180879386399550529" datatype="html">
         <source>Supprimer</source>
         <target>Entfernen</target>
@@ -757,14 +765,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
           <context context-type="linenumber">120</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="3963713773815278142" datatype="html">
-        <source>Etes-vous sûr de vouloir supprimer la commande &quot;<x id="PH" equiv-text="this.order.title"/>&quot; ?</source>
-        <target>Sind Sie sicher, dass Sie die Bestellung &quot;<x id="PH" equiv-text="this.order.title"/>&quot; löschen wollen?</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
-          <context context-type="linenumber">151</context>
         </context-group>
       </trans-unit>
       <trans-unit id="order.duplicate" datatype="html">
