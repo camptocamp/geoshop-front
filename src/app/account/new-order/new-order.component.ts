@@ -468,7 +468,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       dialogRef.componentInstance.noButtonTitle = $localize`Annuler`;
       dialogRef.componentInstance.yesButtonTitle = $localize`Continuer`;
       dialogRef.componentInstance.confirmMessage =
-        `Le contact <b style='color:#26a59a;'>${this.currentSelectedContact.first_name} ${this.currentSelectedContact.last_name}</b> a été modifié. Voulez-vous continuer?`;
+        $localize`Le contact <b style='color:#26a59a;'>${this.currentSelectedContact.first_name} ${this.currentSelectedContact.last_name}</b> a été modifié. Voulez-vous continuer?`;
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.apiOrderService.deleteContact(invoiceContact.Id).subscribe(confirmed => {

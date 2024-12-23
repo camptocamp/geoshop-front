@@ -277,6 +277,7 @@
           <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="612963960322037291" datatype="html">
         <source>Ignorer</source>
         <target>Ignorieren</target>
         <context-group purpose="location">
@@ -747,6 +748,22 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/orders/order/order.component.html</context>
           <context context-type="linenumber">46,48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1593114017559866095" datatype="html">
+        <source>Etes-vous sûr de vouloir confimrer la commande ?</source>
+        <target>Sind Sie sicher, dass Sie die Bestellung bestätigen wollen?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
+          <context context-type="linenumber">120</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3963713773815278142" datatype="html">
+        <source>Etes-vous sûr de vouloir supprimer la commande &quot;<x id="PH" equiv-text="this.order.title"/>&quot; ?</source>
+        <target>Sind Sie sicher, dass Sie die Bestellung &quot;<x id="PH" equiv-text="this.order.title"/>&quot; löschen wollen?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
+          <context context-type="linenumber">151</context>
         </context-group>
       </trans-unit>
       <trans-unit id="order.duplicate" datatype="html">
