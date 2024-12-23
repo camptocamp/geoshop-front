@@ -225,6 +225,22 @@
           <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="5740445985300777436" datatype="html">
+        <source>Aucun fichier disponible</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_components/order-item-view/order-item-view.component.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/download/download.component.ts</context>
+          <context context-type="linenumber">84</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="6578332984012136226" datatype="html">
 	<source>Selected area is too large, allowed: <x id="PH" equiv-text="formatArea(err.expected[0])"/>, selected: <x id="PH_1" equiv-text="formatArea(err.actual[0])"/>, overflow: <x id="PH_2" equiv-text="formatArea(over)"/></source>
 	<target>Das ausgewählte Gebiet ist zu gross, erlaubt: <x id="PH" equiv-text="formatArea(err.expected[0])"/>, ausgewählt: <x id="PH_1" equiv-text="formatArea(err.actual[0])"/>, Unterschied: <x id="PH_2" equiv-text="formatArea(over)"/></target>
@@ -260,6 +276,21 @@
           <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
+        <source>Ignorer</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_store/auth/auth.effects.ts</context>
+          <context context-type="linenumber">95</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="800638913792548125" datatype="html">
+        <source>Recharger</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_store/auth/auth.effects.ts</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="936038030241635079" datatype="html">
         <source>
                     Vous aviez une commande non finalisée dans votre panier la dernière fois que vous vous êtes déconnecté,
@@ -284,6 +315,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
           <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bec61abab9f650efb52008e098159a030f898eec" datatype="html">
+        <source> Cette page permet d&apos;autoriser ou d&apos;annuler l&apos;utilisation d&apos;un produit commandé sur le geoshop. </source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/validate/validate.component.html</context>
+          <context context-type="linenumber">16,18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="abbcad693756205a5d922b7d8ca8426cacee19db" datatype="html">
@@ -622,12 +661,80 @@
           <context context-type="linenumber">102</context>
         </context-group>
       </trans-unit>
+<trans-unit id="1711750570766225138" datatype="html">
+        <source>Annuler</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
+          <context context-type="linenumber">468</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
+          <context context-type="linenumber">594</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
+          <context context-type="linenumber">149</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4207918560099388002" datatype="html">
+        <source>Continuer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
+          <context context-type="linenumber">469</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="180879386399550529" datatype="html">
+        <source>Supprimer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
+          <context context-type="linenumber">595</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
+          <context context-type="linenumber">150</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8531193569169880344" datatype="html">
+        <source>Etes-vous sûr de vouloir supprimer le contact &lt;b style=&apos;color:#26a59a;&apos;&gt;<x id="PH" equiv-text="contact.first_name"/> <x id="PH_1" equiv-text="contact.last_name"/>&lt;/b&gt; ?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
+          <context context-type="linenumber">597</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="order.delete" datatype="html">
         <source> Supprimer </source>
         <target> Entfernen </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/orders/order/order.component.html</context>
           <context context-type="linenumber">23,25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4247263368529700262" datatype="html">
+        <source>Confirmer</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
+          <context context-type="linenumber">119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7412537097243373197" datatype="html">
+        <source>Etes-vous sûr de vouloir confimrer la commande?</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
+          <context context-type="linenumber">120</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3963713773815278142" datatype="html">
+        <source>Etes-vous sûr de vouloir supprimer la commande &quot;<x id="PH" equiv-text="this.order.title"/>&quot; ?</source>
+        <target>DE::</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
+          <context context-type="linenumber">151</context>
         </context-group>
       </trans-unit>
       <trans-unit id="order.confirm" datatype="html">

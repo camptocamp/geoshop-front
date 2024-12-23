@@ -56,7 +56,7 @@ export class OrderItemViewComponent implements OnInit {
         window.URL.revokeObjectURL(link.href);
       },
       error: (error: any) => {
-        this.snackBar.open(error.detail ?? 'Aucun fichier disponible', 'Ok', { panelClass: 'notification-info' });
+        this.snackBar.open(error.detail ?? $localize`Aucun fichier disponible`, 'Ok', { panelClass: 'notification-info' });
       }
     });
   }
