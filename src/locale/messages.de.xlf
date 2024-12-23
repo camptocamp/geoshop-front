@@ -227,7 +227,7 @@
       </trans-unit>
       <trans-unit id="5740445985300777436" datatype="html">
         <source>Aucun fichier disponible</source>
-        <target>DE::</target>
+        <target>Keine Datei verfügbar</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_components/order-item-view/order-item-view.component.ts</context>
           <context context-type="linenumber">59</context>
@@ -277,7 +277,7 @@
         </context-group>
       </trans-unit>
         <source>Ignorer</source>
-        <target>DE::</target>
+        <target>Ignorieren</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_store/auth/auth.effects.ts</context>
           <context context-type="linenumber">95</context>
@@ -285,7 +285,7 @@
       </trans-unit>
       <trans-unit id="800638913792548125" datatype="html">
         <source>Recharger</source>
-        <target>DE::</target>
+        <target>Laden</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_store/auth/auth.effects.ts</context>
           <context context-type="linenumber">96</context>
@@ -319,7 +319,7 @@
       </trans-unit>
       <trans-unit id="bec61abab9f650efb52008e098159a030f898eec" datatype="html">
         <source> Cette page permet d&apos;autoriser ou d&apos;annuler l&apos;utilisation d&apos;un produit commandé sur le geoshop. </source>
-        <target>DE::</target>
+        <target> Auf dieser Seite können Sie die Verwendung eines Produkts bei einer GeoShop Bestellung bewilligen oder ablehnen. </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/validate/validate.component.html</context>
           <context context-type="linenumber">16,18</context>
@@ -715,7 +715,7 @@
       </trans-unit>
       <trans-unit id="4247263368529700262" datatype="html">
         <source>Confirmer</source>
-        <target>DE::</target>
+        <target>Bestätigen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
           <context context-type="linenumber">119</context>
@@ -723,7 +723,7 @@
       </trans-unit>
       <trans-unit id="7412537097243373197" datatype="html">
         <source>Etes-vous sûr de vouloir confimrer la commande?</source>
-        <target>DE::</target>
+        <target>Sind Sie sicher, dass Sie die Bestellung bestätigen wollen?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
           <context context-type="linenumber">120</context>
@@ -731,7 +731,7 @@
       </trans-unit>
       <trans-unit id="3963713773815278142" datatype="html">
         <source>Etes-vous sûr de vouloir supprimer la commande &quot;<x id="PH" equiv-text="this.order.title"/>&quot; ?</source>
-        <target>DE::</target>
+        <target>Sind Sie sicher, dass Sie die Bestellung &quot;<x id="PH" equiv-text="this.order.title"/>&quot; löschen wollen?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
           <context context-type="linenumber">151</context>
