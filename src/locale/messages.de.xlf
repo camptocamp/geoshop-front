@@ -693,7 +693,7 @@
       </trans-unit>
       <trans-unit id="2477113259664468311" datatype="html">
         <source>Le contact &lt;b style=&apos;color:#26a59a;&apos;&gt;<x id="PH" equiv-text="this.currentSelectedContact.first_name"/> <x id="PH_1" equiv-text="this.currentSelectedContact.last_name"/>&lt;/b&gt; a été modifié. Voulez-vous continuer?</source>
-        <target>DE:::</target>
+        <target>Die Kontaktdaten von &lt;b style=&apos;color:#26a59a;&apos;&gt;<x id="PH" equiv-text="this.currentSelectedContact.first_name"/> <x id="PH_1" equiv-text="this.currentSelectedContact.last_name"/>&lt;/b&gt; wurden verändert. Möchten Sie fortfahren?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
           <context context-type="linenumber">471</context>
