@@ -45,7 +45,8 @@ export class GeoshopUtils {
       items: [],
       total_without_vat_currency: '',
       total_without_vat: '',
-      geom: undefined
+      geom: undefined,
+      excludedGeom: undefined
     };
 
     for (const attr in order) {

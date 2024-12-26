@@ -113,6 +113,7 @@ export interface IOrder {
   total_with_vat_currency: string;
   total_with_vat: string;
   geom: string | undefined;
+  excludedGeom: string | undefined;
   invoice_reference: string;
   email_deliver: string;
   order_status: OrderStatus;
@@ -160,6 +161,7 @@ export class Order {
   total_with_vat_currency: string;
   total_with_vat: string;
   geom: Polygon;
+  excludedGeom: Polygon;
   invoice_reference: string;
   email_deliver: string;
   order_status: OrderStatus;
@@ -196,6 +198,11 @@ export class Order {
     return new GeoJSON().writeGeometry(this.geom);
   }
 
+  get excludedGeomAsGeoJson(): string {
+    console.log(this.excludedGeom);
+    return new GeoJSON().writeGeometry(this.excludedGeom);
+  }
+
   get toPostAsJson(): IOrderToPost {
     const order: IOrderToPost = {
       description: this.description,
@@ -229,6 +236,7 @@ export class Order {
       date_ordered: this.date_ordered ? this.date_ordered.getTime().toString() : undefined,
       description: this.description,
       geom: this.geometryAsGeoJson,
+      excludedGeom: this.excludedGeomAsGeoJson,
       invoice_reference: this.invoice_reference,
       email_deliver: this.email_deliver,
       items: this.items,
@@ -275,7 +283,8 @@ export class Order {
       this._isAllOrderItemCalculated = this._isAllOrderItemCalculated && item.price_status === 'CALCULATED';
     }
 
-    this.initializeGeometry(options.geom);
+    this.geom = this.initializeGeometry(options.geom) ?? this.geom;
+    this.excludedGeom = this.initializeGeometry(options.excludedGeom) ?? this.excludedGeom;
     this.statusAsReadableIconText = Order.initializeStatus(options);
   }
 
@@ -368,17 +377,18 @@ export class Order {
       orderItem.product.label;
   }
 
-  private initializeGeometry(geom: string | undefined) {
+  private initializeGeometry(geom: string | undefined): Polygon|undefined {
     try {
       if (!geom) {
         return;
       }
       const geo = new GeoJSON().readGeometry(geom);
       if (geo instanceof Polygon) {
-        this.geom = geo;
+        return geo;
       }
     } catch (error) {
       console.error(error);
     }
+    return;
   }
 }

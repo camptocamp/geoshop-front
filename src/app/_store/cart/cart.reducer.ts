@@ -27,7 +27,8 @@ export const initialState: CartState = {
   items: [],
   total_without_vat_currency: '',
   total_without_vat: '',
-  geom: undefined
+  geom: undefined,
+  excludedGeom: undefined
 };
 
 const cartReducer = createReducer(initialState,
@@ -53,7 +54,8 @@ const cartReducer = createReducer(initialState,
       items: [],
       total_without_vat_currency: '',
       total_without_vat: '',
-      geom: undefined
+      geom: undefined,
+      excludedGeom: undefined
     };
     return cartState;
   }),
