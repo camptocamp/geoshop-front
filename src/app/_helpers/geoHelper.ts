@@ -1,19 +1,20 @@
 import Polygon from 'ol/geom/Polygon';
-import {getArea} from 'ol/sphere';
-import {ConfigService} from '../_services/config.service';
+import { getArea } from 'ol/sphere';
+import { ConfigService } from '../_services/config.service';
 import proj4 from 'proj4';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import Projection from 'ol/proj/Projection';
 import View from 'ol/View';
-import {fromLonLat} from 'ol/proj';
-import {MapService} from '../_services/map.service';
+import { fromLonLat } from 'ol/proj';
+import { MapService } from '../_services/map.service';
 import Map from 'ol/Map';
 import LayerGroup from 'ol/layer/Group';
-import {defaults} from 'ol/interaction';
-import {register} from 'ol/proj/proj4';
-import {Order} from '../_models/IOrder';
+import { defaults } from 'ol/interaction';
+import { register } from 'ol/proj/proj4';
+import { Order } from '../_models/IOrder';
 import Feature from 'ol/Feature';
+import { Fill, Style } from 'ol/style';
 
 export class GeoHelper {
   /**
@@ -49,7 +50,16 @@ export class GeoHelper {
     });
     const layer = new VectorLayer({
       source: vectorSource,
-      style: mapService.drawingStyle
+      style: (feature: Feature) => {
+        if (feature.get("excluded")) {
+          return new Style({
+            fill: new Fill({
+              color: 'rgba(255, 0, 0, 0.5)'
+            })
+          })
+        }
+        return mapService.drawingStyle;
+      }
     });
 
     const projection = new Projection({
@@ -101,6 +111,13 @@ export class GeoHelper {
     feature.setGeometry(order.geom);
     vectorSources[index].clear();
     vectorSources[index].addFeature(feature);
+
+    if (order.excludedGeom && order.excludedGeom.getCoordinates().length) {
+      const excludedFeature = new Feature();
+      excludedFeature.set("excluded", true);
+      excludedFeature.setGeometry(order.excludedGeom);
+      vectorSources[index].addFeature(excludedFeature);
+    }
 
     miniMaps[index].getView().fit(order.geom, {
       padding: [50, 50, 50, 50]

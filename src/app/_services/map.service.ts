@@ -100,8 +100,8 @@ export class MapService {
         }
 
         return geo;
-      }
-    })
+      },
+    }),
   ];
 
   // Map's interactions
