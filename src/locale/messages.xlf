@@ -164,21 +164,21 @@
         <source>Frais de traitement</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_components/order-item-view/order-item-view.component.html</context>
-          <context context-type="linenumber">14</context>
+          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="order.vat" datatype="html">
         <source>Total incl. TTC</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_components/order-item-view/order-item-view.component.html</context>
-          <context context-type="linenumber">15</context>
+          <context context-type="linenumber">14</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b85a13b6384860a0b330ff8b29ff1f89779f4b63" datatype="html">
         <source>Dont TVA 8.1 %</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_components/order-item-view/order-item-view.component.html</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="linenumber">15</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
@@ -189,14 +189,14 @@
         <source> Format</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_components/order-item-view/order-item-view.component.html</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">22</context>
         </context-group>
       </trans-unit>
       <trans-unit id="order.price" datatype="html">
         <source>Prix</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_components/order-item-view/order-item-view.component.html</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5740445985300777436" datatype="html">
@@ -214,11 +214,11 @@
           <context context-type="linenumber">84</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6578332984012136226" datatype="html">
-        <source>Selected area is too large, allowed: <x id="PH" equiv-text="formatArea(err.expected[0])"/>, selected: <x id="PH_1" equiv-text="formatArea(err.actual[0])"/>, overflow: <x id="PH_2" equiv-text="formatArea(over)"/></source>
+      <trans-unit id="5300981229662517671" datatype="html">
+        <source>Selected area is too large, selected: <x id="PH" equiv-text="formatArea(err.actual[0])"/>, overflow: <x id="PH_1" equiv-text="formatArea(err.excluded[0])"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_interceptors/errorInterceptor.ts</context>
-          <context context-type="linenumber">19</context>
+          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8151944010898811895" datatype="html">
@@ -623,6 +623,10 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
           <context context-type="linenumber">149</context>
         </context-group>
       </trans-unit>
@@ -686,13 +690,6 @@
           <context context-type="linenumber">94</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="2244891011930758960" datatype="html">
-        <source>Annuler&apos;</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
-          <context context-type="linenumber">118</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="4247263368529700262" datatype="html">
         <source>Confirmer</source>
         <context-group purpose="location">
@@ -700,8 +697,8 @@
           <context context-type="linenumber">119</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="1593114017559866095" datatype="html">
-        <source>Etes-vous sûr de vouloir confimrer la commande ?</source>
+      <trans-unit id="7412537097243373197" datatype="html">
+        <source>Etes-vous sûr de vouloir confimrer la commande?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
           <context context-type="linenumber">120</context>

@@ -241,12 +241,12 @@
           <context context-type="linenumber">84</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6578332984012136226" datatype="html">
-	<source>Selected area is too large, allowed: <x id="PH" equiv-text="formatArea(err.expected[0])"/>, selected: <x id="PH_1" equiv-text="formatArea(err.actual[0])"/>, overflow: <x id="PH_2" equiv-text="formatArea(over)"/></source>
-	<target>Das ausgewählte Gebiet ist zu gross, erlaubt: <x id="PH" equiv-text="formatArea(err.expected[0])"/>, ausgewählt: <x id="PH_1" equiv-text="formatArea(err.actual[0])"/>, Unterschied: <x id="PH_2" equiv-text="formatArea(over)"/></target>
+      <trans-unit id="5300981229662517671" datatype="html">
+        <source>Selected area is too large, selected: <x id="PH" equiv-text="formatArea(err.actual[0])"/>, overflow: <x id="PH_1" equiv-text="formatArea(err.excluded[0])"/></source>
+        <target>Der ausgewählte Bereich ist zu gross. Ausgewählt ist <x id="PH" equiv-text="formatArea(err.actual[0])"/>, was die erlaubte Grösse um <x id="PH_1" equiv-text="formatArea(err.excluded[0])" /> überschreitet.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_interceptors/errorInterceptor.ts</context>
-          <context context-type="linenumber">19</context>
+          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8151944010898811895" datatype="html">
