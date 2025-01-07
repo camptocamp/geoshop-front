@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
   }
 
   private callbackUrl: string;
-  private hasClickOnLogin = false;
 
   constructor(private store: Store<AppState>, private route: ActivatedRoute,
               private el: ElementRef,
@@ -63,7 +62,6 @@ export class LoginComponent implements OnInit {
         },
         callbackUrl: this.callbackUrl,
       };
-      this.hasClickOnLogin = true;
       this.store.dispatch(AuthActions.login(payload));
     }
   }
@@ -72,8 +70,11 @@ export class LoginComponent implements OnInit {
     return this.config.config?.oidcConfig ? true : false;
   }
 
+  get localAuthEnabled():boolean {
+    return this.config.config?.localAuthEnabled ? true: false;
+  }
+
   oidcAuthClick() {
-    this.hasClickOnLogin = true;
     this.oidcSecurityService.authorize();
   }
 }

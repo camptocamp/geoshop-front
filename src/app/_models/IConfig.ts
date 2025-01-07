@@ -24,6 +24,7 @@ export interface IConfig {
   epsg: string;
   pageformats: Array<IPageFormat>;
   oidcConfig: OpenIdConfiguration;
+  localAuthEnabled: boolean;
 }
 
 export interface IPageFormat {

@@ -27,7 +27,7 @@
 
 </ng-container>
 
-<ng-container *ngIf="!(isLoggedIn$|async)">
+<ng-container *ngIf="!(isLoggedIn$|async) && localAuthEnabled">
   <div class="flex-row px-16">
     <mat-icon class="overflow">info</mat-icon>
     <span i18n="@@account.auth_required">Pour commander vous devez obligatoirement vous authentifier.</span>
@@ -39,5 +39,11 @@
   <button mat-button color="primary" [routerLink]="['auth/register']">
       <mat-icon>person_add</mat-icon>
       <span i18n="@@account.create_account">Créer un compte</span>
+  </button>
+</ng-container>
+
+<ng-container  *ngIf="!(isLoggedIn$|async) && !localAuthEnabled">
+  <button *ngIf="oidcEnabled" i18n="@@login.login_oidc" class="form-login-button" color="primary" mat-raised-button (click)="oidcAuthClick()" >
+    Login with Zitadel
   </button>
 </ng-container>

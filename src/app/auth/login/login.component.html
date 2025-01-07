@@ -3,7 +3,7 @@
     <mat-card-title i18n="@@login.auth_title">GeoShop - Authentification</mat-card-title>
     <mat-card-subtitle>{{ LOGIN }}</mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content *ngIf="localAuthEnabled">
     <form [formGroup]="form" (ngSubmit)="submit()">
       <mat-form-field color="primary">
         <input formControlName="username"
@@ -33,6 +33,13 @@
       <button mat-button color="accent" [routerLink]="'/auth/forget'" class="flex-row forgotten-button" >
         <span i18n="@@login.pw_forgotten">Mot de passe oublié</span>
         <mat-icon>help_outline</mat-icon>
+      </button>
+    </form>
+  </mat-card-content>
+  <mat-card-content *ngIf="!localAuthEnabled && oidcEnabled">
+    <form>
+      <button *ngIf="oidcEnabled" i18n="@@login.login_oidc" class="form-login-button" color="primary" mat-raised-button (click)="oidcAuthClick()" >
+        Login with Zitadel
       </button>
     </form>
   </mat-card-content>
