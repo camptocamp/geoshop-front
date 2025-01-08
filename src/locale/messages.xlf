@@ -44,6 +44,29 @@
           <context context-type="linenumber">41</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="login.login_oidc" datatype="html">
+        <source>OIDC S&apos;authentifier</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_components/account-overlay/account-overlay.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
+          <context context-type="linenumber">30,32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
+          <context context-type="linenumber">41,43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.no_auth_available" datatype="html">
+        <source> Aucune méthode d&apos;authentification disponible
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_components/account-overlay/account-overlay.component.html</context>
+          <context context-type="linenumber">50,52</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="cart.empty" datatype="html">
         <source> Vider le panier
 </source>
@@ -924,13 +947,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/reset/reset.component.html</context>
           <context context-type="linenumber">13</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="login.login_oidc" datatype="html">
-        <source> Login with Zitadel </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
-          <context context-type="linenumber">30,32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.pw_forgotten" datatype="html">
