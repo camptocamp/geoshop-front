@@ -42,8 +42,11 @@
   </button>
 </ng-container>
 
-<ng-container  *ngIf="!(isLoggedIn$|async) && !localAuthEnabled">
-  <button *ngIf="oidcEnabled" i18n="@@login.login_oidc" class="form-login-button" color="primary" mat-raised-button (click)="oidcAuthClick()" >
-    Login with Zitadel
-  </button>
-</ng-container>
+<button *ngIf="!(isLoggedIn$|async) && !localAuthEnabled && oidcEnabled" mat-button color="primary" (click)="oidcAuthClick()" >
+  <mat-icon>input</mat-icon>
+  <span i18n="@@login.login_oidc">OIDC S'authentifier</span>
+</button>
+
+<span *ngIf="!localAuthEnabled && !oidcEnabled" i18n="@@login.no_auth_available">
+  Aucune méthode d'authentification disponible
+</span>
