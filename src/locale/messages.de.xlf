@@ -68,7 +68,7 @@
       </trans-unit>
       <trans-unit id="login.login_oidc" datatype="html">
         <source>OIDC S&apos;authentifier</source>
-        <target>OIDC Anmelden</target>
+        <target>Anmelden mit OIDC</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_components/account-overlay/account-overlay.component.html</context>
           <context context-type="linenumber">47</context>
@@ -960,7 +960,7 @@
       </trans-unit>
       <trans-unit id="login.login_oidc" datatype="html">
         <source>Login with Zitadel</source>
-        <target>Login with Zitadel</target>
+        <target>Anmelden mit OIDC</target>
       </trans-unit>
       <trans-unit id="df9d935c95f3e8eda64cfd0967fbb9cb358409e4" datatype="html">
         <source>Mot de passe</source>
