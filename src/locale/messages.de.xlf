@@ -274,6 +274,14 @@
           <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="2467634285371303825" datatype="html">
+        <source>La session à expirée</source>
+        <target>Login abgelaufen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_interceptors/errorInterceptor.ts</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="8151944010898811895" datatype="html">
         <source>Décision soumise avec succès</source>
         <target>Die Auswahl wurde erfolgreich übermittelt</target>
@@ -910,6 +918,13 @@
           <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="4e9f1627175d3d3f96887abb705cceaa19556bd1" datatype="html">
+        <source>Redirecting to Authentification page. If that doesn&apos;t happen, please click the button</source>
+        <target>Sie werden zur Loginseite weiter geleitet. Wenn dies nicht automatisch geschieht, klicken Sie bitte auf die Schaltfläche.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-gr
       <trans-unit id="main.info" datatype="html">
         <source>info</source>
         <target>Info</target>

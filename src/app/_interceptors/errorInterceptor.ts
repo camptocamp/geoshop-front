@@ -54,6 +54,8 @@ export class ErrorInterceptor implements HttpInterceptor {
             // TODO: Better error type recognition
             if (Array.isArray(err.message) && err.message[0] === 'Order area is too large') {
               message = formatAreaError(err);
+            } else if (JSON.stringify(err.message).toLowerCase().indexOf("token expired") !== -1){
+              message = $localize`La session à expirée`;
             } else {
               message = formatGenericError(err);
             }
