@@ -56,7 +56,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
-          <context context-type="linenumber">41,43</context>
+          <context context-type="linenumber">42,44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.no_auth_available" datatype="html">
@@ -256,6 +256,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_interceptors/errorInterceptor.ts</context>
           <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2467634285371303825" datatype="html">
+        <source>La session à expirée</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_interceptors/errorInterceptor.ts</context>
+          <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8151944010898811895" datatype="html">
@@ -968,6 +975,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
           <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4e9f1627175d3d3f96887abb705cceaa19556bd1" datatype="html">
+        <source>Redirecting to Authentification page. If that doesn&apos;t happen, please click the button</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
+          <context context-type="linenumber">41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8c798fd058ea113beb5299140af0cb78f228e5a0" datatype="html">

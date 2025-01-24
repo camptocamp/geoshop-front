@@ -38,6 +38,7 @@
   </mat-card-content>
   <mat-card-content *ngIf="!localAuthEnabled && oidcEnabled">
     <form>
+      <span i18n>Redirecting to Authentification page. If that doesn't happen, please click the button</span>
       <button *ngIf="oidcEnabled" i18n="@@login.login_oidc" class="form-login-button" color="primary" mat-raised-button (click)="oidcAuthClick()" >
         Login with Zitadel
       </button>

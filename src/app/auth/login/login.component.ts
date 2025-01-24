@@ -47,6 +47,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (!this.localAuthEnabled) {
+      this.oidcSecurityService.authorize();
+      return
+    }
     const input = this.el.nativeElement.querySelector('[formcontrolname="username"]');
     if (input && input instanceof HTMLInputElement) {
       input.focus();
