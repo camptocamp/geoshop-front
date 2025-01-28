@@ -5,9 +5,10 @@ import { AppState } from 'src/app/_store';
 import * as AuthActions from '../../_store/auth/auth.action';
 
 @Component({
-  selector: 'gs2-callback',
-  templateUrl: './oidc.component.html',
-  styleUrls: ['./oidc.component.scss']
+    selector: 'gs2-callback',
+    templateUrl: './oidc.component.html',
+    styleUrls: ['./oidc.component.scss'],
+    standalone: false
 })
 export class OidcComponent implements OnInit {
 

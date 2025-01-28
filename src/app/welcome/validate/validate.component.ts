@@ -17,9 +17,10 @@ import { Feature } from 'ol';
 
 
 @Component({
-  selector: 'gs2-validate',
-  templateUrl: './validate.component.html',
-  styleUrls: ['./validate.component.scss']
+    selector: 'gs2-validate',
+    templateUrl: './validate.component.html',
+    styleUrls: ['./validate.component.scss'],
+    standalone: false
 })
 export class ValidateComponent implements OnInit, OnDestroy {
 

@@ -16,9 +16,10 @@ import {IOrder} from '../../_models/IOrder';
 import {updateOrder} from '../../_store/cart/cart.action';
 
 @Component({
-  selector: 'gs2-catalog',
-  templateUrl: './catalog.component.html',
-  styleUrls: ['./catalog.component.scss']
+    selector: 'gs2-catalog',
+    templateUrl: './catalog.component.html',
+    styleUrls: ['./catalog.component.scss'],
+    standalone: false
 })
 export class CatalogComponent implements OnInit {
 

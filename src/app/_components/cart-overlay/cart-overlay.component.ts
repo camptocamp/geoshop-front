@@ -17,9 +17,10 @@ import {IOrder, Order} from '../../_models/IOrder';
 import {GeoshopUtils} from '../../_helpers/GeoshopUtils';
 
 @Component({
-  selector: 'gs2-cart-overlay',
-  templateUrl: './cart-overlay.component.html',
-  styleUrls: ['./cart-overlay.component.scss']
+    selector: 'gs2-cart-overlay',
+    templateUrl: './cart-overlay.component.html',
+    styleUrls: ['./cart-overlay.component.scss'],
+    standalone: false
 })
 export class CartOverlayComponent implements OnInit, OnDestroy {
 

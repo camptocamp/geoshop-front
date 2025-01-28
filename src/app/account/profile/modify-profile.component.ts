@@ -8,9 +8,10 @@ import {IUser, IUserToPost} from '../../_models/IUser';
 import { ConstantsService } from 'src/app/constants.service';
 
 @Component({
-  selector: 'gs2-modify-profile',
-  templateUrl: './modify-profile.component.html',
-  styleUrls: ['./modify-profile.component.scss']
+    selector: 'gs2-modify-profile',
+    templateUrl: './modify-profile.component.html',
+    styleUrls: ['./modify-profile.component.scss'],
+    standalone: false
 })
 export class ModifyProfileComponent implements OnInit {
 

@@ -20,9 +20,10 @@ import { HttpResponse } from '@angular/common/http';
 
 
 @Component({
-  selector: 'gs2-download',
-  templateUrl: './download.component.html',
-  styleUrls: ['./download.component.scss']
+    selector: 'gs2-download',
+    templateUrl: './download.component.html',
+    styleUrls: ['./download.component.scss'],
+    standalone: false
 })
 export class DownloadComponent implements OnInit, OnDestroy {
 

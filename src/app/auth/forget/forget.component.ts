@@ -6,9 +6,10 @@ import {EMAIL_REGEX} from '../../_helpers/regex';
 import {ApiService} from '../../_services/api.service';
 
 @Component({
-  selector: 'gs2-forget',
-  templateUrl: './forget.component.html',
-  styleUrls: ['./forget.component.scss']
+    selector: 'gs2-forget',
+    templateUrl: './forget.component.html',
+    styleUrls: ['./forget.component.scss'],
+    standalone: false
 })
 export class ForgetComponent implements OnInit {
 

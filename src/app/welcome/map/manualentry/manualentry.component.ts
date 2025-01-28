@@ -4,9 +4,10 @@ import {IManualEntryDialogData} from '../../../_models/IManualEntryDialog';
 import {MatTabChangeEvent} from '@angular/material/tabs';
 
 @Component({
-  selector: 'gs2-manualentry',
-  templateUrl: './manualentry.component.html',
-  styleUrls: ['./manualentry.component.scss']
+    selector: 'gs2-manualentry',
+    templateUrl: './manualentry.component.html',
+    styleUrls: ['./manualentry.component.scss'],
+    standalone: false
 })
 export class ManualentryComponent implements OnInit {
 

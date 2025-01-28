@@ -7,9 +7,10 @@ import { combineLatest } from 'rxjs';
 import * as fromAuth from './_store/auth/auth.action';
 
 @Component({
-  selector: 'gs2-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'gs2-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 export class AppComponent implements OnDestroy {
 

@@ -1,9 +1,10 @@
 import {Component, HostBinding, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'gs2-auth',
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss']
+    selector: 'gs2-auth',
+    templateUrl: './auth.component.html',
+    styleUrls: ['./auth.component.scss'],
+    standalone: false
 })
 export class AuthComponent implements OnInit {
 

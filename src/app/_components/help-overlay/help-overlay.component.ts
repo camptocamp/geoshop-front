@@ -2,9 +2,10 @@ import {Component, HostBinding, OnInit} from '@angular/core';
 import {ConfigService} from '../../_services/config.service';
 
 @Component({
-  selector: 'gs2-help-overlay',
-  templateUrl: './help-overlay.component.html',
-  styleUrls: ['./help-overlay.component.scss']
+    selector: 'gs2-help-overlay',
+    templateUrl: './help-overlay.component.html',
+    styleUrls: ['./help-overlay.component.scss'],
+    standalone: false
 })
 export class HelpOverlayComponent implements OnInit {
 

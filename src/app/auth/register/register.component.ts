@@ -12,9 +12,10 @@ import {PHONE_REGEX, IDE_REGEX} from '../../_helpers/regex';
 import {ConstantsService} from '../../constants.service';
 
 @Component({
-  selector: 'gs2-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+    selector: 'gs2-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss'],
+    standalone: false
 })
 export class RegisterComponent implements OnInit, AfterViewInit {
 

@@ -8,9 +8,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { ConstantsService } from 'src/app/constants.service';
 
 @Component({
-  selector: 'gs2-reset',
-  templateUrl: './reset.component.html',
-  styleUrls: ['./reset.component.scss']
+    selector: 'gs2-reset',
+    templateUrl: './reset.component.html',
+    styleUrls: ['./reset.component.scss'],
+    standalone: false
 })
 export class ResetComponent implements OnInit, OnDestroy {
 

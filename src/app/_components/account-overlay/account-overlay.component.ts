@@ -7,9 +7,10 @@ import { ConfigService } from 'src/app/_services/config.service';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 @Component({
-  selector: 'gs2-account-overlay',
-  templateUrl: './account-overlay.component.html',
-  styleUrls: ['./account-overlay.component.scss']
+    selector: 'gs2-account-overlay',
+    templateUrl: './account-overlay.component.html',
+    styleUrls: ['./account-overlay.component.scss'],
+    standalone: false
 })
 export class AccountOverlayComponent implements OnInit {
 
