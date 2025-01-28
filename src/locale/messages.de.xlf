@@ -924,7 +924,8 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
           <context context-type="linenumber">41</context>
-        </context-gr
+        </context-group>
+      </trans-unit>
       <trans-unit id="main.info" datatype="html">
         <source>info</source>
         <target>Info</target>
