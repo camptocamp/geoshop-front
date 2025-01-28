@@ -4,9 +4,10 @@ import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog
 import {IMetadata} from 'src/app/_models/IMetadata';
 
 @Component({
-  selector: 'gs2-dialog-metadata',
-  templateUrl: './dialog-metadata.component.html',
-  styleUrls: ['./dialog-metadata.component.scss']
+    selector: 'gs2-dialog-metadata',
+    templateUrl: './dialog-metadata.component.html',
+    styleUrls: ['./dialog-metadata.component.scss'],
+    standalone: false
 })
 export class DialogMetadataComponent implements OnInit {
 

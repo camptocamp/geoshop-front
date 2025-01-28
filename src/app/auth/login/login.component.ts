@@ -10,9 +10,10 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { ConfigService } from 'src/app/_services/config.service';
 
 @Component({
-  selector: 'gs2-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+    selector: 'gs2-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
 

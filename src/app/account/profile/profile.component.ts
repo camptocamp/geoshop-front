@@ -4,9 +4,10 @@ import {IUser} from '../../_models/IUser';
 
 
 @Component({
-  selector: 'gs2-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+    selector: 'gs2-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss'],
+    standalone: false
 })
 export class ProfileComponent implements OnInit {
 

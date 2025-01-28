@@ -20,9 +20,10 @@ import { HttpResponse } from '@angular/common/http';
 
 // TODO tranlsate after updating SnackBar!
 @Component({
-  selector: 'gs2-order',
-  templateUrl: './order.component.html',
-  styleUrls: ['./order.component.scss']
+    selector: 'gs2-order',
+    templateUrl: './order.component.html',
+    styleUrls: ['./order.component.scss'],
+    standalone: false
 })
 export class OrderComponent implements OnInit {
   @Input() order: IOrderSummary;

@@ -20,9 +20,10 @@ import { Feature } from 'ol';
 
 
 @Component({
-  selector: 'gs2-orders',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss'],
+    selector: 'gs2-orders',
+    templateUrl: './orders.component.html',
+    styleUrls: ['./orders.component.scss'],
+    standalone: false
 })
 export class OrdersComponent implements OnInit, OnDestroy {
 

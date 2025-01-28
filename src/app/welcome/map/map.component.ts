@@ -22,9 +22,10 @@ export const nameOfCategoryForGeocoder: { [prop: string]: string; } = { // TODO 
 };
 
 @Component({
-  selector: 'gs2-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss']
+    selector: 'gs2-map',
+    templateUrl: './map.component.html',
+    styleUrls: ['./map.component.scss'],
+    standalone: false
 })
 export class MapComponent implements OnInit {
 

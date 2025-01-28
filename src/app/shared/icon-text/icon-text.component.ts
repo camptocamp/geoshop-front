@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'gs2-icon-text',
-  templateUrl: './icon-text.component.html',
-  styleUrls: ['./icon-text.component.scss']
+    selector: 'gs2-icon-text',
+    templateUrl: './icon-text.component.html',
+    styleUrls: ['./icon-text.component.scss'],
+    standalone: false
 })
 export class IconTextComponent implements OnInit {
 

@@ -24,9 +24,10 @@ import { ConfirmDialogComponent } from '../../_components/confirm-dialog/confirm
 import { ConstantsService } from 'src/app/constants.service';
 
 @Component({
-  selector: 'gs2-new-order',
-  templateUrl: './new-order.component.html',
-  styleUrls: ['./new-order.component.scss']
+    selector: 'gs2-new-order',
+    templateUrl: './new-order.component.html',
+    styleUrls: ['./new-order.component.scss'],
+    standalone: false
 })
 export class NewOrderComponent implements OnInit, OnDestroy {
 

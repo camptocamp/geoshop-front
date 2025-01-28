@@ -8,9 +8,10 @@ import {BehaviorSubject} from 'rxjs';
 import {IIdentity} from '../_models/IIdentity';
 
 @Component({
-  selector: 'gs2-welcome',
-  templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.scss'],
+    selector: 'gs2-welcome',
+    templateUrl: './welcome.component.html',
+    styleUrls: ['./welcome.component.scss'],
+    standalone: false
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
 

@@ -6,9 +6,10 @@ import {ConstantsService} from '../../constants.service';
 import { HttpResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'gs2-order-item-view',
-  templateUrl: './order-item-view.component.html',
-  styleUrls: ['./order-item-view.component.scss']
+    selector: 'gs2-order-item-view',
+    templateUrl: './order-item-view.component.html',
+    styleUrls: ['./order-item-view.component.scss'],
+    standalone: false
 })
 export class OrderItemViewComponent implements OnInit {
 
