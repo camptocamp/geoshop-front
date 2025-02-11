@@ -158,7 +158,8 @@ export class MapService {
       this.route.queryParamMap.subscribe(params => {
         const bounds = params.get("bounds")?.split(",", -1).map(parseFloat)
         if (bounds) {
-          this.map.getView().fit(new Polygon([[[bounds[0], bounds[1]], [bounds[2], bounds[3]]]]));
+          this.map.getView().fit(new Polygon([[[bounds[0], bounds[1]], [bounds[2], bounds[3]]]]),
+            { nearest: true });
         }
       });
     });
