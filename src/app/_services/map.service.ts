@@ -13,7 +13,7 @@ import { defaults as defaultInteractions, DragAndDrop } from 'ol/interaction';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import { Draw, Modify } from 'ol/interaction';
-import { Feature } from 'ol';
+import { Feature, Overlay } from 'ol';
 import { FeatureLike } from 'ol/Feature';
 import Polygon, { fromExtent } from 'ol/geom/Polygon';
 import WMTS, { Options } from 'ol/source/WMTS';
@@ -24,7 +24,7 @@ import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import Point from 'ol/geom/Point';
 import GeoJSON from 'ol/format/GeoJSON';
 import Projection from 'ol/proj/Projection';
-import { boundingExtent, buffer, Extent, getArea } from 'ol/extent';
+import { boundingExtent, buffer, getCenter, getArea } from 'ol/extent';
 import MultiPoint from 'ol/geom/MultiPoint';
 import { fromLonLat } from 'ol/proj';
 import KML from 'ol/format/KML';
@@ -50,6 +50,15 @@ import { shiftKeyOnly } from 'ol/events/condition';
 import { createBox } from 'ol/interaction/Draw';
 import { CoordinateSearchService } from './coordinate-search.service';
 import { ActivatedRoute } from '@angular/router';
+import {getArea as getAreaSphere} from 'ol/sphere.js';
+
+const formatArea = (geom: Geometry): string => {
+  const area = getAreaSphere(geom);
+  return area > 100000 ?
+      `${Math.round((area / 1000000) * 100) / 100}km<sup>2</sup>` :
+      `${Math.round(area * 100) / 100}m<sup>2</sup>`;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +73,8 @@ export class MapService {
   private projection: Projection;
   private resolutions: number[];
   private initialExtent: number[];
+  private areaTooltipElement: HTMLElement;
+  private areaTooltip: Overlay;
 
   // Drawing
   private transformInteraction: Transform;
@@ -149,6 +160,8 @@ export class MapService {
           const geometry = this.geoJsonFormatter.readGeometry(order.geom);
           const feature = new Feature(geometry);
           this.drawingSource.addFeature(feature);
+          this.areaTooltip.setPosition(getCenter(feature.getGeometry()!.getExtent()));
+          this.areaTooltipElement.innerHTML = formatArea(feature.getGeometry()!);
         }
       });
       this.initialized = true;
@@ -172,6 +185,7 @@ export class MapService {
       this.transformInteraction.setActive(false);
       if (this.featureFromDrawing && this.drawingSource.getFeatures().length > 0) {
         this.drawingSource.removeFeature(this.featureFromDrawing);
+        this.featureFromDrawing = null;
       }
       window.oncontextmenu = (event: MouseEvent) => {
         event.preventDefault();
@@ -204,7 +218,7 @@ export class MapService {
     if (this.transformInteraction) {
       this.transformInteraction.setActive(false);
     }
-
+    this.areaTooltipElement.style.visibility = "hidden";
     this.featureFromDrawing = null;
     this.store.dispatch(updateGeometry({ geom: '' }));
   }
@@ -420,6 +434,15 @@ export class MapService {
       constrainResolution: true
     });
 
+    this.areaTooltipElement = document.createElement('div');
+    this.areaTooltipElement.className = 'ol-tooltip-area';
+    this.areaTooltip = new Overlay({
+      element: this.areaTooltipElement,
+      positioning: 'center-center',
+      stopEvent: false,
+      insertFirst: false,
+    });
+
     // Create the map
     this.map = new Map({
       target: 'map',
@@ -427,6 +450,7 @@ export class MapService {
       layers: new LayerGroup({
         layers: baseLayers
       }),
+      overlays: [this.areaTooltip],
       interactions: defaultInteractions(
         { doubleClickZoom: false }
       ).extend([this.initializeDragAndDropInteraction()]),
@@ -549,10 +573,23 @@ export class MapService {
         }
       });
     }
+    const svc = this;
+    this.areaTooltipElement.style.visibility = "hidden";
+    this.drawInteraction.on('drawstart', (evt) => {
+      svc.featureFromDrawing = evt.feature;
+    })
     this.drawInteraction.on('drawend', () => {
       this.toggleDrawing();
     });
     this.map.addInteraction(this.drawInteraction);
+    this.map.on('pointermove', () => {
+      const feat = this.featureFromDrawing;
+      if (feat && feat.getRevision() > 0) {
+        this.areaTooltipElement.style.visibility = "visible";
+        this.areaTooltip.setPosition(getCenter(feat.getGeometry()!.getExtent()));
+        this.areaTooltipElement.innerHTML = formatArea(feat.getGeometry()!);
+      }
+    });
   }
 
   private initializeDrawing() {
