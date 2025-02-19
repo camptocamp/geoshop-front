@@ -72,13 +72,17 @@ const MODULES = [
         HelpOverlayComponent,
         CartOverlayComponent,
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+    bootstrap: [AppComponent],
+    imports: [
+        OidcAuthConfigModule,
+        BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
         MODULES,
         StoreModule.forRoot(reducers, { metaReducers }),
         EffectsModule.forRoot([AuthEffects, CartEffects]),
-        OidcAuthConfigModule], providers: [
+    ],
+    providers: [
         {
             provide: APP_INITIALIZER,
             useFactory: initializeApp,

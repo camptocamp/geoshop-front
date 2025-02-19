@@ -2,9 +2,11 @@ import { Component, OnDestroy } from '@angular/core';
 import { AppState, getUser, selectCartTotal, selectOrder } from './_store';
 import { Store } from '@ngrx/store';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
+import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
 import * as fromAuth from './_store/auth/auth.action';
+import { ConfigService } from './_services/config.service';
 
 @Component({
     selector: 'gs2-root',
@@ -22,7 +24,12 @@ export class AppComponent implements OnDestroy {
   order$ = this.store.select(selectOrder);
   numberOfItemInTheCart$ = this.store.select(selectCartTotal);
 
-  constructor(private store: Store<AppState>, private router: Router) {
+  constructor(
+    private oidcService: OidcSecurityService,
+    private configService: ConfigService,
+    private store: Store<AppState>,
+    private router: Router
+  ) {
     const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
 
     combineLatest([routerNavEnd$, this.store.select(selectCartTotal)])
@@ -40,6 +47,13 @@ export class AppComponent implements OnDestroy {
           }
         }
       });
+
+    if (this.configService.config?.oidcConfig) {
+      this.oidcService.checkAuth().pipe(
+        filter((d) => d.isAuthenticated),
+        map((d: LoginResponse) => fromAuth.oidcLogin(d)),
+      ).subscribe((action) => this.store.dispatch(action));
+    }
 
     this.store.select(getUser).subscribe(user => {
       if (this.refreshTokenInterval) {
