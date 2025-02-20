@@ -4,7 +4,8 @@ FROM node:22.6.0-slim AS builder
 WORKDIR /usr/app
 
 COPY package*.json ./.
-RUN npm ci
+RUN npm ci  --legacy-peer-deps
+
 
 COPY . .
 
