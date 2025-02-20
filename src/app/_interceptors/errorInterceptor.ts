@@ -18,6 +18,10 @@ function formatAreaError(err: { message: [string], excluded: [number], actual: [
   return $localize`Selected area is too large, selected: ${formatArea(err.actual[0])}, overflow: ${formatArea(err.excluded[0])}`;
 }
 
+function formatConnectionError(response: HttpErrorResponse): string {
+  return $localize`Unexpected error: ${response.message}`;
+}
+
 function formatGenericError(err: any): string {
   const messages = [];
   for (const attr in err) {
@@ -43,7 +47,6 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     return next.handle(req).pipe(
       catchError(response => {
-
         if (response instanceof HttpErrorResponse) {
           if (response.status === 401) {
             this.store.dispatch(fromAuth.logout());
@@ -52,7 +55,9 @@ export class ErrorInterceptor implements HttpInterceptor {
             let message = "";
             const err = response.error;
             // TODO: Better error type recognition
-            if (Array.isArray(err.message) && err.message[0] === 'Order area is too large') {
+            if (!err.message && response.url) {
+              message = formatConnectionError(response);
+            } else if (Array.isArray(err.message) && err.message[0] === 'Order area is too large') {
               message = formatAreaError(err);
             } else if (JSON.stringify(err.message).toLowerCase().indexOf("token expired") !== -1){
               message = $localize`La session est expirée`;
