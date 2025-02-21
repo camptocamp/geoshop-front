@@ -50,8 +50,7 @@ export class AppComponent implements OnDestroy {
 
     if (this.configService.config?.oidcConfig) {
       this.oidcService.checkAuth().pipe(
-        filter((d) => d.isAuthenticated),
-        map((d: LoginResponse) => fromAuth.oidcLogin(d)),
+        map((d: LoginResponse) => d.isAuthenticated ? fromAuth.oidcLogin(d) : fromAuth.logout()),
       ).subscribe((action) => this.store.dispatch(action));
     }
 
