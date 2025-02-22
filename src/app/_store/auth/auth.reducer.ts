@@ -4,17 +4,20 @@ import {Action, createReducer, on} from '@ngrx/store';
 
 export interface AuthState {
   loggedIn: boolean;
+  autoLoginFailed: boolean;
   user: Partial<IIdentity> | null;
 }
 
 const initialState: AuthState = {
   loggedIn: false,
+  autoLoginFailed: false,
   user: null,
 };
 
 const authReducer = createReducer(
   initialState,
-  on(AuthActions.loginSuccess, (state, {identity}) => ({...state, loggedIn: true, user: identity})),
+  on(AuthActions.oidcAutoLoginFailure, (state, {}) => ({...state, autoLoginFailed: true})),
+  on(AuthActions.loginSuccess, (state, {identity}) => ({...state, loggedIn: true, autoLoginFailed: false, user: identity})),
   on(AuthActions.refreshTokenSuccess, (state, {token}) => {
     const user = Object.assign({}, state.user);
     user.token = token;

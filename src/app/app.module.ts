@@ -31,7 +31,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ErrorInterceptor} from './_interceptors/errorInterceptor';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {OverlayContainer} from '@angular/cdk/overlay';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterModule, RouterOutlet} from '@angular/router';
 import {CartEffects} from './_store/cart/cart.effects';
 import * as fromAuth from './_store/auth/auth.action';
 import {CommonModule} from '@angular/common';
@@ -74,6 +74,7 @@ const MODULES = [
     ],
     bootstrap: [AppComponent],
     imports: [
+        RouterModule,
         OidcAuthConfigModule,
         BrowserModule,
         BrowserAnimationsModule,

@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AppState, getUser, selectCartTotal, selectOrder } from './_store';
+import { AppState, authFeatureSelector, getUser, selectCartTotal, selectOrder } from './_store';
 import { Store } from '@ngrx/store';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
@@ -9,10 +9,10 @@ import * as fromAuth from './_store/auth/auth.action';
 import { ConfigService } from './_services/config.service';
 
 @Component({
-    selector: 'gs2-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: false
+  selector: 'gs2-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  standalone: false
 })
 export class AppComponent implements OnDestroy {
 
@@ -28,7 +28,8 @@ export class AppComponent implements OnDestroy {
     private oidcService: OidcSecurityService,
     private configService: ConfigService,
     private store: Store<AppState>,
-    private router: Router
+    private router: Router,
+    private readonly activatedRoute: ActivatedRoute,
   ) {
     const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
 
@@ -48,10 +49,19 @@ export class AppComponent implements OnDestroy {
         }
       });
 
-    if (this.configService.config?.oidcConfig) {
-      this.oidcService.checkAuth().pipe(
-        map((d: LoginResponse) => d.isAuthenticated ? fromAuth.oidcLogin(d) : fromAuth.logout()),
-      ).subscribe((action) => this.store.dispatch(action));
+    const err = new URLSearchParams(window.location.search).get('error');
+    if (err === "interaction_required") {
+      this.store.dispatch(fromAuth.oidcAutoLoginFailure());
+    } else if (this.configService.config?.oidcConfig) {
+      this.oidcService.checkAuth().subscribe((lr: LoginResponse) => {
+        if (lr.isAuthenticated) {
+          this.store.dispatch(fromAuth.oidcLogin(lr));
+        } else {
+          this.store.select(authFeatureSelector).pipe(
+            filter((feature) => !feature.autoLoginFailed)
+          ).subscribe(() => this.oidcService.authorize(undefined, {customParams:{prompt: 'none'}}))
+        }
+      });
     }
 
     this.store.select(getUser).subscribe(user => {

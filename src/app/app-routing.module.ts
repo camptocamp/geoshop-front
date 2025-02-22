@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
+import { autoLoginPartialRoutesGuard } from 'angular-auth-oidc-client';
 
 
 const routes: Routes = [
