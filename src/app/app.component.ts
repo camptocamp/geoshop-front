@@ -3,7 +3,7 @@ import { AppState, authFeatureSelector, getUser, selectCartTotal, selectOrder } 
 import { Store } from '@ngrx/store';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { combineLatest, zip } from 'rxjs';
+import { combineLatest, Subscription, zip } from 'rxjs';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import * as fromAuth from './_store/auth/auth.action';
 import { ConfigService } from './_services/config.service';
@@ -52,12 +52,14 @@ export class AppComponent implements OnDestroy {
       if (err === "interaction_required") {
         AppComponent.autoLoginFailed = true;
       } else if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
-        this.oidcService.checkAuth().subscribe((loginResponse) => {
+        let authSubscription = new Subscription()
+        authSubscription = this.oidcService.checkAuth().subscribe((loginResponse) => {
           if (loginResponse.isAuthenticated) {
             this.store.dispatch(fromAuth.oidcLogin(loginResponse));
           } else if (!AppComponent.autoLoginFailed) {
             this.oidcService.authorize(undefined, {customParams:{prompt: 'none'}});
           }
+          authSubscription.unsubscribe();
         });
       }
 
