@@ -5,6 +5,7 @@ import { LoginResponse } from 'angular-auth-oidc-client';
 
 export const LOGIN = '[Auth] Login';
 export const OIDC_LOGIN = '[Auth] Oidc Login';
+export const OIDC_AUTO_LOGIN_FAILURE = '[Auth] Oidc Auto Login';
 export const REFRESH_TOKEN = '[Auth] Refresh token';
 export const REFRESH_TOKEN_SUCCESS = '[Auth] Refresh token success';
 export const REFRESH_TOKEN_FAILURE = '[Auth] Refresh token failure';

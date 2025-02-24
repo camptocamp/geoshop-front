@@ -6,14 +6,12 @@ import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {ForgetComponent} from './forget/forget.component';
 import {ResetComponent} from './reset/reset.component';
-import {OidcComponent} from './oidc/oidc.component';
 
 const routes: Routes = [
   {path: '', component: AuthComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'forget', component: ForgetComponent},
-  {path: 'oidc', component: OidcComponent},
   {path: 'reset/:uid/:token', component: ResetComponent},
 ];
 
