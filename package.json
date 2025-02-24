@@ -40,7 +40,7 @@
     "@angular-eslint/builder": "18.4.3",
     "@angular/cli": "^19.1.7",
     "@angular/compiler-cli": "^19.1.7",
-    "@angular/language-service": "^19.1.6",
+    "@angular/language-service": "^19.1.7",
     "@angular/localize": "^19.1.7",
     "@types/jasmine": "^5.1.6",
     "@types/lodash-es": "^4.17.3",
