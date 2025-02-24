@@ -42,7 +42,7 @@
     "@angular/compiler-cli": "^19.1.7",
     "@angular/language-service": "^19.1.7",
     "@angular/localize": "^19.1.7",
-    "@types/jasmine": "^5.1.6",
+    "@types/jasmine": "^5.1.7",
     "@types/lodash-es": "^4.17.3",
     "@types/node": "^12.12.29",
     "@types/ol": "^6.1.0",
