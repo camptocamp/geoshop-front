@@ -16,8 +16,7 @@ const initialState: AuthState = {
 
 const authReducer = createReducer(
   initialState,
-  on(AuthActions.oidcAutoLoginFailure, (state, {}) => ({...state, autoLoginFailed: true})),
-  on(AuthActions.loginSuccess, (state, {identity}) => ({...state, loggedIn: true, autoLoginFailed: false, user: identity})),
+  on(AuthActions.loginSuccess, (state, {identity}) => ({...state, loggedIn: true, user: identity})),
   on(AuthActions.refreshTokenSuccess, (state, {token}) => {
     const user = Object.assign({}, state.user);
     user.token = token;

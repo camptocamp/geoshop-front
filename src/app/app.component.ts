@@ -1,10 +1,10 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AppState, authFeatureSelector, getUser, selectCartTotal, selectOrder } from './_store';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter, map } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
-import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { combineLatest, zip } from 'rxjs';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 import * as fromAuth from './_store/auth/auth.action';
 import { ConfigService } from './_services/config.service';
 
@@ -17,7 +17,7 @@ import { ConfigService } from './_services/config.service';
 export class AppComponent implements OnDestroy {
 
   private refreshTokenInterval: NodeJS.Timeout | number; // TODO this is breaking the build it was originaly set to type number
-
+  private static autoLoginFailed: boolean = false;
   title = 'front';
   subTitle = '';
 
@@ -29,7 +29,6 @@ export class AppComponent implements OnDestroy {
     private configService: ConfigService,
     private store: Store<AppState>,
     private router: Router,
-    private readonly activatedRoute: ActivatedRoute,
   ) {
     const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
 
@@ -49,20 +48,18 @@ export class AppComponent implements OnDestroy {
         }
       });
 
-    const err = new URLSearchParams(window.location.search).get('error');
-    if (err === "interaction_required") {
-      this.store.dispatch(fromAuth.oidcAutoLoginFailure());
-    } else if (this.configService.config?.oidcConfig) {
-      this.oidcService.checkAuth().subscribe((lr: LoginResponse) => {
-        if (lr.isAuthenticated) {
-          this.store.dispatch(fromAuth.oidcLogin(lr));
-        } else {
-          this.store.select(authFeatureSelector).pipe(
-            filter((feature) => !feature.autoLoginFailed)
-          ).subscribe(() => this.oidcService.authorize(undefined, {customParams:{prompt: 'none'}}))
-        }
-      });
-    }
+      const err = new URLSearchParams(window.location.search).get('error');
+      if (err === "interaction_required") {
+        AppComponent.autoLoginFailed = true;
+      } else if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
+        this.oidcService.checkAuth().subscribe((loginResponse) => {
+          if (loginResponse.isAuthenticated) {
+            this.store.dispatch(fromAuth.oidcLogin(loginResponse));
+          } else if (!AppComponent.autoLoginFailed) {
+            this.oidcService.authorize(undefined, {customParams:{prompt: 'none'}});
+          }
+        });
+      }
 
     this.store.select(getUser).subscribe(user => {
       if (this.refreshTokenInterval) {

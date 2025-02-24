@@ -24,10 +24,6 @@ export const oidcLogin = createAction(
   props<LoginResponse>()
 );
 
-export const oidcAutoLoginFailure = createAction(
-  OIDC_AUTO_LOGIN_FAILURE
-);
-
 export const refreshToken = createAction(
   REFRESH_TOKEN,
   props<{ token: string; }>()
