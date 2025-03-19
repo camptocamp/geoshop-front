@@ -48,34 +48,31 @@ export class AppComponent implements OnDestroy {
         }
       });
 
-      const err = new URLSearchParams(window.location.search).get('error');
-      if (err === "interaction_required") {
-        AppComponent.autoLoginFailed = true;
-      } else if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
-        let authSubscription = new Subscription()
-        authSubscription = this.oidcService.checkAuth().subscribe((loginResponse) => {
-          if (loginResponse.isAuthenticated) {
-            this.store.dispatch(fromAuth.oidcLogin(loginResponse));
-          } else if (!AppComponent.autoLoginFailed) {
-            this.oidcService.authorize(undefined, {customParams:{prompt: 'none'}});
+    const err = new URLSearchParams(window.location.search).get('error');
+    if (err === "interaction_required") {
+      AppComponent.autoLoginFailed = true;
+    } else if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
+      let authSubscription = new Subscription()
+      combineLatest([this.oidcService.checkAuth(), this.store.select(getUser)]).subscribe(([loginResponse, user]) => {
+        if (loginResponse.isAuthenticated && !user) {
+          this.store.dispatch(fromAuth.oidcLogin(loginResponse));
+        } else if (loginResponse.isAuthenticated && user) {
+          if (this.refreshTokenInterval) {
+            clearInterval(this.refreshTokenInterval);
           }
-          authSubscription.unsubscribe();
-        });
-      }
-
-    this.store.select(getUser).subscribe(user => {
-      if (this.refreshTokenInterval) {
-        clearInterval(this.refreshTokenInterval);
-      }
-
-      if (user && user.tokenRefresh) {
-        this.refreshTokenInterval = setInterval(() => {
-          if (user.tokenRefresh) {
-            this.store.dispatch(fromAuth.refreshToken({ token: user.tokenRefresh }));
+          if (user && user.tokenRefresh) {
+            this.refreshTokenInterval = setInterval(() => {
+              if (user.tokenRefresh) {
+                this.store.dispatch(fromAuth.refreshToken({ token: user.tokenRefresh }));
+              }
+            }, 120000);
           }
-        }, 120000);
-      }
-    });
+        } else if (!AppComponent.autoLoginFailed) {
+          this.oidcService.authorize(undefined, { customParams: { prompt: 'none' } });
+        }
+        authSubscription.unsubscribe();
+      });
+    }
   }
 
   ngOnDestroy() {
