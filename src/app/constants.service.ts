@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Dictionary } from '@ngrx/entity';
 
 @Injectable({
   providedIn: 'root'

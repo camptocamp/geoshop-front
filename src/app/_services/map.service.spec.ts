@@ -1,29 +1,41 @@
-import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
+import { TestBed } from '@angular/core/testing';
 import { MapService } from './map.service';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { AppState } from '../_store';
 import { of } from 'rxjs';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ConfigService } from './config.service';
 
 class StoreMock {
-  select =  jasmine.createSpy().and.returnValue(of(jasmine.createSpy()));
-  dispatch = jasmine.createSpy();
+  select = vi.fn().mockImplementation(() => of(vi.fn()));
+  dispatch = vi.fn();
 }
 
-describe('MapService', () => {
+class ConfigServiceMock {
+  public config = {
+    initialExtent: [0, 0, 1, 1],
+    pageformats: [{ name: "", height: 1, width: 1 }],
+  }
+}
+
+describe('MapServiceTest', () => {
   let service: MapService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[
+      imports: [
         RouterModule.forRoot([]),
       ],
       providers: [
-        HttpClient,
-        HttpHandler,
-        {provide: Store<AppState>, useClass: StoreMock}
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: ActivatedRoute, useValue: { queryParamMap: of() }},
+        { provide: ConfigService, useClass: ConfigServiceMock },
+        { provide: Store<AppState>, useClass: StoreMock }
       ],
     });
     service = TestBed.inject(MapService);

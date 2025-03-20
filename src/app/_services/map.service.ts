@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ConfigService } from 'src/app/_services/config.service';
+import { ConfigService } from './config.service';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 
 // Openlayers imports

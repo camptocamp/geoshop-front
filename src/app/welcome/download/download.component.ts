@@ -8,13 +8,12 @@ import Map from 'ol/Map';
 import VectorSource from 'ol/source/Vector';
 
 import { GeoHelper } from '../../_helpers/geoHelper';
-import { GeoshopUtils } from '../../_helpers/GeoshopUtils';
-import { Order, IOrderDowloadLink } from '../../_models/IOrder';
+import { Order } from '../../_models/IOrder';
 import { ApiOrderService } from '../../_services/api-order.service';
 import { ConfigService} from '../../_services/config.service';
 import { MapService} from '../../_services/map.service';
 import Geometry from 'ol/geom/Geometry';
-import { ConstantsService } from 'src/app/constants.service';
+import { ConstantsService } from '../../constants.service';
 import { Feature } from 'ol';
 import { HttpResponse } from '@angular/common/http';
 

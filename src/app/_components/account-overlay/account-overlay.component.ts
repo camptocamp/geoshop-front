@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState, getUser, isLoggedIn } from '../../_store';
 import * as fromAuth from '../../_store/auth/auth.action';
 import * as fromCart from '../../_store/cart/cart.action';
-import { ConfigService } from 'src/app/_services/config.service';
+import { ConfigService } from '../../_services/config.service';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 @Component({

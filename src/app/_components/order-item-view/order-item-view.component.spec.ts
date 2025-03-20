@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrderItemViewComponent } from './order-item-view.component';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+
 
 describe('OrderItemViewComponent', () => {
   let component: OrderItemViewComponent;
@@ -11,8 +13,8 @@ describe('OrderItemViewComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ OrderItemViewComponent ],
       providers: [
-        HttpClient,
-        HttpHandler,
+        provideHttpClient(),
+        provideHttpClientTesting()
       ]
     })
     .compileComponents();
