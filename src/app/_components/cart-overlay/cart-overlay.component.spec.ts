@@ -1,18 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CartOverlayComponent } from './cart-overlay.component';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/_store';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { AppState } from '../../_store';
 import { of } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 class StoreMock {
-  select =  jasmine.createSpy().and.returnValue(of(jasmine.createSpy()));
-  dispatch = jasmine.createSpy();
+  select =  vi.fn().mockImplementation(() => of(vi.fn()));
+  dispatch = vi.fn();
 }
 
 describe('CartOverlayComponent', () => {
@@ -30,8 +32,9 @@ describe('CartOverlayComponent', () => {
       ],
       providers: [
         {provide: Store<AppState>, useClass: StoreMock},
-        HttpClient,
-        HttpHandler
+        { provide: ActivatedRoute, useValue: { queryParamMap: of() }},
+        provideHttpClient(),
+        provideHttpClientTesting()
       ],
     })
     .compileComponents();

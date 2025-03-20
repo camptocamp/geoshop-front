@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, zip } from 'rxjs';
-import { IOrder, IOrderDowloadLink, IOrderItem, IOrderSummary, IOrderToPost, IOrderType, Order } from '../_models/IOrder';
+import { IOrder, IOrderItem, IOrderSummary, IOrderToPost, IOrderType, Order } from '../_models/IOrder';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ConfigService } from './config.service';
 import { IApiResponse } from '../_models/IApi';
@@ -8,7 +8,6 @@ import { catchError, flatMap, map } from 'rxjs/operators';
 import { Contact, IContact } from '../_models/IContact';
 import { GeoshopUtils } from '../_helpers/GeoshopUtils';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConstantsService } from '../constants.service';
 
 
 @Injectable({

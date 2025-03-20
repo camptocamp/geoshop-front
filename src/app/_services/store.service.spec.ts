@@ -1,13 +1,14 @@
-import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
+import { TestBed } from '@angular/core/testing';
 import { StoreService } from './store.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../_store';
 import { of } from 'rxjs';
 
 class StoreMock {
-  select =  jasmine.createSpy().and.returnValue(of(jasmine.createSpy()));
-  dispatch = jasmine.createSpy();
+  select =  vi.fn().mockImplementation(() => of(vi.fn()));
+  dispatch = vi.fn();
 }
 
 describe('StoreService', () => {

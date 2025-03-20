@@ -5,7 +5,7 @@ import {ApiService} from '../../_services/api.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 import {IUser, IUserToPost} from '../../_models/IUser';
-import { ConstantsService } from 'src/app/constants.service';
+import { ConstantsService } from '../../constants.service';
 
 @Component({
     selector: 'gs2-modify-profile',

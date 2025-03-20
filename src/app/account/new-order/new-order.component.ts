@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 import * as fromCart from '../../_store/cart/cart.action';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../_components/confirm-dialog/confirm-dialog.component';
-import { ConstantsService } from 'src/app/constants.service';
+import { ConstantsService } from '../../constants.service';
 
 @Component({
     selector: 'gs2-new-order',
@@ -611,6 +611,9 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   public getLocalizedTypeName(type: IOrderType): string {
+    if (!type) {
+      return "?";
+    }
     switch (type.id) {
       case 1:
         return ConstantsService.ORDER_NAME.PRIVATE;

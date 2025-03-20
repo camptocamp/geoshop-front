@@ -74,8 +74,10 @@
       </mat-radio-group>
     </form>
 
-    <mat-label *ngIf="!IsOrderTypePrivate" i18n>Vous devez spécifier les informations de contact du tiers pour un mandat
-       de type &quot;{{ getLocalizedTypeName(orderFormGroup.get('orderType')?.value) }}&quot;.</mat-label>
+    <mat-label *ngIf="!IsOrderTypePrivate" i18n>
+      Vous devez spécifier les informations de contact du tiers pour un mandat de type
+      &quot;{{ getLocalizedTypeName(orderFormGroup.get('orderType')?.value) }}&quot;.
+    </mat-label>
 
     <form class="form-height-mini" [formGroup]="contactFormGroup">
       <ng-container *ngIf="(IsOrderTypePrivate && !IsAddressForCurrentUser) || !IsOrderTypePrivate">

@@ -1,7 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ApiOrderService } from './api-order.service';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+
 
 describe('ApiOrderService', () => {
   let service: ApiOrderService;
@@ -9,8 +11,8 @@ describe('ApiOrderService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        HttpClient,
-        HttpHandler
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     });
     service = TestBed.inject(ApiOrderService);

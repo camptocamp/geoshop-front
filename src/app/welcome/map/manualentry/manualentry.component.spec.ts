@@ -1,12 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ManualentryComponent } from './manualentry.component';
 import { IManualEntryDialogData } from '../../../_models/IManualEntryDialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IPageFormat } from 'src/app/_models/IConfig';
@@ -18,8 +17,6 @@ export class MatDialogRefMock {
 }
 
 describe('ManualentryComponent', () => {
-  let component: ManualentryComponent;
-  let fixture: ComponentFixture<ManualentryComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,6 +27,7 @@ describe('ManualentryComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         MatTabsModule,
+        MatTabGroup,
         MatSelectModule,
         ReactiveFormsModule,
       ],
@@ -51,12 +49,10 @@ describe('ManualentryComponent', () => {
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ManualentryComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = TestBed.createComponent(ManualentryComponent);
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });

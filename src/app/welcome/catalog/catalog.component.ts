@@ -1,7 +1,7 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
-import {IProduct} from 'src/app/_models/IProduct';
-import {ApiService} from 'src/app/_services/api.service';
-import {ConfigService} from 'src/app/_services/config.service';
+import {IProduct} from '../../_models/IProduct';
+import {ApiService} from '../../_services/api.service';
+import {ConfigService} from '../../_services/config.service';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogMetadataComponent} from './dialog-metadata/dialog-metadata.component';
 import {UntypedFormControl} from '@angular/forms';

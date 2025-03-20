@@ -1,7 +1,7 @@
 import {Component, OnInit, Inject} from '@angular/core';
-import {ConfigService} from 'src/app/_services/config.service';
+import {ConfigService} from '../../../_services/config.service';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
-import {IMetadata} from 'src/app/_models/IMetadata';
+import {IMetadata} from '../../../_models/IMetadata';
 
 @Component({
     selector: 'gs2-dialog-metadata',
