@@ -5,9 +5,9 @@ import {AppState} from '../../_store';
 import * as AuthActions from '../../_store/auth/auth.action';
 import {ICredentials} from '../../_models/IIdentity';
 import {ActivatedRoute} from '@angular/router';
-import { ConstantsService } from 'src/app/constants.service';
+import { ConstantsService } from '../../constants.service';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { ConfigService } from 'src/app/_services/config.service';
+import { ConfigService } from '../../_services/config.service';
 
 @Component({
     selector: 'gs2-login',

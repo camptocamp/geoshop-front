@@ -1,14 +1,15 @@
+import { vi } from 'vitest'
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { OrderComponent } from './order.component';
-import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/_store';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { AppState } from '../../../_store';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+
 
 class StoreMock {
-  select =  jasmine.createSpy().and.returnValue(of(jasmine.createSpy()));
-  dispatch = jasmine.createSpy();
+  select =  vi.fn();
+  dispatch = vi.fn();
 }
 
 describe('OrderComponent', () => {
@@ -20,8 +21,8 @@ describe('OrderComponent', () => {
       declarations: [ OrderComponent ],
       providers: [
         {provide: Store<AppState>, useClass: StoreMock},
-        HttpClient,
-        HttpHandler,
+        provideHttpClient(),
+        provideHttpClientTesting()
       ],
     })
     .compileComponents();

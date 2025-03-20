@@ -1,7 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WelcomeComponent } from './welcome.component';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../_store';
@@ -31,10 +32,21 @@ import { ValidateComponent } from './validate/validate.component';
 import { DialogMetadataComponent } from './catalog/dialog-metadata/dialog-metadata.component';
 import { ManualentryComponent } from './map/manualentry/manualentry.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ConfigService } from '../_services/config.service';
+import { ActivatedRoute } from '@angular/router';
 
 class StoreMock {
-  select =  jasmine.createSpy().and.returnValue(of(jasmine.createSpy()));
-  dispatch = jasmine.createSpy();
+  select = vi.fn().mockImplementation(() => of(vi.fn()));
+  dispatch = vi.fn();
+}
+
+class ConfigServiceMock {
+  public config = {
+    initialExtent: [0, 0, 1, 1],
+    pageformats: [{ name: "", height: 1, width: 1 }],
+  }
 }
 
 describe('WelcomeComponent', () => {
@@ -77,12 +89,14 @@ describe('WelcomeComponent', () => {
       ],
       providers: [
         NgControl,
-        HttpClient,
-        HttpHandler,
-        {provide: Store<AppState>, useClass: StoreMock}
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: ActivatedRoute, useValue: { queryParamMap: of() }},
+        { provide: ConfigService, useClass: ConfigServiceMock },
+        { provide: Store<AppState>, useClass: StoreMock }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

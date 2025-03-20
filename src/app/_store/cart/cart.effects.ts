@@ -9,15 +9,10 @@ import {StoreService} from '../../_services/store.service';
 
 @Injectable()
 export class CartEffects {
-  private snackBarRef: MatSnackBarRef<any>;
-
-
   constructor(
     private action$: Actions,
-    private apiOrderService: ApiOrderService,
     private mapService: MapService,
     private storeService: StoreService,
-    private snackBar: MatSnackBar,
   ) {
   }
 
