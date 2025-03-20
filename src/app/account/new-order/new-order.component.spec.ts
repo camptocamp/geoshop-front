@@ -1,28 +1,31 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NewOrderComponent } from './new-order.component';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/_store';
+import { AppState } from '../../_store';
 import { EMPTY, of } from 'rxjs';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
-import { ApiOrderService } from 'src/app/_services/api-order.service';
-import { ConfigService } from 'src/app/_services/config.service';
-import { IConfig } from 'src/app/_models/IConfig';
+import { ApiOrderService } from '../../_services/api-order.service';
+import { ConfigService } from '../../_services/config.service';
+import { IConfig } from '../../_models/IConfig';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 class StoreMock {
-  select =  jasmine.createSpy().and.returnValue(EMPTY);
-  dispatch = jasmine.createSpy();
-  pipe =  jasmine.createSpy().and.returnValue(EMPTY);
+  select =  vi.fn(() => EMPTY);
+  dispatch = vi.fn();
+  pipe =  vi.fn(() => EMPTY);
 }
 
 class MockConfig {
@@ -52,9 +55,9 @@ describe('NewOrderComponent', () => {
       declarations: [ NewOrderComponent ],
       providers: [
         ApiOrderService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
         {provide: ConfigService, useClass: MockConfig},
-        HttpClient,
-        HttpHandler,
         {provide: Store<AppState>, useClass: StoreMock}
       ],
     })

@@ -40,8 +40,7 @@ export class CartOverlayComponent implements OnInit, OnDestroy {
               private apiService: ApiService,
               private apiOrderService: ApiOrderService,
               private snackBar: MatSnackBar,
-              private router: Router,
-              private storeService: StoreService
+              private router: Router
   ) {
     this.store.select(isLoggedIn).subscribe(x => this.isUserLoggedIn = x);
     this.store.select(selectOrder).subscribe(x => {

@@ -1,8 +1,8 @@
 import {Component, Input, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {ConfigService} from 'src/app/_services/config.service';
+import {ConfigService} from '../../_services/config.service';
 import {MapService} from '../../_services/map.service';
 import { CustomIconService } from '../../_services/custom-icon.service';
-import {IBasemap, IPageFormat} from 'src/app/_models/IConfig';
+import {IBasemap, IPageFormat} from '../../_models/IConfig';
 import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {debounceTime, switchMap} from 'rxjs/operators';
 import Geometry from 'ol/geom/Geometry';

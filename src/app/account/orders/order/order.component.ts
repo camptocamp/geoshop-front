@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../_components/confirm-dialog/confirm-dialog.component';
 import Geometry from 'ol/geom/Geometry';
-import { ConstantsService } from 'src/app/constants.service';
+import { ConstantsService } from '../../../constants.service';
 import { Feature } from 'ol';
 import { HttpResponse } from '@angular/common/http';
 

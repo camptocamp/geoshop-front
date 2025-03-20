@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HelpOverlayComponent } from './help-overlay.component';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+
 import { MatIconModule } from '@angular/material/icon';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('HelpOverlayComponent', () => {
   let component: HelpOverlayComponent;
@@ -15,8 +17,8 @@ describe('HelpOverlayComponent', () => {
       ],
       declarations: [ HelpOverlayComponent ],
       providers: [
-        HttpClient,
-        HttpHandler
+        provideHttpClient(),
+        provideHttpClientTesting()
       ],
     })
     .compileComponents();

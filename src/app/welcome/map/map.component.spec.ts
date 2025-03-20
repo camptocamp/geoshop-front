@@ -1,11 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MapComponent } from './map.component';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/_store';
+import { AppState } from '../../../app/_store';
 import { of } from 'rxjs';
-import { CustomIconService } from 'src/app/_services/custom-icon.service';
+import { CustomIconService } from '../../_services/custom-icon.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,11 +17,20 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ConfigService } from '../../_services/config.service';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 class StoreMock {
-  select =  jasmine.createSpy().and.returnValue(of(jasmine.createSpy()));
-  dispatch = jasmine.createSpy();
+  select = vi.fn().mockImplementation(() => of(vi.fn()));
+  dispatch = vi.fn();
+}
+
+class ConfigServiceMock {
+  public config = {
+    initialExtent: [0, 0, 1, 1],
+    pageformats: [{name:"", height: 1, width: 1}],
+  }
 }
 
 describe('MapComponent', () => {
@@ -42,15 +52,18 @@ describe('MapComponent', () => {
         NoopAnimationsModule,
         RouterModule.forRoot([])
       ],
-      declarations: [ MapComponent ],
-      providers:[
+      declarations: [MapComponent],
+      providers: [
         CustomIconService,
-        {provide: Store<AppState>, useClass: StoreMock},
-        HttpClient,
-        HttpHandler,
+        ConfigServiceMock,
+        { provide: ActivatedRoute, useValue: { queryParamMap: of() }},
+        { provide: ConfigService, useClass: ConfigServiceMock },
+        { provide: Store<AppState>, useClass: StoreMock },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

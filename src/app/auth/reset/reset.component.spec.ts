@@ -4,11 +4,13 @@ import { ResetComponent } from './reset.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('ResetComponent', () => {
   let component: ResetComponent;
@@ -27,8 +29,8 @@ describe('ResetComponent', () => {
       ],
       declarations: [ ResetComponent ],
       providers: [
-        HttpClient,
-        HttpHandler
+        provideHttpClient(),
+        provideHttpClientTesting()
       ],
     })
     .compileComponents();

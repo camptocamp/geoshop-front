@@ -5,7 +5,7 @@ import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
-import { ConstantsService } from 'src/app/constants.service';
+import { ConstantsService } from '../../constants.service';
 
 @Component({
     selector: 'gs2-reset',

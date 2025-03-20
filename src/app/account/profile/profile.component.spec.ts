@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileComponent } from './profile.component';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -11,8 +13,8 @@ describe('ProfileComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ ProfileComponent ],
       providers: [
-        HttpClient,
-        HttpHandler,
+        provideHttpClient(),
+        provideHttpClientTesting()
       ]
     })
     .compileComponents();
