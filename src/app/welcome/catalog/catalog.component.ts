@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import {IProduct} from '../../_models/IProduct';
-import {ApiService} from '../../_services/api.service';
-import {ConfigService} from '../../_services/config.service';
+import { IProduct } from '../../_models/IProduct';
+import { ApiService } from '../../_services/api.service';
+import { ConfigService } from '../../_services/config.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogMetadataComponent } from './dialog-metadata/dialog-metadata.component';
 import { UntypedFormControl } from '@angular/forms';
@@ -19,7 +19,7 @@ import { updateOrder } from '../../_store/cart/cart.action';
   selector: 'gs2-catalog',
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class CatalogComponent implements OnInit {
 

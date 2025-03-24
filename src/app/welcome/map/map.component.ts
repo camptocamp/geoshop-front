@@ -1,15 +1,15 @@
-import {Component, Input, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {ConfigService} from '../../_services/config.service';
-import {MapService} from '../../_services/map.service';
+import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ConfigService } from '../../_services/config.service';
+import { MapService } from '../../_services/map.service';
 import { CustomIconService } from '../../_services/custom-icon.service';
-import {IBasemap, IPageFormat} from '../../_models/IConfig';
-import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
-import {debounceTime, switchMap} from 'rxjs/operators';
+import { IBasemap, IPageFormat } from '../../_models/IConfig';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { debounceTime, switchMap } from 'rxjs/operators';
 import Geometry from 'ol/geom/Geometry';
-import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import Feature from 'ol/Feature';
-import {MatDialog} from '@angular/material/dialog';
-import {ManualentryComponent} from './manualentry/manualentry.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ManualentryComponent } from './manualentry/manualentry.component';
 
 export const nameOfCategoryForGeocoder: { [prop: string]: string; } = { // TODO this should be translated
   zipcode: 'Ortschaftenverzeichnis PLZ',
@@ -22,15 +22,15 @@ export const nameOfCategoryForGeocoder: { [prop: string]: string; } = { // TODO 
 };
 
 @Component({
-    selector: 'gs2-map',
-    templateUrl: './map.component.html',
-    styleUrls: ['./map.component.scss'],
-    standalone: false
+  selector: 'gs2-map',
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.scss'],
+  standalone: false
 })
 export class MapComponent implements OnInit {
 
   @Input() leftPositionForButtons: number;
-  @ViewChild('fileUpload', {static: false}) fileUpload: ElementRef;
+  @ViewChild('fileUpload', { static: false }) fileUpload: ElementRef;
 
   isDrawing = false;
   isTracking = false;
@@ -64,9 +64,9 @@ export class MapComponent implements OnInit {
   }
 
   constructor(private mapService: MapService,
-              private configService: ConfigService,
-              private customIconService: CustomIconService,
-              public dialog: MatDialog) {
+    private configService: ConfigService,
+    private customIconService: CustomIconService,
+    public dialog: MatDialog) {
     // Initialize custom icons
     this.customIconService.init();
   }
