@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi, describe, it, beforeEach, expect } from 'vitest';
+import { TestBed } from '@angular/core/testing';
 import { ManualentryComponent } from './manualentry.component';
 import { IManualEntryDialogData } from '../../../_models/IManualEntryDialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,9 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IPageFormat } from 'src/app/_models/IConfig';
 
 export class MatDialogRefMock {
-  close(value = '') {
-
-  }
+  close = vi.fn();
 }
 
 describe('ManualentryComponent', () => {
@@ -33,19 +32,21 @@ describe('ManualentryComponent', () => {
       ],
       providers: [
         { provide: MatDialogRef, useClass: MatDialogRefMock },
-        { provide: MAT_DIALOG_DATA, useValue: {
-          selectedPageFormatScale: 1,
-          pageFormatScales: [0],
-          selectedPageFormat: {name: "A", height: 10, width: 10} as IPageFormat,
-          pageFormats: Array<IPageFormat>({name: "A", height: 10, width: 10}),
-          PageFormatRotation: 0,
-          rotationPageFormat: 0,
-          activeTab: 0,
-          xMin: 0,
-          yMin: 0,
-          xMax: 0,
-          yMax: 0,
-        } as IManualEntryDialogData }
+        {
+          provide: MAT_DIALOG_DATA, useValue: {
+            selectedPageFormatScale: 1,
+            pageFormatScales: [0],
+            selectedPageFormat: { name: "A", height: 10, width: 10 } as IPageFormat,
+            pageFormats: Array<IPageFormat>({ name: "A", height: 10, width: 10 }),
+            PageFormatRotation: 0,
+            rotationPageFormat: 0,
+            activeTab: 0,
+            xMin: 0,
+            yMin: 0,
+            xMax: 0,
+            yMax: 0,
+          } as IManualEntryDialogData
+        }
       ]
     }).compileComponents();
 
