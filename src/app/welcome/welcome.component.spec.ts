@@ -91,7 +91,7 @@ describe('WelcomeComponent', () => {
         NgControl,
         provideHttpClient(),
         provideHttpClientTesting(),
-        { provide: ActivatedRoute, useValue: { queryParamMap: of() }},
+        { provide: ActivatedRoute, useValue: { queryParamMap: of() } },
         { provide: ConfigService, useClass: ConfigServiceMock },
         { provide: Store<AppState>, useClass: StoreMock }
       ]

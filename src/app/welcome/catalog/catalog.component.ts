@@ -1,25 +1,25 @@
-import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
-import {IProduct} from '../../_models/IProduct';
-import {ApiService} from '../../_services/api.service';
-import {ConfigService} from '../../_services/config.service';
-import {MatDialog} from '@angular/material/dialog';
-import {DialogMetadataComponent} from './dialog-metadata/dialog-metadata.component';
-import {UntypedFormControl} from '@angular/forms';
-import {BehaviorSubject, merge, Observable} from 'rxjs';
-import {debounceTime, map, mergeMap, scan, switchMap, tap, throttleTime} from 'rxjs/operators';
-import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
-import {AppState, selectOrder} from '../../_store';
-import {Store} from '@ngrx/store';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {GeoshopUtils} from '../../_helpers/GeoshopUtils';
-import {IOrder} from '../../_models/IOrder';
-import {updateOrder} from '../../_store/cart/cart.action';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { IProduct } from '../../_models/IProduct';
+import { ApiService } from '../../_services/api.service';
+import { ConfigService } from '../../_services/config.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogMetadataComponent } from './dialog-metadata/dialog-metadata.component';
+import { UntypedFormControl } from '@angular/forms';
+import { BehaviorSubject, merge, Observable } from 'rxjs';
+import { debounceTime, map, mergeMap, scan, switchMap, tap, throttleTime } from 'rxjs/operators';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { AppState, selectOrder } from '../../_store';
+import { Store } from '@ngrx/store';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { GeoshopUtils } from '../../_helpers/GeoshopUtils';
+import { IOrder } from '../../_models/IOrder';
+import { updateOrder } from '../../_store/cart/cart.action';
 
 @Component({
-    selector: 'gs2-catalog',
-    templateUrl: './catalog.component.html',
-    styleUrls: ['./catalog.component.scss'],
-    standalone: false
+  selector: 'gs2-catalog',
+  templateUrl: './catalog.component.html',
+  styleUrls: ['./catalog.component.scss'],
+  standalone: false,
 })
 export class CatalogComponent implements OnInit {
 
@@ -40,11 +40,11 @@ export class CatalogComponent implements OnInit {
   order: IOrder;
 
   constructor(private apiService: ApiService,
-              public dialog: MatDialog,
-              private store: Store<AppState>,
-              private elRef: ElementRef,
-              private snackBar: MatSnackBar,
-              private configService: ConfigService) {
+    public dialog: MatDialog,
+    private store: Store<AppState>,
+    private elRef: ElementRef,
+    private snackBar: MatSnackBar,
+    private configService: ConfigService) {
 
     this.store.select(selectOrder).subscribe(x => this.order = x);
 
@@ -52,7 +52,7 @@ export class CatalogComponent implements OnInit {
       throttleTime(500),
       mergeMap((n: number) => this.getBatch(n)),
       scan((acc, batch) => {
-        return {...acc, ...batch};
+        return { ...acc, ...batch };
       }, {})
     );
 
@@ -107,9 +107,9 @@ export class CatalogComponent implements OnInit {
         product_id: product.id
       });
     } else {
-      this.snackBar.open($localize`Le produit est déjà dans le panier`, $localize`Fermer`, {duration: 3000});
+      this.snackBar.open($localize`Le produit est déjà dans le panier`, $localize`Fermer`, { duration: 3000 });
     }
-    this.store.dispatch(updateOrder({order}));
+    this.store.dispatch(updateOrder({ order }));
   }
 
   getBatch(offset: number) {
@@ -120,7 +120,7 @@ export class CatalogComponent implements OnInit {
         map(arr => {
           return arr.reduce((acc, cur) => {
             const id = cur.label;
-            return {...acc, [id]: cur};
+            return { ...acc, [id]: cur };
           }, {});
         })
       );
@@ -155,7 +155,7 @@ export class CatalogComponent implements OnInit {
             autoFocus: false,
           });
         } else {
-          this.snackBar.open('Métadonnée indisponible pour le moment.', 'Fermer', {duration: 3000});
+          this.snackBar.open('Métadonnée indisponible pour le moment.', 'Fermer', { duration: 3000 });
         }
       });
   }
