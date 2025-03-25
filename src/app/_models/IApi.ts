@@ -14,7 +14,7 @@ export interface IApiResponse<T> {
   /**
    * Array of items
    */
-  results: Array<T>;
+  results: T[];
 }
 
 export interface IApiResponseError {

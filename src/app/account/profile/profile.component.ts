@@ -7,7 +7,7 @@ import {IUser} from '../../_models/IUser';
     selector: 'gs2-profile',
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss'],
-    standalone: false
+    
 })
 export class ProfileComponent implements OnInit {
 

@@ -5,7 +5,7 @@ import { NewOrderComponent } from './new-order.component';
 
 import { Store } from '@ngrx/store';
 import { AppState } from '../../_store';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -23,9 +23,9 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 class StoreMock {
-  select =  vi.fn(() => EMPTY);
+  select = vi.fn(() => EMPTY);
   dispatch = vi.fn();
-  pipe =  vi.fn(() => EMPTY);
+  pipe = vi.fn(() => EMPTY);
 }
 
 class MockConfig {
@@ -40,28 +40,28 @@ describe('NewOrderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[
-          MatStepperModule,
-          MatFormFieldModule,
-          MatSelectModule,
-          MatRadioModule,
-          MatTableModule,
-          ReactiveFormsModule,
-          MatInputModule,
-          MatAutocompleteModule,
-          MatIconModule,
-          NoopAnimationsModule,
+      imports: [
+        MatStepperModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatRadioModule,
+        MatTableModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        MatIconModule,
+        NoopAnimationsModule,
       ],
-      declarations: [ NewOrderComponent ],
+      declarations: [NewOrderComponent],
       providers: [
         ApiOrderService,
         provideHttpClient(),
         provideHttpClientTesting(),
-        {provide: ConfigService, useClass: MockConfig},
-        {provide: Store<AppState>, useClass: StoreMock}
+        { provide: ConfigService, useClass: MockConfig },
+        { provide: Store<AppState>, useClass: StoreMock }
       ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, getUser, isLoggedIn } from '../../_store';
 import * as fromAuth from '../../_store/auth/auth.action';
@@ -10,9 +10,9 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
   selector: 'gs2-account-overlay',
   templateUrl: './account-overlay.component.html',
   styleUrls: ['./account-overlay.component.scss'],
-  standalone: false
+
 })
-export class AccountOverlayComponent implements OnInit {
+export class AccountOverlayComponent {
 
   @HostBinding('class') class = 'overlay-container';
 
@@ -23,9 +23,6 @@ export class AccountOverlayComponent implements OnInit {
     private store: Store<AppState>,
     private readonly config: ConfigService,
     private readonly oidcSecurityService: OidcSecurityService) {
-  }
-
-  ngOnInit(): void {
   }
 
   get oidcEnabled(): boolean {

@@ -1,13 +1,13 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
-import {ConfigService} from '../../_services/config.service';
+import { Component, HostBinding } from '@angular/core';
+import { ConfigService } from '../../_services/config.service';
 
 @Component({
-    selector: 'gs2-help-overlay',
-    templateUrl: './help-overlay.component.html',
-    styleUrls: ['./help-overlay.component.scss'],
-    standalone: false
+  selector: 'gs2-help-overlay',
+  templateUrl: './help-overlay.component.html',
+  styleUrls: ['./help-overlay.component.scss'],
+
 })
-export class HelpOverlayComponent implements OnInit {
+export class HelpOverlayComponent {
 
   @HostBinding('class') class = 'overlay-container';
 
@@ -24,10 +24,6 @@ export class HelpOverlayComponent implements OnInit {
     this.conditionsUrl = configService.config?.contact.links.conditions || '';
     this.tariffsUrl = configService.config?.contact.links.tariffs || '';
   }
-
-  ngOnInit(): void {
-  }
-
 
 
 }

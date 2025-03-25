@@ -1,15 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {IOrderItem, Order} from '../../_models/IOrder';
-import {ApiOrderService} from '../../_services/api-order.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {ConstantsService} from '../../constants.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { IOrderItem, Order } from '../../_models/IOrder';
+import { ApiOrderService } from '../../_services/api-order.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import * as Constants from '../../constants';
 import { HttpResponse } from '@angular/common/http';
 
 @Component({
-    selector: 'gs2-order-item-view',
-    templateUrl: './order-item-view.component.html',
-    styleUrls: ['./order-item-view.component.scss'],
-    standalone: false
+  selector: 'gs2-order-item-view',
+  templateUrl: './order-item-view.component.html',
+  styleUrls: ['./order-item-view.component.scss'],
+
 })
 export class OrderItemViewComponent implements OnInit {
 
@@ -19,7 +19,7 @@ export class OrderItemViewComponent implements OnInit {
   @Input() showAction = true;
 
   // Constants
-  readonly DOWNLOAD = ConstantsService.DOWNLOAD;
+  readonly DOWNLOAD = Constants.DOWNLOAD;
 
   constructor(private apiOrderService: ApiOrderService,
     private snackBar: MatSnackBar) {
@@ -36,9 +36,9 @@ export class OrderItemViewComponent implements OnInit {
   }
 
   getOrderStatus(orderItem: IOrderItem): string {
-    let returnValue: string = '';
-    if (orderItem.status !== undefined && ConstantsService.ORDER_STATUS.hasOwnProperty(orderItem.status)) {
-      returnValue = ConstantsService.ORDER_STATUS[orderItem.status];
+    let returnValue = '';
+    if (orderItem.status !== undefined && Constants.ORDER_STATUS[orderItem.status]) {
+      returnValue = Constants.ORDER_STATUS[orderItem.status];
     }
     return returnValue;
   }
@@ -46,17 +46,19 @@ export class OrderItemViewComponent implements OnInit {
   downloadOrder(event: MouseEvent, item: IOrderItem) {
     event.stopPropagation();
     event.preventDefault();
-
-    this.apiOrderService.downloadResult(item.download_guid!).subscribe({
+    if (!item.download_guid) {
+      return
+    }
+    this.apiOrderService.downloadResult(item.download_guid).subscribe({
       next: (response: HttpResponse<Blob>) => {
         const link = document.createElement('a');
         // TODO: resolve filename properly after upgrading to the latest Angular
         link.download = 'result.zip';
-        link.href = window.URL.createObjectURL(response.body!);
+        link.href = window.URL.createObjectURL(response.body || new Blob);
         link.click();
         window.URL.revokeObjectURL(link.href);
       },
-      error: (error: any) => {
+      error: (error) => {
         this.snackBar.open(error.detail ?? $localize`Aucun fichier disponible`, 'Ok', { panelClass: 'notification-info' });
       }
     });

@@ -12,12 +12,12 @@ import { ConfigService } from './_services/config.service';
   selector: 'gs2-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: false
+  
 })
 export class AppComponent implements OnDestroy {
 
   private refreshTokenInterval: NodeJS.Timeout | number; // TODO this is breaking the build it was originaly set to type number
-  private static autoLoginFailed: boolean = false;
+  private static autoLoginFailed = false;
   title = 'front';
   subTitle = '';
 
@@ -52,7 +52,7 @@ export class AppComponent implements OnDestroy {
     if (err === "interaction_required") {
       AppComponent.autoLoginFailed = true;
     } else if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
-      let authSubscription = new Subscription()
+      const authSubscription = new Subscription()
       combineLatest([this.oidcService.checkAuth(), this.store.select(getUser)]).subscribe(([loginResponse, user]) => {
         if (loginResponse.isAuthenticated && !user) {
           this.store.dispatch(fromAuth.oidcLogin(loginResponse));

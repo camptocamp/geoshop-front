@@ -11,7 +11,7 @@ import Feature from 'ol/Feature';
 import { MatDialog } from '@angular/material/dialog';
 import { ManualentryComponent } from './manualentry/manualentry.component';
 
-export const nameOfCategoryForGeocoder: { [prop: string]: string; } = { // TODO this should be translated
+export const nameOfCategoryForGeocoder: Record<string, string> = { // TODO this should be translated
   zipcode: 'Ortschaftenverzeichnis PLZ',
   gg25: 'Gemeinden',
   district: 'Bezirke',
@@ -25,7 +25,7 @@ export const nameOfCategoryForGeocoder: { [prop: string]: string; } = { // TODO 
   selector: 'gs2-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
-  standalone: false
+  
 })
 export class MapComponent implements OnInit {
 
@@ -36,13 +36,13 @@ export class MapComponent implements OnInit {
   isTracking = false;
   isSearchLoading = false;
   shouldDisplayClearButton = false;
-  basemaps: Array<IBasemap>;
-  pageformats: Array<IPageFormat>;
+  basemaps: IBasemap[];
+  pageformats: IPageFormat[];
   isMapLoading$ = this.mapService.isMapLoading$;
   selectedPageFormat: IPageFormat | undefined;
   selectedPageFormatScale = 500;
   rotationPageFormat = 0;
-  pageFormatScales: Array<number> = [500, 1000, 2000, 5000];
+  pageFormatScales: number[] = [500, 1000, 2000, 5000];
   xMin = null;
   yMin = null;
   xMax = null;

@@ -1,12 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'gs2-icon-text',
-    templateUrl: './icon-text.component.html',
-    styleUrls: ['./icon-text.component.scss'],
-    standalone: false
+  selector: 'gs2-icon-text',
+  templateUrl: './icon-text.component.html',
+  styleUrls: ['./icon-text.component.scss'],
+
 })
-export class IconTextComponent implements OnInit {
+export class IconTextComponent {
 
   @Input() matIconName = '';
   @Input() text = '';
@@ -14,9 +14,6 @@ export class IconTextComponent implements OnInit {
   @Input() fontSize = 24;
 
   constructor() {
-  }
-
-  ngOnInit(): void {
   }
 
 }

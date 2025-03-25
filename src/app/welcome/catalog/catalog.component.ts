@@ -11,7 +11,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { AppState, selectOrder } from '../../_store';
 import { Store } from '@ngrx/store';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { GeoshopUtils } from '../../_helpers/GeoshopUtils';
+import { deepCopyOrder } from '../../_helpers/GeoshopUtils';
 import { IOrder } from '../../_models/IOrder';
 import { updateOrder } from '../../_store/cart/cart.action';
 
@@ -19,7 +19,7 @@ import { updateOrder } from '../../_store/cart/cart.action';
   selector: 'gs2-catalog',
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss'],
-  standalone: false,
+
 })
 export class CatalogComponent implements OnInit {
 
@@ -36,7 +36,7 @@ export class CatalogComponent implements OnInit {
   // Filtering
   catalogInputControl = new UntypedFormControl('');
 
-  mediaUrl: String | undefined;
+  mediaUrl: string | undefined;
   order: IOrder;
 
   constructor(private apiService: ApiService,
@@ -99,7 +99,7 @@ export class CatalogComponent implements OnInit {
   }
 
   addToCart(product: IProduct) {
-    const order = GeoshopUtils.deepCopyOrder(this.order);
+    const order = deepCopyOrder(this.order);
     const itemsInCart = order.items.map(x => x.product_id);
     if (itemsInCart.indexOf(product.id) === -1) {
       order.items.push({

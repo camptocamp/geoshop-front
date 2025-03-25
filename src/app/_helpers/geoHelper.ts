@@ -1,5 +1,3 @@
-import Polygon from 'ol/geom/Polygon';
-import { getArea } from 'ol/sphere';
 import { ConfigService } from '../_services/config.service';
 import proj4 from 'proj4';
 import VectorSource from 'ol/source/Vector';
@@ -15,112 +13,105 @@ import { register } from 'ol/proj/proj4';
 import { Order } from '../_models/IOrder';
 import Feature from 'ol/Feature';
 import { Fill, Style } from 'ol/style';
+import { Geometry } from 'ol/geom';
+import { getArea as getAreaSphere } from 'ol/sphere.js';
 
-export class GeoHelper {
-  /**
-   * Format area output.
-   */
-  public static formatArea(polygon: Polygon): string {
-    const area = getArea(polygon);
-    let output;
-    if (area > 10000) {
-      output = (Math.round(area / 1000000 * 100) / 100) +
-        ' ' + 'km2';
-    } else {
-      output = (Math.round(area * 100) / 100) +
-        ' ' + 'm2';
-    }
-    return output;
+const DEFAULT_EXTENT = [2419995.7488073637, 1030006.663199476, 2900009.727428728, 1350004.292478851];
+
+
+/**
+ * Format area output.
+ */
+export function formatArea(geom: Geometry): string {
+  const area = getAreaSphere(geom);
+  return area > 100000 ?
+    `${Math.round((area / 1000000) * 100) / 100}km<sup>2</sup>` :
+    `${Math.round(area * 100) / 100}m<sup>2</sup>`;
+}
+
+export async function generateMiniMap(configService: ConfigService, mapService: MapService) {
+  mapService.initialize();
+  const EPSG = configService.config?.epsg || 'EPSG:2056';
+  if (!mapService.FirstBaseMapLayer) {
+    proj4.defs(EPSG,
+      '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333'
+      + ' +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel '
+      + '+towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs');
+    register(proj4);
   }
 
-  public static async generateMiniMap(configService: ConfigService, mapService: MapService) {
-    mapService.initialize();
-    const EPSG = configService.config?.epsg || 'EPSG:2056';
-    if (!mapService.FirstBaseMapLayer) {
-      proj4.defs(EPSG,
-        '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333'
-        + ' +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel '
-        + '+towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs');
-      register(proj4);
-    }
-
-    const vectorSource = new VectorSource();
-    vectorSource.on('addfeature', () => {
-
-    });
-    const layer = new VectorLayer({
-      source: vectorSource,
-      style: (feature: Feature) => {
-        if (feature.get("excluded")) {
-          return new Style({
-            fill: new Fill({
-              color: 'rgba(255, 0, 0, 0.5)'
-            })
+  const vectorSource = new VectorSource();
+  const layer = new VectorLayer({
+    source: vectorSource,
+    style: (feature: Feature) => {
+      if (feature.get("excluded")) {
+        return new Style({
+          fill: new Fill({
+            color: 'rgba(255, 0, 0, 0.5)'
           })
-        }
-        return mapService.drawingStyle;
+        })
       }
-    });
-
-    const projection = new Projection({
-      code: EPSG,
-      // @ts-ignore
-      extent: configService.config.initialExtent,
-    });
-    const view = new View({
-      projection,
-      center: fromLonLat([6.80, 47.05], projection),
-      zoom: 4,
-    });
-
-    const baseMapConfig = configService.config?.basemaps[0];
-
-    let layers;
-    if (baseMapConfig) {
-      const tileLayer = await mapService.createTileLayer(baseMapConfig, true);
-      const groupLayers = tileLayer ? [tileLayer] : []
-      layers = new LayerGroup( {layers: groupLayers })
+      return mapService.drawingStyle;
     }
-    const minimap = new Map({
-      layers,
-      view,
-      interactions: defaults({
-        keyboard: false,
-        mouseWheelZoom: false,
-        dragPan: false,
-        altShiftDragRotate: false,
-        shiftDragZoom: false,
-        doubleClickZoom: false,
-        pinchZoom: false,
-      }),
-    });
+  });
 
-    minimap.addLayer(layer);
+  const projection = new Projection({
+    code: EPSG,
+    extent: configService.config?.initialExtent || DEFAULT_EXTENT,
+  });
+  const view = new View({
+    projection,
+    center: fromLonLat([6.80, 47.05], projection),
+    zoom: 4,
+  });
 
-    return {minimap, vectorSource};
+  const baseMapConfig = configService.config?.basemaps[0];
+
+  let layers;
+  if (baseMapConfig) {
+    const tileLayer = await mapService.createTileLayer(baseMapConfig, true);
+    const groupLayers = tileLayer ? [tileLayer] : []
+    layers = new LayerGroup({ layers: groupLayers })
+  }
+  const minimap = new Map({
+    layers,
+    view,
+    interactions: defaults({
+      keyboard: false,
+      mouseWheelZoom: false,
+      dragPan: false,
+      altShiftDragRotate: false,
+      shiftDragZoom: false,
+      doubleClickZoom: false,
+      pinchZoom: false,
+    }),
+  });
+
+  minimap.addLayer(layer);
+
+  return { minimap, vectorSource };
+}
+
+export function displayMiniMap(order: Order, miniMaps: Map[], vectorSources: VectorSource[], index: number) {
+  if (!order || !order.geom) {
+    return;
+  }
+  const target = `mini-map-${order.id}`;
+  miniMaps[index].setTarget(target);
+
+  const feature = new Feature();
+  feature.setGeometry(order.geom);
+  vectorSources[index].clear();
+  vectorSources[index].addFeature(feature);
+
+  if (order.excludedGeom && order.excludedGeom.getCoordinates().length) {
+    const excludedFeature = new Feature();
+    excludedFeature.set("excluded", true);
+    excludedFeature.setGeometry(order.excludedGeom);
+    vectorSources[index].addFeature(excludedFeature);
   }
 
-  public static displayMiniMap(order: Order, miniMaps: any[], vectorSources: any[], index: number) {
-    if (!order || !order.geom) {
-      return;
-    }
-    const target = `mini-map-${order.id}`;
-    miniMaps[index].setTarget(target);
-
-    const feature = new Feature();
-    feature.setGeometry(order.geom);
-    vectorSources[index].clear();
-    vectorSources[index].addFeature(feature);
-
-    if (order.excludedGeom && order.excludedGeom.getCoordinates().length) {
-      const excludedFeature = new Feature();
-      excludedFeature.set("excluded", true);
-      excludedFeature.setGeometry(order.excludedGeom);
-      vectorSources[index].addFeature(excludedFeature);
-    }
-
-    miniMaps[index].getView().fit(order.geom, {
-      padding: [50, 50, 50, 50]
-    });
-  }
+  miniMaps[index].getView().fit(order.geom, {
+    padding: [50, 50, 50, 50]
+  });
 }

@@ -1,29 +1,29 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {BehaviorSubject, merge, of, Subject, Subscription} from 'rxjs';
-import {IOrderSummary, Order} from '../../_models/IOrder';
-import {debounceTime, filter, map, mergeMap, scan, skip, switchMap, takeUntil, tap} from 'rxjs/operators';
-import {MapService} from '../../_services/map.service';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { BehaviorSubject, merge, of, Subject, Subscription } from 'rxjs';
+import { IOrderSummary, Order } from '../../_models/IOrder';
+import { debounceTime, filter, map, mergeMap, scan, skip, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { MapService } from '../../_services/map.service';
 import Map from 'ol/Map';
 import VectorSource from 'ol/source/Vector';
-import {ConfigService} from '../../_services/config.service';
-import {UntypedFormControl} from '@angular/forms';
-import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
-import {GeoHelper} from '../../_helpers/geoHelper';
-import {ApiOrderService} from '../../_services/api-order.service';
-import {ApiService} from '../../_services/api.service';
-import {GeoshopUtils} from '../../_helpers/GeoshopUtils';
-import {select, Store} from '@ngrx/store';
-import {selectOrder} from '../../_store';
-import {deleteOrder} from '../../_store/cart/cart.action';
+import { ConfigService } from '../../_services/config.service';
+import { UntypedFormControl } from '@angular/forms';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { generateMiniMap } from '../../_helpers/geoHelper';
+import { ApiOrderService } from '../../_services/api-order.service';
+import { ApiService } from '../../_services/api.service';
+import { extractIdFromUrl } from '../../_helpers/GeoshopUtils';
+import { select, Store } from '@ngrx/store';
+import { selectOrder } from '../../_store';
+import { deleteOrder } from '../../_store/cart/cart.action';
 import Geometry from 'ol/geom/Geometry';
 import { Feature } from 'ol';
 
 
 @Component({
-    selector: 'gs2-orders',
-    templateUrl: './orders.component.html',
-    styleUrls: ['./orders.component.scss'],
-    standalone: false
+  selector: 'gs2-orders',
+  templateUrl: './orders.component.html',
+  styleUrls: ['./orders.component.scss'],
+
 })
 export class OrdersComponent implements OnInit, OnDestroy {
 
@@ -51,11 +51,11 @@ export class OrdersComponent implements OnInit, OnDestroy {
   isSearchLoading$ = new BehaviorSubject(true);
 
   constructor(private apiOrderService: ApiOrderService,
-              private apiService: ApiService,
-              private mapService: MapService,
-              private configService: ConfigService,
-              private elRef: ElementRef,
-              private store: Store,
+    private apiService: ApiService,
+    private mapService: MapService,
+    private configService: ConfigService,
+    private elRef: ElementRef,
+    private store: Store,
   ) {
   }
 
@@ -71,7 +71,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.realBatch = numberOfRowPossible;
     this.batch = numberOfRowPossible + 1;
 
-    GeoHelper.generateMiniMap(this.configService, this.mapService).then(result => {
+    generateMiniMap(this.configService, this.mapService).then(result => {
       this.minimap = result.minimap;
       this.vectorSource = result.vectorSource;
 
@@ -103,7 +103,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   getBatch(offset: number) {
-    const init: { [key: string]: IOrderSummary } = {};
+    const init: Record<string, IOrderSummary> = {};
 
     return this.apiOrderService.getOrders(offset, this.batch, '-id')
       .pipe(
@@ -113,7 +113,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
             return response.results
               .map(p => {
                 p.statusAsReadableIconText = Order.initializeStatus(p);
-                p.id = GeoshopUtils.ExtractIdFromUrl(p.url);
+                p.id = extractIdFromUrl(p.url);
                 return p;
               });
           } else {
@@ -123,7 +123,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
         map(arr => {
           return arr.reduce((acc, cur) => {
             const id = cur.url;
-            const res: { [key: string]: IOrderSummary } = {...acc, [id]: cur};
+            const res: Record<string, IOrderSummary> = { ...acc, [id]: cur };
             return res;
           }, init);
         })
@@ -148,13 +148,13 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   private initializeComponentAction() {
-    const init: { [key: string]: IOrderSummary } = {};
+    const init: Record<string, IOrderSummary> = {};
 
     const batchMap = this.offset.pipe(
       filter((x) => x != null && x >= 0),
       mergeMap((n: number) => this.getBatch(n)),
       scan((acc, batch) => {
-        return {...acc, ...batch};
+        return { ...acc, ...batch };
       }, init),
       map(v => {
         return Object.values(v);
@@ -180,7 +180,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
               return response ?
                 response.results.map(x => {
                   x.statusAsReadableIconText = Order.initializeStatus(x);
-                  x.id = GeoshopUtils.ExtractIdFromUrl(x.url);
+                  x.id = extractIdFromUrl(x.url);
                   return x;
                 }) :
                 [];

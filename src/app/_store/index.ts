@@ -1,11 +1,11 @@
-import {AuthState} from './auth/auth.reducer';
-import {ActionReducer, ActionReducerMap, createFeatureSelector, createSelector, MetaReducer} from '@ngrx/store';
-import {storeFreeze} from 'ngrx-store-freeze';
-import {environment} from '../../environments/environment';
+import { AuthState } from './auth/auth.reducer';
+import { Action, ActionReducer, ActionReducerMap, createFeatureSelector, createSelector, MetaReducer } from '@ngrx/store';
+import { storeFreeze } from 'ngrx-store-freeze';
+import { environment } from '../../environments/environment';
 import * as fromAuth from './auth/auth.reducer';
-import {CartState} from './cart/cart.reducer';
+import { CartState } from './cart/cart.reducer';
 import * as fromCart from './cart/cart.reducer';
-import {storageMetaReducer} from './storage.reducer';
+import { storageMetaReducer } from './storage.reducer';
 
 export interface AppState {
   auth: AuthState;
@@ -18,7 +18,7 @@ export const reducers: ActionReducerMap<AppState> = {
 };
 
 export function logger(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
-  return (state: AppState, action: any): AppState => {
+  return (state: AppState, action: Action<string>): AppState => {
     return reducer(state, action);
   };
 }
