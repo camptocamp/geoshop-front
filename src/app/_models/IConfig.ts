@@ -29,11 +29,11 @@ export interface IConfig {
   pageformats: Array<IPageFormat>;
   oidcConfig: OpenIdConfiguration;
   localAuthEnabled: boolean;
+  noBillingForFreeOrder?: boolean;
   appLogo: {
     path: string;
     alt: string;
-  } | undefined;
-}
+  } | undefined;}
 
 export interface IPageFormat {
   name: string;

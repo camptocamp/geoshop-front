@@ -22,12 +22,13 @@ import * as fromCart from '../../_store/cart/cart.action';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../_components/confirm-dialog/confirm-dialog.component';
 import { ConstantsService } from 'src/app/constants.service';
+import { ConfigService } from 'src/app/_services/config.service';
 
 @Component({
-    selector: 'gs2-new-order',
-    templateUrl: './new-order.component.html',
-    styleUrls: ['./new-order.component.scss'],
-    standalone: false
+  selector: 'gs2-new-order',
+  templateUrl: './new-order.component.html',
+  styleUrls: ['./new-order.component.scss'],
+  standalone: false
 })
 export class NewOrderComponent implements OnInit, OnDestroy {
 
@@ -114,10 +115,10 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     private apiOrderService: ApiOrderService,
     private apiService: ApiService,
     private storeService: StoreService,
-    private snackBar: MatSnackBar,
     private router: Router,
     private store: Store<AppState>,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private config: ConfigService) {
 
     this.createForms();
   }
@@ -618,5 +619,10 @@ export class NewOrderComponent implements OnInit, OnDestroy {
         return ConstantsService.ORDER_NAME.PUBLIC;
     };
     return type.name;
+  }
+
+  public billingRequired(): boolean {
+    return !this.config.config?.noBillingForFreeOrder ||
+      !this.products.every(product => product.pricing?.pricing_type === "FREE");
   }
 }
