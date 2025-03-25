@@ -1,6 +1,7 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {IConfig} from '../_models/IConfig';
+import { IConfig } from '../_models/IConfig';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,18 +14,13 @@ export class ConfigService {
   }
 
   load() {
-    return new Promise<void>(async (resolve, reject) => {
-      try {
-        this.config = await this.http.get<IConfig>('assets/configs/config.json').toPromise();
+    return this.http.get<IConfig>('assets/configs/config.json').pipe(
+      map((config) => {
+        this.config = config;
         if (this.config?.apiUrl.endsWith('/')) {
           this.config.apiUrl = this.config.apiUrl.substr(0, this.config.apiUrl.length - 1);
         }
-
-        resolve();
-      } catch (error) {
-        console.error(error);
-        reject(error);
-      }
-    });
+        return config
+      }));
   }
 }

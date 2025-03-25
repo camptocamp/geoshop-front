@@ -1,21 +1,19 @@
-import {AfterViewInit, Component, ElementRef, HostBinding, OnInit, ViewChild} from '@angular/core';
-import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {AppState} from '../../_store';
-import {Store} from '@ngrx/store';
-import {IIdentity} from '../../_models/IIdentity';
-import {ApiService} from '../../_services/api.service';
-import {map} from 'rxjs/operators';
-import {Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {StepperSelectionEvent} from '@angular/cdk/stepper';
-import {PHONE_REGEX, IDE_REGEX} from '../../_helpers/regex';
-import {ConstantsService} from '../../constants.service';
+import { AfterViewInit, Component, ElementRef, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IIdentity } from '../../_models/IIdentity';
+import { ApiService } from '../../_services/api.service';
+import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { PHONE_REGEX, IDE_REGEX } from '../../_helpers/regex';
+import * as Constants from '../../constants';
 
 @Component({
-    selector: 'gs2-register',
-    templateUrl: './register.component.html',
-    styleUrls: ['./register.component.scss'],
-    standalone: false
+  selector: 'gs2-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
+
 })
 export class RegisterComponent implements OnInit, AfterViewInit {
 
@@ -23,11 +21,11 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   @ViewChild('firstInput') firstInput: ElementRef;
 
   // Constants
-  readonly REQUIRED = ConstantsService.REQUIRED;
-  readonly WRONG_EMAIL = ConstantsService.WRONG_EMAIL;
-  readonly WRONG_PHONE = ConstantsService.WRONG_PHONE;
-  readonly NEXT = ConstantsService.NEXT;
-  readonly PREVIOUS = ConstantsService.PREVIOUS;
+  readonly REQUIRED = Constants.REQUIRED;
+  readonly WRONG_EMAIL = Constants.WRONG_EMAIL;
+  readonly WRONG_PHONE = Constants.WRONG_PHONE;
+  readonly NEXT = Constants.NEXT;
+  readonly PREVIOUS = Constants.PREVIOUS;
 
   startDate: Date;
 
@@ -127,21 +125,21 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     return this.formCredentials.get('passwords')?.get('passwordConfirm');
   }
 
-  constructor(private store: Store<AppState>, private apiService: ApiService,
-              private router: Router,
-              private snackBar: MatSnackBar
+  constructor(private apiService: ApiService,
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
   }
 
   private static passwordMatchValidator(g: UntypedFormGroup) {
     const passValue = g.get('password')?.value;
     const passConfirmValue = g.get('passwordConfirm')?.value;
-    return passValue === passConfirmValue ? null : {mismatch: true};
+    return passValue === passConfirmValue ? null : { mismatch: true };
   }
 
   ngOnInit(): void {
     this.startDate = new Date();
-    this.startDate.setFullYear( this.startDate.getFullYear() - 35 );
+    this.startDate.setFullYear(this.startDate.getFullYear() - 35);
   }
 
   ngAfterViewInit(): void {
@@ -176,8 +174,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
           if (res) {
             this.snackBar.open($localize`Le compte est en cours de validation. Vous recevrez un courriel de confirmation sous peu.`,
               'Ok', {
-                panelClass: 'notification-success'
-              });
+              panelClass: 'notification-success'
+            });
             await this.router.navigate(['/auth/login']);
           } else {
             this.formCredentials.markAsDirty();
@@ -194,7 +192,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       .pipe(
         map(response => {
           return response ?
-            response.result ? {duplicate: true} : null :
+            response.result ? { duplicate: true } : null :
             null;
         }));
   }

@@ -6,7 +6,7 @@ import { ConfigService } from './config.service';
 import { IApiResponse } from '../_models/IApi';
 import { catchError, flatMap, map } from 'rxjs/operators';
 import { Contact, IContact } from '../_models/IContact';
-import { GeoshopUtils } from '../_helpers/GeoshopUtils';
+import { deepCopyOrder, extractIdFromUrl } from '../_helpers/GeoshopUtils';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IProduct } from '../_models/IProduct';
 
@@ -146,7 +146,7 @@ export class ApiOrderService {
     ).pipe(
       map(data => {
         const iContact = data[0];
-        const order = GeoshopUtils.deepCopyOrder(orderJson);
+        const order = deepCopyOrder(orderJson);
         const newOrder = new Order(order);
 
         if (!iContact) {
@@ -187,7 +187,7 @@ export class ApiOrderService {
             if (!newJsonContact) {
               return of(null);
             }
-            jsonOrder.invoice_contact = GeoshopUtils.ExtractIdFromUrl((newJsonContact as IContact).url);
+            jsonOrder.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
           }
           return this.http.post<IOrder | null>(url.toString(), jsonOrder)
             .pipe(
@@ -213,7 +213,7 @@ export class ApiOrderService {
             if (!newJsonContact) {
               return of(null);
             }
-            orderToPost.invoice_contact = GeoshopUtils.ExtractIdFromUrl((newJsonContact as IContact).url);
+            orderToPost.invoice_contact = ExtractIdFromUrl((newJsonContact as IContact).url);
           }
 
           return this.http.put<IOrder | null>(`${url.toString()}${order.id}/`, orderToPost)
@@ -274,8 +274,7 @@ export class ApiOrderService {
     this._getApiUrl();
 
     if (!contact || contact.HasId) {
-      // @ts-ignore
-      return of(contact);
+      return of(contact ?? null);
     }
 
     const url = new URL(`${this.apiUrl}/contact/`);

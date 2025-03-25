@@ -1,14 +1,13 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {IProduct} from '../_models/IProduct';
-import {ConfigService} from './config.service';
-import {Observable, of} from 'rxjs';
-import {IApiResponse} from '../_models/IApi';
-import {ICredentials, IIdentity} from '../_models/IIdentity';
-import {catchError, map, switchMap} from 'rxjs/operators';
-import {IMetadata} from '../_models/IMetadata';
-import {IUser, IUserChangeResponse, IUserToPost} from '../_models/IUser';
-import { LoginResponse } from 'angular-auth-oidc-client';
+import { IProduct } from '../_models/IProduct';
+import { ConfigService } from './config.service';
+import { Observable, of } from 'rxjs';
+import { IApiResponse } from '../_models/IApi';
+import { ICredentials, IIdentity } from '../_models/IIdentity';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { IMetadata } from '../_models/IMetadata';
+import { IUser, IUserChangeResponse, IUserToPost } from '../_models/IUser';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +30,7 @@ export class ApiService {
     const url = `${this.apiUrl}/${endpoint}/`;
 
     return this.http.get<IApiResponse<T> | null>(url, {
-      params: {search: inputText}
+      params: { search: inputText }
     }).pipe(
       catchError(() => {
         return of(null);
@@ -92,19 +91,19 @@ export class ApiService {
     this._getApiUrl();
 
     const url = new URL(`${this.apiUrl}/oidc/token`);
-    return this.http.post<{access: string; refresh: string}>(url.toString(), {token})
-    .pipe(
-      switchMap(x => {
-        return this.getProfile(x.access)
-          .pipe(map(p => Object.assign({token: x.access, tokenRefresh: x.refresh}, p)));
-      }),
-      map(x => {
-        return {
-          identity: x,
-          callbackUrl: "/"
-        };
-      })
-    );
+    return this.http.post<{ access: string; refresh: string }>(url.toString(), { token })
+      .pipe(
+        switchMap(x => {
+          return this.getProfile(x.access)
+            .pipe(map(p => Object.assign({ token: x.access, tokenRefresh: x.refresh }, p)));
+        }),
+        map(x => {
+          return {
+            identity: x,
+            callbackUrl: "/"
+          };
+        })
+      );
   }
 
   login(authenticate: ICredentials, callbackUrl: string): Observable<{ identity: Partial<IIdentity>; callbackUrl: string; }> {
@@ -116,7 +115,7 @@ export class ApiService {
       .pipe(
         switchMap(x => {
           return this.getProfile(x.access)
-            .pipe(map(p => Object.assign({token: x.access, tokenRefresh: x.refresh}, p)));
+            .pipe(map(p => Object.assign({ token: x.access, tokenRefresh: x.refresh }, p)));
         }),
         map(x => {
           return {
@@ -135,7 +134,7 @@ export class ApiService {
     };
 
     return token ?
-      this.http.get<IUser>(this.apiUrl + '/auth/current/', {headers}) :
+      this.http.get<IUser>(this.apiUrl + '/auth/current/', { headers }) :
       this.http.get<IUser>(this.apiUrl + '/auth/current/');
   }
 
@@ -164,13 +163,13 @@ export class ApiService {
   refreshToken(token: string): Observable<{ access: string; }> {
     this._getApiUrl();
 
-    return this.http.post<{ access: string; }>(this.apiUrl + `/token/refresh/`, {refresh: token});
+    return this.http.post<{ access: string; }>(this.apiUrl + `/token/refresh/`, { refresh: token });
   }
 
   checkLoginNotTaken(login: string): Observable<{ result: boolean } | null> {
     this._getApiUrl();
 
-    return this.http.post<{ result: boolean }>(this.apiUrl + `/user/existsLogin/`, {login})
+    return this.http.post<{ result: boolean }>(this.apiUrl + `/user/existsLogin/`, { login })
       .pipe(
         catchError(() => {
           return of(null);
@@ -181,7 +180,7 @@ export class ApiService {
   forget(email: string) {
     this._getApiUrl();
 
-    return this.http.post<{ result: boolean }>(this.apiUrl + '/auth/password/', {email})
+    return this.http.post<{ result: boolean }>(this.apiUrl + '/auth/password/', { email })
       .pipe(
         catchError(() => {
           return of(null);

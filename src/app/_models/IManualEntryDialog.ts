@@ -2,9 +2,9 @@ import {IPageFormat} from './IConfig';
 
 export interface IManualEntryDialogData {
   selectedPageFormatScale: number;
-  pageFormatScales: Array<number>;
+  pageFormatScales: number[];
   selectedPageFormat: IPageFormat;
-  pageFormats: Array<IPageFormat>;
+  pageFormats: IPageFormat[];
   PageFormatRotation: number;
   rotationPageFormat: number;
   activeTab: number;

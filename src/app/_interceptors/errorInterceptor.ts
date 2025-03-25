@@ -22,7 +22,7 @@ function formatConnectionError(response: HttpErrorResponse): string {
   return $localize`Unexpected error: ${response.message}`;
 }
 
-function formatGenericError(err: any): string {
+function formatGenericError(err): string {
   const messages = [];
   for (const attr in err) {
     if (!err[attr]) {
@@ -43,7 +43,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   constructor(private store: Store<AppState>, private router: Router, private snackBar: MatSnackBar) {
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
     return next.handle(req).pipe(
       catchError(response => {
@@ -59,7 +59,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               message = formatConnectionError(response);
             } else if (Array.isArray(err.message) && err.message[0] === 'Order area is too large') {
               message = formatAreaError(err);
-            } else if (JSON.stringify(err.message).toLowerCase().indexOf("token expired") !== -1){
+            } else if (JSON.stringify(err.message).toLowerCase().indexOf("token expired") !== -1) {
               message = $localize`La session est expirée`;
             } else {
               message = formatGenericError(err);
