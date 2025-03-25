@@ -1,4 +1,4 @@
-// tslint:disable:variable-name
+
 
 import { IMetadata, IMetadataSummary } from './IMetadata';
 import { IPricing } from './IPricing';
@@ -14,7 +14,7 @@ export interface IProduct {
   thumbnail_link?: string;
   /** Metadata url */
   metadata?: string;
-  group?: any;
+  group?: unknown;
   /** Pricing url */
   pricing?: IPricing;
   /** Use only in the app to facilitate */

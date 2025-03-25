@@ -7,7 +7,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
   selector: 'gs2-manualentry',
   templateUrl: './manualentry.component.html',
   styleUrls: ['./manualentry.component.scss'],
-  standalone: false,
+  
 })
 export class ManualentryComponent {
 

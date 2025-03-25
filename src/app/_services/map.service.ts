@@ -13,7 +13,7 @@ import { defaults as defaultInteractions, DragAndDrop } from 'ol/interaction';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import { Draw, Modify } from 'ol/interaction';
-import { Feature, Overlay } from 'ol';
+import { Collection, Feature, Overlay } from 'ol';
 import { FeatureLike } from 'ol/Feature';
 import Polygon, { fromExtent } from 'ol/geom/Polygon';
 import WMTS, { Options } from 'ol/source/WMTS';
@@ -24,20 +24,18 @@ import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import Point from 'ol/geom/Point';
 import GeoJSON from 'ol/format/GeoJSON';
 import Projection from 'ol/proj/Projection';
-import { boundingExtent, buffer, getCenter, getArea } from 'ol/extent';
+import { buffer, getCenter, getArea } from 'ol/extent';
 import MultiPoint from 'ol/geom/MultiPoint';
-import { fromLonLat } from 'ol/proj';
 import KML from 'ol/format/KML';
 import { Coordinate } from 'ol/coordinate';
 import Geometry from 'ol/geom/Geometry';
 import TileSource from 'ol/source/Tile';
 
-// ol-ext
-// @ts-ignore
+// @ts-expect-error: importing an untyped JavaScript module.
 import Transform from 'ol-ext/interaction/Transform';
 
 import { BehaviorSubject, of } from 'rxjs';
-import { GeoHelper } from '../_helpers/geoHelper';
+import { formatArea } from '../_helpers/geoHelper';
 import proj4 from 'proj4';
 import { HttpClient } from '@angular/common/http';
 import { filter, map, switchMap } from 'rxjs/operators';
@@ -61,6 +59,8 @@ const formatArea = (area: number): string => {
     `${Math.round(area * 100) / 100}m<sup>2</sup>`;
 }
 
+const DEFAULT_EXTENT = [2419995.7488073637, 1030006.663199476, 2900009.727428728, 1350004.292478851];
+const DEFAULT_RESOLUTIONS = [250, 100, 50, 20, 10, 5, 2.5, 2, 1.5, 1, 0.5, 0.25];
 
 @Injectable({
   providedIn: 'root'
@@ -71,7 +71,7 @@ export class MapService {
   private snackBarRef: MatSnackBarRef<SimpleSnackBar>;
 
   private map: Map;
-  private basemapLayers: Array<BaseLayer> = [];
+  private basemapLayers: BaseLayer[] = [];
   private projection: Projection;
   private resolutions: number[];
   private initialExtent: number[];
@@ -158,11 +158,9 @@ export class MapService {
   public initialize() {
     if (this.initialized) {
       this.isMapLoading$.next(false);
-      this.map.dispose();
-      // @ts-ignore
-      this.map = null;
+      this.map?.dispose();
     }
-    this.initialExtent = this.configService.config!.initialExtent;
+    this.initialExtent = this.configService.config?.initialExtent || DEFAULT_EXTENT;
     this.initializeMap().then(() => {
       this.initializeDrawing();
       this.initializeInteraction();
@@ -173,7 +171,7 @@ export class MapService {
           const geometry = this.geoJsonFormatter.readGeometry(order.geom);
           const feature = new Feature(geometry);
           this.drawingSource.addFeature(feature);
-          this.areaTooltip.setPosition(getCenter(feature.getGeometry()!.getExtent()));
+          this.areaTooltip.setPosition(getCenter(geometry.getExtent()));
           this.updateAreaTooltip();
         }
       });
@@ -278,7 +276,7 @@ export class MapService {
 
   public async createTileLayer(baseMapConfig: IBasemap, isVisible: boolean): Promise<TileLayer<TileSource> | undefined> {
     if (!this.resolutions || !this.initialExtent) {
-      this.resolutions = this.configService.config!.resolutions;
+      this.resolutions = this.configService.config?.resolutions || DEFAULT_RESOLUTIONS;
 
       await this.debounce(200);
     }
@@ -529,7 +527,7 @@ export class MapService {
       });
     }
 
-    for (const [i, featureLike] of features.entries()) {
+    for (const featureLike of features) {
       if (featureLike.getGeometry()?.getType() !== 'Polygon') {
         continue;
       }
@@ -586,15 +584,14 @@ export class MapService {
       this.drawInteraction = new Draw({
         source: this.drawingSource,
         type: 'Polygon',
-        finishCondition: (evt) => {
+        finishCondition: () => {
           return true;
         }
       });
     }
-    const svc = this;
     this.areaTooltipElement.style.visibility = "hidden";
     this.drawInteraction.on('drawstart', (evt) => {
-      svc.featureFromDrawing = evt.feature;
+      this.featureFromDrawing = evt.feature;
     })
     this.drawInteraction.on('drawend', () => {
       this.toggleDrawing();
@@ -631,7 +628,10 @@ export class MapService {
     if (this.featureFromDrawing) {
       this.drawingSource.addFeature(this.featureFromDrawing);
     }
-    this.drawingSource.on('addfeature', (evt: { feature: any; }) => {
+    this.drawingSource.on('addfeature', (evt: { feature?: Feature<Geometry> }) => {
+      if (!evt.feature) {
+        return
+      }
       this.featureFromDrawing = evt.feature;
       this.dispatchCurrentGeometry(true);
 
@@ -691,7 +691,7 @@ export class MapService {
   private dispatchCurrentGeometry(fitMap: boolean) {
     if (this.featureFromDrawing) {
       const polygon = this.featureFromDrawing.getGeometry() as Polygon;
-      const area = GeoHelper.formatArea(polygon);
+      const area = formatArea(polygon);
       this.featureFromDrawing.set('area', area);
       this.store.dispatch(
         updateGeometry(
@@ -757,7 +757,7 @@ export class MapService {
       hitTolerance: 2,
     });
 
-    this.transformInteraction.on(['rotateend', 'translateend'], (evt: any) => {
+    this.transformInteraction.on(['rotateend', 'translateend'], (evt: { features: Collection<Feature<Geometry>> }) => {
       this.featureFromDrawing = evt.features.item(0);
       this.dispatchCurrentGeometry(true);
     });
@@ -776,7 +776,7 @@ export class MapService {
     const reader = new FileReader();
     const fileName = file.name;
 
-    reader.onload = (e) => {
+    reader.onload = () => {
       const fileContent = reader.result;
       if (fileContent) {
         const kmlFeatures = kmlFormat.readFeatures(fileContent, {
@@ -798,7 +798,7 @@ export class MapService {
 
     const w = format.width * scale / 2000;
     const h = format.height * scale / 2000;
-    let coordinates: Array<Array<Coordinate>>;
+    let coordinates: Coordinate[][];
     if (center && center.length > 0) {
       coordinates = [[
         [center[0] - w, center[1] - h],
@@ -822,7 +822,7 @@ export class MapService {
   public setBbox(xmin: number, ymin: number, xmax: number, ymax: number) {
     this.eraseDrawing();
     this.transformInteraction.setActive(true);
-    const coordinates: Array<Array<Coordinate>> = [[
+    const coordinates: Coordinate[][] = [[
       [xmin, ymin],
       [xmin, ymax],
       [xmax, ymax],

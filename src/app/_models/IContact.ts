@@ -1,5 +1,4 @@
-// tslint:disable:variable-name
-import {GeoshopUtils} from '../_helpers/GeoshopUtils';
+import { extractIdFromUrl } from '../_helpers/GeoshopUtils';
 
 export interface IContact {
   company_name: string;
@@ -15,11 +14,11 @@ export interface IContact {
   phone?: string;
   sap_id?: string;
 
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export class Contact {
-  [key: string]: any;
+  [key: string]: unknown;
 
   url: string;
   company_name: string;
@@ -58,7 +57,7 @@ export class Contact {
   }
 
   private initializeId(url?: string) {
-    this.id = GeoshopUtils.ExtractIdFromUrl(url);
+    this.id = extractIdFromUrl(url);
     if (!this.sap_id || this.sap_id === '') {
       this.sap_id = undefined;
     }

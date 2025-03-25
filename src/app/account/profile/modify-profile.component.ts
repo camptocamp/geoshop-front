@@ -1,26 +1,26 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
-import {UntypedFormControl, UntypedFormGroup, UntypedFormBuilder, Validators} from '@angular/forms';
-import {EMAIL_REGEX, PHONE_REGEX} from '../../_helpers/regex';
-import {ApiService} from '../../_services/api.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {Router} from '@angular/router';
-import {IUser, IUserToPost} from '../../_models/IUser';
-import { ConstantsService } from '../../constants.service';
+import { Component, HostBinding } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { EMAIL_REGEX, PHONE_REGEX } from '../../_helpers/regex';
+import { ApiService } from '../../_services/api.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { IUser, IUserToPost } from '../../_models/IUser';
+import * as Constants from '../../constants';
 
 @Component({
-    selector: 'gs2-modify-profile',
-    templateUrl: './modify-profile.component.html',
-    styleUrls: ['./modify-profile.component.scss'],
-    standalone: false
+  selector: 'gs2-modify-profile',
+  templateUrl: './modify-profile.component.html',
+  styleUrls: ['./modify-profile.component.scss'],
+
 })
-export class ModifyProfileComponent implements OnInit {
+export class ModifyProfileComponent {
 
   @HostBinding('class') class = 'main-container';
 
   // Constants
-  readonly REQUIRED = ConstantsService.REQUIRED;
-  readonly WRONG_EMAIL = ConstantsService.WRONG_EMAIL;
-  readonly WRONG_PHONE = ConstantsService.WRONG_PHONE;
+  readonly REQUIRED = Constants.REQUIRED;
+  readonly WRONG_EMAIL = Constants.WRONG_EMAIL;
+  readonly WRONG_PHONE = Constants.WRONG_PHONE;
 
   formModifyUser = new UntypedFormGroup({});
   user: IUser;
@@ -37,13 +37,10 @@ export class ModifyProfileComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
-
   private createForm() {
 
     this.formModifyUser = this.formBuilder.group({
-      username: new UntypedFormControl({value: this.user.username, disabled: true}, Validators.required),
+      username: new UntypedFormControl({ value: this.user.username, disabled: true }, Validators.required),
       firstName: new UntypedFormControl(this.user.first_name, Validators.required),
       lastName: new UntypedFormControl(this.user.last_name, Validators.required),
       email: new UntypedFormControl(this.user.email, Validators.compose(
@@ -62,7 +59,7 @@ export class ModifyProfileComponent implements OnInit {
   onModifyUserSubmit(): void {
 
     if (this.formModifyUser.pristine) {
-      this.snackBar.open($localize`Vous n\'avez rien modifié !`, 'Ok', {panelClass: 'notification-error'});
+      this.snackBar.open($localize`Vous n\'avez rien modifié !`, 'Ok', { panelClass: 'notification-error' });
       return;
     }
 
@@ -90,7 +87,7 @@ export class ModifyProfileComponent implements OnInit {
               'Vos modifications ont été soumises aux gestionnaires du Geoshop' +
               ' et un email de confirmation vous a été envoyé. Vos modifications' +
               ' seront validées dans les meilleurs délais.',
-              'Ok', {panelClass: 'notification-info'});
+              'Ok', { panelClass: 'notification-info' });
             await this.router.navigate(['/account/profile']);
           } else {
             this.formModifyUser.markAsDirty();

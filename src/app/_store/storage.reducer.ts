@@ -1,16 +1,16 @@
-import {Action, ActionReducer} from '@ngrx/store';
-import {merge, pick} from 'lodash-es';
-import {AppState} from './index';
+import { Action, ActionReducer } from '@ngrx/store';
+import { merge, pick } from 'lodash-es';
+import { AppState } from './index';
 
 const STATE_KEYS = ['cart', 'auth'];
 // the key for the local storage.
 const LOCAL_STORAGE_KEY = '__geoshop_storage__';
 
-const setSavedState = (state: any, localStorageKey: string) => {
+const setSavedState = (state: unknown, localStorageKey: string) => {
   localStorage.setItem(localStorageKey, JSON.stringify(state));
 };
 
-const getSavedState = (localStorageKey: string): any => {
+const getSavedState = (localStorageKey: string): AppState | undefined => {
   const item = localStorage.getItem(localStorageKey);
 
   try {
@@ -29,7 +29,7 @@ export function storageMetaReducer<S, A extends Action = Action>(reducer: Action
     // init the application state.
     if (onInit) {
       onInit = false;
-      const savedState: AppState = getSavedState(LOCAL_STORAGE_KEY);
+      const savedState: AppState | undefined = getSavedState(LOCAL_STORAGE_KEY);
       return merge(nextState, savedState);
     }
     // save the next state to the application storage.

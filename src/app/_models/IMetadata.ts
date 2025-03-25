@@ -18,7 +18,7 @@ export interface IMetadataRole {
 
 export interface IMetadata {
   url: string;
-  contact_persons: Array<IMetadataRole>;
+  contact_persons: IMetadataRole[];
   modified_user: string;
   id_name: string;
   name: string;
@@ -30,7 +30,7 @@ export interface IMetadata {
   modified_date: string;
   data_last_update_date: string;
   copyright: string;
-  documents: Array<any>;
+  documents: unknown[];
 }
 
 export interface IMetadataSummary {

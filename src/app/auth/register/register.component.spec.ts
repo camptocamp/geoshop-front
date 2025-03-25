@@ -15,12 +15,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 class StoreMock {
-  select =  vi.fn().mockImplementation(() => of(vi.fn()));
+  select = vi.fn().mockImplementation(() => of(vi.fn()));
   dispatch = vi.fn();
 }
 
@@ -30,7 +30,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[
+      imports: [
         MatCardModule,
         MatFormFieldModule,
         MatInputModule,
@@ -42,14 +42,14 @@ describe('RegisterComponent', () => {
         NoopAnimationsModule,
         ReactiveFormsModule,
       ],
-      declarations: [ RegisterComponent ],
-      providers:[
-        {provide: Store<AppState>, useClass: StoreMock},
+      declarations: [RegisterComponent],
+      providers: [
+        { provide: Store<AppState>, useClass: StoreMock },
         provideHttpClient(),
         provideHttpClientTesting()
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -15,20 +15,19 @@ import { IOrder, IOrderType, Order, IOrderItem } from '../../_models/IOrder';
 import { ApiOrderService } from '../../_services/api-order.service';
 import { MatStepper } from '@angular/material/stepper';
 import { StoreService } from '../../_services/store.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contact, IContact } from '../../_models/IContact';
 import { Router } from '@angular/router';
 import * as fromCart from '../../_store/cart/cart.action';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../_components/confirm-dialog/confirm-dialog.component';
-import { ConstantsService } from '../../constants.service';
+import * as Constants from '../../constants';
 import { ConfigService } from 'src/app/_services/config.service';
 
 @Component({
   selector: 'gs2-new-order',
   templateUrl: './new-order.component.html',
   styleUrls: ['./new-order.component.scss'],
-  standalone: false
+
 })
 export class NewOrderComponent implements OnInit, OnDestroy {
 
@@ -39,20 +38,20 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   @ViewChild('stepper') stepper: MatStepper;
 
   // constants
-  readonly REQUIRED = ConstantsService.REQUIRED;
-  readonly WRONG_EMAIL = ConstantsService.WRONG_EMAIL;
-  readonly WRONG_PHONE = ConstantsService.WRONG_PHONE;
-  readonly NEXT = ConstantsService.NEXT;
-  readonly PREVIOUS = ConstantsService.PREVIOUS;
+  readonly REQUIRED = Constants.REQUIRED;
+  readonly WRONG_EMAIL = Constants.WRONG_EMAIL;
+  readonly WRONG_PHONE = Constants.WRONG_PHONE;
+  readonly NEXT = Constants.NEXT;
+  readonly PREVIOUS = Constants.PREVIOUS;
   readonly BACK: string = $localize`Réinitialiser`;
-  readonly COUNTRIES = ConstantsService.COUNTRIES;
+  readonly COUNTRIES = Constants.COUNTRIES;
 
 
   orderFormGroup: UntypedFormGroup;
   addressChoiceForm: UntypedFormGroup;
   contactFormGroup: UntypedFormGroup;
   orderItemFormGroup: UntypedFormGroup;
-  invoiceContactsFormControls: { [key: string]: UntypedFormControl };
+  invoiceContactsFormControls: Record<string, UntypedFormControl>;
 
   isSearchLoading = false;
   isOrderPatchLoading = false;
@@ -198,9 +197,9 @@ export class NewOrderComponent implements OnInit, OnDestroy {
 
   // FIXME this is a duplication of the same function in the order-item-view.component.ts
   getOrerStatus(orderItem: IOrderItem): string {
-    let returnValue: string = '';
-    if (orderItem.status !== undefined && ConstantsService.ORDER_STATUS.hasOwnProperty(orderItem.status)) {
-      returnValue = ConstantsService.ORDER_STATUS[orderItem.status];
+    let returnValue = '';
+    if (orderItem.status !== undefined && ORDER_STATUS[orderItem.status]) {
+      returnValue = ORDER_STATUS[orderItem.status];
     }
     return returnValue;
   }
@@ -208,7 +207,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   private getOrderType(id: number) {
     return this.orderTypes.find(x => id === x.id) || {
       id: 1,
-      name: ConstantsService.ORDERTYPE_PRIVATE
+      name: ORDERTYPE_PRIVATE
     };
   }
 
@@ -284,27 +283,22 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       this.addressChoiceCtrl?.setValue('1');
     }
 
-
-    try {
-      if (this.contactFormGroup) {
-        this.contactFormGroup.setValue({
-          customer: null,
-          first_name: order.invoiceContact?.first_name || '',
-          last_name: order.invoiceContact?.last_name || '',
-          email: order.invoiceContact?.email || '',
-          company_name: order.invoiceContact?.company_name || '',
-          ide_id: order.invoiceContact?.ide_id || '',
-          phone: order.invoiceContact?.phone || '',
-          street: order.invoiceContact?.street || '',
-          street2: order.invoiceContact?.street2 || '',
-          postcode: order.invoiceContact?.postcode || '',
-          city: order.invoiceContact?.city || '',
-          country: order.invoiceContact?.country || '',
-          url: order.invoiceContact?.url || '',
-        });
-      }
-    } catch {
-
+    if (this.contactFormGroup) {
+      this.contactFormGroup.setValue({
+        customer: null,
+        first_name: order.invoiceContact?.first_name || '',
+        last_name: order.invoiceContact?.last_name || '',
+        email: order.invoiceContact?.email || '',
+        company_name: order.invoiceContact?.company_name || '',
+        ide_id: order.invoiceContact?.ide_id || '',
+        phone: order.invoiceContact?.phone || '',
+        street: order.invoiceContact?.street || '',
+        street2: order.invoiceContact?.street2 || '',
+        postcode: order.invoiceContact?.postcode || '',
+        city: order.invoiceContact?.city || '',
+        country: order.invoiceContact?.country || '',
+        url: order.invoiceContact?.url || '',
+      });
     }
 
     for (const attr in this.orderItemFormGroup.controls) {
@@ -440,7 +434,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     });
 
     for (const key in this.invoiceContactsFormControls) {
-      if (this.currentOrder.invoiceContact && this.currentOrder.invoiceContact.hasOwnProperty(key)) {
+      if (this.currentOrder.invoiceContact && this.currentOrder.invoiceContact[key]) {
         this.contactFormGroup.get(key)?.setValue(this.currentOrder.invoiceContact[key]);
       }
     }
@@ -617,9 +611,9 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     }
     switch (type.id) {
       case 1:
-        return ConstantsService.ORDER_NAME.PRIVATE;
+        return ORDER_NAME.PRIVATE;
       case 2:
-        return ConstantsService.ORDER_NAME.PUBLIC;
+        return ORDER_NAME.PUBLIC;
     };
     return type.name;
   }
