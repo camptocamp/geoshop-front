@@ -17,7 +17,7 @@ export interface IConfig {
   geocoderUrl: string;
   geocoderLayers: string[];
   contact: {
-    links: {conditions: string; tariffs:string;};
+    links: { conditions: string; tariffs: string; };
     phone: { label: string; number: string };
     email: string;
   };
@@ -29,6 +29,7 @@ export interface IConfig {
   pageformats: Array<IPageFormat>;
   oidcConfig: OpenIdConfiguration;
   localAuthEnabled: boolean;
+  noBillingForFreeOrder?: boolean;
 }
 
 export interface IPageFormat {
