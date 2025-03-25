@@ -1,17 +1,17 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {EMAIL_REGEX} from '../../_helpers/regex';
-import {ApiService} from '../../_services/api.service';
+import { Component, HostBinding } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { EMAIL_REGEX } from '../../_helpers/regex';
+import { ApiService } from '../../_services/api.service';
 
 @Component({
-    selector: 'gs2-forget',
-    templateUrl: './forget.component.html',
-    styleUrls: ['./forget.component.scss'],
-    standalone: false
+  selector: 'gs2-forget',
+  templateUrl: './forget.component.html',
+  styleUrls: ['./forget.component.scss'],
+
 })
-export class ForgetComponent implements OnInit {
+export class ForgetComponent {
 
   @HostBinding('class') class = 'main-container';
 
@@ -23,16 +23,13 @@ export class ForgetComponent implements OnInit {
   }
 
   constructor(private fb: UntypedFormBuilder,
-              private router: Router,
-              public snackBar: MatSnackBar,
-              private apiService: ApiService
+    private router: Router,
+    public snackBar: MatSnackBar,
+    private apiService: ApiService
   ) {
     this.form = this.fb.group({
       email: ['', Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEX)])],
     });
-  }
-
-  ngOnInit(): void {
   }
 
   onSubmit(event: MouseEvent) {
@@ -48,7 +45,7 @@ export class ForgetComponent implements OnInit {
           return;
         } else {
           this.snackBar.open(`${this.successMessage} ${this.form.value.email}`,
-            'Ok', {panelClass: 'notification-success'});
+            'Ok', { panelClass: 'notification-success' });
           this.router.navigate(['']);
         }
       });

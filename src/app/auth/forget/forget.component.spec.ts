@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ForgetComponent } from './forget.component';
 
 import { MatCardModule } from '@angular/material/card';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
@@ -17,7 +17,7 @@ describe('ForgetComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[
+      imports: [
         MatCardModule,
         MatIconModule,
         MatFormFieldModule,
@@ -25,13 +25,13 @@ describe('ForgetComponent', () => {
         MatInputModule,
         NoopAnimationsModule
       ],
-      declarations: [ ForgetComponent ],
+      declarations: [ForgetComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

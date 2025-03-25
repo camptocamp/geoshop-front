@@ -1,19 +1,18 @@
-import {Component, OnInit, ChangeDetectorRef, OnDestroy, HostBinding} from '@angular/core';
-import {MediaMatcher} from '@angular/cdk/layout';
-import {MapService} from '../_services/map.service';
-import {AppState, getUser} from '../_store';
-import {Store} from '@ngrx/store';
-import * as fromAuth from '../_store/auth/auth.action';
-import {BehaviorSubject} from 'rxjs';
-import {IIdentity} from '../_models/IIdentity';
+import { Component, ChangeDetectorRef, OnDestroy, HostBinding } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { MapService } from '../_services/map.service';
+import { AppState, getUser } from '../_store';
+import { Store } from '@ngrx/store';
+import { BehaviorSubject } from 'rxjs';
+import { IIdentity } from '../_models/IIdentity';
 
 @Component({
-    selector: 'gs2-welcome',
-    templateUrl: './welcome.component.html',
-    styleUrls: ['./welcome.component.scss'],
-    standalone: false
+  selector: 'gs2-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss'],
+
 })
-export class WelcomeComponent implements OnInit, OnDestroy {
+export class WelcomeComponent implements OnDestroy {
 
   @HostBinding('class') class = 'main-container';
 
@@ -25,17 +24,14 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   private user$ = new BehaviorSubject<Partial<IIdentity> | null>(null);
 
   constructor(changeDetectorRef: ChangeDetectorRef,
-              media: MediaMatcher,
-              private mapService: MapService,
-              private store: Store<AppState>,
+    media: MediaMatcher,
+    private mapService: MapService,
+    private store: Store<AppState>,
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this.mobileQueryListener);
     this.store.select(getUser).subscribe(user => this.user$.next(user));
-  }
-
-  ngOnInit() {
   }
 
   ngOnDestroy(): void {
@@ -48,6 +44,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   }
 
   transitionEnd(event: number) {
+    console.log(event);
     this.mapService.resizeMap();
     this.leftPositionForButtons = 10;
   }

@@ -21,12 +21,12 @@ export interface IConfig {
     phone: { label: string; number: string };
     email: string;
   };
-  basemaps: Array<IBasemap>;
+  basemaps: IBasemap[];
   initialCenter: number[];
   initialExtent: number[];
   resolutions: number[];
   epsg: string;
-  pageformats: Array<IPageFormat>;
+  pageformats: IPageFormat[];
   oidcConfig: OpenIdConfiguration;
   localAuthEnabled: boolean;
   noBillingForFreeOrder?: boolean;

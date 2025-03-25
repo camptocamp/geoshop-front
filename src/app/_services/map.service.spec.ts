@@ -6,7 +6,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { AppState } from '../_store';
 import { of } from 'rxjs';
-import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ConfigService } from './config.service';
 
@@ -33,7 +33,7 @@ describe('MapServiceTest', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        { provide: ActivatedRoute, useValue: { queryParamMap: of() }},
+        { provide: ActivatedRoute, useValue: { queryParamMap: of() } },
         { provide: ConfigService, useClass: ConfigServiceMock },
         { provide: Store<AppState>, useClass: StoreMock }
       ],
