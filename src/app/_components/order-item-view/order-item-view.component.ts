@@ -4,12 +4,14 @@ import { ApiOrderService } from '../../_services/api-order.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as Constants from '../../constants';
 import { HttpResponse } from '@angular/common/http';
+import { MatTableModule } from '@angular/material/table';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'gs2-order-item-view',
   templateUrl: './order-item-view.component.html',
   styleUrls: ['./order-item-view.component.scss'],
-
+  imports: [MatTableModule, CurrencyPipe, CommonModule]
 })
 export class OrderItemViewComponent implements OnInit {
 

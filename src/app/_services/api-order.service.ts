@@ -212,7 +212,7 @@ export class ApiOrderService {
             if (!newJsonContact) {
               return of(null);
             }
-            orderToPost.invoice_contact = ExtractIdFromUrl((newJsonContact as IContact).url);
+            orderToPost.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
           }
 
           return this.http.put<IOrder | null>(`${url.toString()}${order.id}/`, orderToPost)

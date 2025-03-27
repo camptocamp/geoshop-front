@@ -1,5 +1,5 @@
 import { Component, HostBinding, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../_services/api.service';
 import { PHONE_REGEX, IDE_REGEX, EMAIL_REGEX, EXTRACT_FORBIDDEN_REGEX } from '../../_helpers/regex';
 import { Observable, Subject } from 'rxjs';
@@ -9,11 +9,11 @@ import { IProduct } from '../../_models/IProduct';
 import { select, Store } from '@ngrx/store';
 import { AppState, getUser, selectOrder, selectAllProduct } from '../../_store';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { IOrder, IOrderType, Order, IOrderItem } from '../../_models/IOrder';
 import { ApiOrderService } from '../../_services/api-order.service';
-import { MatStepper } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { StoreService } from '../../_services/store.service';
 import { Contact, IContact } from '../../_models/IContact';
 import { Router } from '@angular/router';
@@ -21,12 +21,24 @@ import * as fromCart from '../../_store/cart/cart.action';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../_components/confirm-dialog/confirm-dialog.component';
 import * as Constants from '../../constants';
+import { MatError, MatLabel } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
+import { AsyncPipe, CommonModule, CurrencyPipe } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatOptionModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'gs2-new-order',
   templateUrl: './new-order.component.html',
   styleUrls: ['./new-order.component.scss'],
-
+  imports: [
+    MatAutocompleteModule, MatStepperModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatLabel, MatSelectModule, MatOptionModule,
+    MatError, MatFormFieldModule, MatRadioButton, MatRadioGroup, AsyncPipe, CurrencyPipe,
+    MatProgressSpinnerModule, MatTableModule, MatIconModule, CommonModule,
+  ],
 })
 export class NewOrderComponent implements OnInit, OnDestroy {
 
@@ -195,8 +207,8 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   // FIXME this is a duplication of the same function in the order-item-view.component.ts
   getOrerStatus(orderItem: IOrderItem): string {
     let returnValue = '';
-    if (orderItem.status !== undefined && ORDER_STATUS[orderItem.status]) {
-      returnValue = ORDER_STATUS[orderItem.status];
+    if (orderItem.status !== undefined && Constants.ORDER_STATUS[orderItem.status]) {
+      returnValue = Constants.ORDER_STATUS[orderItem.status];
     }
     return returnValue;
   }
@@ -204,7 +216,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   private getOrderType(id: number) {
     return this.orderTypes.find(x => id === x.id) || {
       id: 1,
-      name: ORDERTYPE_PRIVATE
+      name: Constants.ORDERTYPE_PRIVATE
     };
   }
 
@@ -609,9 +621,9 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     }
     switch (type.id) {
       case 1:
-        return ORDER_NAME.PRIVATE;
+        return Constants.ORDER_NAME.PRIVATE;
       case 2:
-        return ORDER_NAME.PUBLIC;
+        return Constants.ORDER_NAME.PUBLIC;
     };
     return type.name;
   }

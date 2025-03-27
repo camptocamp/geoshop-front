@@ -5,12 +5,17 @@ import { AppState, getUser } from '../_store';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
 import { IIdentity } from '../_models/IIdentity';
+import { AngularSplitModule } from 'angular-split';
+import { CatalogComponent } from './catalog/catalog.component';
+import { MapComponent } from './map/map.component';
 
 @Component({
   selector: 'gs2-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss'],
-
+  imports: [
+    AngularSplitModule, CatalogComponent, MapComponent,
+  ],
 })
 export class WelcomeComponent implements OnDestroy {
 

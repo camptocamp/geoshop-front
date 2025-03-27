@@ -22,7 +22,7 @@ function formatConnectionError(response: HttpErrorResponse): string {
   return $localize`Unexpected error: ${response.message}`;
 }
 
-function formatGenericError(err): string {
+function formatGenericError(err: Record<string, unknown>): string {
   const messages = [];
   for (const attr in err) {
     if (!err[attr]) {

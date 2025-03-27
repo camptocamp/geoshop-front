@@ -14,13 +14,19 @@ import { ConfigService } from '../../_services/config.service';
 import { MapService } from '../../_services/map.service';
 import Geometry from 'ol/geom/Geometry';
 import { Feature } from 'ol';
+import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { CommonModule, LowerCasePipe } from '@angular/common';
 
 
 @Component({
   selector: 'gs2-validate',
   templateUrl: './validate.component.html',
   styleUrls: ['./validate.component.scss'],
-
+  imports: [
+    MatCard, MatCardHeader, MatCardTitle, MatCardContent, MatProgressSpinner, MatCardSubtitle,
+    LowerCasePipe, MatCardActions, CommonModule,
+  ],
 })
 export class ValidateComponent implements OnInit, OnDestroy {
 

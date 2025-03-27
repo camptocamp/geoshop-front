@@ -16,13 +16,21 @@ import Geometry from 'ol/geom/Geometry';
 import * as Constants from '../../constants';
 import { Feature } from 'ol';
 import { HttpResponse } from '@angular/common/http';
+import { MatCard, MatCardContent, MatCardHeader, MatCardTitle, MatCardSubtitle } from '@angular/material/card';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { CommonModule, DatePipe } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { OrderItemViewComponent } from 'src/app/_components/order-item-view/order-item-view.component';
 
 
 @Component({
   selector: 'gs2-download',
   templateUrl: './download.component.html',
   styleUrls: ['./download.component.scss'],
-
+  imports: [
+    MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatProgressSpinner,
+    DatePipe, MatIcon, OrderItemViewComponent, CommonModule,
+  ],
 })
 export class DownloadComponent implements OnInit, OnDestroy {
 

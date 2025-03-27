@@ -1,18 +1,31 @@
 import { Component, OnDestroy } from '@angular/core';
 import { AppState, getUser, selectCartTotal, selectOrder } from './_store';
 import { Store } from '@ngrx/store';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { combineLatest, Subscription } from 'rxjs';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import * as fromAuth from './_store/auth/auth.action';
 import { ConfigService } from './_services/config.service';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { HelpOverlayComponent } from './_components/help-overlay/help-overlay.component';
+import { AccountOverlayComponent } from './_components/account-overlay/account-overlay.component';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { MatBadgeModule } from '@angular/material/badge';
+import { CartOverlayComponent } from './_components/cart-overlay/cart-overlay.component';
 
 @Component({
   selector: 'gs2-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  
+  imports: [
+    RouterOutlet, RouterLink, AsyncPipe,
+    MatBadgeModule, MatDividerModule, MatIconModule, MatToolbarModule, MatMenuModule, MatMenuTrigger,
+    AccountOverlayComponent, CartOverlayComponent, HelpOverlayComponent, CommonModule,
+  ],
 })
 export class AppComponent implements OnDestroy {
 
