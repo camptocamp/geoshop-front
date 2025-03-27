@@ -6,8 +6,8 @@ import { MapService } from '../../_services/map.service';
 import Map from 'ol/Map';
 import VectorSource from 'ol/source/Vector';
 import { ConfigService } from '../../_services/config.service';
-import { UntypedFormControl } from '@angular/forms';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { generateMiniMap } from '../../_helpers/geoHelper';
 import { ApiOrderService } from '../../_services/api-order.service';
 import { ApiService } from '../../_services/api.service';
@@ -17,13 +17,22 @@ import { selectOrder } from '../../_store';
 import { deleteOrder } from '../../_store/cart/cart.action';
 import Geometry from 'ol/geom/Geometry';
 import { Feature } from 'ol';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { OrderComponent } from './order/order.component';
+import { MatAccordion } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatLabel } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @Component({
   selector: 'gs2-orders',
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss'],
-
+  imports: [
+    MatProgressSpinnerModule, OrderComponent, MatAccordion, ScrollingModule, MatIconModule,
+    FormsModule, ReactiveFormsModule, MatLabel, MatFormFieldModule,
+  ],
 })
 export class OrdersComponent implements OnInit, OnDestroy {
 

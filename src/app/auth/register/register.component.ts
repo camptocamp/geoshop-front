@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, HostBinding, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IIdentity } from '../../_models/IIdentity';
 import { ApiService } from '../../_services/api.service';
 import { map } from 'rxjs/operators';
@@ -8,12 +8,24 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { PHONE_REGEX, IDE_REGEX } from '../../_helpers/regex';
 import * as Constants from '../../constants';
+import { MatIconModule } from '@angular/material/icon';
+import { MatError, MatLabel } from '@angular/material/input';
+import { MatDatepickerModule, MatDatepickerToggle } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatOptionModule } from '@angular/material/core';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatCardContent, MatCardModule } from '@angular/material/card';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'gs2-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-
+  imports: [
+    MatIconModule, MatLabel, MatDatepickerModule, MatDatepickerToggle, MatLabel,
+    FormsModule, ReactiveFormsModule, MatFormFieldModule, MatOptionModule, MatError,
+    MatStepperModule, MatCardModule, MatCardContent, CommonModule,
+  ],
 })
 export class RegisterComponent implements OnInit, AfterViewInit {
 

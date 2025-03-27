@@ -1,15 +1,22 @@
 import { Component, HostBinding } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EMAIL_REGEX } from '../../_helpers/regex';
 import { ApiService } from '../../_services/api.service';
+import { MatError } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'gs2-forget',
   templateUrl: './forget.component.html',
   styleUrls: ['./forget.component.scss'],
-
+  imports: [
+    MatError, FormsModule, ReactiveFormsModule, MatIconModule, MatCardModule, MatFormFieldModule, CommonModule,
+  ],
 })
 export class ForgetComponent {
 

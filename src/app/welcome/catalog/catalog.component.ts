@@ -4,22 +4,29 @@ import { ApiService } from '../../_services/api.service';
 import { ConfigService } from '../../_services/config.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogMetadataComponent } from './dialog-metadata/dialog-metadata.component';
-import { UntypedFormControl } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
 import { debounceTime, map, mergeMap, scan, switchMap, tap, throttleTime } from 'rxjs/operators';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { AppState, selectOrder } from '../../_store';
 import { Store } from '@ngrx/store';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { deepCopyOrder } from '../../_helpers/GeoshopUtils';
 import { IOrder } from '../../_models/IOrder';
 import { updateOrder } from '../../_store/cart/cart.action';
+import { MatFormField } from '@angular/material/input';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatIcon } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'gs2-catalog',
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss'],
-
+  imports: [
+    MatFormField, ReactiveFormsModule, MatProgressSpinner, MatIcon, CdkVirtualScrollViewport,
+    ScrollingModule, CommonModule,
+  ],
 })
 export class CatalogComponent implements OnInit {
 

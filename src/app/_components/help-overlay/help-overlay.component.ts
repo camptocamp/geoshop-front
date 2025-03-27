@@ -1,11 +1,15 @@
 import { Component, HostBinding } from '@angular/core';
 import { ConfigService } from '../../_services/config.service';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'gs2-help-overlay',
   templateUrl: './help-overlay.component.html',
   styleUrls: ['./help-overlay.component.scss'],
-
+  imports: [
+    MatIcon, MatIconModule, CommonModule,
+  ],
 })
 export class HelpOverlayComponent {
 
