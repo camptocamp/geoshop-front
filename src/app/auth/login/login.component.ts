@@ -1,19 +1,27 @@
 import { Component, ElementRef, HostBinding, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../_store';
 import * as AuthActions from '../../_store/auth/auth.action';
 import { ICredentials } from '../../_models/IIdentity';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import * as Constants from '../../constants';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { ConfigService } from '../../_services/config.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatError } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'gs2-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-
+  imports: [
+    MatCardModule, MatIconModule, RouterLink, MatError, FormsModule, ReactiveFormsModule,
+    MatFormFieldModule, CommonModule,
+  ],
 })
 export class LoginComponent implements OnInit {
 

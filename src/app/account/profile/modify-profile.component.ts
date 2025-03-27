@@ -1,17 +1,23 @@
 import { Component, HostBinding } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, UntypedFormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EMAIL_REGEX, PHONE_REGEX } from '../../_helpers/regex';
 import { ApiService } from '../../_services/api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { IUser, IUserToPost } from '../../_models/IUser';
 import * as Constants from '../../constants';
+import { MatError } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'gs2-modify-profile',
   templateUrl: './modify-profile.component.html',
   styleUrls: ['./modify-profile.component.scss'],
-
+  imports: [
+    MatError, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatCardModule, CommonModule
+  ]
 })
 export class ModifyProfileComponent {
 
