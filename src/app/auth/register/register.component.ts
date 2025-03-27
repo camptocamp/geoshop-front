@@ -9,7 +9,7 @@ import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { PHONE_REGEX, IDE_REGEX } from '../../_helpers/regex';
 import * as Constants from '../../constants';
 import { MatIconModule } from '@angular/material/icon';
-import { MatError, MatLabel } from '@angular/material/input';
+import { MatError, MatInputModule, MatLabel } from '@angular/material/input';
 import { MatDatepickerModule, MatDatepickerToggle } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
@@ -24,7 +24,7 @@ import { CommonModule } from '@angular/common';
   imports: [
     MatIconModule, MatLabel, MatDatepickerModule, MatDatepickerToggle, MatLabel,
     FormsModule, ReactiveFormsModule, MatFormFieldModule, MatOptionModule, MatError,
-    MatStepperModule, MatCardModule, MatCardContent, CommonModule,
+    MatStepperModule, MatCardModule, MatCardContent, CommonModule, MatInputModule,
   ],
 })
 export class RegisterComponent implements OnInit, AfterViewInit {
