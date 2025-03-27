@@ -1,19 +1,17 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, provideAppInitializer, inject } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { HttpClient, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
-import { StsConfigLoader, StsConfigStaticLoader } from 'angular-auth-oidc-client';
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
+import { provideAuth, StsConfigLoader, StsConfigStaticLoader } from 'angular-auth-oidc-client';
 import { ConfigService } from './_services/config.service';
 import { provideStore } from '@ngrx/store';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { reducers, metaReducers } from './_store/index';
 
-const configFactory = (httpClient: HttpClient) => {
-  const service = new ConfigService(httpClient);
-  service.load();
-  return service;
-}
 
-const authFactory = (configService: ConfigService) => {
+const stsConfigFactory = () => {
+  const configService = inject(ConfigService);
   const config = configService.config;
   return config?.oidcConfig ? new StsConfigStaticLoader(config.oidcConfig) : [];
 };
@@ -21,21 +19,20 @@ const authFactory = (configService: ConfigService) => {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideAnimations(),
     provideHttpClient(
       withFetch(),
       withInterceptorsFromDi(),
     ),
-    provideRouter(routes),
-    provideStore(),
-    {
-      provide: ConfigService,
-      useFactory: configFactory,
-      deps: [HttpClient],
-    },
-    {
-      provide: StsConfigLoader,
-      useFactory: authFactory,
-      deps: [ConfigService],
-    },
+    provideAuth({
+      loader: {
+        provide: StsConfigLoader,
+        useFactory: stsConfigFactory,
+        deps: [ConfigService],
+      },
+    }),
+    provideStore(reducers, { metaReducers }),
+    provideAppInitializer(() => inject(ConfigService).load())
   ]
 };

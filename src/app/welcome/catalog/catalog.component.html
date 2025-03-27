@@ -1,47 +1,40 @@
 <mat-form-field color="primary">
-  <input matInput [formControl]="catalogInputControl" i18n-placeholder="@@catalog_productSearch" placeholder="Rechercher un produit...">
+  <input matInput [formControl]="catalogInputControl" i18n-placeholder="@@catalog_productSearch"
+    placeholder="Rechercher un produit...">
   <div matSuffix class="flex-row">
     <mat-spinner *ngIf="isSearchLoading" diameter="16" color="accent" style="margin-right: 10px"></mat-spinner>
-    <button *ngIf="catalogInputControl.value"  mat-icon-button aria-label="Clear"
-            (click)="catalogInputControl.setValue('')">
+    <button *ngIf="catalogInputControl.value" mat-icon-button aria-label="Clear"
+      (click)="catalogInputControl.setValue('')">
       <mat-icon>close</mat-icon>
     </button>
   </div>
 </mat-form-field>
 
 <ng-container *ngIf="infinite|async as products">
-  <cdk-virtual-scroll-viewport class="list-container"
-                               [itemSize]="catalogItemHeight"
-                               (scrolledIndexChange)="nextBatch($event, products.length-1)">
+  <cdk-virtual-scroll-viewport class="list-container" [itemSize]="catalogItemHeight"
+    (scrolledIndexChange)="nextBatch($event, products.length-1)">
 
     <div [style.height]="catalogItemHeight + 'px'"
-         *cdkVirtualFor="let product of products;let i = index; trackBy: trackByIdx"
-         class="list-group-item">
+      *cdkVirtualFor="let product of products;let i = index; trackBy: trackByIdx" class="list-group-item">
 
       <img class="item-logo rounded-image" alt="Logo du produit" aria-label="Logo du produit"
-           src="{{mediaUrl}}{{product.thumbnail_link}}">
+        src="{{mediaUrl}}{{product.thumbnail_link}}">
       <div class="item-label text-ellipsis-2">{{product.label}}</div>
       <div *ngIf="product.metadata_summary.geoportal_link.length > 0" class="item-links text-ellipsis-2">
-        <a mat-icon-button  color="primary" href="{{product.metadata_summary.geoportal_link}}" i18n>
+        <a mat-icon-button color="primary" href="{{product.metadata_summary.geoportal_link}}" i18n>
           Voir sur le géoportail<mat-icon class="icon-sm">open_in_new</mat-icon>
         </a>
       </div>
 
 
-      <button class="item-help"
-      i18n-matTooltip matTooltip="Voir les meta données"
-      i18n-aria-label aria-label="Voir les meta données"
-              [disabled]="!product.metadata"
-              color="primary" mat-button
-              (click)="openMetadata(product)">
+      <button class="item-help" i18n-matTooltip matTooltip="Voir les meta données" i18n-aria-label
+        aria-label="Voir les meta données" [disabled]="!product.metadata" color="primary" mat-button
+        (click)="openMetadata(product)">
         <mat-icon>description</mat-icon>
       </button>
 
-      <button class="item-cart" color="primary" mat-button
-      i18n-matTooltip matTooltip="Ajouter au panier"
-      i18n-aria-label aria-label="Ajouter au panier"
-      (click)="addToCart(product)"
-      >
+      <button class="item-cart" color="primary" mat-button i18n-matTooltip matTooltip="Ajouter au panier"
+        i18n-aria-label aria-label="Ajouter au panier" (click)="addToCart(product)">
         <mat-icon>add_shopping_cart</mat-icon>
       </button>
 

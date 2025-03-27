@@ -21,7 +21,7 @@ import * as fromCart from '../../_store/cart/cart.action';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../_components/confirm-dialog/confirm-dialog.component';
 import * as Constants from '../../constants';
-import { MatError, MatLabel } from '@angular/material/input';
+import { MatError, MatLabel, MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { AsyncPipe, CommonModule, CurrencyPipe } from '@angular/common';
@@ -35,8 +35,8 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './new-order.component.html',
   styleUrls: ['./new-order.component.scss'],
   imports: [
-    MatAutocompleteModule, MatStepperModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatLabel, MatSelectModule, MatOptionModule,
-    MatError, MatFormFieldModule, MatRadioButton, MatRadioGroup, AsyncPipe, CurrencyPipe,
+    MatAutocompleteModule, MatStepperModule, FormsModule, ReactiveFormsModule, MatLabel, MatSelectModule, MatOptionModule,
+    MatError, MatFormFieldModule, MatInputModule, MatRadioButton, MatRadioGroup, AsyncPipe, CurrencyPipe,
     MatProgressSpinnerModule, MatTableModule, MatIconModule, CommonModule,
   ],
 })

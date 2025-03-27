@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Constants from '../../constants';
-import { MatError } from '@angular/material/input';
+import { MatError, MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './reset.component.html',
   styleUrls: ['./reset.component.scss'],
   imports: [
-    MatError, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatCardModule, CommonModule
+    MatError, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatCardModule, CommonModule, MatInputModule
   ],
 })
 export class ResetComponent implements OnDestroy {
