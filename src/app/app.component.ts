@@ -80,4 +80,8 @@ export class AppComponent implements OnDestroy {
       clearInterval(this.refreshTokenInterval);
     }
   }
+
+  get appLogo(): { path: string, alt: string } | undefined {
+    return this.configService.config?.appLogo;
+  }
 }

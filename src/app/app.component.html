@@ -1,6 +1,7 @@
 <mat-toolbar color="primary">
 
   <div class="flex-row">
+    <img *ngIf="appLogo" src="{{appLogo.path}}" alt="{{appLogo.alt}}" />
     <a mat-button class="header-title" [routerLink]="['welcome']" i18n="@@main.title">GeoShop Title</a>
     <mat-divider *ngIf="subTitle" vertical="true" color="accent"></mat-divider>
     <span class="header-subtitle">{{subTitle}}</span>
@@ -24,13 +25,10 @@
 
     <mat-divider vertical="true" color="accent"></mat-divider>
 
-    <button mat-icon-button
-            [disabled]="!(order$|async)?.url && (numberOfItemInTheCart$|async) === 0"
-            [matMenuTriggerFor]="cartOverlay">
-      <mat-icon
-        [matBadge]="(numberOfItemInTheCart$|async)  ? (numberOfItemInTheCart$|async)?.toString() : undefined"
-        matBadgePosition="before" matBadgeColor="warn"
-        matBadgeSize="small">shopping_cart
+    <button mat-icon-button [disabled]="!(order$|async)?.url && (numberOfItemInTheCart$|async) === 0"
+      [matMenuTriggerFor]="cartOverlay">
+      <mat-icon [matBadge]="(numberOfItemInTheCart$|async)  ? (numberOfItemInTheCart$|async)?.toString() : undefined"
+        matBadgePosition="before" matBadgeColor="warn" matBadgeSize="small">shopping_cart
       </mat-icon>
     </button>
     <mat-menu #cartOverlay="matMenu" class="overlay-menu-container">
@@ -43,4 +41,3 @@
 <main>
   <router-outlet></router-outlet>
 </main>
-
