@@ -2,9 +2,9 @@
 
 import Polygon from 'ol/geom/Polygon';
 import GeoJSON from 'ol/format/GeoJSON';
-import {Contact} from './IContact';
-import {PricingStatus} from './IPricing';
-import {IProduct} from './IProduct';
+import { Contact } from './IContact';
+import { PricingStatus } from './IPricing';
+import { IProduct } from './IProduct';
 import { IIdentity } from './IIdentity';
 import { ConstantsService } from '../constants.service';
 
@@ -168,7 +168,7 @@ export class Order {
   date_ordered: Date | undefined;
   date_processed: Date | undefined;
   invoice_contact: number;
-  download_guid: string|undefined;
+  download_guid: string | undefined;
 
   statusAsReadableIconText: IStatusAsReadableIcon;
   private readonly _isAllOrderItemCalculated: boolean = true;
@@ -199,7 +199,9 @@ export class Order {
   }
 
   get excludedGeomAsGeoJson(): string {
-    console.log(this.excludedGeom);
+    if (!this.excludedGeom) {
+      return "";
+    }
     return new GeoJSON().writeGeometry(this.excludedGeom);
   }
 
@@ -377,7 +379,7 @@ export class Order {
       orderItem.product.label;
   }
 
-  private initializeGeometry(geom: string | undefined): Polygon|undefined {
+  private initializeGeometry(geom: string | undefined): Polygon | undefined {
     try {
       if (!geom) {
         return;

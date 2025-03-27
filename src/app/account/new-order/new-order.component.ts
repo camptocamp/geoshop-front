@@ -316,6 +316,11 @@ export class NewOrderComponent implements OnInit, OnDestroy {
 
     this.allAvailableFormats = new Set();
     for (const item of order.items) {
+      console.log("HERE - Update formats:");
+      console.log(item);
+      console.log((item.product as IProduct).pricing);
+      console.log(item.available_formats);
+
       item.available_formats?.forEach(format => this.allAvailableFormats.add(format));
       const itemFormControl = new UntypedFormControl('', Validators.required);
       const controlName = this.getOrderItemControlName(item);
@@ -496,9 +501,13 @@ export class NewOrderComponent implements OnInit, OnDestroy {
 
     if (this.currentOrder.id === -1) {
       this.currentOrder.invoiceContact = invoiceContact;
+      console.log("HERE: Create order");
+      console.log(this.currentOrder.toPostAsJson);
       this.apiOrderService.createOrder(this.currentOrder.toPostAsJson, invoiceContact, this.IsAddressForCurrentUser)
         .subscribe(newOrder => {
           if (newOrder) {
+            console.log("HERE-B: Created an order");
+            console.log(newOrder);
             this.resetCustomerForm();
             this.storeService.addOrderToStore(new Order(newOrder as IOrder));
             this.stepper.next();
@@ -508,6 +517,8 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       this.apiOrderService.updateOrder(this.currentOrder, invoiceContact, this.IsAddressForCurrentUser)
         .subscribe(newOrder => {
           if (newOrder) {
+            console.log("HERE-B: Updated an order");
+            console.log(newOrder);
             this.resetCustomerForm();
             this.storeService.addOrderToStore(new Order(newOrder as IOrder));
             this.stepper.next();
@@ -612,6 +623,9 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   public getLocalizedTypeName(type: IOrderType): string {
+    if (!type) {
+      return "";
+    }
     switch (type.id) {
       case 1:
         return ConstantsService.ORDER_NAME.PRIVATE;
@@ -622,6 +636,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   public billingRequired(): boolean {
+    console.log(`BILLING: ${this.config.config?.noBillingForFreeOrder}: [${this.products.map(product => product.pricing?.pricing_type)}]`)
     return !this.config.config?.noBillingForFreeOrder ||
       !this.products.every(product => product.pricing?.pricing_type === "FREE");
   }
