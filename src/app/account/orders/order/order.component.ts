@@ -17,13 +17,19 @@ import Geometry from 'ol/geom/Geometry';
 import * as Constants from '../../../constants';
 import { Feature } from 'ol';
 import { HttpResponse } from '@angular/common/http';
+import { CommonModule, DatePipe } from '@angular/common';
+import { IconTextComponent } from 'src/app/shared/icon-text/icon-text.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 // TODO tranlsate after updating SnackBar!
 @Component({
   selector: 'gs2-order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.scss'],
-
+  imports: [
+    DatePipe, IconTextComponent, MatIconModule, MatExpansionModule, CommonModule
+  ],
 })
 export class OrderComponent {
   @Input() order: IOrderSummary;

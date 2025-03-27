@@ -1,13 +1,21 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
-import {ApiService} from '../../_services/api.service';
-import {IUser} from '../../_models/IUser';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { ApiService } from '../../_services/api.service';
+import { IUser } from '../../_models/IUser';
+import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 
 
 @Component({
-    selector: 'gs2-profile',
-    templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.scss'],
-    
+  selector: 'gs2-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
+  imports: [
+    RouterLink, MatIconModule, MatCardModule, FormsModule, ReactiveFormsModule, CommonModule,
+  ],
 })
 export class ProfileComponent implements OnInit {
 

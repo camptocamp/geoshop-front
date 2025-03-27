@@ -3,13 +3,22 @@ import { ConfigService } from '../../_services/config.service';
 import { MapService } from '../../_services/map.service';
 import { CustomIconService } from '../../_services/custom-icon.service';
 import { IBasemap, IPageFormat } from '../../_models/IConfig';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import Geometry from 'ol/geom/Geometry';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent, MatOptgroup } from '@angular/material/autocomplete';
 import Feature from 'ol/Feature';
 import { MatDialog } from '@angular/material/dialog';
 import { ManualentryComponent } from './manualentry/manualentry.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
+import { MatHint } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule, MatMiniFabButton } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatOptionModule } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
 
 export const nameOfCategoryForGeocoder: Record<string, string> = { // TODO this should be translated
   zipcode: 'Ortschaftenverzeichnis PLZ',
@@ -25,7 +34,12 @@ export const nameOfCategoryForGeocoder: Record<string, string> = { // TODO this 
   selector: 'gs2-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
-  
+  imports: [
+    MatProgressSpinnerModule, MatCardModule, ReactiveFormsModule, FormsModule,
+    MatFormFieldModule, MatAutocompleteModule, MatIconModule, MatOptgroup,
+    MatOptionModule, MatHint, MatButtonModule, MatMiniFabButton, MatMenuModule,
+    CommonModule,
+  ],
 })
 export class MapComponent implements OnInit {
 

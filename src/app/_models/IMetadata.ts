@@ -30,7 +30,7 @@ export interface IMetadata {
   modified_date: string;
   data_last_update_date: string;
   copyright: string;
-  documents: unknown[];
+  documents: { name: string, link: string }[];
 }
 
 export interface IMetadataSummary {

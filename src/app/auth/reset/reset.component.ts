@@ -1,17 +1,23 @@
 import { Component, HostBinding, OnDestroy } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../_services/api.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Constants from '../../constants';
+import { MatError } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'gs2-reset',
   templateUrl: './reset.component.html',
   styleUrls: ['./reset.component.scss'],
-
+  imports: [
+    MatError, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatCardModule, CommonModule
+  ],
 })
 export class ResetComponent implements OnDestroy {
 
