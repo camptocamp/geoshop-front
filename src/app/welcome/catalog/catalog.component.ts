@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { deepCopyOrder } from '../../_helpers/GeoshopUtils';
 import { IOrder } from '../../_models/IOrder';
 import { updateOrder } from '../../_store/cart/cart.action';
-import { MatFormField } from '@angular/material/input';
+import { MatFormField, MatInputModule } from '@angular/material/input';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
@@ -25,7 +25,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./catalog.component.scss'],
   imports: [
     MatFormField, ReactiveFormsModule, MatProgressSpinner, MatIcon, CdkVirtualScrollViewport,
-    ScrollingModule, CommonModule,
+    ScrollingModule, CommonModule, MatInputModule,
   ],
 })
 export class CatalogComponent implements OnInit {

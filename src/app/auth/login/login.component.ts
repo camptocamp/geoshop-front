@@ -10,7 +10,7 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { ConfigService } from '../../_services/config.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatError } from '@angular/material/input';
+import { MatError, MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 
@@ -20,7 +20,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./login.component.scss'],
   imports: [
     MatCardModule, MatIconModule, RouterLink, MatError, FormsModule, ReactiveFormsModule,
-    MatFormFieldModule, CommonModule,
+    MatFormFieldModule, CommonModule, MatInputModule,
   ],
 })
 export class LoginComponent implements OnInit {

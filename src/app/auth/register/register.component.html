@@ -1,7 +1,8 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title i18n>Inscription au GeoShop</mat-card-title>
-    <mat-card-subtitle i18n>Une fois soumise, votre inscription sera contrôlée et validée par le SITN</mat-card-subtitle>
+    <mat-card-subtitle i18n>Une fois soumise, votre inscription sera contrôlée et validée par le
+      SITN</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <mat-horizontal-stepper #stepper [linear]="true" (selectionChange)="setFocusOn($event)">
@@ -49,20 +50,20 @@
 
           <mat-form-field color="primary">
             <input formControlName="lastName" autocapitalize="off" autofocus spellcheck="false" required matInput
-            i18n-placeholder placeholder="Nom">
+              i18n-placeholder placeholder="Nom">
             <mat-error *ngIf="lastName?.hasError('required')">{{ REQUIRED }}</mat-error>
           </mat-form-field>
 
           <mat-form-field color="primary">
             <input formControlName="email" autocapitalize="off" autofocus spellcheck="false" required matInput
-            i18n-placeholder placeholder="Courriel">
+              i18n-placeholder placeholder="Courriel">
             <mat-error *ngIf="email?.hasError('required')">{{ REQUIRED }}</mat-error>
             <mat-error *ngIf="email?.hasError('email')">{{ WRONG_EMAIL }}</mat-error>
           </mat-form-field>
 
           <mat-form-field color="primary">
             <input formControlName="phone" autocapitalize="off" autofocus spellcheck="false" required matInput
-            i18n-placeholder placeholder="Téléphone">
+              i18n-placeholder placeholder="Téléphone">
             <mat-error *ngIf="phone?.hasError('required')">{{ REQUIRED }}</mat-error>
             <mat-error *ngIf="phone?.hasError('pattern')">
               <ul>{{ WRONG_PHONE }}
@@ -92,32 +93,32 @@
           </mat-form-field>
 
           <mat-form-field color="primary" *ngIf="companyName?.value?.trim().length">
-            <input formControlName="ideId" autocapitalize="off" autofocus spellcheck="false" matInput
-            i18n-placeholder placeholder="N° IDE">
+            <input formControlName="ideId" autocapitalize="off" autofocus spellcheck="false" matInput i18n-placeholder
+              placeholder="N° IDE">
             <mat-error *ngIf="ideId?.hasError('pattern')" i18n>Mauvais format du numéro IDE, accepté : CHE-012.345.678
             </mat-error>
           </mat-form-field>
 
           <mat-form-field color="primary">
             <input formControlName="street" autocapitalize="off" autofocus spellcheck="false" required matInput
-            i18n-placeholder placeholder="Adresse (utilisée pour la facturation)">
+              i18n-placeholder placeholder="Adresse (utilisée pour la facturation)">
             <mat-error *ngIf="street?.hasError('required')">{{ REQUIRED }}</mat-error>
           </mat-form-field>
 
           <mat-form-field color="primary">
-            <input formControlName="street2" autocapitalize="off" autofocus spellcheck="false" matInput
-            i18n-placeholder placeholder="Complément d'adresse">
+            <input formControlName="street2" autocapitalize="off" autofocus spellcheck="false" matInput i18n-placeholder
+              placeholder="Complément d'adresse">
           </mat-form-field>
 
           <mat-form-field color="primary">
             <input formControlName="postcode" autocapitalize="off" autofocus spellcheck="false" required matInput
-            i18n-placeholder placeholder="Code postal">
+              i18n-placeholder placeholder="Code postal">
             <mat-error *ngIf="postcode?.hasError('required')">{{ REQUIRED }}</mat-error>
           </mat-form-field>
 
           <mat-form-field color="primary">
             <input formControlName="city" autocapitalize="off" autofocus spellcheck="false" required matInput
-            i18n-placeholder placeholder="Ville">
+              i18n-placeholder placeholder="Ville">
             <mat-error *ngIf="city?.hasError('required')">{{ REQUIRED }}</mat-error>
           </mat-form-field>
 
@@ -140,9 +141,10 @@
           </mat-form-field>
 
           <mat-label>
-            <span i18n>En vous inscrivant sur le géoshop, vous vous soumettez aux conditions générales d'utilisation</span>
-            <a mat-icon-button i18n-aria-label  aria-label="Ouvrir les conditions générales d'utilisation" color="primary"
-              href="https://sitn.ne.ch/geoshop2_media/documents/contrat_sitn.pdf" target="_blank">
+            <span i18n>En vous inscrivant sur le géoshop, vous vous soumettez aux conditions générales
+              d'utilisation</span>
+            <a mat-icon-button i18n-aria-label aria-label="Ouvrir les conditions générales d'utilisation"
+              color="primary" href="https://sitn.ne.ch/geoshop2_media/documents/contrat_sitn.pdf" target="_blank">
               <mat-icon>open_in_new</mat-icon>
             </a>
           </mat-label>
