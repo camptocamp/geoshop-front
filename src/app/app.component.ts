@@ -16,6 +16,8 @@ import { AccountOverlayComponent } from './_components/account-overlay/account-o
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CartOverlayComponent } from './_components/cart-overlay/cart-overlay.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'gs2-root',
@@ -24,7 +26,8 @@ import { CartOverlayComponent } from './_components/cart-overlay/cart-overlay.co
   imports: [
     RouterOutlet, RouterLink, AsyncPipe,
     MatBadgeModule, MatDividerModule, MatIconModule, MatToolbarModule, MatMenuModule, MatMenuTrigger,
-    AccountOverlayComponent, CartOverlayComponent, HelpOverlayComponent, CommonModule,
+    AccountOverlayComponent, CartOverlayComponent, HelpOverlayComponent, CommonModule, MatInputModule,
+    MatFormFieldModule,
   ],
 })
 export class AppComponent implements OnDestroy {

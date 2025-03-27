@@ -7,9 +7,9 @@
     </button>
     <div matSuffix class="flex-row">
       <mat-spinner mat-icon-button *ngIf="isSearchLoading$|async" diameter="15" color="accent"
-                   style="margin-right: 10px"></mat-spinner>
+        style="margin-right: 10px"></mat-spinner>
       <button mat-icon-button *ngIf="orderFilterControl.value" aria-label="Clear"
-              (click)="orderFilterControl.setValue('');">
+        (click)="orderFilterControl.setValue('');">
         <mat-icon>close</mat-icon>
       </button>
     </div>
@@ -21,24 +21,19 @@
 </div>
 
 <ng-container *ngIf="currentOrders">
-  <cdk-virtual-scroll-viewport class="orders-container"
-                               [itemSize]="itemHeight"
-                               (scrolledIndexChange)="nextBatch($event, currentOrders.length-1)">
+  <cdk-virtual-scroll-viewport class="orders-container" [itemSize]="itemHeight"
+    (scrolledIndexChange)="nextBatch($event, currentOrders.length-1)">
     <mat-accordion>
-      <gs2-order *ngFor="let order of currentOrders;"
-                 [order]="order"
-                 [minimap]="minimap"
-                 [vectorSource]="vectorSource"
-      (refreshOrders)="refreshOrders($event)"></gs2-order>
+      <gs2-order *ngFor="let order of currentOrders;" [order]="order" [minimap]="minimap" [vectorSource]="vectorSource"
+        (refreshOrders)="refreshOrders($event)"></gs2-order>
     </mat-accordion>
 
   </cdk-virtual-scroll-viewport>
 </ng-container>
 
-<div class="cdk-overlay-container"
-     *ngIf="(isSearchLoading$|async)">
+<div class="cdk-overlay-container" *ngIf="(isSearchLoading$|async)">
   <div class="cdk-overlay-backdrop cdk-overlay-dark-backdrop cdk-overlay-backdrop-showing flex-row"
-       style="align-items: center;justify-content: center;">
+    style="align-items: center;justify-content: center;">
     <mat-spinner diameter="64" color="accent"></mat-spinner>
   </div>
 </div>

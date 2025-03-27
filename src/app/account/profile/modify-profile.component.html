@@ -4,55 +4,29 @@
     <form [formGroup]="formModifyUser" class="flex-column" (ngSubmit)="onModifyUserSubmit()">
       <mat-form-field color="primary">
         <mat-label i18n="@@profile.username_unchangabel">Nom d'utilisateur (ne peut être modifié)</mat-label>
-        <input #firstInput formControlName="username"
-               matInput
-               placeholder="Login">
+        <input #firstInput formControlName="username" matInput placeholder="Login">
       </mat-form-field>
       <mat-form-field color="primary">
-        <input formControlName="firstName"
-               autocapitalize="off"
-               autofocus
-               spellcheck="false"
-               required
-               matInput
-               i18n-placeholder
-               placeholder="Prénom">
-        <mat-error *ngIf="formModifyUser.get('firstName')?.hasError('required')" >{{ REQUIRED }}</mat-error>
+        <input formControlName="firstName" autocapitalize="off" autofocus spellcheck="false" required matInput
+          i18n-placeholder placeholder="Prénom">
+        <mat-error *ngIf="formModifyUser.get('firstName')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
       <mat-form-field color="primary">
-        <input formControlName="lastName"
-               autocapitalize="off"
-               autofocus
-               spellcheck="false"
-               required
-               matInput
-               i18n-placeholder
-               placeholder="Nom">
-        <mat-error *ngIf="formModifyUser.get('lastName')?.hasError('required')" >{{ REQUIRED }}</mat-error>
+        <input formControlName="lastName" autocapitalize="off" autofocus spellcheck="false" required matInput
+          i18n-placeholder placeholder="Nom">
+        <mat-error *ngIf="formModifyUser.get('lastName')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
 
       <mat-form-field color="primary">
-        <input formControlName="email"
-               autocapitalize="off"
-               autofocus
-               spellcheck="false"
-               required
-               matInput
-               i18n-placeholder
-               placeholder="Courriel">
-        <mat-error *ngIf="formModifyUser.get('email')?.hasError('required')" >{{ REQUIRED }}</mat-error>
+        <input formControlName="email" autocapitalize="off" autofocus spellcheck="false" required matInput
+          i18n-placeholder placeholder="Courriel">
+        <mat-error *ngIf="formModifyUser.get('email')?.hasError('required')">{{ REQUIRED }}</mat-error>
         <mat-error *ngIf="formModifyUser.get('email')?.hasError('pattern')">{{ WRONG_EMAIL }</mat-error>
       </mat-form-field>
       <mat-form-field color="primary">
-        <input formControlName="phone"
-               autocapitalize="off"
-               autofocus
-               spellcheck="false"
-               required
-               matInput
-               i18n-placeholder
-               placeholder="Téléphone">
-        <mat-error *ngIf="formModifyUser.get('phone')?.hasError('required')" >{{ REQUIRED }}</mat-error>
+        <input formControlName="phone" autocapitalize="off" autofocus spellcheck="false" required matInput
+          i18n-placeholder placeholder="Téléphone">
+        <mat-error *ngIf="formModifyUser.get('phone')?.hasError('required')">{{ REQUIRED }}</mat-error>
         <mat-error *ngIf="formModifyUser.get('phone')?.hasError('pattern')">
           <ul>{{ WRONG_PHONE }}
             <li>+41225252356</li>
@@ -65,79 +39,42 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field color="primary">
-        <input id="registerInput2" formControlName="street"
-               autocapitalize="off"
-               autofocus
-               spellcheck="false"
-               required
-               matInput
-               i18n-placeholder
-               placeholder="Adresse (utilisée pour la facturation)">
-        <mat-error *ngIf="formModifyUser.get('street')?.hasError('required')" >{{ REQUIRED }}</mat-error>
+        <input id="registerInput2" formControlName="street" autocapitalize="off" autofocus spellcheck="false" required
+          matInput i18n-placeholder placeholder="Adresse (utilisée pour la facturation)">
+        <mat-error *ngIf="formModifyUser.get('street')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
       <mat-form-field color="primary">
-        <input formControlName="street2"
-               autocapitalize="off"
-               autofocus
-               spellcheck="false"
-               matInput
-               i18n-placeholder
-               placeholder="Complément d'adresse">
+        <input formControlName="street2" autocapitalize="off" autofocus spellcheck="false" matInput i18n-placeholder
+          placeholder="Complément d'adresse">
       </mat-form-field>
       <mat-form-field color="primary">
-        <input formControlName="postcode"
-               autocapitalize="off"
-               autofocus
-               spellcheck="false"
-               required
-               matInput
-               i18n-placeholder
-               placeholder="Code postal">
-        <mat-error *ngIf="formModifyUser.get('postcode')?.hasError('required')" >{{ REQUIRED }}</mat-error>
+        <input formControlName="postcode" autocapitalize="off" autofocus spellcheck="false" required matInput
+          i18n-placeholder placeholder="Code postal">
+        <mat-error *ngIf="formModifyUser.get('postcode')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
       <mat-form-field color="primary">
-        <input formControlName="city"
-               autocapitalize="off"
-               autofocus
-               spellcheck="false"
-               required
-               matInput
-               i18n-placeholder
-               placeholder="Ville">
-        <mat-error *ngIf="formModifyUser.get('city')?.hasError('required')" >{{ REQUIRED }}</mat-error>
+        <input formControlName="city" autocapitalize="off" autofocus spellcheck="false" required matInput
+          i18n-placeholder placeholder="Ville">
+        <mat-error *ngIf="formModifyUser.get('city')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
       <mat-form-field color="primary">
-        <input formControlName="country"
-               autocapitalize="off"
-               autofocus
-               spellcheck="false"
-               required
-               matInput
-               i18n-placeholder
-               placeholder="Pays">
-        <mat-error *ngIf="formModifyUser.get('country')?.hasError('required')" >{{ REQUIRED }}</mat-error>
+        <input formControlName="country" autocapitalize="off" autofocus spellcheck="false" required matInput
+          i18n-placeholder placeholder="Pays">
+        <mat-error *ngIf="formModifyUser.get('country')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
       <mat-form-field color="primary">
-        <input id="registerInput3" formControlName="companyName"
-               autocapitalize="off"
-               autofocus
-               spellcheck="false"
-               matInput
-               i18n-placeholder
-               placeholder="Raison sociale">
+        <input id="registerInput3" formControlName="companyName" autocapitalize="off" autofocus spellcheck="false"
+          matInput i18n-placeholder placeholder="Raison sociale">
       </mat-form-field>
       <mat-form-field color="primary">
-        <input formControlName="ideId"
-               autocapitalize="off"
-               autofocus
-               spellcheck="false"
-               matInput
-               i18n-placeholder
-               placeholder="N° IDE">
-        <mat-error *ngIf="formModifyUser?.get('ideId')?.hasError('pattern')"i18n="@@profil.bad_IDE_format">Mauvais format du numéro IDE, accepté : CHE-012.345.678</mat-error>
+        <input formControlName="ideId" autocapitalize="off" autofocus spellcheck="false" matInput i18n-placeholder
+          placeholder="N° IDE">
+        <mat-error *ngIf="formModifyUser?.get('ideId')?.hasError('pattern')" i18n="@@profil.bad_IDE_format">Mauvais
+          format du numéro IDE, accepté : CHE-012.345.678</mat-error>
       </mat-form-field>
       <div class="bottom-container">
-        <button class="action-button-container" color="primary" mat-raised-button type="submit" [disabled]="formModifyUser.pristine || formModifyUser.invalid" i18n="@@main.submitt">
+        <button class="action-button-container" color="primary" mat-raised-button type="submit"
+          [disabled]="formModifyUser.pristine || formModifyUser.invalid" i18n="@@main.submitt">
           Soumettre
         </button>
       </div>

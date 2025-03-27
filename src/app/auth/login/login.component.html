@@ -6,31 +6,26 @@
   <mat-card-content *ngIf="localAuthEnabled">
     <form [formGroup]="form" (ngSubmit)="submit()">
       <mat-form-field color="primary">
-        <input formControlName="username"
-               autocapitalize="off"
-               autofocus
-               spellcheck="false"
-               required
-               matInput
-               placeholder="Login">
+        <input formControlName="username" autocapitalize="off" autofocus spellcheck="false" required matInput
+          placeholder="Login">
         <mat-error *ngIf="username?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
 
       <mat-form-field color="primary">
-        <input formControlName="password"  autocapitalize="off" autocomplete="off" spellcheck="false"
-               required matInput
-               i18n-placeholder
-               placeholder="Mot de passe" type="password">
+        <input formControlName="password" autocapitalize="off" autocomplete="off" spellcheck="false" required matInput
+          i18n-placeholder placeholder="Mot de passe" type="password">
         <mat-error *ngIf="password?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
 
-      <button class="form-login-button" color="primary" mat-raised-button type="submit" [disabled]="form.pristine || form.invalid">
+      <button class="form-login-button" color="primary" mat-raised-button type="submit"
+        [disabled]="form.pristine || form.invalid">
         {{ LOGIN}}
       </button>
-      <button *ngIf="oidcEnabled" i18n="@@login.login_oidc" class="form-login-button" color="primary" mat-raised-button (click)="oidcAuthClick()" >
+      <button *ngIf="oidcEnabled" i18n="@@login.login_oidc" class="form-login-button" color="primary" mat-raised-button
+        (click)="oidcAuthClick()">
         Login with Zitadel
       </button>
-      <button mat-button color="accent" [routerLink]="'/auth/forget'" class="flex-row forgotten-button" >
+      <button mat-button color="accent" [routerLink]="'/auth/forget'" class="flex-row forgotten-button">
         <span i18n="@@login.pw_forgotten">Mot de passe oublié</span>
         <mat-icon>help_outline</mat-icon>
       </button>
@@ -39,10 +34,10 @@
   <mat-card-content *ngIf="!localAuthEnabled && oidcEnabled">
     <form>
       <span i18n>Redirecting to Authentification page. If that doesn't happen, please click the button</span>
-      <button *ngIf="oidcEnabled" i18n="@@login.login_oidc" class="form-login-button" color="primary" mat-raised-button (click)="oidcAuthClick()" >
+      <button *ngIf="oidcEnabled" i18n="@@login.login_oidc" class="form-login-button" color="primary" mat-raised-button
+        (click)="oidcAuthClick()">
         Login with Zitadel
       </button>
     </form>
   </mat-card-content>
 </mat-card>
-

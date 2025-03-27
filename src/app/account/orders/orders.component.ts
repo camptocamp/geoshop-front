@@ -21,7 +21,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { OrderComponent } from './order/order.component';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLabel } from '@angular/material/input';
+import { MatInputModule, MatLabel } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 
@@ -31,7 +31,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrls: ['./orders.component.scss'],
   imports: [
     MatProgressSpinnerModule, OrderComponent, MatAccordion, ScrollingModule, MatIconModule,
-    FormsModule, ReactiveFormsModule, MatLabel, MatFormFieldModule,
+    FormsModule, ReactiveFormsModule, MatLabel, MatFormFieldModule, MatInputModule,
   ],
 })
 export class OrdersComponent implements OnInit, OnDestroy {
