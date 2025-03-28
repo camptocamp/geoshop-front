@@ -7,7 +7,10 @@ import { provideAuth, StsConfigLoader, StsConfigStaticLoader } from 'angular-aut
 import { ConfigService } from './_services/config.service';
 import { provideStore } from '@ngrx/store';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { reducers, metaReducers } from './_store/index';
+import * as store from './_store/index';
+import { provideEffects } from '@ngrx/effects';
+import { AuthEffects } from './_store/auth/auth.effects';
+import { CartEffects } from './_store/cart/cart.effects';
 
 
 const stsConfigFactory = () => {
@@ -32,7 +35,8 @@ export const appConfig: ApplicationConfig = {
         deps: [ConfigService],
       },
     }),
-    provideStore(reducers, { metaReducers }),
+    provideEffects(AuthEffects, CartEffects),
+    provideStore(store.reducers, { metaReducers: store.metaReducers }),
     provideAppInitializer(() => inject(ConfigService).load())
   ]
 };
