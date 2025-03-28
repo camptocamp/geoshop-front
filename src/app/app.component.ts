@@ -18,6 +18,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { CartOverlayComponent } from './_components/cart-overlay/cart-overlay.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'gs2-root',
@@ -27,7 +28,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     RouterOutlet, RouterLink, AsyncPipe,
     MatBadgeModule, MatDividerModule, MatIconModule, MatToolbarModule, MatMenuModule, MatMenuTrigger,
     AccountOverlayComponent, CartOverlayComponent, HelpOverlayComponent, CommonModule, MatInputModule,
-    MatFormFieldModule,
+    MatFormFieldModule, MatButtonModule
   ],
 })
 export class AppComponent implements OnDestroy {
