@@ -18,13 +18,14 @@ import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatDivider, MatDividerModule } from '@angular/material/divider';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'gs2-cart-overlay',
   templateUrl: './cart-overlay.component.html',
   styleUrls: ['./cart-overlay.component.scss'],
   imports: [
-    MatTooltip, MatIcon, MatDivider, MatTooltipModule, MatIconModule, MatDividerModule, CommonModule
+    MatTooltipModule, MatIconModule, MatDividerModule, MatButtonModule, CommonModule
   ],
 })
 export class CartOverlayComponent implements OnDestroy {

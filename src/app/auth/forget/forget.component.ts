@@ -9,13 +9,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'gs2-forget',
   templateUrl: './forget.component.html',
   styleUrls: ['./forget.component.scss'],
   imports: [
-    MatError, FormsModule, ReactiveFormsModule, MatIconModule, MatCardModule, MatFormFieldModule, CommonModule, MatInputModule,
+    MatError, FormsModule, ReactiveFormsModule, MatIconModule, MatCardModule, MatFormFieldModule, CommonModule, MatInputModule, MatButtonModule
   ],
 })
 export class ForgetComponent {
