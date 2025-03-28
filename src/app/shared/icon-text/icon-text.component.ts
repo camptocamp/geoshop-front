@@ -16,7 +16,4 @@ export class IconTextComponent {
   @Input() fontColor = 'palegreen';
   @Input() fontSize = 24;
 
-  constructor() {
-  }
-
 }

@@ -1,4 +1,5 @@
-@import '../../../../theme.scss';
+@use '../../../../theme.scss';
+
 :host {
 
   .mat-expansion-panel-header-title {
@@ -21,7 +22,7 @@
         font-style: italic;
         padding-right: 1em;
       }
-   }
+    }
   }
 
   .mat-expansion-panel-header-description {
