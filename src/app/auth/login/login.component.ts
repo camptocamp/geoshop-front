@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatError, MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'gs2-login',
@@ -20,7 +21,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./login.component.scss'],
   imports: [
     MatCardModule, MatIconModule, RouterLink, MatError, FormsModule, ReactiveFormsModule,
-    MatFormFieldModule, CommonModule, MatInputModule,
+    MatFormFieldModule, CommonModule, MatInputModule, MatButtonModule,
   ],
 })
 export class LoginComponent implements OnInit {

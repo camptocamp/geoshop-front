@@ -16,16 +16,17 @@ import { IOrder } from '../../_models/IOrder';
 import { updateOrder } from '../../_store/cart/cart.action';
 import { MatFormField, MatInputModule } from '@angular/material/input';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { MatIcon } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'gs2-catalog',
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss'],
   imports: [
-    MatFormField, ReactiveFormsModule, MatProgressSpinner, MatIcon, CdkVirtualScrollViewport,
-    ScrollingModule, CommonModule, MatInputModule,
+    MatFormField, ReactiveFormsModule, MatProgressSpinner, CdkVirtualScrollViewport,
+    ScrollingModule, CommonModule, MatInputModule, MatIconModule, MatButtonModule
   ],
 })
 export class CatalogComponent implements OnInit {
