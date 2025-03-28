@@ -1,9 +1,12 @@
+@use "sass:color";
+@use "sass:map";
+@use "sass:string";
 @use '@angular/material' as mat;
 @include mat.elevation-classes();
 @include mat.app-background();
 
 // Fonts
-@import 'https://fonts.googleapis.com/css?family=Material+Icons';
+@import url('https://fonts.googleapis.com/css?family=Material+Icons');
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
 
 $fontConfig: (
@@ -81,12 +84,12 @@ $dark-theme-foreground-palette: mat.$m2-dark-theme-foreground-palette (
 // Background config
 // Light bg
 $light-background: #fafafa;
-$light-bg-darker-5: darken($light-background, 5%);
-$light-bg-darker-10: darken($light-background, 10%);
-$light-bg-darker-20: darken($light-background, 20%);
-$light-bg-darker-30: darken($light-background, 30%);
-$light-bg-lighter-5: lighten($light-background, 5%);
-$dark-bg-tooltip: lighten(#2c2c2c, 20%);
+$light-bg-darker-5: color.adjust($light-background, $lightness: -5%);
+$light-bg-darker-10: color.adjust($light-background, $lightness: -10%);
+$light-bg-darker-20: color.adjust($light-background, $lightness: -20%);
+$light-bg-darker-30: color.adjust($light-background, $lightness: -30%);
+$light-bg-lighter-5: color.adjust($light-background, $lightness: 5%);
+$dark-bg-tooltip: color.adjust(#2c2c2c, $lightness: 20%);
 $dark-bg-alpha-4: rgba(#2c2c2c, 0.04);
 $dark-bg-alpha-12: rgba(#2c2c2c, 0.12);
 
@@ -110,10 +113,10 @@ $light-theme-background-palette: mat.$m2-light-theme-background-palette (
 
 // Dark bg
 $dark-background: #2c2c2c;
-$dark-bg-lighter-5: lighten($dark-background, 5%);
-$dark-bg-lighter-10: lighten($dark-background, 10%);
-$dark-bg-lighter-20: lighten($dark-background, 20%);
-$dark-bg-lighter-30: lighten($dark-background, 30%);
+$dark-bg-lighter-5: color.adjust($dark-background, $lightness: 5%);
+$dark-bg-lighter-10: color.adjust($dark-background, $lightness: 10%);
+$dark-bg-lighter-20: color.adjust($dark-background, $lightness: 20%);
+$dark-bg-lighter-30: color.adjust($dark-background, $lightness: 30%);
 $light-bg-alpha-4: rgba(#fafafa, 0.04);
 $light-bg-alpha-12: rgba(#fafafa, 0.12);
 
@@ -152,9 +155,9 @@ $mat-primary: (
   main: #26a59a,
   lighter: #bee4e1,
   darker: #178a7e,
-  200: #26a59a, // For slide toggle,
-  contrast : (
-    main: $light-primary-text,
+  200: #26a59a,
+  // For slide toggle,
+  contrast : (main: $light-primary-text,
     lighter: $dark-primary-text,
     darker: $light-primary-text,
   )
@@ -174,9 +177,9 @@ $mat-accent: (
   main: #146056,
   lighter: #b9cfcc,
   darker: #0b443c,
-  200: #146056, // For slide toggle,
-  contrast : (
-    main: $light-primary-text,
+  200: #146056,
+  // For slide toggle,
+  contrast : (main: $light-primary-text,
     lighter: $dark-primary-text,
     darker: $light-primary-text,
   )
@@ -196,46 +199,37 @@ $mat-warn: (
   main: #e24848,
   lighter: #f6c8c8,
   darker: #d63030,
-  200: #e24848, // For slide toggle,
-  contrast : (
-    main: $light-primary-text,
+  200: #e24848,
+  // For slide toggle,
+  contrast : (main: $light-primary-text,
     lighter: $dark-primary-text,
     darker: $light-primary-text,
   )
 );
 $theme-warn: mat.m2-define-palette($mat-warn, main, lighter, darker);
 
-$theme: mat.m2-define-light-theme((
-  color: (
-    primary: $theme-primary,
-    accent: $theme-accent,
-    warn: $theme-warn
-  ),
-  typography: mat.m2-define-typography-config(),
-  density: 0,
-));
+$theme: mat.m2-define-light-theme((color: (primary: $theme-primary,
+        accent: $theme-accent,
+        warn: $theme-warn ),
+      typography: mat.m2-define-typography-config(),
+      density: 0,
+    ));
 @include mat.elevation-classes();
 @include mat.app-background();
 @include mat.all-component-themes($theme);
 
 
-$altTheme: mat.m2-define-dark-theme((
-  color: (
-    primary: $theme-primary,
-    accent: $theme-accent,
-    warn: $theme-warn
-  ),
-  typography: (
-  ),
-  density: (
-    scale: 0,
-  )
-));
+$altTheme: mat.m2-define-dark-theme((color: (primary: $theme-primary,
+        accent: $theme-accent,
+        warn: $theme-warn ),
+      typography: (),
+      density: (scale: 0,
+      )));
 
 // Theme Init
-$primary: map-get($theme, primary);
-$accent: map-get($theme, accent);
-$warning: map-get($theme, warn);
+$primary: map.get($theme, primary);
+$accent: map.get($theme, accent);
+$warning: map.get($theme, warn);
 $dark: #393939;
 $info: #4177F6;
 
@@ -265,12 +259,12 @@ $info: #4177F6;
 
     &:nth-child(even) {
       color: white;
-      background-color: lighten($dark, 6%);
+      background-color: color.adjust($dark, $lightness: 6%);
     }
 
     &:nth-child(odd) {
       color: white;
-      background-color: lighten($dark, 3%);
+      background-color: color.adjust($dark, $lightness: 3%);
     }
   }
 
@@ -386,8 +380,9 @@ $info: #4177F6;
       background: mat.m2-get-color-from-palette($warning);
       color: white;
     }
+
     .mat-mdc-button.mat-mdc-snack-bar-action:not(:disabled) {
-      color:white;
+      color: white;
       background: mat.m2-get-color-from-palette($warning, darker);
     }
   }
@@ -406,7 +401,9 @@ $info: #4177F6;
 }
 
 // Handle buttons appropriately, with respect to line-height
-.mat-raised-button, .mat-stroked-button, .mat-flat-button {
+.mat-raised-button,
+.mat-stroked-button,
+.mat-flat-button {
   padding: 0 1.15em;
   margin: 0 .65em;
   min-width: 3em;
