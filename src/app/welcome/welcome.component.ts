@@ -5,7 +5,7 @@ import { AppState, getUser } from '../_store';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
 import { IIdentity } from '../_models/IIdentity';
-import { AngularSplitModule } from 'angular-split';
+import { AngularSplitModule, SplitGutterInteractionEvent } from 'angular-split';
 import { CatalogComponent } from './catalog/catalog.component';
 import { MapComponent } from './map/map.component';
 
@@ -43,9 +43,10 @@ export class WelcomeComponent implements OnDestroy {
     this.mobileQuery.removeListener(this.mobileQueryListener);
   }
 
-  dragEnd(event: any) {
+  dragEnd(event: SplitGutterInteractionEvent) {
+    console.log(event);
     this.mapService.resizeMap();
-    this.leftPositionForButtons = event.sizes[0];
+    this.leftPositionForButtons = event.sizes[0] as number;
   }
 
   transitionEnd(event: number) {

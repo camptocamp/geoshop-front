@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
-@import './theme.scss';
+@use 'theme.scss' as theme;
 
 html,
 body {
@@ -38,8 +38,9 @@ ul {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; /* number of lines to show */
+  box-orient: vertical;
+  line-clamp: 2;
+  /* number of lines to show */
 }
 
 .small-icon-success {
@@ -75,11 +76,11 @@ ul {
 }
 
 .info-container {
-  color: mat.m2-get-color-from-palette($accent);
+  color: mat.m2-get-color-from-palette(theme.$accent);
   margin: 1em 0;
 
   mat-icon {
-    color: mat.m2-get-color-from-palette($accent);
+    color: mat.m2-get-color-from-palette(theme.$accent);
     margin-right: 10px;
   }
 }
@@ -109,8 +110,15 @@ ul {
   }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto;
+}
 
 
 .ol-tooltip-area {
@@ -127,4 +135,3 @@ body { margin: 0; font-family: Roboto; }
   opacity: 1;
   font-weight: bold;
 }
-
