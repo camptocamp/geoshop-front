@@ -14,9 +14,9 @@ import { Subject } from 'rxjs';
 import { MapService } from '../../_services/map.service';
 import { IOrder, Order } from '../../_models/IOrder';
 import { deepCopyOrder } from '../../_helpers/GeoshopUtils';
-import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { MatDivider, MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
