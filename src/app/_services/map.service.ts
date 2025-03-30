@@ -48,6 +48,7 @@ import { shiftKeyOnly } from 'ol/events/condition';
 import { createBox } from 'ol/interaction/Draw';
 import { CoordinateSearchService } from './coordinate-search.service';
 import { ActivatedRoute } from '@angular/router';
+import FeatureFormat from 'ol/format/Feature';
 
 
 const DEFAULT_EXTENT = [2419995.7488073637, 1030006.663199476, 2900009.727428728, 1350004.292478851];
@@ -529,7 +530,7 @@ export class MapService {
   private initializeDragAndDropInteraction() {
     const dragAndDropInteraction = new DragAndDrop({
       formatConstructors: [
-        KML as any
+        (KML as unknown) as FeatureFormat
       ]
     });
 
