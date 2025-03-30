@@ -554,7 +554,7 @@ export class MapService {
   private initializeDragAndDropInteraction() {
     const dragAndDropInteraction = new DragAndDrop({
       formatConstructors: [
-        KML as any
+        (KML as unknown) as FeatureFormat
       ]
     });
 

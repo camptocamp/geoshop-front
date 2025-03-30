@@ -23,6 +23,8 @@ import { MatAccordion } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule, MatLabel } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @Component({
@@ -31,7 +33,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrls: ['./orders.component.scss'],
   imports: [
     MatProgressSpinnerModule, OrderComponent, MatAccordion, ScrollingModule, MatIconModule,
-    FormsModule, ReactiveFormsModule, MatLabel, MatFormFieldModule, MatInputModule,
+    FormsModule, ReactiveFormsModule, MatLabel, MatFormFieldModule, MatInputModule, AsyncPipe,
+    CommonModule, MatButtonModule
   ],
 })
 export class OrdersComponent implements OnInit, OnDestroy {
