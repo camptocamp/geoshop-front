@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar>
 
   <div class="flex-row">
     <a mat-button class="header-title" [routerLink]="['welcome']" i18n="@@main.title">GeoShop Title</a>
@@ -24,13 +24,10 @@
 
     <mat-divider vertical="true" color="accent"></mat-divider>
 
-    <button mat-icon-button
-            [disabled]="!(order$|async)?.url && (numberOfItemInTheCart$|async) === 0"
-            [matMenuTriggerFor]="cartOverlay">
-      <mat-icon
-        [matBadge]="(numberOfItemInTheCart$|async)  ? (numberOfItemInTheCart$|async)?.toString() : undefined"
-        matBadgePosition="before" matBadgeColor="warn"
-        matBadgeSize="small">shopping_cart
+    <button mat-icon-button [disabled]="!(order$|async)?.url && (numberOfItemInTheCart$|async) === 0"
+      [matMenuTriggerFor]="cartOverlay">
+      <mat-icon [matBadge]="(numberOfItemInTheCart$|async)  ? (numberOfItemInTheCart$|async)?.toString() : undefined"
+        matBadgePosition="before" matBadgeColor="warn" matBadgeSize="small">shopping_cart
       </mat-icon>
     </button>
     <mat-menu #cartOverlay="matMenu" class="overlay-menu-container">
@@ -43,4 +40,3 @@
 <main>
   <router-outlet></router-outlet>
 </main>
-
