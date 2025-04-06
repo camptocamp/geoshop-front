@@ -13,10 +13,13 @@ html {
     ));
 }
 
-
 :root {
   @include mat.toolbar-overrides((container-background-color: var(--mat-sys-primary),
       container-text-color: var(--mat-sys-on-primary),
+    ));
+  @include mat.button-overrides((protected-container-shape: 4px,
+      protected-container-color: var(--mat-sys-primary),
+      protected-label-text-color: var(--mat-sys-on-primary),
     ));
 }
 
