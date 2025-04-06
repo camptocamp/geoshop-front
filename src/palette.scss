@@ -7,7 +7,7 @@
 // Note: Color palettes are generated from primary: #26a59a
 $_palettes: (
   primary: (
-    0: #000000,
+    0: #000,
     10: #00201d,
     20: #003733,
     25: #00433e,
@@ -22,10 +22,10 @@ $_palettes: (
     95: #b2fff5,
     98: #e4fffa,
     99: #f2fffc,
-    100: #ffffff,
+    100: #fff,
   ),
   secondary: (
-    0: #000000,
+    0: #000,
     10: #00201d,
     20: #0b3632,
     25: #19423d,
@@ -40,10 +40,10 @@ $_palettes: (
     95: #cff9f3,
     98: #e4fffa,
     99: #f2fffc,
-    100: #ffffff,
+    100: #fff,
   ),
   tertiary: (
-    0: #000000,
+    0: #000,
     10: #280450,
     20: #3e2066,
     25: #492c72,
@@ -58,10 +58,10 @@ $_palettes: (
     95: #f8edff,
     98: #fff7ff,
     99: #fffbff,
-    100: #ffffff,
+    100: #fff,
   ),
   neutral: (
-    0: #000000,
+    0: #000,
     10: #171d1c,
     20: #2c3230,
     25: #373d3b,
@@ -76,7 +76,7 @@ $_palettes: (
     95: #edf2f0,
     98: #f5faf8,
     99: #f8fdfb,
-    100: #ffffff,
+    100: #fff,
     4: #0a0f0e,
     6: #0f1414,
     12: #1b2120,
@@ -89,7 +89,7 @@ $_palettes: (
     96: #eff5f3,
   ),
   neutral-variant: (
-    0: #000000,
+    0: #000,
     10: #121e1c,
     20: #273331,
     25: #323e3c,
@@ -104,10 +104,10 @@ $_palettes: (
     95: #e6f4f0,
     98: #effcf9,
     99: #f2fffc,
-    100: #ffffff,
+    100: #fff,
   ),
   error: (
-    0: #000000,
+    0: #000,
     10: #410002,
     20: #690005,
     25: #7e0007,
@@ -122,28 +122,28 @@ $_palettes: (
     95: #ffedea,
     98: #fff8f7,
     99: #fffbff,
-    100: #ffffff,
+    100: #fff,
   ),
 );
-
 $_rest: (
   secondary: map.get($_palettes, secondary),
   neutral: map.get($_palettes, neutral),
   neutral-variant: map.get($_palettes,  neutral-variant),
   error: map.get($_palettes, error),
 );
-
 $primary-palette: map.merge(map.get($_palettes, primary), $_rest);
 $tertiary-palette: map.merge(map.get($_palettes, tertiary), $_rest);
 
 @function _high-contrast-value($light, $dark, $theme-type) {
-  @if ($theme-type == light) {
+  @if $theme-type == light {
     @return $light;
   }
-  @if ($theme-type == dark) {
+
+  @if $theme-type == dark {
     @return $dark;
   }
-  @if ($theme-type == color-scheme) {
+
+  @if $theme-type == color-scheme {
     @return light-dark(#{$light}, #{$dark});
   }
   
