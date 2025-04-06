@@ -2,6 +2,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  margin: 4px;
 
   .text-ellipsis-2 {
     flex: 1;
@@ -27,6 +28,7 @@
     margin-top: 10px;
   }
 }
+
 /* larger cart panel */
 ::ng-deep.mat-mdc-menu-panel {
   max-width: 350px !important;

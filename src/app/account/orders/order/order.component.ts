@@ -21,6 +21,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { IconTextComponent } from 'src/app/shared/icon-text/icon-text.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatButtonModule } from '@angular/material/button';
 
 // TODO tranlsate after updating SnackBar!
 @Component({
@@ -28,7 +29,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.scss'],
   imports: [
-    DatePipe, IconTextComponent, MatIconModule, MatExpansionModule, CommonModule
+    DatePipe, IconTextComponent, MatIconModule, MatExpansionModule, CommonModule, MatButtonModule
   ],
 })
 export class OrderComponent {
