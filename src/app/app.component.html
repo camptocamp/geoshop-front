@@ -1,10 +1,8 @@
 <mat-toolbar>
 
-  <div class="flex-row">
-    <a mat-button class="header-title" [routerLink]="['welcome']" i18n="@@main.title">GeoShop Title</a>
-    <mat-divider *ngIf="subTitle" vertical="true" color="accent"></mat-divider>
-    <span class="header-subtitle">{{subTitle}}</span>
-  </div>
+  <a mat-button class="header-title" [routerLink]="['welcome']" i18n="@@main.title">GeoShop Title</a>
+  <mat-divider *ngIf="subTitle" vertical="true" color="accent"></mat-divider>
+  <span class="header-subtitle">{{subTitle}}</span>
 
   <span class="spacer"></span>
 

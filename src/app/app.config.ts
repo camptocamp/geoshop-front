@@ -2,7 +2,7 @@ import { ApplicationConfig, provideZoneChangeDetection, provideAppInitializer, i
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideAuth, StsConfigLoader, StsConfigStaticLoader } from 'angular-auth-oidc-client';
 import { ConfigService } from './_services/config.service';
 import { provideStore } from '@ngrx/store';
@@ -11,6 +11,7 @@ import * as store from './_store/index';
 import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './_store/auth/auth.effects';
 import { CartEffects } from './_store/cart/cart.effects';
+import { interceptor as authInterceptor } from './_interceptors/authInterceptor';
 
 
 const stsConfigFactory = () => {
@@ -26,7 +27,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(
       withFetch(),
-      withInterceptorsFromDi(),
+      withInterceptors([authInterceptor]),
     ),
     provideAuth({
       loader: {

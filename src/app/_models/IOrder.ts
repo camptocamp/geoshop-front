@@ -198,8 +198,7 @@ export class Order {
   }
 
   get excludedGeomAsGeoJson(): string {
-    console.log(this.excludedGeom);
-    return new GeoJSON().writeGeometry(this.excludedGeom);
+    return this.excludedGeom ? new GeoJSON().writeGeometry(this.excludedGeom) : "";
   }
 
   get toPostAsJson(): IOrderToPost {
