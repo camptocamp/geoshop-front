@@ -110,4 +110,13 @@
       }
     }
   }
+
+  .flex-row {
+    display: flex;
+    align-items: center;
+  }
+
+  .bottom-container {
+    margin-top: auto;
+  }
 }
