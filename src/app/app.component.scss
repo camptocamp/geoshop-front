@@ -8,6 +8,10 @@
     overflow: hidden;
   }
 
+  .mat-icon {
+    color: var(--mat-sys-on-primary);
+  }
+
   .header-title {
     cursor: pointer;
     color: white;
@@ -29,6 +33,10 @@
   .mat-divider {
     height: 40px;
     margin: 0 10px;
-    border-right-color: #69f0ae;
+    border-right-color: var(--mat-sys-on-primary);
+  }
+
+  .spacer {
+    flex: 1 1 auto;
   }
 }
