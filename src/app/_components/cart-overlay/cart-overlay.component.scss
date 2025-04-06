@@ -9,7 +9,6 @@
   }
 
   .items-container {
-
     .mat-mdc-button {
       line-height: 20px;
       margin: 5px 0;
@@ -27,9 +26,4 @@
   .action-button {
     margin-top: 10px;
   }
-}
-
-/* larger cart panel */
-::ng-deep.mat-mdc-menu-panel {
-  max-width: 350px !important;
 }
