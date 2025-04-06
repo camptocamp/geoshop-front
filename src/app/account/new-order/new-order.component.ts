@@ -29,6 +29,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'gs2-new-order',
@@ -37,7 +38,9 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [
     MatAutocompleteModule, MatStepperModule, FormsModule, ReactiveFormsModule, MatLabel, MatSelectModule, MatOptionModule,
     MatError, MatFormFieldModule, MatInputModule, MatRadioButton, MatRadioGroup, AsyncPipe, CurrencyPipe,
-    MatProgressSpinnerModule, MatTableModule, MatIconModule, CommonModule,
+    MatProgressSpinnerModule, MatTableModule, MatIconModule, CommonModule, MatButtonModule, MatTableModule,
+    ReactiveFormsModule, MatStepperModule, MatButtonModule, MatFormFieldModule, MatSelectModule, MatInputModule,
+    MatAutocompleteModule, MatIconModule, MatTableModule, MatAutocompleteModule, MatStepperModule, MatProgressSpinnerModule
   ],
 })
 export class NewOrderComponent implements OnInit, OnDestroy {
@@ -297,18 +300,18 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     if (this.contactFormGroup) {
       this.contactFormGroup.setValue({
         customer: null,
-        first_name: order.invoiceContact?.first_name || '',
-        last_name: order.invoiceContact?.last_name || '',
-        email: order.invoiceContact?.email || '',
-        company_name: order.invoiceContact?.company_name || '',
-        ide_id: order.invoiceContact?.ide_id || '',
-        phone: order.invoiceContact?.phone || '',
-        street: order.invoiceContact?.street || '',
-        street2: order.invoiceContact?.street2 || '',
-        postcode: order.invoiceContact?.postcode || '',
-        city: order.invoiceContact?.city || '',
-        country: order.invoiceContact?.country || '',
-        url: order.invoiceContact?.url || '',
+        // first_name: order.invoiceContact?.first_name || '',
+        // last_name: order.invoiceContact?.last_name || '',
+        // email: order.invoiceContact?.email || '',
+        // company_name: order.invoiceContact?.company_name || '',
+        // ide_id: order.invoiceContact?.ide_id || '',
+        // phone: order.invoiceContact?.phone || '',
+        // street: order.invoiceContact?.street || '',
+        // street2: order.invoiceContact?.street2 || '',
+        // postcode: order.invoiceContact?.postcode || '',
+        // city: order.invoiceContact?.city || '',
+        // country: order.invoiceContact?.country || '',
+        // url: order.invoiceContact?.url || '',
       });
     }
 
