@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import * as fromCart from '../../_store/cart/cart.action';
 import { IProduct } from '../../_models/IProduct';
 import { DialogMetadataComponent } from '../../welcome/catalog/dialog-metadata/dialog-metadata.component';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { MatDialogRef, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ApiService } from '../../_services/api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
@@ -19,13 +19,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'gs2-cart-overlay',
   templateUrl: './cart-overlay.component.html',
   styleUrls: ['./cart-overlay.component.scss'],
   imports: [
-    MatTooltipModule, MatIconModule, MatDividerModule, MatButtonModule, CommonModule
+    MatTooltipModule, MatIconModule, MatDividerModule, MatButtonModule, CommonModule, MatDialogModule, MatMenuModule,
   ],
 })
 export class CartOverlayComponent implements OnDestroy {
