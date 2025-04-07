@@ -47,11 +47,11 @@ describe('LoginComponent', () => {
         MatCardModule,
         MatInputModule,
         NoopAnimationsModule,
+        LoginComponent,
       ],
-      declarations: [LoginComponent],
       providers: [
         OidcSecurityService,
-        { provide: StsConfigLoader, useClass: StsConfigLoaderMock},
+        { provide: StsConfigLoader, useClass: StsConfigLoaderMock },
         { provide: ConfigService, useClass: ConfigServiceMock },
         { provide: Store<AppState>, useClass: StoreMock },
         provideHttpClient(),

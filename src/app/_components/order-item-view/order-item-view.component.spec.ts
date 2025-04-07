@@ -11,13 +11,13 @@ describe('OrderItemViewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrderItemViewComponent ],
+      imports: [OrderItemViewComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting()
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

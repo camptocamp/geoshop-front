@@ -10,13 +10,13 @@ describe('IconTextComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ IconTextComponent ],
       imports: [
+        IconTextComponent,
         MatButton,
         MatIcon
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -41,8 +41,8 @@ describe('RegisterComponent', () => {
         MatSelectModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
+        RegisterComponent
       ],
-      declarations: [RegisterComponent],
       providers: [
         { provide: Store<AppState>, useClass: StoreMock },
         provideHttpClient(),

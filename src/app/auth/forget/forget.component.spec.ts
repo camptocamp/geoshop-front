@@ -18,6 +18,7 @@ describe('ForgetComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        ForgetComponent,
         MatCardModule,
         MatIconModule,
         MatFormFieldModule,
@@ -25,7 +26,6 @@ describe('ForgetComponent', () => {
         MatInputModule,
         NoopAnimationsModule
       ],
-      declarations: [ForgetComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),

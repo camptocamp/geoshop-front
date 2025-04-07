@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { SafeHtmlPipe } from 'src/app/_pipes/SafeHtmlPipe';
+import { SafeHtmlPipe } from '../../_pipes/SafeHtmlPipe';
 
 @Component({
   selector: 'gs2-confirm-dialog',

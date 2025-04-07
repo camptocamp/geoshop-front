@@ -29,7 +29,7 @@ class StoreMock {
 class ConfigServiceMock {
   public config = {
     initialExtent: [0, 0, 1, 1],
-    pageformats: [{name:"", height: 1, width: 1}],
+    pageformats: [{ name: "", height: 1, width: 1 }],
   }
 }
 
@@ -50,13 +50,13 @@ describe('MapComponent', () => {
         MatFormFieldModule,
         MatCardModule,
         NoopAnimationsModule,
+        MapComponent,
         RouterModule.forRoot([])
       ],
-      declarations: [MapComponent],
       providers: [
         CustomIconService,
         ConfigServiceMock,
-        { provide: ActivatedRoute, useValue: { queryParamMap: of() }},
+        { provide: ActivatedRoute, useValue: { queryParamMap: of() } },
         { provide: ConfigService, useClass: ConfigServiceMock },
         { provide: Store<AppState>, useClass: StoreMock },
         provideHttpClient(),

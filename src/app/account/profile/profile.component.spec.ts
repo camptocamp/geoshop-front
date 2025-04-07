@@ -11,13 +11,13 @@ describe('ProfileComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfileComponent ],
+      imports: [ProfileComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting()
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
