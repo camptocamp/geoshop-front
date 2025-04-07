@@ -19,7 +19,6 @@ describe('ManualentryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ManualentryComponent],
       imports: [
         MatDialogModule,
         MatButtonModule,
