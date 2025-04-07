@@ -12,14 +12,14 @@ describe('ModifyProfileComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModifyProfileComponent ],
+      imports: [ModifyProfileComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        {provide: MatDialogRef, useValue: {}},
+        { provide: MatDialogRef, useValue: {} },
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

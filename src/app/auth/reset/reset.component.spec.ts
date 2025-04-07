@@ -18,22 +18,22 @@ describe('ResetComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[
+      imports: [
         ReactiveFormsModule,
         NoopAnimationsModule,
         MatCardModule,
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
+        ResetComponent,
         RouterModule.forRoot([])
       ],
-      declarations: [ ResetComponent ],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting()
       ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

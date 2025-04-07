@@ -25,12 +25,12 @@ describe('AccountOverlayComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        AccountOverlayComponent,
         MatIconModule,
         MatInputModule,
         MatButtonModule,
         RouterModule.forRoot([]),
       ],
-      declarations: [AccountOverlayComponent],
       providers: [
         StsConfigLoader,
         { provide: Store<AppState>, useClass: StoreMock },

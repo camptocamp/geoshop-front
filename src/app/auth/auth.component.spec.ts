@@ -27,7 +27,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 class StoreMock {
-  select =  vi.fn().mockImplementation(() => of(vi.fn()));
+  select = vi.fn().mockImplementation(() => of(vi.fn()));
   dispatch = vi.fn();
 }
 
@@ -52,19 +52,17 @@ describe('AuthComponent', () => {
         MatSelectModule,
         ReactiveFormsModule,
         NoopAnimationsModule,
-        RouterModule.forRoot([]),
-      ],
-      declarations: [
         AuthComponent,
         LoginComponent,
         RegisterComponent,
         ForgetComponent,
         ResetComponent,
+        RouterModule.forRoot([]),
       ],
       providers: [
         ConfigService,
-        {provide: StsConfigLoader, useClass: StsConfigLoaderMock},
-        {provide: Store<AppState>, useClass: StoreMock},
+        { provide: StsConfigLoader, useClass: StsConfigLoaderMock },
+        { provide: Store<AppState>, useClass: StoreMock },
         provideHttpClient(),
         provideHttpClientTesting()
       ]

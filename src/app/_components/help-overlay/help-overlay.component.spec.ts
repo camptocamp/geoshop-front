@@ -12,16 +12,16 @@ describe('HelpOverlayComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[
+      imports: [
+        HelpOverlayComponent,
         MatIconModule,
       ],
-      declarations: [ HelpOverlayComponent ],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting()
       ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
