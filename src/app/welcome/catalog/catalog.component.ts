@@ -109,9 +109,6 @@ export class CatalogComponent implements OnInit {
     } else {
       this.snackBar.open($localize`Le produit est déjà dans le panier`, $localize`Fermer`, { duration: 3000 });
     }
-    console.log("Added order to cart: ");
-    console.log(order);
-    console.log(order.items.map(item => item.product));
     this.store.dispatch(updateOrder({ order }));
   }
 
