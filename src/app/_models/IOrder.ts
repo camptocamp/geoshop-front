@@ -37,7 +37,7 @@ export type OrderItemStatus = 'PENDING' |
   'REJECTED';
 
 export interface IOrderItem {
-  product: IProduct | string;
+  product: IProduct;
   product_id: number;
   id?: number;
   price?: string;
@@ -123,7 +123,7 @@ export interface IOrder {
 }
 
 export class OrderItem {
-  product: IProduct | string;
+  product: IProduct;
   product_id: number;
   id?: number;
   price?: string;
@@ -215,7 +215,7 @@ export class Order {
       order_type: this.order_type,
       title: this.title,
       items: this.items.map(x => {
-        x.product = Order.getProductLabel(x);
+        x.product = {label: x.product.label} as IProduct;
         if (!x.data_format) {
           delete x.data_format;
         }
