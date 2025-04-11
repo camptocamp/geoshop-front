@@ -1,8 +1,10 @@
-import { Component, HostBinding } from '@angular/core';
-import { ConfigService } from '../../_services/config.service';
-import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { Component, HostBinding } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+
+import { ConfigService } from '../../_services/config.service';
+
 
 @Component({
   selector: 'gs2-help-overlay',

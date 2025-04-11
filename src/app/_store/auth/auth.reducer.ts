@@ -1,6 +1,8 @@
-import * as AuthActions from './auth.action';
-import {IIdentity} from '../../_models/IIdentity';
 import {Action, createReducer, on} from '@ngrx/store';
+
+import * as AuthActions from './auth.action';
+
+import {IIdentity} from '../../_models/IIdentity';
 
 export interface AuthState {
   loggedIn: boolean;

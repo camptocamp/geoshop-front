@@ -1,19 +1,23 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostBinding, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../_store';
-import * as AuthActions from '../../_store/auth/auth.action';
-import { ICredentials } from '../../_models/IIdentity';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import * as Constants from '../../constants';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { ConfigService } from '../../_services/config.service';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatError, MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+
+import { ICredentials } from '../../_models/IIdentity';
+import { ConfigService } from '../../_services/config.service';
+import { AppState } from '../../_store';
+import * as AuthActions from '../../_store/auth/auth.action';
+import * as Constants from '../../constants';
+
+
+
 
 @Component({
   selector: 'gs2-login',

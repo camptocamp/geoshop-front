@@ -1,10 +1,12 @@
 
-import Polygon from 'ol/geom/Polygon';
 import GeoJSON from 'ol/format/GeoJSON';
+import Polygon from 'ol/geom/Polygon';
+
 import { Contact } from './IContact';
+import { IIdentity } from './IIdentity';
 import { PricingStatus } from './IPricing';
 import { IProduct } from './IProduct';
-import { IIdentity } from './IIdentity';
+
 import * as Constants from '../constants';
 
 export interface IOrderType {

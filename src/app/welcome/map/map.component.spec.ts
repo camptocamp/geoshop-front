@@ -1,25 +1,30 @@
-import { vi } from 'vitest';
-
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MapComponent } from './map.component';
 import { provideHttpClient } from '@angular/common/http';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../app/_store';
-import { of } from 'rxjs';
-import { CustomIconService } from '../../_services/custom-icon.service';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { vi } from 'vitest';
+
+import { MapComponent } from './map.component';
+
+
+import { AppState } from '../../../app/_store';
+
+import { of } from 'rxjs';
+
+import { ConfigService } from '../../_services/config.service';
+import { CustomIconService } from '../../_services/custom-icon.service';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatButtonModule } from '@angular/material/button';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { ConfigService } from '../../_services/config.service';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 class StoreMock {
   select = vi.fn().mockImplementation(() => of(vi.fn()));

@@ -1,30 +1,34 @@
-import { vi } from 'vitest';
-
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AuthComponent } from './auth.component';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatSelectModule } from '@angular/material/select';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { ForgetComponent } from './forget/forget.component';
-import { ResetComponent } from './reset/reset.component';
-import { Store } from '@ngrx/store';
-import { AppState } from '../_store';
-import { of } from 'rxjs';
-import { RouterModule } from '@angular/router';
-
-import { StsConfigLoader } from 'angular-auth-oidc-client';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ConfigService } from '../_services/config.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { vi } from 'vitest';
+
+import { AuthComponent } from './auth.component';
+
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatSelectModule } from '@angular/material/select';
+
+import { ForgetComponent } from './forget/forget.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { ResetComponent } from './reset/reset.component';
+
+import { Store } from '@ngrx/store';
+
+import { ConfigService } from '../_services/config.service';
+import { AppState } from '../_store';
+
+import { of } from 'rxjs';
+import { RouterModule } from '@angular/router';
+import { StsConfigLoader } from 'angular-auth-oidc-client';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 class StoreMock {
   select = vi.fn().mockImplementation(() => of(vi.fn()));

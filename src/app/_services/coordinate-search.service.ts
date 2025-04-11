@@ -1,8 +1,8 @@
 import { formatNumber } from '@angular/common';
-import { Injectable } from '@angular/core';
-import { LOCALE_ID, Inject } from '@angular/core';
+import { Injectable , LOCALE_ID, Inject } from '@angular/core';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
+
 import {EPSG2056_COORD_REGEX} from '../_helpers/regex';
 
 @Injectable({

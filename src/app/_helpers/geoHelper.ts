@@ -1,20 +1,21 @@
-import { ConfigService } from '../_services/config.service';
-import proj4 from 'proj4';
-import VectorSource from 'ol/source/Vector';
-import VectorLayer from 'ol/layer/Vector';
-import Projection from 'ol/proj/Projection';
-import View from 'ol/View';
-import { fromLonLat } from 'ol/proj';
-import { MapService } from '../_services/map.service';
-import Map from 'ol/Map';
-import LayerGroup from 'ol/layer/Group';
 import { defaults } from 'ol/interaction';
 import { register } from 'ol/proj/proj4';
 import { Order } from '../_models/IOrder';
 import Feature from 'ol/Feature';
-import { Fill, Style } from 'ol/style';
+import Map from 'ol/Map';
+import View from 'ol/View';
 import { Geometry } from 'ol/geom';
+import LayerGroup from 'ol/layer/Group';
+import VectorLayer from 'ol/layer/Vector';
+import { fromLonLat } from 'ol/proj';
+import Projection from 'ol/proj/Projection';
+import VectorSource from 'ol/source/Vector';
 import { getArea as getAreaSphere } from 'ol/sphere.js';
+import { Fill, Style } from 'ol/style';
+import proj4 from 'proj4';
+
+import { ConfigService } from '../_services/config.service';
+import { MapService } from '../_services/map.service';
 
 const DEFAULT_EXTENT = [2419995.7488073637, 1030006.663199476, 2900009.727428728, 1350004.292478851];
 
