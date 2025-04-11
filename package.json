@@ -51,6 +51,7 @@
     "@types/resize-observer-browser": "^0.1.11",
     "angular-eslint": "19.2.1",
     "eslint": "^9.22.0",
+    "eslint-plugin-import": "^2.31.0",
     "jsdom": "^22.0.0",
     "sass-migrator": "^2.3.1",
     "stylelint": "^16.17.0",
