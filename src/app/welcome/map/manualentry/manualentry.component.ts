@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogClose, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogClose, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { IManualEntryDialogData } from '../../../_models/IManualEntryDialog';
 import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { MatFormField, MatLabel } from '@angular/material/input';
@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   styleUrls: ['./manualentry.component.scss'],
   imports: [
     MatTab, MatTabGroup, MatFormField, MatLabel, MatSelect, FormsModule, MatOption, MatFormField,
-    MatDialogClose, MatSelectModule, ReactiveFormsModule,
+    MatDialogClose, MatSelectModule, ReactiveFormsModule, MatDialogModule
   ],
 })
 export class ManualentryComponent {

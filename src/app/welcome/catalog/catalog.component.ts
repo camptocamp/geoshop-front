@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { IProduct } from '../../_models/IProduct';
 import { ApiService } from '../../_services/api.service';
 import { ConfigService } from '../../_services/config.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DialogMetadataComponent } from './dialog-metadata/dialog-metadata.component';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
@@ -26,7 +26,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./catalog.component.scss'],
   imports: [
     MatFormField, ReactiveFormsModule, MatProgressSpinner, CdkVirtualScrollViewport,
-    ScrollingModule, CommonModule, MatInputModule, MatIconModule, MatButtonModule
+    ScrollingModule, CommonModule, MatInputModule, MatIconModule, MatButtonModule, MatDialogModule
   ],
 })
 export class CatalogComponent implements OnInit {

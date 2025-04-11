@@ -18,7 +18,7 @@ import { StoreService } from '../../_services/store.service';
 import { Contact, IContact } from '../../_models/IContact';
 import { Router } from '@angular/router';
 import * as fromCart from '../../_store/cart/cart.action';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../_components/confirm-dialog/confirm-dialog.component';
 import * as Constants from '../../constants';
 import { MatError, MatLabel, MatInputModule } from '@angular/material/input';
@@ -41,7 +41,8 @@ import { ConfigService } from '../../_services/config.service';
     MatError, MatFormFieldModule, MatInputModule, MatRadioButton, MatRadioGroup, AsyncPipe, CurrencyPipe,
     MatProgressSpinnerModule, MatTableModule, MatIconModule, CommonModule, MatButtonModule, MatTableModule,
     ReactiveFormsModule, MatStepperModule, MatButtonModule, MatFormFieldModule, MatSelectModule, MatInputModule,
-    MatAutocompleteModule, MatIconModule, MatTableModule, MatAutocompleteModule, MatStepperModule, MatProgressSpinnerModule
+    MatAutocompleteModule, MatIconModule, MatTableModule, MatAutocompleteModule, MatStepperModule, MatProgressSpinnerModule,
+    MatDialogModule
   ],
 })
 export class NewOrderComponent implements OnInit, OnDestroy {
