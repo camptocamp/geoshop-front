@@ -33,8 +33,8 @@ describe('CatalogComponent', () => {
         MatInputModule,
         MatButtonModule,
         NoopAnimationsModule,
+        CatalogComponent,
       ],
-      declarations: [ CatalogComponent ],
       providers:[
         {provide: Store<AppState>, useClass: StoreMock},
         provideHttpClient(),

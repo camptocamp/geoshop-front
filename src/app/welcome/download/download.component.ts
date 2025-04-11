@@ -20,7 +20,7 @@ import { MatCard, MatCardContent, MatCardHeader, MatCardTitle, MatCardSubtitle }
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
-import { OrderItemViewComponent } from 'src/app/_components/order-item-view/order-item-view.component';
+import { OrderItemViewComponent } from '../../_components/order-item-view/order-item-view.component';
 
 
 @Component({

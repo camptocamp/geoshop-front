@@ -5,7 +5,7 @@ import { IMetadata } from '../../../_models/IMetadata';
 import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle, MatCardTitleGroup } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatAccordion, MatExpansionPanel, MatExpansionPanelDescription, MatExpansionPanelHeader, MatExpansionPanelTitle } from '@angular/material/expansion';
-import { SafeHtmlPipe } from 'src/app/_pipes/SafeHtmlPipe';
+import { SafeHtmlPipe } from '../../../_pipes/SafeHtmlPipe';
 import { MatList, MatListItem } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 

@@ -13,11 +13,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 class StoreMock {
   select = vi.fn().mockImplementation(() => of(vi.fn()));
@@ -31,16 +33,10 @@ describe('RegisterComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatIconModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatStepperModule,
-        MatSelectModule,
-        NoopAnimationsModule,
-        ReactiveFormsModule,
+        MatIconModule, MatDatepickerModule,
+        FormsModule, ReactiveFormsModule, MatFormFieldModule, MatOptionModule, MatSelectModule,
+        NoopAnimationsModule, MatNativeDateModule,
+        MatStepperModule, MatCardModule, CommonModule, MatInputModule, MatButtonModule,
         RegisterComponent
       ],
       providers: [

@@ -13,8 +13,6 @@ describe('ConfirmDialogComponent', () => {
       imports:[
         MatDialogModule,
         MatButtonModule,
-      ],
-      declarations: [
         ConfirmDialogComponent,
         SafeHtmlPipe,
       ],

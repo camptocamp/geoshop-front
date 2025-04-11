@@ -23,8 +23,8 @@ describe('CartOverlayComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ CartOverlayComponent ],
       imports: [
+        CartOverlayComponent,
         MatButtonModule,
         MatIconModule,
         MatDividerModule,

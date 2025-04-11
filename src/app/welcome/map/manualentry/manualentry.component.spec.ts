@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IPageFormat } from 'src/app/_models/IConfig';
+import { IPageFormat } from '../../../_models/IConfig';
 
 export class MatDialogRefMock {
   close = vi.fn();
