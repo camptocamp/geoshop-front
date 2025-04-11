@@ -14,11 +14,17 @@ export default tseslint.config(
     rules: {
       "import/order": [
         "error", {
+          "newlines-between": "always",
+          "alphabetize": {
+            order: "asc",
+          },
           "groups": [
+            "external",
             "builtin",
-            ["sibling", "parent"],
-            "index",
-            "object",
+            "internal",
+            "sibling",
+            "parent",
+            "index"
           ],
         }
       ],
