@@ -9,8 +9,8 @@ import { AppState } from '../../_store';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { MatIcon } from '@angular/material/icon';
-import { ReactiveFormsModule } from '@angular/forms';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CdkScrollableModule, ScrollingModule } from '@angular/cdk/scrolling';
 import { MatAccordion } from '@angular/material/expansion';
@@ -19,6 +19,8 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ConfigService } from '../../_services/config.service';
+import { OrderComponent } from './order/order.component';
+import { AsyncPipe, CommonModule } from '@angular/common';
 
 class StoreMock {
   select = vi.fn().mockImplementation(() => of(vi.fn()));
@@ -35,27 +37,27 @@ class ConfigServiceMock {
 }
 
 describe('OrdersComponent', () => {
+  global.ResizeObserver = global.ResizeObserver || vi.fn().mockImplementation(() => ({
+    disconnect: vi.fn(),
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+  }));
+
   let component: OrdersComponent;
   let fixture: ComponentFixture<OrdersComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatFormFieldModule,
-        MatButtonModule,
-        MatInputModule,
-        MatIcon,
-        ReactiveFormsModule,
-        MatProgressSpinnerModule,
-        CdkScrollableModule,
-        ScrollingModule,
-        MatAccordion,
+        MatProgressSpinnerModule, OrderComponent, MatAccordion, ScrollingModule, MatIconModule,
+        FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, AsyncPipe,
+        CommonModule, MatButtonModule,
         NoopAnimationsModule,
+        OrdersComponent,
         RouterModule.forRoot([]),
       ],
-      declarations: [OrdersComponent],
       providers: [
-        { provide: ActivatedRoute, useValue: { queryParamMap: of() }},
+        { provide: ActivatedRoute, useValue: { queryParamMap: of() } },
         { provide: ConfigService, useClass: ConfigServiceMock },
         { provide: Store<AppState>, useClass: StoreMock },
         provideHttpClient(),

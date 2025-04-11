@@ -51,8 +51,8 @@ describe('NewOrderComponent', () => {
         MatAutocompleteModule,
         MatIconModule,
         NoopAnimationsModule,
+        NewOrderComponent,
       ],
-      declarations: [NewOrderComponent],
       providers: [
         ApiOrderService,
         provideHttpClient(),

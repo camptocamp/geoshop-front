@@ -17,15 +17,17 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatCardContent, MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'gs2-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
   imports: [
-    MatIconModule, MatLabel, MatDatepickerModule, MatDatepickerToggle, MatLabel,
-    FormsModule, ReactiveFormsModule, MatFormFieldModule, MatOptionModule, MatError,
-    MatStepperModule, MatCardModule, MatCardContent, CommonModule, MatInputModule, MatButtonModule
+    CommonModule, FormsModule, MatButtonModule, MatCardContent, MatCardModule, MatDatepickerModule,
+    MatDatepickerToggle, MatError, MatFormFieldModule, MatIconModule, MatInputModule, MatLabel,
+    MatOptionModule, MatSelectModule, MatStepperModule, ReactiveFormsModule, MatIconModule,
+    MatLabel, MatDatepickerModule, MatDatepickerToggle, MatLabel
   ],
 })
 export class RegisterComponent implements OnInit, AfterViewInit {

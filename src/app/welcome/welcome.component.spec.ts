@@ -77,8 +77,6 @@ describe('WelcomeComponent', () => {
         MatSelectModule,
         ReactiveFormsModule,
         NoopAnimationsModule,
-      ],
-      declarations: [
         WelcomeComponent,
         MapComponent,
         CatalogComponent,
