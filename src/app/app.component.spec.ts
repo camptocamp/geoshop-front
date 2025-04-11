@@ -30,6 +30,12 @@ class StoreMock {
 }
 
 describe('AppComponent', () => {
+  global.ResizeObserver = global.ResizeObserver || vi.fn().mockImplementation(() => ({
+    disconnect: vi.fn(),
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+  }));
+
   beforeEach(() => {
 
     TestBed.configureTestingModule({
@@ -45,9 +51,7 @@ describe('AppComponent', () => {
         MatButtonModule,
         MatDialogModule,
         MatSnackBarModule,
-        MatTooltipModule
-      ],
-      declarations: [
+        MatTooltipModule,
         AppComponent,
         AccountOverlayComponent,
         HelpOverlayComponent,

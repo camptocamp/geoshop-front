@@ -21,8 +21,8 @@ describe('DialogMetadataComponent', () => {
         MatCardModule,
         MatIconModule,
         MatAccordion,
+        DialogMetadataComponent,
       ],
-      declarations: [DialogMetadataComponent],
       providers: [
         { provide: MatDialogRef, useValue: {} },
         provideHttpClient(),

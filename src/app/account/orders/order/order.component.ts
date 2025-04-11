@@ -18,7 +18,7 @@ import * as Constants from '../../../constants';
 import { Feature } from 'ol';
 import { HttpResponse } from '@angular/common/http';
 import { CommonModule, DatePipe } from '@angular/common';
-import { IconTextComponent } from 'src/app/shared/icon-text/icon-text.component';
+import { IconTextComponent } from '../../../shared/icon-text/icon-text.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';

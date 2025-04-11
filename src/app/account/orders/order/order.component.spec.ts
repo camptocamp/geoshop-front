@@ -18,7 +18,7 @@ describe('OrderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrderComponent ],
+      imports: [ OrderComponent ],
       providers: [
         {provide: Store<AppState>, useClass: StoreMock},
         provideHttpClient(),
