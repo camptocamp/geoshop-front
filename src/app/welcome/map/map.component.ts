@@ -8,7 +8,7 @@ import { debounceTime, switchMap } from 'rxjs/operators';
 import Geometry from 'ol/geom/Geometry';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent, MatOptgroup } from '@angular/material/autocomplete';
 import Feature from 'ol/Feature';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ManualentryComponent } from './manualentry/manualentry.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
@@ -38,7 +38,7 @@ export const nameOfCategoryForGeocoder: Record<string, string> = { // TODO this 
     MatProgressSpinnerModule, MatCardModule, ReactiveFormsModule, FormsModule,
     MatFormFieldModule, MatAutocompleteModule, MatIconModule, MatOptgroup,
     MatOptionModule, MatHint, MatButtonModule, MatMiniFabButton, MatMenuModule,
-    CommonModule, MatInputModule,
+    CommonModule, MatInputModule, MatDialogModule
   ],
 })
 export class MapComponent implements OnInit {

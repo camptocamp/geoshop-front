@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { ConfigService } from '../../../_services/config.service';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { IMetadata } from '../../../_models/IMetadata';
 import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle, MatCardTitleGroup } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
     MatCard, MatCardTitle, MatCardContent, MatIcon, MatCardHeader, MatCardTitleGroup,
     MatCardSubtitle, MatAccordion, MatExpansionPanel, MatExpansionPanelTitle,
     MatExpansionPanelDescription, SafeHtmlPipe, MatExpansionPanelHeader,
-    MatList, MatListItem, MatCardActions, CommonModule,
+    MatList, MatListItem, MatCardActions, CommonModule, MatDialogModule
   ],
 })
 export class DialogMetadataComponent {
