@@ -1,15 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component, HostBinding } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { EMAIL_REGEX } from '../../_helpers/regex';
-import { ApiService } from '../../_services/api.service';
-import { MatError, MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatError, MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+
+import { EMAIL_REGEX } from '../../_helpers/regex';
+import { ApiService } from '../../_services/api.service';
+
 
 @Component({
   selector: 'gs2-forget',

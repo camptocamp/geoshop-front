@@ -1,27 +1,38 @@
+import { CommonModule, DatePipe } from '@angular/common';
+import { HttpResponse } from '@angular/common/http';
 import { Component, ComponentFactoryResolver, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import Map from 'ol/Map';
+
+import VectorSource from 'ol/source/Vector';
 import { IOrderSummary, Order } from '../../../_models/IOrder';
 import { IProduct } from '../../../_models/IProduct';
-import Map from 'ol/Map';
-import VectorSource from 'ol/source/Vector';
+
 import { displayMiniMap } from '../../../_helpers/geoHelper';
 import { OrderItemViewComponent } from '../../../_components/order-item-view/order-item-view.component';
 import { WidgetHostDirective } from '../../../_directives/widget-host.directive';
 import { ApiOrderService } from '../../../_services/api-order.service';
 import { deepCopyOrder } from '../../../_helpers/GeoshopUtils';
-import { MatSnackBar } from '@angular/material/snack-bar';
+
+
 import { StoreService } from '../../../_services/store.service';
-import { Router } from '@angular/router';
-import { MatDialog, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+
+
 import { ConfirmDialogComponent } from '../../../_components/confirm-dialog/confirm-dialog.component';
+
 import Geometry from 'ol/geom/Geometry';
+
 import * as Constants from '../../../constants';
+
 import { Feature } from 'ol';
-import { HttpResponse } from '@angular/common/http';
-import { CommonModule, DatePipe } from '@angular/common';
+
 import { IconTextComponent } from '../../../shared/icon-text/icon-text.component';
-import { MatIconModule } from '@angular/material/icon';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatButtonModule } from '@angular/material/button';
+
 
 // TODO tranlsate after updating SnackBar!
 @Component({

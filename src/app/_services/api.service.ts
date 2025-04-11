@@ -1,12 +1,14 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IProduct } from '../_models/IProduct';
-import { ConfigService } from './config.service';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+
+import { ConfigService } from './config.service';
+
 import { IApiResponse } from '../_models/IApi';
 import { ICredentials, IIdentity } from '../_models/IIdentity';
-import { catchError, map, switchMap } from 'rxjs/operators';
 import { IMetadata } from '../_models/IMetadata';
+import { IProduct } from '../_models/IProduct';
 import { IUser, IUserChangeResponse, IUserToPost } from '../_models/IUser';
 
 @Injectable({

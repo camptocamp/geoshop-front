@@ -1,36 +1,52 @@
+import { AsyncPipe, CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, HostBinding, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { ApiService } from '../../_services/api.service';
-import { PHONE_REGEX, IDE_REGEX, EMAIL_REGEX, EXTRACT_FORBIDDEN_REGEX } from '../../_helpers/regex';
-import { Observable, Subject } from 'rxjs';
-import { IIdentity } from '../../_models/IIdentity';
-import { debounceTime, filter, map, mergeMap, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import { IProduct } from '../../_models/IProduct';
-import { select, Store } from '@ngrx/store';
-import { AppState, getUser, selectOrder, selectAllProduct } from '../../_store';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatOptionModule } from '@angular/material/core';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatSort } from '@angular/material/sort';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subject } from 'rxjs';
+
+import { debounceTime, filter, map, mergeMap, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { PHONE_REGEX, IDE_REGEX, EMAIL_REGEX, EXTRACT_FORBIDDEN_REGEX } from '../../_helpers/regex';
+import { ApiService } from '../../_services/api.service';
+
+import { IIdentity } from '../../_models/IIdentity';
+
+
+import { IProduct } from '../../_models/IProduct';
+
+
+import { ConfigService } from '../../_services/config.service';
+import { StoreService } from '../../_services/store.service';
+import { AppState, getUser, selectOrder, selectAllProduct } from '../../_store';
+
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+
 import { IOrder, IOrderType, Order, IOrderItem } from '../../_models/IOrder';
 import { ApiOrderService } from '../../_services/api-order.service';
+
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { StoreService } from '../../_services/store.service';
+
 import { Contact, IContact } from '../../_models/IContact';
+
 import { Router } from '@angular/router';
+
 import * as fromCart from '../../_store/cart/cart.action';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+
+
 import { ConfirmDialogComponent } from '../../_components/confirm-dialog/confirm-dialog.component';
 import * as Constants from '../../constants';
+
 import { MatError, MatLabel, MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
-import { AsyncPipe, CommonModule, CurrencyPipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatOptionModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { ConfigService } from '../../_services/config.service';
+
 
 @Component({
   selector: 'gs2-new-order',

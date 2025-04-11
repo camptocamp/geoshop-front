@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Observable, of, zip } from 'rxjs';
-import { IOrder, IOrderItem, IOrderSummary, IOrderToPost, IOrderType, Order } from '../_models/IOrder';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { ConfigService } from './config.service';
-import { IApiResponse, OrderValidationStatus } from '../_models/IApi';
-import { catchError, flatMap, map } from 'rxjs/operators';
-import { Contact, IContact } from '../_models/IContact';
-import { deepCopyOrder, extractIdFromUrl } from '../_helpers/GeoshopUtils';
+import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable, of, zip } from 'rxjs';
+import { catchError, flatMap, map } from 'rxjs/operators';
+
+import { ConfigService } from './config.service';
+
+import { deepCopyOrder, extractIdFromUrl } from '../_helpers/GeoshopUtils';
+import { IApiResponse } from '../_models/IApi';
+import { Contact, IContact } from '../_models/IContact';
+import { IOrder, IOrderItem, IOrderSummary, IOrderToPost, IOrderType, Order } from '../_models/IOrder';
 import { IProduct } from '../_models/IProduct';
 
 @Injectable({

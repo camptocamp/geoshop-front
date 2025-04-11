@@ -1,20 +1,23 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ConfigService } from './config.service';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
-
-// Openlayers imports
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Collection, Feature, Overlay } from 'ol';
+import { FeatureLike } from 'ol/Feature';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import BaseLayer from 'ol/layer/Base';
+
 import TileLayer from 'ol/layer/Tile';
+import { ConfigService } from './config.service';
+
+// Openlayers imports
 import LayerGroup from 'ol/layer/Group';
 import ScaleLine from 'ol/control/ScaleLine';
-import { defaults as defaultInteractions, DragAndDrop } from 'ol/interaction';
+import { defaults as defaultInteractions, DragAndDrop , Draw, Modify } from 'ol/interaction';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
-import { Draw, Modify } from 'ol/interaction';
-import { Collection, Feature, Overlay } from 'ol';
-import { FeatureLike } from 'ol/Feature';
 import Polygon, { fromExtent } from 'ol/geom/Polygon';
 import WMTS, { Options } from 'ol/source/WMTS';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
@@ -33,21 +36,23 @@ import TileSource from 'ol/source/Tile';
 
 // @ts-expect-error: importing an untyped JavaScript module.
 import Transform from 'ol-ext/interaction/Transform';
-
 import { BehaviorSubject, of } from 'rxjs';
+
+import { CoordinateSearchService } from './coordinate-search.service';
+
 import { formatArea } from '../_helpers/geoHelper';
+
 import proj4 from 'proj4';
-import { HttpClient } from '@angular/common/http';
 import { filter, map, switchMap } from 'rxjs/operators';
+
 import { IBasemap, IPageFormat } from '../_models/IConfig';
 import { AppState, selectOrder } from '../_store';
 import { select, Store } from '@ngrx/store';
 import { updateGeometry } from '../_store/cart/cart.action';
+
 import { DragAndDropEvent } from 'ol/interaction/DragAndDrop';
 import { shiftKeyOnly } from 'ol/events/condition';
 import { createBox } from 'ol/interaction/Draw';
-import { CoordinateSearchService } from './coordinate-search.service';
-import { ActivatedRoute } from '@angular/router';
 import { getArea as getAreaSphere } from 'ol/sphere.js';
 import { ApiOrderService } from './api-order.service';
 import { Order } from '../_models/IOrder';

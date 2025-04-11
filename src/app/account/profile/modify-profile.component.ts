@@ -1,15 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component, HostBinding } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, UntypedFormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EMAIL_REGEX, PHONE_REGEX } from '../../_helpers/regex';
-import { ApiService } from '../../_services/api.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatError, MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+
+import { EMAIL_REGEX, PHONE_REGEX } from '../../_helpers/regex';
 import { IUser, IUserToPost } from '../../_models/IUser';
+import { ApiService } from '../../_services/api.service';
 import * as Constants from '../../constants';
-import { MatError, MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'gs2-modify-profile',

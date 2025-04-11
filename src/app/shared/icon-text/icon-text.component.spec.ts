@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { IconTextComponent } from './icon-text.component';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+
+import { IconTextComponent } from './icon-text.component';
 
 describe('IconTextComponent', () => {
   let component: IconTextComponent;

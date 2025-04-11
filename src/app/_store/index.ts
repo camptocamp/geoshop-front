@@ -1,11 +1,13 @@
-import { AuthState } from './auth/auth.reducer';
 import { Action, ActionReducer, ActionReducerMap, createFeatureSelector, createSelector, MetaReducer } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
-import { environment } from '../../environments/environment';
+
+import { AuthState } from './auth/auth.reducer';
 import * as fromAuth from './auth/auth.reducer';
 import { CartState } from './cart/cart.reducer';
 import * as fromCart from './cart/cart.reducer';
 import { storageMetaReducer } from './storage.reducer';
+
+import { environment } from '../../environments/environment';
 
 export interface AppState {
   auth: AuthState;

@@ -1,22 +1,22 @@
-import { takeUntil } from 'rxjs/operators';
+import { CommonModule, LowerCasePipe } from '@angular/common';
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { Feature } from 'ol';
 import Map from 'ol/Map';
 import VectorSource from 'ol/source/Vector';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { generateMiniMap, displayMiniMap } from '../../_helpers/geoHelper';
 import { Order, OrderItem } from '../../_models/IOrder';
 import { ApiOrderService } from '../../_services/api-order.service';
 import { ConfigService } from '../../_services/config.service';
 import { MapService } from '../../_services/map.service';
+
 import Geometry from 'ol/geom/Geometry';
-import { Feature } from 'ol';
-import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { CommonModule, LowerCasePipe } from '@angular/common';
 
 
 @Component({

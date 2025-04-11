@@ -1,11 +1,13 @@
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
+
 import { IOrderItem, Order } from '../../_models/IOrder';
 import { ApiOrderService } from '../../_services/api-order.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import * as Constants from '../../constants';
-import { HttpResponse } from '@angular/common/http';
-import { MatTableModule } from '@angular/material/table';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+
 
 @Component({
   selector: 'gs2-order-item-view',

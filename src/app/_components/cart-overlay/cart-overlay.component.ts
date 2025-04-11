@@ -1,25 +1,35 @@
+import { CommonModule } from '@angular/common';
 import { Component, HostBinding, OnDestroy, EventEmitter, Output } from '@angular/core';
-import { AppState, isLoggedIn, selectOrder } from '../../_store';
-import { Store } from '@ngrx/store';
-import * as fromCart from '../../_store/cart/cart.action';
-import { IProduct } from '../../_models/IProduct';
-import { DialogMetadataComponent } from '../../welcome/catalog/dialog-metadata/dialog-metadata.component';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef, MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ApiService } from '../../_services/api.service';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+
+import { IProduct } from '../../_models/IProduct';
+import { AppState, isLoggedIn, selectOrder } from '../../_store';
+import * as fromCart from '../../_store/cart/cart.action';
+import { DialogMetadataComponent } from '../../welcome/catalog/dialog-metadata/dialog-metadata.component';
+
+
+import { ApiService } from '../../_services/api.service';
+
+
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+
+
 import { ApiOrderService } from '../../_services/api-order.service';
+
 import { Subject } from 'rxjs';
+
 import { MapService } from '../../_services/map.service';
 import { IOrder, Order } from '../../_models/IOrder';
 import { deepCopyOrder } from '../../_helpers/GeoshopUtils';
+
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'gs2-cart-overlay',

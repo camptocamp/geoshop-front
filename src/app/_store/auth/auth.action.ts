@@ -1,7 +1,8 @@
 import {createAction, props} from '@ngrx/store';
-import {ICredentials, IIdentity} from '../../_models/IIdentity';
-import {IApiResponseError} from '../../_models/IApi';
 import { LoginResponse } from 'angular-auth-oidc-client';
+
+import {IApiResponseError} from '../../_models/IApi';
+import {ICredentials, IIdentity} from '../../_models/IIdentity';
 
 export const LOGIN = '[Auth] Login';
 export const OIDC_LOGIN = '[Auth] Oidc Login';

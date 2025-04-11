@@ -1,15 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ConfigService } from '../../_services/config.service';
-import { MapService } from '../../_services/map.service';
-import { CustomIconService } from '../../_services/custom-icon.service';
-import { IBasemap, IPageFormat } from '../../_models/IConfig';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { debounceTime, switchMap } from 'rxjs/operators';
-import Geometry from 'ol/geom/Geometry';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent, MatOptgroup } from '@angular/material/autocomplete';
-import Feature from 'ol/Feature';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ManualentryComponent } from './manualentry/manualentry.component';
+
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatHint, MatInputModule } from '@angular/material/input';
@@ -18,7 +11,16 @@ import { MatButtonModule, MatMiniFabButton } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
-import { CommonModule } from '@angular/common';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import Feature from 'ol/Feature';
+import Geometry from 'ol/geom/Geometry';
+import { debounceTime, switchMap } from 'rxjs/operators';
+import { ManualentryComponent } from './manualentry/manualentry.component';
+
+import { IBasemap, IPageFormat } from '../../_models/IConfig';
+import { ConfigService } from '../../_services/config.service';
+import { CustomIconService } from '../../_services/custom-icon.service';
+import { MapService } from '../../_services/map.service';
 
 export const nameOfCategoryForGeocoder: Record<string, string> = { // TODO this should be translated
   zipcode: 'Ortschaftenverzeichnis PLZ',

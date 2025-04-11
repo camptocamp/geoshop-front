@@ -1,10 +1,12 @@
 import { HttpRequest, HttpEvent, HttpHandlerFn } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { inject } from '@angular/core';
-import { AppState } from '../_store';
 import { Store } from '@ngrx/store';
-import * as fromRoot from '../_store/index';
+import { Observable } from 'rxjs';
 import { first, mergeMap } from 'rxjs/operators';
+
+import { AppState } from '../_store';
+import * as fromRoot from '../_store/index';
+
 
 
 export const interceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {

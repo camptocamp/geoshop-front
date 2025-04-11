@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { AppState, selectOrder } from '../../_store';
-import * as LoginActions from './auth.action';
-import { catchError, exhaustMap, map, take, tap } from 'rxjs/operators';
-import { ApiService } from '../../_services/api.service';
 import { of } from 'rxjs';
-import { Router } from '@angular/router';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { catchError, exhaustMap, map, take, tap } from 'rxjs/operators';
+
+import * as LoginActions from './auth.action';
+
 import { ConfirmDialogComponent } from '../../_components/confirm-dialog/confirm-dialog.component';
-import { ApiOrderService } from '../../_services/api-order.service';
 import { IOrder } from '../../_models/IOrder';
+import { ApiOrderService } from '../../_services/api-order.service';
+import { ApiService } from '../../_services/api.service';
 import { StoreService } from '../../_services/store.service';
+import { AppState, selectOrder } from '../../_store';
 
 @Injectable()
 export class AuthEffects {

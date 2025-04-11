@@ -1,4 +1,5 @@
 import { ViewContainerRef } from '@angular/core';
+
 import { WidgetHostDirective } from './widget-host.directive';
 
 describe('WidgetHostDirective', () => {

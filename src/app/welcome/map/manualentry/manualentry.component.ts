@@ -1,10 +1,11 @@
 import { Component, Inject } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogClose, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { IManualEntryDialogData } from '../../../_models/IManualEntryDialog';
-import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { MatFormField, MatLabel } from '@angular/material/input';
 import { MatOption, MatSelect, MatSelectModule } from '@angular/material/select';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+
+import { IManualEntryDialogData } from '../../../_models/IManualEntryDialog';
 
 @Component({
   selector: 'gs2-manualentry',

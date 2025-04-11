@@ -1,10 +1,14 @@
-import { vi } from 'vitest'
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OrderComponent } from './order.component';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../_store';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
+import { vi } from 'vitest'
+
+import { OrderComponent } from './order.component';
+
+
+import { AppState } from '../../../_store';
+
 
 
 class StoreMock {

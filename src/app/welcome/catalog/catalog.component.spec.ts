@@ -1,19 +1,21 @@
-import { vi } from 'vitest';
-
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CatalogComponent } from './catalog.component';
-
-import { Store } from '@ngrx/store';
-import { AppState } from '../../_store';
-import { of } from 'rxjs';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Store } from '@ngrx/store';
+import { vi } from 'vitest';
+
+import { CatalogComponent } from './catalog.component';
+
+
+import { AppState } from '../../_store';
+
+import { of } from 'rxjs';
 
 class StoreMock {
   select =  vi.fn().mockImplementation(() => of(vi.fn()));

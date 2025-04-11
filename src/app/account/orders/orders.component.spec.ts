@@ -1,10 +1,9 @@
-import { vi } from 'vitest';
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OrdersComponent } from './orders.component';
 
-import { of } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { AppState } from '../../_store';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,15 +11,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatAccordion } from '@angular/material/expansion';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ConfigService } from '../../_services/config.service';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
+import { vi } from 'vitest';
+
 import { OrderComponent } from './order/order.component';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { OrdersComponent } from './orders.component';
+import { ConfigService } from '../../_services/config.service';
+
 
 class StoreMock {
   select = vi.fn().mockImplementation(() => of(vi.fn()));

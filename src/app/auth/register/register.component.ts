@@ -1,21 +1,24 @@
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatCardContent, MatCardModule } from '@angular/material/card';
+import { MatOptionModule } from '@angular/material/core';
+import { MatDatepickerModule, MatDatepickerToggle } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
+
+import { PHONE_REGEX, IDE_REGEX } from '../../_helpers/regex';
 import { IIdentity } from '../../_models/IIdentity';
 import { ApiService } from '../../_services/api.service';
-import { map } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { StepperSelectionEvent } from '@angular/cdk/stepper';
-import { PHONE_REGEX, IDE_REGEX } from '../../_helpers/regex';
+
 import * as Constants from '../../constants';
-import { MatIconModule } from '@angular/material/icon';
+
 import { MatError, MatInputModule, MatLabel } from '@angular/material/input';
-import { MatDatepickerModule, MatDatepickerToggle } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatOptionModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatCardContent, MatCardModule } from '@angular/material/card';
-import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 

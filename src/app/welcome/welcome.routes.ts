@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 
-import { WelcomeComponent } from './welcome.component';
 import { DownloadComponent } from './download/download.component';
 import { ValidateComponent } from './validate/validate.component';
+import { WelcomeComponent } from './welcome.component';
 
 export const routes: Routes = [
   { path: '', component: WelcomeComponent },

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+
 import { Order } from '../_models/IOrder';
 import { AppState } from '../_store';
-import { Store } from '@ngrx/store';
 import { updateOrder } from '../_store/cart/cart.action';
 
 @Injectable({

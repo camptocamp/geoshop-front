@@ -1,26 +1,29 @@
+import { CommonModule, DatePipe } from '@angular/common';
+import { HttpResponse } from '@angular/common/http';
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { MatCard, MatCardContent, MatCardHeader, MatCardTitle, MatCardSubtitle } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { Feature } from 'ol';
+import Map from 'ol/Map';
+import Geometry from 'ol/geom/Geometry';
+import VectorSource from 'ol/source/Vector';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import Map from 'ol/Map';
-import VectorSource from 'ol/source/Vector';
-
+import { OrderItemViewComponent } from '../../_components/order-item-view/order-item-view.component';
 import { generateMiniMap, displayMiniMap } from '../../_helpers/geoHelper';
 import { Order } from '../../_models/IOrder';
 import { ApiOrderService } from '../../_services/api-order.service';
 import { ConfigService } from '../../_services/config.service';
 import { MapService } from '../../_services/map.service';
-import Geometry from 'ol/geom/Geometry';
+
+
 import * as Constants from '../../constants';
-import { Feature } from 'ol';
-import { HttpResponse } from '@angular/common/http';
-import { MatCard, MatCardContent, MatCardHeader, MatCardTitle, MatCardSubtitle } from '@angular/material/card';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { CommonModule, DatePipe } from '@angular/common';
-import { MatIcon } from '@angular/material/icon';
-import { OrderItemViewComponent } from '../../_components/order-item-view/order-item-view.component';
+
+
 
 
 @Component({
