@@ -9,6 +9,7 @@ import { Contact, IContact } from '../_models/IContact';
 import { GeoshopUtils } from '../_helpers/GeoshopUtils';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConstantsService } from '../constants.service';
+import { IProduct } from '../_models/IProduct';
 
 
 @Injectable({
@@ -308,7 +309,7 @@ export class ApiOrderService {
 
     return this.http.patch<IOrder | null>(url.toString(), {
       items: order.items.map(x => {
-        x.product = Order.getProductLabel(x);
+        x.product = {label: x.product.label} as IProduct;
         if (!x.data_format) {
           delete x.data_format;
         }

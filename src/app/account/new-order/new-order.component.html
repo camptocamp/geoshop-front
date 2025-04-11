@@ -7,7 +7,7 @@
       <mat-form-field>
         <mat-label i18n>Type de mandat</mat-label>
         <mat-select formControlName="orderType" required (selectionChange)="clearForms()"
-                    [compareWith]="orderTypeCompareWith">
+          [compareWith]="orderTypeCompareWith">
           <mat-option *ngFor="let orderType of orderTypes" [value]="orderType">
             {{getLocalizedTypeName(orderType)}}
           </mat-option>
@@ -27,47 +27,44 @@
       <!-- Description -->
       <mat-form-field *ngIf="orderFormGroup.get('orderType')?.value?.id !== 1">
         <mat-label i18n>Description du mandat</mat-label>
-        <textarea matInput
-                  formControlName="description"
-                  i18n-placeholder
-                  placeholder="Renseigner une courte description du mandat..."></textarea>
+        <textarea matInput formControlName="description" i18n-placeholder
+          placeholder="Renseigner une courte description du mandat..."></textarea>
         <mat-error *ngIf="orderFormGroup.get('description')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
 
       <!-- My reference -->
-      <mat-form-field>
+      <mat-form-field *ngIf="billingRequired()">
         <mat-label i18n>Votre référence reportée sur la facture</mat-label>
-        <input matInput type="text" formControlName="invoice_reference"/>
+        <input matInput type="text" formControlName="invoice_reference" />
       </mat-form-field>
 
       <!-- Email for delivery -->
-      <mat-radio-group class="flex-column"
-                      formControlName="emailDeliverChoice"
-                      i18n-aria-label
-                      aria-label="Choisir l'email de livraison">
-      <mat-radio-button value="1" i18n>Les données seront envoyées à l'adresse email de
-        l'utilisateur courant: {{(currentUser$|async)?.email}}</mat-radio-button>
-      <mat-radio-button value="2" i18n>Adresse de livraison des données différente</mat-radio-button>
+      <mat-radio-group class="flex-column" formControlName="emailDeliverChoice" i18n-aria-label
+        aria-label="Choisir l'email de livraison">
+        <mat-radio-button value="1" i18n>Les données seront envoyées à l'adresse email de
+          l'utilisateur courant: {{(currentUser$|async)?.email}}</mat-radio-button>
+        <mat-radio-button value="2" i18n>Adresse de livraison des données différente</mat-radio-button>
       </mat-radio-group>
 
       <mat-form-field *ngIf="orderFormGroup?.get('emailDeliverChoice')?.value == '2'">
         <mat-label i18n>Saisir l'adresse email de livraison</mat-label>
-        <input matInput type="email" formControlName="emailDeliver" autocomplete="on"/>
-        <mat-error i18n *ngIf="orderFormGroup?.get('emailDeliver')?.hasError('pattern')">Adresse email non valide</mat-error>
+        <input matInput type="email" formControlName="emailDeliver" autocomplete="on" />
+        <mat-error i18n *ngIf="orderFormGroup?.get('emailDeliver')?.hasError('pattern')">Adresse email non
+          valide</mat-error>
       </mat-form-field>
 
       <div class="bottom-container flex-row">
         <button color="warn" mat-button (click)="resetForms();stepper.selectedIndex = 0">{{ BACK }}</button>
-        <button color="primary" matStepperNext mat-raised-button>{{ NEXT }}</button>
+        <button color="primary" matStepperNext mat-raised-button (click)="createOrUpdateDraftOrder(1)">{{ NEXT
+          }}</button>
       </div>
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="contactFormGroup" i18n-label label="Facturation / Tiers">
+  <mat-step *ngIf="billingRequired()" [stepControl]="contactFormGroup" i18n-label label="Facturation / Tiers">
     <form class="form-no-full-height" [formGroup]="addressChoiceForm">
-      <mat-radio-group *ngIf="IsOrderTypePrivate" class="flex-column"
-                       formControlName="addressChoice"
-                       aria-label="Choisir une option">
+      <mat-radio-group *ngIf="IsOrderTypePrivate" class="flex-column" formControlName="addressChoice"
+        aria-label="Choisir une option">
         <mat-radio-button value="1" i18n>La facturation est adressée à
           l'utilisateur courant: {{(currentUser$|async)?.username}} ({{(currentUser$|async)?.email}})</mat-radio-button>
         <mat-radio-button value="2" i18n>La facturation est adressée à un mandant</mat-radio-button>
@@ -75,61 +72,41 @@
     </form>
 
     <mat-label *ngIf="!IsOrderTypePrivate" i18n>Vous devez spécifier les informations de contact du tiers pour un mandat
-       de type &quot;{{ getLocalizedTypeName(orderFormGroup.get('orderType')?.value) }}&quot;.</mat-label>
+      de type &quot;{{ getLocalizedTypeName(orderFormGroup.get('orderType')?.value) }}&quot;.</mat-label>
 
     <form class="form-height-mini" [formGroup]="contactFormGroup">
       <ng-container *ngIf="(IsOrderTypePrivate && !IsAddressForCurrentUser) || !IsOrderTypePrivate">
         <div class="flex-row">
           <!-- Search -->
           <mat-form-field style="flex:0.4;">
-            <input matInput
-                   i18n-placeholder
-                   placeholder="Rechercher dans mes contacts"
-                   aria-label="Rechercher dans mes contacts"
-                   [matAutocomplete]="auto"
-                   formControlName="customer">
+            <input matInput i18n-placeholder placeholder="Rechercher dans mes contacts"
+              aria-label="Rechercher dans mes contacts" [matAutocomplete]="auto" formControlName="customer">
             <div matSuffix class="flex-row">
               <mat-spinner *ngIf="isSearchLoading" diameter="16" color="accent"
-                           style="margin-right: 10px"></mat-spinner>
-              <button mat-icon-button *ngIf="customerCtrl?.value" aria-label="Clear"
-                      (click)="resetCustomerSearch()">
+                style="margin-right: 10px"></mat-spinner>
+              <button mat-icon-button *ngIf="customerCtrl?.value" aria-label="Clear" (click)="resetCustomerSearch()">
                 <mat-icon>close</mat-icon>
               </button>
             </div>
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCustomer"
-                              (optionSelected)="updateCustomerForm($event)">
+              (optionSelected)="updateCustomerForm($event)">
               <mat-option *ngFor="let identity of filteredCustomers$|async" [value]="identity">
                 <span>{{ identity.first_name }} {{ identity.last_name }} ({{ identity.email }})</span>
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-          <button class="autocomplete-action-button"
-                  mat-mini-fab
-                  i18n-matTooltip
-                  matTooltip="Créer un nouveau contact"
-                  aria-label="Créer un nouveau contact"
-                  color="primary"
-                  (click)="clearCustomerForm()">
+          <button class="autocomplete-action-button" mat-mini-fab i18n-matTooltip matTooltip="Créer un nouveau contact"
+            aria-label="Créer un nouveau contact" color="primary" (click)="clearCustomerForm()">
             <mat-icon>add</mat-icon>
           </button>
-          <button class="autocomplete-action-button"
-                  mat-mini-fab
-                  i18n-matTooltip
-                  matTooltip="Annuler les changements"
-                  aria-label="Annuler les changements"
-                  color="primary"
-                  *ngIf="isCustomerSelected && contactFormGroup.dirty && contactFormGroup.touched"
-                  (click)="resetCustomerForm()">
+          <button class="autocomplete-action-button" mat-mini-fab i18n-matTooltip matTooltip="Annuler les changements"
+            aria-label="Annuler les changements" color="primary"
+            *ngIf="isCustomerSelected && contactFormGroup.dirty && contactFormGroup.touched"
+            (click)="resetCustomerForm()">
             <mat-icon>clear</mat-icon>
           </button>
-          <button class="autocomplete-action-button"
-                  mat-mini-fab
-                  i18n-matTooltip
-                  matTooltip="Supprimer ce contact"
-                  aria-label="Supprimer ce contact"
-                  color="warn"
-                  *ngIf="isCustomerSelected"
-                  (click)="deleteCurrentContact()">
+          <button class="autocomplete-action-button" mat-mini-fab i18n-matTooltip matTooltip="Supprimer ce contact"
+            aria-label="Supprimer ce contact" color="warn" *ngIf="isCustomerSelected" (click)="deleteCurrentContact()">
             <mat-icon>delete</mat-icon>
           </button>
         </div>
@@ -137,26 +114,14 @@
         <div class="flex-column" style="overflow: auto" *ngIf="isCustomerSelected">
           <!-- Contact info -->
           <mat-form-field color="primary">
-            <input formControlName="first_name"
-                   autocapitalize="off"
-                   autofocus
-                   spellcheck="false"
-                   required
-                   matInput
-                   i18n-placeholder
-                   placeholder="Prénom">
+            <input formControlName="first_name" autocapitalize="off" autofocus spellcheck="false" required matInput
+              i18n-placeholder placeholder="Prénom">
             <mat-error *ngIf="contactFormGroup?.get('first_name')?.hasError('required')">{{ REQUIRED }}</mat-error>
           </mat-form-field>
 
           <mat-form-field color="primary">
-            <input formControlName="last_name"
-                   autocapitalize="off"
-                   autofocus
-                   spellcheck="false"
-                   required
-                   matInput
-                   i18n-placeholder
-                   placeholder="Nom">
+            <input formControlName="last_name" autocapitalize="off" autofocus spellcheck="false" required matInput
+              i18n-placeholder placeholder="Nom">
             <mat-error *ngIf="contactFormGroup?.get('last_name')?.hasError('required')">{{ REQUIRED }}</mat-error>
           </mat-form-field>
 
@@ -170,20 +135,16 @@
           </mat-form-field>
 
           <mat-form-field color="primary">
-            <input formControlName="company_name"
-                   autocapitalize="off"
-                   autofocus
-                   spellcheck="false"
-                   matInput
-                   i18n-placeholder
-                   placeholder="Société">
+            <input formControlName="company_name" autocapitalize="off" autofocus spellcheck="false" matInput
+              i18n-placeholder placeholder="Société">
           </mat-form-field>
 
           <!-- IDE number -->
           <mat-form-field>
             <mat-label i18n>Numéro d’identification des entreprises (IDE)</mat-label>
             <input matInput type="text" formControlName="ide_id">
-            <mat-error *ngIf="contactFormGroup?.get('ide_id')?.hasError('pattern')" i18n="@@new-order.bad_IDE_format">Mauvais format du numéro IDE, accepté : CHE-012.345.678</mat-error>
+            <mat-error *ngIf="contactFormGroup?.get('ide_id')?.hasError('pattern')"
+              i18n="@@new-order.bad_IDE_format">Mauvais format du numéro IDE, accepté : CHE-012.345.678</mat-error>
           </mat-form-field>
 
           <!-- Phone -->
@@ -237,7 +198,7 @@
         <button color="warn" mat-button (click)="resetForms();stepper.selectedIndex = 0">{{ BACK }}</button>
         <button color="primary" mat-button matStepperPrevious>{{ PREVIOUS }}</button>
         <button color="primary" mat-raised-button [disabled]="contactFormGroup?.invalid"
-                (click)="createOrUpdateDraftOrder()">{{ NEXT }}
+          (click)="createOrUpdateDraftOrder(2)">{{ NEXT }}
         </button>
       </div>
     </form>
@@ -276,19 +237,19 @@
           <!-- Format Column -->
           <ng-container matColumnDef="format">
             <th mat-header-cell *matHeaderCellDef>
-                <mat-select formControlName="formatsForAll" i18n-placeholder placeholder="Même format pour tous les produits"
-                 (selectionChange)="updateAllDataFormats()">
-                  <mat-option *ngFor="let format of allAvailableFormats" [value]="format">
-                    {{ format }}
-                  </mat-option>
-                </mat-select>
-                <mat-spinner *ngIf="isOrderPatchLoading" diameter="16" color="accent"
-                           style="margin-right: 10px"></mat-spinner>
+              <mat-select formControlName="formatsForAll" i18n-placeholder
+                placeholder="Même format pour tous les produits" (selectionChange)="updateAllDataFormats()">
+                <mat-option *ngFor="let format of allAvailableFormats" [value]="format">
+                  {{ format }}
+                </mat-option>
+              </mat-select>
+              <mat-spinner *ngIf="isOrderPatchLoading" diameter="16" color="accent"
+                style="margin-right: 10px"></mat-spinner>
             </th>
             <td mat-cell *matCellDef="let orderItem">
               <mat-form-field color="primary">
-                <mat-select [formControlName]="getOrderItemControlName(orderItem)" required
-                            placeholder="Format" (selectionChange)="updateDataFormat(orderItem)">
+                <mat-select [formControlName]="getOrderItemControlName(orderItem)" required placeholder="Format"
+                  (selectionChange)="updateDataFormat(orderItem)">
                   <mat-option *ngFor="let format of orderItem.available_formats" [value]="format">
                     {{ format }}
                   </mat-option>
@@ -324,10 +285,10 @@
       </div>
 
       <div class="flex-row">
-        <button color="warn" mat-button type="button" (click)="resetForms();stepper.selectedIndex = 0">{{ BACK }}</button>
+        <button color="warn" mat-button type="button" (click)="resetForms();stepper.selectedIndex = 0">{{ BACK
+          }}</button>
         <button color="primary" mat-button matStepperPrevious>{{ PREVIOUS }}</button>
-        <button color="primary" mat-raised-button type="submit"
-                [disabled]="orderItemFormGroup.invalid">
+        <button color="primary" mat-raised-button type="submit" [disabled]="orderItemFormGroup.invalid">
           {{buttonConfirmLabel}}
         </button>
       </div>

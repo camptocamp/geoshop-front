@@ -2,9 +2,9 @@
 
 import Polygon from 'ol/geom/Polygon';
 import GeoJSON from 'ol/format/GeoJSON';
-import {Contact} from './IContact';
-import {PricingStatus} from './IPricing';
-import {IProduct} from './IProduct';
+import { Contact } from './IContact';
+import { PricingStatus } from './IPricing';
+import { IProduct } from './IProduct';
 import { IIdentity } from './IIdentity';
 import { ConstantsService } from '../constants.service';
 
@@ -37,7 +37,7 @@ export type OrderItemStatus = 'PENDING' |
   'REJECTED';
 
 export interface IOrderItem {
-  product: IProduct | string;
+  product: IProduct;
   product_id: number;
   id?: number;
   price?: string;
@@ -123,7 +123,7 @@ export interface IOrder {
 }
 
 export class OrderItem {
-  product: IProduct | string;
+  product: IProduct;
   product_id: number;
   id?: number;
   price?: string;
@@ -168,7 +168,7 @@ export class Order {
   date_ordered: Date | undefined;
   date_processed: Date | undefined;
   invoice_contact: number;
-  download_guid: string|undefined;
+  download_guid: string | undefined;
 
   statusAsReadableIconText: IStatusAsReadableIcon;
   private readonly _isAllOrderItemCalculated: boolean = true;
@@ -199,7 +199,9 @@ export class Order {
   }
 
   get excludedGeomAsGeoJson(): string {
-    console.log(this.excludedGeom);
+    if (!this.excludedGeom) {
+      return "";
+    }
     return new GeoJSON().writeGeometry(this.excludedGeom);
   }
 
@@ -213,7 +215,7 @@ export class Order {
       order_type: this.order_type,
       title: this.title,
       items: this.items.map(x => {
-        x.product = Order.getProductLabel(x);
+        x.product = {label: x.product.label} as IProduct;
         if (!x.data_format) {
           delete x.data_format;
         }
@@ -377,7 +379,7 @@ export class Order {
       orderItem.product.label;
   }
 
-  private initializeGeometry(geom: string | undefined): Polygon|undefined {
+  private initializeGeometry(geom: string | undefined): Polygon | undefined {
     try {
       if (!geom) {
         return;

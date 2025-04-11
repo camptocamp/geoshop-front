@@ -1,18 +1,18 @@
-import {Component, ComponentFactoryResolver, EventEmitter, Inject, Input, LOCALE_ID, OnInit, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import {IOrderDowloadLink, IOrderSummary, Order} from '../../../_models/IOrder';
-import {IProduct} from '../../../_models/IProduct';
+import { Component, ComponentFactoryResolver, EventEmitter, Inject, Input, LOCALE_ID, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { IOrderDowloadLink, IOrderSummary, Order } from '../../../_models/IOrder';
+import { IProduct } from '../../../_models/IProduct';
 import Map from 'ol/Map';
 import VectorSource from 'ol/source/Vector';
-import {GeoHelper} from '../../../_helpers/geoHelper';
-import {OrderItemViewComponent} from '../../../_components/order-item-view/order-item-view.component';
-import {WidgetHostDirective} from '../../../_directives/widget-host.directive';
-import {ApiOrderService} from '../../../_services/api-order.service';
-import {GeoshopUtils} from '../../../_helpers/GeoshopUtils';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {StoreService} from '../../../_services/store.service';
-import {Router} from '@angular/router';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {ConfirmDialogComponent} from '../../../_components/confirm-dialog/confirm-dialog.component';
+import { GeoHelper } from '../../../_helpers/geoHelper';
+import { OrderItemViewComponent } from '../../../_components/order-item-view/order-item-view.component';
+import { WidgetHostDirective } from '../../../_directives/widget-host.directive';
+import { ApiOrderService } from '../../../_services/api-order.service';
+import { GeoshopUtils } from '../../../_helpers/GeoshopUtils';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { StoreService } from '../../../_services/store.service';
+import { Router } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../../_components/confirm-dialog/confirm-dialog.component';
 import Geometry from 'ol/geom/Geometry';
 import { ConstantsService } from 'src/app/constants.service';
 import { Feature } from 'ol';
@@ -20,10 +20,10 @@ import { HttpResponse } from '@angular/common/http';
 
 // TODO tranlsate after updating SnackBar!
 @Component({
-    selector: 'gs2-order',
-    templateUrl: './order.component.html',
-    styleUrls: ['./order.component.scss'],
-    standalone: false
+  selector: 'gs2-order',
+  templateUrl: './order.component.html',
+  styleUrls: ['./order.component.scss'],
+  standalone: false
 })
 export class OrderComponent implements OnInit {
   @Input() order: IOrderSummary;
@@ -41,11 +41,11 @@ export class OrderComponent implements OnInit {
   readonly DOWNLOAD = ConstantsService.DOWNLOAD;
 
   constructor(private cfr: ComponentFactoryResolver,
-              private snackBar: MatSnackBar,
-              private storeService: StoreService,
-              private router: Router,
-              private dialog: MatDialog,
-              private apiOrderService: ApiOrderService) {
+    private snackBar: MatSnackBar,
+    private storeService: StoreService,
+    private router: Router,
+    private dialog: MatDialog,
+    private apiOrderService: ApiOrderService) {
   }
 
   ngOnInit(): void {
@@ -82,7 +82,7 @@ export class OrderComponent implements OnInit {
       copy.id = -1;
       for (const item of copy.items) {
         if ((item.product as IProduct).label !== undefined) {
-          item.product = (item.product as IProduct).label;
+          item.product = item.product as IProduct;
         }
         item.id = undefined;
         item.price = undefined;
@@ -93,9 +93,9 @@ export class OrderComponent implements OnInit {
       this.storeService.addOrderToStore(new Order(copy));
       this.snackBar.open(
         $localize`La commande a été dupliquée dans votre panier.`, 'Ok', {
-          panelClass: 'notification-info',
-          duration: 5000,
-        }
+        panelClass: 'notification-info',
+        duration: 5000,
+      }
       );
       this.router.navigate(['']);
     }

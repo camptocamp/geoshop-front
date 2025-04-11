@@ -22,12 +22,13 @@ import * as fromCart from '../../_store/cart/cart.action';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../_components/confirm-dialog/confirm-dialog.component';
 import { ConstantsService } from 'src/app/constants.service';
+import { ConfigService } from 'src/app/_services/config.service';
 
 @Component({
-    selector: 'gs2-new-order',
-    templateUrl: './new-order.component.html',
-    styleUrls: ['./new-order.component.scss'],
-    standalone: false
+  selector: 'gs2-new-order',
+  templateUrl: './new-order.component.html',
+  styleUrls: ['./new-order.component.scss'],
+  standalone: false
 })
 export class NewOrderComponent implements OnInit, OnDestroy {
 
@@ -114,10 +115,10 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     private apiOrderService: ApiOrderService,
     private apiService: ApiService,
     private storeService: StoreService,
-    private snackBar: MatSnackBar,
     private router: Router,
     private store: Store<AppState>,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private config: ConfigService) {
 
     this.createForms();
   }
@@ -160,6 +161,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
         this.updateForms(this.currentOrder);
       }
     });
+    this._createOrUpdateDraftOrder(undefined, 0);
   }
 
   ngOnDestroy() {
@@ -451,7 +453,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     return a && b && a.id === b.id;
   }
 
-  createOrUpdateDraftOrder() {
+  createOrUpdateDraftOrder(page: number = 0) {
     const invoiceContact = this.getInvoiceContact();
 
     // means the contact was updated
@@ -475,24 +477,23 @@ export class NewOrderComponent implements OnInit, OnDestroy {
           this.apiOrderService.deleteContact(invoiceContact.Id).subscribe(confirmed => {
             if (confirmed) {
               invoiceContact.Id = -1;
-              this._createOrUpdateDraftOrder(invoiceContact);
+              this._createOrUpdateDraftOrder(invoiceContact, page);
             }
           });
         }
         dialogRef = null;
       });
     } else {
-      this._createOrUpdateDraftOrder(invoiceContact);
+      this._createOrUpdateDraftOrder(invoiceContact, page);
     }
   }
 
-  private _createOrUpdateDraftOrder(invoiceContact: Contact | undefined) {
+  private _createOrUpdateDraftOrder(invoiceContact: Contact | undefined, page: number = 0) {
     this.currentOrder.title = this.orderFormGroup.get('title')?.value;
     this.currentOrder.invoice_reference = this.orderFormGroup.get('invoice_reference')?.value;
     this.currentOrder.email_deliver = this.orderFormGroup.get('emailDeliver')?.value;
     this.currentOrder.description = this.orderFormGroup.get('description')?.value;
     this.currentOrder.order_type = this.orderFormGroup.get('orderType')?.value.name;
-
     if (this.currentOrder.id === -1) {
       this.currentOrder.invoiceContact = invoiceContact;
       this.apiOrderService.createOrder(this.currentOrder.toPostAsJson, invoiceContact, this.IsAddressForCurrentUser)
@@ -500,7 +501,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
           if (newOrder) {
             this.resetCustomerForm();
             this.storeService.addOrderToStore(new Order(newOrder as IOrder));
-            this.stepper.next();
+            this.stepper.selectedIndex = page;
           }
         });
     } else {
@@ -509,7 +510,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
           if (newOrder) {
             this.resetCustomerForm();
             this.storeService.addOrderToStore(new Order(newOrder as IOrder));
-            this.stepper.next();
+            this.stepper.selectedIndex = page;
           }
         });
     }
@@ -618,5 +619,10 @@ export class NewOrderComponent implements OnInit, OnDestroy {
         return ConstantsService.ORDER_NAME.PUBLIC;
     };
     return type.name;
+  }
+
+  public billingRequired(): boolean {
+    return !this.config.config?.noBillingForFreeOrder ||
+      !this.products.every(product => product.pricing?.pricing_type === "FREE");
   }
 }
