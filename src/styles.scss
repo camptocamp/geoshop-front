@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+@use "sass:color";
 @use '@angular/material' as mat;
 @use "./palette.scss" as palette;
 
@@ -62,4 +62,20 @@ ul {
   user-select: none;
   opacity: 1;
   font-weight: bold;
+}
+
+.order-item-container,
+.list-group-item,
+.items-container {
+  .item-price {
+    color: var(--mat-sys-primary);
+  }
+
+  &:nth-child(even) {
+    background-color: color.scale(#eee, $lightness: -3%);;
+  }
+
+  &:nth-child(odd) {
+    background-color: #eee;
+  }
 }
