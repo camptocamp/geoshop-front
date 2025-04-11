@@ -612,9 +612,6 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   public getLocalizedTypeName(type: IOrderType): string {
-    if (!type) {
-      return "";
-    }
     switch (type.id) {
       case 1:
         return ConstantsService.ORDER_NAME.PRIVATE;
