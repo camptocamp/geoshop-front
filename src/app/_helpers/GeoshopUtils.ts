@@ -1,5 +1,4 @@
-import { IOrder, IOrderItem } from '../_models/IOrder';
-import { IProduct } from '../_models/IProduct';
+import { IOrder } from '../_models/IOrder';
 
 
 /**

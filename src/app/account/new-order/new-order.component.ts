@@ -463,7 +463,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     return a && b && a.id === b.id;
   }
 
-  createOrUpdateDraftOrder(page: number = 0) {
+  createOrUpdateDraftOrder(page = 0) {
     const invoiceContact = this.getInvoiceContact();
 
     // means the contact was updated
@@ -498,7 +498,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     }
   }
 
-  private _createOrUpdateDraftOrder(invoiceContact: Contact | undefined, page: number = 0) {
+  private _createOrUpdateDraftOrder(invoiceContact: Contact | undefined, page = 0) {
     this.currentOrder.title = this.orderFormGroup.get('title')?.value;
     this.currentOrder.invoice_reference = this.orderFormGroup.get('invoice_reference')?.value;
     this.currentOrder.email_deliver = this.orderFormGroup.get('emailDeliver')?.value;
