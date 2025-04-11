@@ -30,6 +30,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { ConfigService } from '../../_services/config.service';
 
 @Component({
   selector: 'gs2-new-order',

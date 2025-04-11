@@ -29,7 +29,7 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.scss'],
   imports: [
-    DatePipe, IconTextComponent, MatIconModule, MatExpansionModule, CommonModule, MatButtonModule
+    DatePipe, IconTextComponent, MatIconModule, MatExpansionModule, CommonModule, MatButtonModule, WidgetHostDirective
   ],
 })
 export class OrderComponent {
@@ -182,8 +182,7 @@ export class OrderComponent {
   }
 
   private generateOrderItemsElements(order: Order) {
-    const componentFac = this.cfr.resolveComponentFactory(OrderItemViewComponent);
-    const component = this.orderItemTemplate.viewContainerRef.createComponent(componentFac);
+    const component = this.orderItemTemplate.viewContainerRef.createComponent(OrderItemViewComponent);
     component.instance.dataSource = order.items;
     component.instance.order = order;
     component.changeDetectorRef.detectChanges();
