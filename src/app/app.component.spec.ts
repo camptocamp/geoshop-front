@@ -1,13 +1,3 @@
-import { vi } from 'vitest';
-import { beforeEach, describe, expect, it } from 'vitest';
-import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import { AppState } from './_store';
-import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
 import { AccountOverlayComponent } from './_components/account-overlay/account-overlay.component';
 import { HelpOverlayComponent } from './_components/help-overlay/help-overlay.component';
 import { CartOverlayComponent } from './_components/cart-overlay/cart-overlay.component';
@@ -22,7 +12,17 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { Store } from '@ngrx/store';
 import { StsConfigLoader } from 'angular-auth-oidc-client';
+import { of } from 'rxjs';
+import { beforeEach, describe, expect, it , vi } from 'vitest';
+
+import { AppState } from './_store';
+import { AppComponent } from './app.component';
 
 class StoreMock {
   select = vi.fn().mockImplementation(() => of(vi.fn()));

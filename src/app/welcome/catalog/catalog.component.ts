@@ -1,24 +1,30 @@
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
+import { BehaviorSubject, merge, Observable } from 'rxjs';
+
+import { debounceTime, map, mergeMap, scan, switchMap, tap, throttleTime } from 'rxjs/operators';
+import { DialogMetadataComponent } from './dialog-metadata/dialog-metadata.component';
 import { IProduct } from '../../_models/IProduct';
 import { ApiService } from '../../_services/api.service';
 import { ConfigService } from '../../_services/config.service';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { DialogMetadataComponent } from './dialog-metadata/dialog-metadata.component';
-import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
-import { BehaviorSubject, merge, Observable } from 'rxjs';
-import { debounceTime, map, mergeMap, scan, switchMap, tap, throttleTime } from 'rxjs/operators';
-import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+
+
 import { AppState, selectOrder } from '../../_store';
-import { Store } from '@ngrx/store';
-import { MatSnackBar } from '@angular/material/snack-bar';
+
+
 import { deepCopyOrder } from '../../_helpers/GeoshopUtils';
 import { IOrder } from '../../_models/IOrder';
 import { updateOrder } from '../../_store/cart/cart.action';
+
 import { MatFormField, MatInputModule } from '@angular/material/input';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'gs2-catalog',

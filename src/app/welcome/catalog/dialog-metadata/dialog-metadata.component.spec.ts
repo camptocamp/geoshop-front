@@ -1,14 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { DialogMetadataComponent } from './dialog-metadata.component';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { IMetadata } from '../../../_models/IMetadata';
-
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatAccordion } from '@angular/material/expansion';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatAccordion } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+
+import { DialogMetadataComponent } from './dialog-metadata.component';
+
+import { IMetadata } from '../../../_models/IMetadata';
+
 
 describe('DialogMetadataComponent', () => {
   let component: DialogMetadataComponent;

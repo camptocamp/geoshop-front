@@ -1,30 +1,38 @@
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatAccordion } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { select, Store } from '@ngrx/store';
+import Map from 'ol/Map';
 import { BehaviorSubject, merge, of, Subject, Subscription } from 'rxjs';
 import { IOrderSummary, Order } from '../../_models/IOrder';
 import { debounceTime, filter, map, mergeMap, scan, skip, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { MapService } from '../../_services/map.service';
-import Map from 'ol/Map';
 import VectorSource from 'ol/source/Vector';
+
 import { ConfigService } from '../../_services/config.service';
-import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
-import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+
+
 import { generateMiniMap } from '../../_helpers/geoHelper';
 import { ApiOrderService } from '../../_services/api-order.service';
 import { ApiService } from '../../_services/api.service';
 import { extractIdFromUrl } from '../../_helpers/GeoshopUtils';
-import { select, Store } from '@ngrx/store';
+
+
 import { selectOrder } from '../../_store';
 import { deleteOrder } from '../../_store/cart/cart.action';
+
 import Geometry from 'ol/geom/Geometry';
 import { Feature } from 'ol';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 import { OrderComponent } from './order/order.component';
-import { MatAccordion } from '@angular/material/expansion';
-import { MatIconModule } from '@angular/material/icon';
+
 import { MatInputModule, MatLabel } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { AsyncPipe, CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
 
 
 @Component({
