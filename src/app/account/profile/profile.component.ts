@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
@@ -15,6 +16,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./profile.component.scss'],
   imports: [
     RouterLink, MatIconModule, MatCardModule, FormsModule, ReactiveFormsModule, CommonModule,
+    MatButtonModule
   ],
 })
 export class ProfileComponent implements OnInit {
