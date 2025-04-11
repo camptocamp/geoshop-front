@@ -11,7 +11,7 @@ import { deepCopyOrder } from '../../../_helpers/GeoshopUtils';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StoreService } from '../../../_services/store.service';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../_components/confirm-dialog/confirm-dialog.component';
 import Geometry from 'ol/geom/Geometry';
 import * as Constants from '../../../constants';
@@ -29,7 +29,7 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.scss'],
   imports: [
-    DatePipe, IconTextComponent, MatIconModule, MatExpansionModule, CommonModule, MatButtonModule, WidgetHostDirective
+    DatePipe, IconTextComponent, MatIconModule, MatExpansionModule, MatDialogModule, CommonModule, MatButtonModule, WidgetHostDirective
   ],
 })
 export class OrderComponent {

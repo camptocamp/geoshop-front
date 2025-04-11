@@ -26,7 +26,8 @@ import { MatMenuModule } from '@angular/material/menu';
   templateUrl: './cart-overlay.component.html',
   styleUrls: ['./cart-overlay.component.scss'],
   imports: [
-    MatTooltipModule, MatIconModule, MatDividerModule, MatButtonModule, CommonModule, MatDialogModule, MatMenuModule,
+    MatTooltipModule, MatIconModule, MatDividerModule, MatButtonModule, CommonModule, MatDialogModule,
+    MatMenuModule,
   ],
 })
 export class CartOverlayComponent implements OnDestroy {
