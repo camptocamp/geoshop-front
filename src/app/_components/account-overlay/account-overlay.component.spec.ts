@@ -11,7 +11,6 @@ import { of } from 'rxjs';
 import { vi } from 'vitest';
 
 import { AccountOverlayComponent } from './account-overlay.component';
-
 import { AppState } from '../../_store';
 
 class StoreMock {

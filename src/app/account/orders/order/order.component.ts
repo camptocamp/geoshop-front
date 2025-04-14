@@ -7,30 +7,21 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Feature } from 'ol';
 import Map from 'ol/Map';
-
+import Geometry from 'ol/geom/Geometry';
 import VectorSource from 'ol/source/Vector';
-import { IOrderSummary, Order } from '../../../_models/IOrder';
-import { IProduct } from '../../../_models/IProduct';
-
-import { displayMiniMap } from '../../../_helpers/geoHelper';
-import { OrderItemViewComponent } from '../../../_components/order-item-view/order-item-view.component';
-import { WidgetHostDirective } from '../../../_directives/widget-host.directive';
-import { ApiOrderService } from '../../../_services/api-order.service';
-import { deepCopyOrder } from '../../../_helpers/GeoshopUtils';
-
-
-import { StoreService } from '../../../_services/store.service';
-
 
 import { ConfirmDialogComponent } from '../../../_components/confirm-dialog/confirm-dialog.component';
-
-import Geometry from 'ol/geom/Geometry';
-
+import { OrderItemViewComponent } from '../../../_components/order-item-view/order-item-view.component';
+import { WidgetHostDirective } from '../../../_directives/widget-host.directive';
+import { deepCopyOrder } from '../../../_helpers/GeoshopUtils';
+import { displayMiniMap } from '../../../_helpers/geoHelper';
+import { IOrderSummary, Order } from '../../../_models/IOrder';
+import { IProduct } from '../../../_models/IProduct';
+import { ApiOrderService } from '../../../_services/api-order.service';
+import { StoreService } from '../../../_services/store.service';
 import * as Constants from '../../../constants';
-
-import { Feature } from 'ol';
-
 import { IconTextComponent } from '../../../shared/icon-text/icon-text.component';
 
 

@@ -4,7 +4,6 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { ConfigService } from './config.service';
-
 import { IApiResponse } from '../_models/IApi';
 import { ICredentials, IIdentity } from '../_models/IIdentity';
 import { IMetadata } from '../_models/IMetadata';

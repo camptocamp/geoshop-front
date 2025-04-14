@@ -19,8 +19,6 @@ import { Order } from '../../_models/IOrder';
 import { ApiOrderService } from '../../_services/api-order.service';
 import { ConfigService } from '../../_services/config.service';
 import { MapService } from '../../_services/map.service';
-
-
 import * as Constants from '../../constants';
 
 
