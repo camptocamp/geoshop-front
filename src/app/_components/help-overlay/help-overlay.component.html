@@ -1,39 +1,28 @@
 <!-- TODO links are pointing to NE speciffic locations-->
-<a color="primary" mat-button href="https://youtu.be/KIkISZdYSU0" target="_blank">
-  <div class="flex-row">
-    <mat-icon>support</mat-icon>
-    <span i18n="@@help.show">Voir l'aide</span>
-  </div>
+<a mat-menu-item href="https://youtu.be/KIkISZdYSU0" target="_blank">
+  <mat-icon>support</mat-icon>
+  <span i18n="@@help.show">Voir l'aide</span>
 </a>
 
-<a *ngIf="tariffsUrl" color="primary" mat-button href="{{tariffsUrl}}" target="_blank">
-  <div class="flex-row" i18n>
-    Informations sur la tarification
-  </div>
+<a *ngIf="tariffsUrl" mat-menu-item href="{{tariffsUrl}}" target="_blank">
+  Informations sur la tarification
 </a>
 
-<a *ngIf="conditionsUrl" color="primary" mat-button href="{{conditionsUrl}}" target="_blank">
-  <div class="flex-row" i18n>
-    Conditions d'utilisation
-  </div>
+<a *ngIf="conditionsUrl" mat-menu-item href="{{conditionsUrl}}" target="_blank">
+  Conditions d'utilisation
 </a>
 
 <!-- TODO: add links to the pricing document -->
 <!-- TODO: add links to the usage conditions -->
-<hr>
-<span class="padding-horizontal-15 questions" i18n>Avez-vous des questions ?</span>
+<mat-divider></mat-divider>
+<span class="mat-mdc-menu-item" i18n>Avez-vous des questions ?</span>
 
-<a mat-button color="primary" [href]="'tel:' + phoneNumber">
-  <div class="flex-row">
-    <mat-icon color="primary" i18n="@@main.phone">phone</mat-icon>
-    <span>{{phoneLabel}}</span>
-  </div>
+<a mat-menu-item [href]="'tel:' + phoneNumber">
+  <mat-icon color="primary" i18n="@@main.phone">phone</mat-icon>
+  <span>{{phoneLabel}}</span>
 </a>
 
-<a mat-button color="primary" [href]="'mailto:' + email">
-  <div class="flex-row">
-    <mat-icon color="primary" i18n="@@main.email">email</mat-icon>
-    <span>{{email}}</span>
-  </div>
+<a mat-menu-item color="primary" [href]="'mailto:' + email">
+  <mat-icon color="primary" i18n="@@main.email">email</mat-icon>
+  <span>{{email}}</span>
 </a>
-

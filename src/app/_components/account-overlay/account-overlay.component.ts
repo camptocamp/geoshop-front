@@ -10,13 +10,14 @@ import { ConfigService } from '../../_services/config.service';
 import { AppState, getUser, isLoggedIn } from '../../_store';
 import * as fromAuth from '../../_store/auth/auth.action';
 import * as fromCart from '../../_store/cart/cart.action';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'gs2-account-overlay',
   templateUrl: './account-overlay.component.html',
   styleUrls: ['./account-overlay.component.scss'],
   imports: [
-    MatIconModule, AsyncPipe, RouterLink, CommonModule, MatButtonModule
+    MatIconModule, AsyncPipe, RouterLink, CommonModule, MatButtonModule, MatMenuModule
   ],
 })
 export class AccountOverlayComponent {
