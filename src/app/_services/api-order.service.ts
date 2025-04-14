@@ -5,7 +5,6 @@ import { Observable, of, zip } from 'rxjs';
 import { catchError, flatMap, map } from 'rxjs/operators';
 
 import { ConfigService } from './config.service';
-
 import { deepCopyOrder, extractIdFromUrl } from '../_helpers/GeoshopUtils';
 import { IApiResponse } from '../_models/IApi';
 import { Contact, IContact } from '../_models/IContact';

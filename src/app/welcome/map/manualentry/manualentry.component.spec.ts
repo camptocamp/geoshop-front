@@ -9,7 +9,6 @@ import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { vi, describe, it, beforeEach, expect } from 'vitest';
 
 import { ManualentryComponent } from './manualentry.component';
-
 import { IPageFormat } from '../../../_models/IConfig';
 import { IManualEntryDialogData } from '../../../_models/IManualEntryDialog';
 

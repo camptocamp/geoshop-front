@@ -2,6 +2,7 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, HostBinding } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
@@ -10,7 +11,6 @@ import { ConfigService } from '../../_services/config.service';
 import { AppState, getUser, isLoggedIn } from '../../_store';
 import * as fromAuth from '../../_store/auth/auth.action';
 import * as fromCart from '../../_store/cart/cart.action';
-import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'gs2-account-overlay',

@@ -4,27 +4,23 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormField, MatInputModule } from '@angular/material/input';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
-
 import { debounceTime, map, mergeMap, scan, switchMap, tap, throttleTime } from 'rxjs/operators';
+
 import { DialogMetadataComponent } from './dialog-metadata/dialog-metadata.component';
+import { deepCopyOrder } from '../../_helpers/GeoshopUtils';
+import { IOrder } from '../../_models/IOrder';
 import { IProduct } from '../../_models/IProduct';
 import { ApiService } from '../../_services/api.service';
 import { ConfigService } from '../../_services/config.service';
-
-
 import { AppState, selectOrder } from '../../_store';
-
-
-import { deepCopyOrder } from '../../_helpers/GeoshopUtils';
-import { IOrder } from '../../_models/IOrder';
 import { updateOrder } from '../../_store/cart/cart.action';
 
-import { MatFormField, MatInputModule } from '@angular/material/input';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'gs2-catalog',

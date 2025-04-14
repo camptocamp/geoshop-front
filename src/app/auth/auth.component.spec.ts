@@ -8,27 +8,23 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { StsConfigLoader } from 'angular-auth-oidc-client';
+import { of } from 'rxjs';
 import { vi } from 'vitest';
 
 import { AuthComponent } from './auth.component';
-
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatSelectModule } from '@angular/material/select';
-
 import { ForgetComponent } from './forget/forget.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetComponent } from './reset/reset.component';
-
-import { Store } from '@ngrx/store';
-
 import { ConfigService } from '../_services/config.service';
 import { AppState } from '../_store';
 
-import { of } from 'rxjs';
-import { RouterModule } from '@angular/router';
-import { StsConfigLoader } from 'angular-auth-oidc-client';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 class StoreMock {
   select = vi.fn().mockImplementation(() => of(vi.fn()));

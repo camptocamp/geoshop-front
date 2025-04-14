@@ -4,26 +4,24 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatTableModule } from '@angular/material/table';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Store } from '@ngrx/store';
+import { EMPTY } from 'rxjs';
 import { vi } from 'vitest';
 
 import { NewOrderComponent } from './new-order.component';
-
-
 import { IConfig } from '../../_models/IConfig';
 import { ApiOrderService } from '../../_services/api-order.service';
-import { AppState } from '../../_store';
-import { EMPTY } from 'rxjs';
-
 import { ConfigService } from '../../_services/config.service';
+import { AppState } from '../../_store';
 
-import { MatInputModule } from '@angular/material/input';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
+
 
 class StoreMock {
   select = vi.fn(() => EMPTY);

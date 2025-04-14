@@ -4,8 +4,6 @@ import { of } from 'rxjs';
 import { vi } from 'vitest';
 
 import { StoreService } from './store.service';
-
-
 import { AppState } from '../_store';
 
 
