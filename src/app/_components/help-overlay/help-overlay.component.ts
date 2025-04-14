@@ -4,6 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ConfigService } from '../../_services/config.service';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 @Component({
@@ -11,7 +13,7 @@ import { ConfigService } from '../../_services/config.service';
   templateUrl: './help-overlay.component.html',
   styleUrls: ['./help-overlay.component.scss'],
   imports: [
-    MatButtonModule, MatIconModule, CommonModule,
+    MatButtonModule, MatIconModule, CommonModule, MatMenuModule, MatDividerModule
   ],
 })
 export class HelpOverlayComponent {
