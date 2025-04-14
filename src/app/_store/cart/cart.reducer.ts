@@ -1,7 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import * as CartActions from './cart.action';
-
 import { IOrder } from '../../_models/IOrder';
 
 export interface CartState extends IOrder {

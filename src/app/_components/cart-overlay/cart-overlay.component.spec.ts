@@ -10,8 +10,6 @@ import { of } from 'rxjs';
 import { vi } from 'vitest';
 
 import { CartOverlayComponent } from './cart-overlay.component';
-
-
 import { AppState } from '../../_store';
 
 

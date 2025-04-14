@@ -8,8 +8,6 @@ import { vi } from 'vitest';
 
 import { ConfigService } from './config.service';
 import { MapService } from './map.service';
-
-
 import { AppState } from '../_store';
 
 

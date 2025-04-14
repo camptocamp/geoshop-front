@@ -6,7 +6,6 @@ import { Contact } from './IContact';
 import { IIdentity } from './IIdentity';
 import { PricingStatus } from './IPricing';
 import { IProduct } from './IProduct';
-
 import * as Constants from '../constants';
 
 export interface IOrderType {

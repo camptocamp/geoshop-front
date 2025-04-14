@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Feature } from 'ol';
 import Map from 'ol/Map';
+import Geometry from 'ol/geom/Geometry';
 import VectorSource from 'ol/source/Vector';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -16,7 +17,6 @@ import { ApiOrderService } from '../../_services/api-order.service';
 import { ConfigService } from '../../_services/config.service';
 import { MapService } from '../../_services/map.service';
 
-import Geometry from 'ol/geom/Geometry';
 
 
 @Component({

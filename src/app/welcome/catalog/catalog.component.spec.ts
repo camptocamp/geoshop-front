@@ -8,14 +8,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 import { vi } from 'vitest';
 
 import { CatalogComponent } from './catalog.component';
-
-
 import { AppState } from '../../_store';
 
-import { of } from 'rxjs';
 
 class StoreMock {
   select =  vi.fn().mockImplementation(() => of(vi.fn()));

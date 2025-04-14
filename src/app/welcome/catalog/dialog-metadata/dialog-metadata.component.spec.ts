@@ -7,7 +7,6 @@ import { MatAccordion } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 
 import { DialogMetadataComponent } from './dialog-metadata.component';
-
 import { IMetadata } from '../../../_models/IMetadata';
 
 

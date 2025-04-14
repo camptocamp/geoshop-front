@@ -19,20 +19,59 @@ export default tseslint.config(
             order: "asc",
           },
           "groups": [
+            "type",
+            "internal",
+            ["unknown"],
             "external",
             "builtin",
-            "internal",
-            "sibling",
-            "parent",
-            "index"
+            ["parent", "sibling", "index"],
           ],
-        }
+          "pathGroups": [
+            {
+              "pattern": "rxjs",
+              "group": "internal"
+            },
+            {
+              "pattern": "rxjs/**",
+              "group": "internal"
+            },
+            {
+              "pattern": "ol",
+              "group": "unknown"
+            },
+            {
+              "pattern": "ol/**",
+              "group": "unknown"
+            }
+          ],
+        },
+      ],
+      '@angular-eslint/directive-selector': [
+        'error', {
+          type: 'attribute',
+          prefix: 'gs2',
+          style: 'camelCase',
+        },
+      ],
+      '@angular-eslint/component-selector': [
+        'error', {
+          type: 'element',
+          prefix: 'gs2',
+          style: 'kebab-case',
+        },
       ],
     },
     languageOptions: {
       parserOptions: {
-        projectService: true,
         tsconfigRootDir: import.meta.dirname,
+        project: './tsconfig.json',
+      },
+    },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: './tsconfig.json', // Ensure this path is correct
+        },
       },
     },
   },

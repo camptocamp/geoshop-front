@@ -6,7 +6,6 @@ import { BehaviorSubject } from 'rxjs';
 
 import { CatalogComponent } from './catalog/catalog.component';
 import { MapComponent } from './map/map.component';
-
 import { IIdentity } from '../_models/IIdentity';
 import { MapService } from '../_services/map.service';
 import { AppState, getUser } from '../_store';

@@ -3,8 +3,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 import { ConfirmDialogComponent } from './confirm-dialog.component';
-
-
 import { SafeHtmlPipe } from '../..//_pipes/SafeHtmlPipe';
 
 describe('ConfirmDialogComponent', () => {

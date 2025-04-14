@@ -3,27 +3,24 @@ import { Component, OnDestroy } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
-
-import { filter } from 'rxjs/operators';
-import { AppState, getUser, selectCartTotal, selectOrder } from './_store';
-import { combineLatest, Subscription } from 'rxjs';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { combineLatest, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
-import * as fromAuth from './_store/auth/auth.action';
-import { ConfigService } from './_services/config.service';
-
-
-import { HelpOverlayComponent } from './_components/help-overlay/help-overlay.component';
 import { AccountOverlayComponent } from './_components/account-overlay/account-overlay.component';
 import { CartOverlayComponent } from './_components/cart-overlay/cart-overlay.component';
+import { HelpOverlayComponent } from './_components/help-overlay/help-overlay.component';
+import { ConfigService } from './_services/config.service';
+import { AppState, getUser, selectCartTotal, selectOrder } from './_store';
+import * as fromAuth from './_store/auth/auth.action';
 
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'gs2-root',

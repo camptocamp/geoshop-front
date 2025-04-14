@@ -6,30 +6,22 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
 
+import { deepCopyOrder } from '../../_helpers/GeoshopUtils';
+import { IOrder, Order } from '../../_models/IOrder';
 import { IProduct } from '../../_models/IProduct';
+import { ApiOrderService } from '../../_services/api-order.service';
+import { ApiService } from '../../_services/api.service';
+import { MapService } from '../../_services/map.service';
 import { AppState, isLoggedIn, selectOrder } from '../../_store';
 import * as fromCart from '../../_store/cart/cart.action';
 import { DialogMetadataComponent } from '../../welcome/catalog/dialog-metadata/dialog-metadata.component';
-
-
-import { ApiService } from '../../_services/api.service';
-
-
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
-
-import { ApiOrderService } from '../../_services/api-order.service';
-
-import { Subject } from 'rxjs';
-
-import { MapService } from '../../_services/map.service';
-import { IOrder, Order } from '../../_models/IOrder';
-import { deepCopyOrder } from '../../_helpers/GeoshopUtils';
-
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'gs2-cart-overlay',

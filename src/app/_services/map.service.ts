@@ -3,56 +3,51 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+
 import { Collection, Feature, Overlay } from 'ol';
 import { FeatureLike } from 'ol/Feature';
 import Map from 'ol/Map';
 import View from 'ol/View';
-import BaseLayer from 'ol/layer/Base';
-
-import TileLayer from 'ol/layer/Tile';
-import { ConfigService } from './config.service';
-
-// Openlayers imports
-import LayerGroup from 'ol/layer/Group';
 import ScaleLine from 'ol/control/ScaleLine';
-import { defaults as defaultInteractions, DragAndDrop , Draw, Modify } from 'ol/interaction';
-import VectorSource from 'ol/source/Vector';
-import VectorLayer from 'ol/layer/Vector';
-import Polygon, { fromExtent } from 'ol/geom/Polygon';
-import WMTS, { Options } from 'ol/source/WMTS';
-import WMTSTileGrid from 'ol/tilegrid/WMTS';
-import { register } from 'ol/proj/proj4';
-import DragPan from 'ol/interaction/DragPan';
-import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
-import Point from 'ol/geom/Point';
-import GeoJSON from 'ol/format/GeoJSON';
-import Projection from 'ol/proj/Projection';
-import { buffer, getCenter, getArea } from 'ol/extent';
-import MultiPoint from 'ol/geom/MultiPoint';
-import KML from 'ol/format/KML';
 import { Coordinate } from 'ol/coordinate';
+import { shiftKeyOnly } from 'ol/events/condition';
+import { buffer, getCenter, getArea } from 'ol/extent';
+import FeatureFormat from 'ol/format/Feature';
+import GeoJSON from 'ol/format/GeoJSON';
+import KML from 'ol/format/KML';
 import Geometry from 'ol/geom/Geometry';
+import MultiPoint from 'ol/geom/MultiPoint';
+import Point from 'ol/geom/Point';
+import Polygon, { fromExtent } from 'ol/geom/Polygon';
+import { defaults as defaultInteractions, DragAndDrop, Draw, Modify } from 'ol/interaction';
+import { DragAndDropEvent } from 'ol/interaction/DragAndDrop';
+import DragPan from 'ol/interaction/DragPan';
+import { createBox } from 'ol/interaction/Draw';
+import BaseLayer from 'ol/layer/Base';
+import LayerGroup from 'ol/layer/Group';
+import TileLayer from 'ol/layer/Tile';
+import VectorLayer from 'ol/layer/Vector';
+import Projection from 'ol/proj/Projection';
+import { register } from 'ol/proj/proj4';
 import TileSource from 'ol/source/Tile';
-
-// @ts-expect-error: importing an untyped JavaScript module.
+import VectorSource from 'ol/source/Vector';
+import WMTS, { Options } from 'ol/source/WMTS';
+import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
+import WMTSTileGrid from 'ol/tilegrid/WMTS';
 import Transform from 'ol-ext/interaction/Transform';
-import { BehaviorSubject, of } from 'rxjs';
-
-import { CoordinateSearchService } from './coordinate-search.service';
-
-import { formatArea } from '../_helpers/geoHelper';
-
 import proj4 from 'proj4';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+import { ConfigService } from './config.service';
+import { CoordinateSearchService } from './coordinate-search.service';
+import { formatArea } from '../_helpers/geoHelper';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { IBasemap, IPageFormat } from '../_models/IConfig';
 import { AppState, selectOrder } from '../_store';
 import { select, Store } from '@ngrx/store';
 import { updateGeometry } from '../_store/cart/cart.action';
 
-import { DragAndDropEvent } from 'ol/interaction/DragAndDrop';
-import { shiftKeyOnly } from 'ol/events/condition';
-import { createBox } from 'ol/interaction/Draw';
 import { getArea as getAreaSphere } from 'ol/sphere.js';
 import { ApiOrderService } from './api-order.service';
 import { Order } from '../_models/IOrder';

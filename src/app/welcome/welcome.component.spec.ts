@@ -22,23 +22,20 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularSplitModule } from 'angular-split';
-import { MapComponent } from './map/map.component';
-import { CatalogComponent } from './catalog/catalog.component';
-import { DownloadComponent } from './download/download.component';
-import { ValidateComponent } from './validate/validate.component';
-import { DialogMetadataComponent } from './catalog/dialog-metadata/dialog-metadata.component';
-import { ManualentryComponent } from './map/manualentry/manualentry.component';
-
-import { WelcomeComponent } from './welcome.component';
-
-import { ConfigService } from '../_services/config.service';
-
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { AngularSplitModule } from 'angular-split';
 import { of } from 'rxjs';
 import { vi } from 'vitest';
 
+import { CatalogComponent } from './catalog/catalog.component';
+import { DialogMetadataComponent } from './catalog/dialog-metadata/dialog-metadata.component';
+import { DownloadComponent } from './download/download.component';
+import { ManualentryComponent } from './map/manualentry/manualentry.component';
+import { MapComponent } from './map/map.component';
+import { ValidateComponent } from './validate/validate.component';
+import { WelcomeComponent } from './welcome.component';
+import { ConfigService } from '../_services/config.service';
 import { AppState } from '../_store';
 
 class StoreMock {

@@ -1,26 +1,26 @@
-import { AccountOverlayComponent } from './_components/account-overlay/account-overlay.component';
-import { HelpOverlayComponent } from './_components/help-overlay/help-overlay.component';
-import { CartOverlayComponent } from './_components/cart-overlay/cart-overlay.component';
 import { CommonModule } from '@angular/common';
-import { MatRippleModule } from '@angular/material/core';
-import { MatBadgeModule } from '@angular/material/badge';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { ActivatedRoute, RouterModule } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonModule } from '@angular/material/button';
+import { MatRippleModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { StsConfigLoader } from 'angular-auth-oidc-client';
 import { of } from 'rxjs';
 import { beforeEach, describe, expect, it , vi } from 'vitest';
 
+import { AccountOverlayComponent } from './_components/account-overlay/account-overlay.component';
+import { CartOverlayComponent } from './_components/cart-overlay/cart-overlay.component';
+import { HelpOverlayComponent } from './_components/help-overlay/help-overlay.component';
 import { AppState } from './_store';
 import { AppComponent } from './app.component';
 
