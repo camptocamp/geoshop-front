@@ -1,9 +1,10 @@
-import { Store , AppState } from '@app/store';
+import { AppState } from '@app/store';
 
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { vi } from 'vitest';
 
