@@ -1,3 +1,9 @@
+import * as Constants from '@app/constants';
+import { ICredentials } from '@app/models/IIdentity';
+import { ConfigService } from '@app/services/config.service';
+import { AppState } from '@app/store';
+import * as AuthActions from '@app/store/auth/auth.action';
+
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostBinding, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
@@ -10,11 +16,6 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 
-import { ICredentials } from '../../_models/IIdentity';
-import { ConfigService } from '../../_services/config.service';
-import { AppState } from '../../_store';
-import * as AuthActions from '../../_store/auth/auth.action';
-import * as Constants from '../../constants';
 
 
 

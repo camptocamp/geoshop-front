@@ -1,3 +1,8 @@
+import { IBasemap, IPageFormat } from '@app/models/IConfig';
+import { ConfigService } from '@app/services/config.service';
+import { CustomIconService } from '@app/services/custom-icon.service';
+import { MapService } from '@app/services/map.service';
+
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
@@ -16,10 +21,6 @@ import Geometry from 'ol/geom/Geometry';
 import { debounceTime, switchMap } from 'rxjs/operators';
 
 import { ManualentryComponent } from './manualentry/manualentry.component';
-import { IBasemap, IPageFormat } from '../../_models/IConfig';
-import { ConfigService } from '../../_services/config.service';
-import { CustomIconService } from '../../_services/custom-icon.service';
-import { MapService } from '../../_services/map.service';
 
 export const nameOfCategoryForGeocoder: Record<string, string> = { // TODO this should be translated
   zipcode: 'Ortschaftenverzeichnis PLZ',

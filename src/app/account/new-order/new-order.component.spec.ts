@@ -1,3 +1,8 @@
+import { IConfig } from '@app/models/IConfig';
+import { ApiOrderService } from '@app/services/api-order.service';
+import { ConfigService } from '@app/services/config.service';
+import { AppState } from '@app/store';
+
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -16,10 +21,8 @@ import { EMPTY } from 'rxjs';
 import { vi } from 'vitest';
 
 import { NewOrderComponent } from './new-order.component';
-import { IConfig } from '../../_models/IConfig';
-import { ApiOrderService } from '../../_services/api-order.service';
-import { ConfigService } from '../../_services/config.service';
-import { AppState } from '../../_store';
+
+
 
 
 

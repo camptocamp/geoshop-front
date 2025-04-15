@@ -1,3 +1,17 @@
+import { ConfirmDialogComponent } from '@app/components/confirm-dialog/confirm-dialog.component';
+import * as Constants from '@app/constants';
+import { PHONE_REGEX, IDE_REGEX, EMAIL_REGEX, EXTRACT_FORBIDDEN_REGEX } from '@app/helpers/regex';
+import { Contact, IContact } from '@app/models/IContact';
+import { IIdentity } from '@app/models/IIdentity';
+import { IOrder, IOrderType, Order, IOrderItem } from '@app/models/IOrder';
+import { IProduct } from '@app/models/IProduct';
+import { ApiOrderService } from '@app/services/api-order.service';
+import { ApiService } from '@app/services/api.service';
+import { ConfigService } from '@app/services/config.service';
+import { StoreService } from '@app/services/store.service';
+import { AppState, getUser, selectOrder, selectAllProduct } from '@app/store';
+import * as fromCart from '@app/store/cart/cart.action';
+
 import { AsyncPipe, CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, HostBinding, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
@@ -19,19 +33,6 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, filter, map, mergeMap, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
-import { ConfirmDialogComponent } from '../../_components/confirm-dialog/confirm-dialog.component';
-import { PHONE_REGEX, IDE_REGEX, EMAIL_REGEX, EXTRACT_FORBIDDEN_REGEX } from '../../_helpers/regex';
-import { Contact, IContact } from '../../_models/IContact';
-import { IIdentity } from '../../_models/IIdentity';
-import { IOrder, IOrderType, Order, IOrderItem } from '../../_models/IOrder';
-import { IProduct } from '../../_models/IProduct';
-import { ApiOrderService } from '../../_services/api-order.service';
-import { ApiService } from '../../_services/api.service';
-import { ConfigService } from '../../_services/config.service';
-import { StoreService } from '../../_services/store.service';
-import { AppState, getUser, selectOrder, selectAllProduct } from '../../_store';
-import * as fromCart from '../../_store/cart/cart.action';
-import * as Constants from '../../constants';
 
 
 

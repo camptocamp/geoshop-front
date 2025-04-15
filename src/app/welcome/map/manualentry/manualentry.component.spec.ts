@@ -1,3 +1,6 @@
+import { IPageFormat } from '@app/models/IConfig';
+import { IManualEntryDialogData } from '@app/models/IManualEntryDialog';
+
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,8 +12,6 @@ import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { vi, describe, it, beforeEach, expect } from 'vitest';
 
 import { ManualentryComponent } from './manualentry.component';
-import { IPageFormat } from '../../../_models/IConfig';
-import { IManualEntryDialogData } from '../../../_models/IManualEntryDialog';
 
 export class MatDialogRefMock {
   close = vi.fn();

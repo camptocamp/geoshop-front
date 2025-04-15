@@ -1,3 +1,7 @@
+import { IMetadata } from '@app/models/IMetadata';
+import { SafeHtmlPipe } from '@app/pipes/SafeHtmlPipe';
+import { ConfigService } from '@app/services/config.service';
+
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle, MatCardTitleGroup } from '@angular/material/card';
@@ -6,9 +10,6 @@ import { MatAccordion, MatExpansionPanel, MatExpansionPanelDescription, MatExpan
 import { MatIcon } from '@angular/material/icon';
 import { MatList, MatListItem } from '@angular/material/list';
 
-import { IMetadata } from '../../../_models/IMetadata';
-import { SafeHtmlPipe } from '../../../_pipes/SafeHtmlPipe';
-import { ConfigService } from '../../../_services/config.service';
 
 @Component({
   selector: 'gs2-dialog-metadata',

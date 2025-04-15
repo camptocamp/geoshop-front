@@ -1,3 +1,7 @@
+import { ConfigService } from '@app/services/config.service';
+import { CustomIconService } from '@app/services/custom-icon.service';
+import { AppState } from '@app/store';
+
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -17,9 +21,6 @@ import { of } from 'rxjs';
 import { vi } from 'vitest';
 
 import { MapComponent } from './map.component';
-import { AppState } from '../../../app/_store';
-import { ConfigService } from '../../_services/config.service';
-import { CustomIconService } from '../../_services/custom-icon.service';
 
 
 class StoreMock {
