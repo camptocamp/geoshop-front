@@ -1,3 +1,5 @@
+import { AppState } from '@app/store';
+
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -12,11 +14,10 @@ import { of } from 'rxjs';
 import { vi } from 'vitest';
 
 import { CatalogComponent } from './catalog.component';
-import { AppState } from '../../_store';
 
 
 class StoreMock {
-  select =  vi.fn().mockImplementation(() => of(vi.fn()));
+  select = vi.fn().mockImplementation(() => of(vi.fn()));
   dispatch = vi.fn();
 }
 
@@ -26,7 +27,7 @@ describe('CatalogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[
+      imports: [
         ReactiveFormsModule,
         MatFormFieldModule,
         MatIconModule,
@@ -35,13 +36,13 @@ describe('CatalogComponent', () => {
         NoopAnimationsModule,
         CatalogComponent,
       ],
-      providers:[
-        {provide: Store<AppState>, useClass: StoreMock},
+      providers: [
+        { provide: Store<AppState>, useClass: StoreMock },
         provideHttpClient(),
         provideHttpClientTesting(),
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

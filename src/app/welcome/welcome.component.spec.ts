@@ -1,5 +1,9 @@
 
 
+import { ConfigService } from '@app/services/config.service';
+import { AppState } from '@app/store';
+import { DialogMetadataComponent } from '@app/welcome/catalog/dialog-metadata/dialog-metadata.component';
+
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { provideHttpClient } from '@angular/common/http';
@@ -29,14 +33,13 @@ import { of } from 'rxjs';
 import { vi } from 'vitest';
 
 import { CatalogComponent } from './catalog/catalog.component';
-import { DialogMetadataComponent } from './catalog/dialog-metadata/dialog-metadata.component';
 import { DownloadComponent } from './download/download.component';
 import { ManualentryComponent } from './map/manualentry/manualentry.component';
 import { MapComponent } from './map/map.component';
 import { ValidateComponent } from './validate/validate.component';
 import { WelcomeComponent } from './welcome.component';
-import { ConfigService } from '../_services/config.service';
-import { AppState } from '../_store';
+
+
 
 class StoreMock {
   select = vi.fn().mockImplementation(() => of(vi.fn()));
