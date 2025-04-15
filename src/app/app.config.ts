@@ -1,6 +1,7 @@
 
 import { routes } from '@app/app.routes';
 import { interceptor as authInterceptor } from '@app/interceptors/authInterceptor';
+import { interceptor as errorInterceptor } from '@app/interceptors/errorInterceptor';
 import { ConfigService } from '@app/services/config.service';
 import * as store from '@app/store';
 import { AuthEffects } from '@app/store/auth/auth.effects';
@@ -29,7 +30,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(
       withFetch(),
-      withInterceptors([authInterceptor]),
+      withInterceptors([authInterceptor, errorInterceptor]),
     ),
     provideAuth({
       loader: {
