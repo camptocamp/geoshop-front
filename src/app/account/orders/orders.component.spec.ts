@@ -1,55 +1,72 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ConfigService } from '@app/services/config.service';
+import { AppState } from '@app/store';
 
-import { OrdersComponent } from './orders.component';
-import { HttpClient, HttpHandler } from '@angular/common/http';
-import { of } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/_store';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatIcon } from '@angular/material/icon';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatProgressSpinner, MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CdkScrollableModule, ScrollingModule } from '@angular/cdk/scrolling';
 import { MatAccordion } from '@angular/material/expansion';
-import { NoopAnimationDriver } from '@angular/animations/browser';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
+import { vi } from 'vitest';
+
+import { OrderComponent } from './order/order.component';
+import { OrdersComponent } from './orders.component';
+
+
 
 class StoreMock {
-  select =  jasmine.createSpy().and.returnValue(of(jasmine.createSpy()));
-  dispatch = jasmine.createSpy();
-  pipe =  jasmine.createSpy().and.returnValue(of(jasmine.createSpy()));
+  select = vi.fn().mockImplementation(() => of(vi.fn()));
+  dispatch = vi.fn();
+  pipe = vi.fn().mockImplementation(() => of(vi.fn()));
+}
+
+class ConfigServiceMock {
+  public config = {
+    basemaps: [vi.fn()],
+    initialExtent: [0, 0, 1, 1],
+    pageformats: [{ name: "", height: 1, width: 1 }],
+  }
 }
 
 describe('OrdersComponent', () => {
+  global.ResizeObserver = global.ResizeObserver || vi.fn().mockImplementation(() => ({
+    disconnect: vi.fn(),
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+  }));
+
   let component: OrdersComponent;
   let fixture: ComponentFixture<OrdersComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[
-         MatFormFieldModule,
-         MatButtonModule,
-         MatInputModule,
-         MatIcon,
-         ReactiveFormsModule,
-         MatProgressSpinnerModule,
-         CdkScrollableModule,
-         ScrollingModule,
-         MatAccordion,
-         NoopAnimationsModule,
-         RouterModule.forRoot([]),
+      imports: [
+        MatProgressSpinnerModule, OrderComponent, MatAccordion, ScrollingModule, MatIconModule,
+        FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, AsyncPipe,
+        CommonModule, MatButtonModule,
+        NoopAnimationsModule,
+        OrdersComponent,
+        RouterModule.forRoot([]),
       ],
-      declarations: [ OrdersComponent ],
       providers: [
-        {provide: Store<AppState>, useClass: StoreMock},
-        HttpClient,
-        HttpHandler,
+        { provide: ActivatedRoute, useValue: { queryParamMap: of() } },
+        { provide: ConfigService, useClass: ConfigServiceMock },
+        { provide: Store<AppState>, useClass: StoreMock },
+        provideHttpClient(),
+        provideHttpClientTesting()
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

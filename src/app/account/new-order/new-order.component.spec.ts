@@ -1,28 +1,35 @@
+import { IConfig } from '@app/models/IConfig';
+import { ApiOrderService } from '@app/services/api-order.service';
+import { ConfigService } from '@app/services/config.service';
+import { AppState } from '@app/store';
+
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatTableModule } from '@angular/material/table';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Store } from '@ngrx/store';
+import { EMPTY } from 'rxjs';
+import { vi } from 'vitest';
 
 import { NewOrderComponent } from './new-order.component';
-import { HttpClient, HttpHandler } from '@angular/common/http';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/_store';
-import { EMPTY, of } from 'rxjs';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatRadioModule } from '@angular/material/radio';
-import { ApiOrderService } from 'src/app/_services/api-order.service';
-import { ConfigService } from 'src/app/_services/config.service';
-import { IConfig } from 'src/app/_models/IConfig';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
+
+
+
+
 
 class StoreMock {
-  select =  jasmine.createSpy().and.returnValue(EMPTY);
-  dispatch = jasmine.createSpy();
-  pipe =  jasmine.createSpy().and.returnValue(EMPTY);
+  select = vi.fn(() => EMPTY);
+  dispatch = vi.fn();
+  pipe = vi.fn(() => EMPTY);
 }
 
 class MockConfig {
@@ -37,28 +44,28 @@ describe('NewOrderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[
-          MatStepperModule,
-          MatFormFieldModule,
-          MatSelectModule,
-          MatRadioModule,
-          MatTableModule,
-          ReactiveFormsModule,
-          MatInputModule,
-          MatAutocompleteModule,
-          MatIconModule,
-          NoopAnimationsModule,
+      imports: [
+        MatStepperModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatRadioModule,
+        MatTableModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        MatIconModule,
+        NoopAnimationsModule,
+        NewOrderComponent,
       ],
-      declarations: [ NewOrderComponent ],
       providers: [
         ApiOrderService,
-        {provide: ConfigService, useClass: MockConfig},
-        HttpClient,
-        HttpHandler,
-        {provide: Store<AppState>, useClass: StoreMock}
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: ConfigService, useClass: MockConfig },
+        { provide: Store<AppState>, useClass: StoreMock }
       ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

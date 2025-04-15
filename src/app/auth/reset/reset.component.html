@@ -8,18 +8,14 @@
 
       <mat-form-field color="accent">
         <input formControlName="password" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="off"
-               required matInput
-               i18n-placeholder
-               placeholder="Mot de passe" type="password">
+          required matInput i18n-placeholder placeholder="Mot de passe" type="password">
         <mat-error *ngIf="password?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
 
       <mat-form-field color="accent">
         <input formControlName="passwordConfirm" autocorrect="off" autocapitalize="off" autocomplete="off"
-               spellcheck="off"
-               required matInput
-               i18n-placeholder
-               placeholder="Confirmation du mot de passe" type="password">
+          spellcheck="off" required matInput i18n-placeholder placeholder="Confirmation du mot de passe"
+          type="password">
         <mat-error *ngIf="passwordConfirm?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
 
@@ -28,10 +24,9 @@
       </mat-error>
 
       <button class="form-login-button" color="accent" mat-raised-button type="submit"
-              [disabled]="passwords.pristine || passwords.invalid" i18n>
+        [disabled]="passwords.pristine || passwords.invalid" i18n>
         Mettre à jour
       </button>
     </form>
   </mat-card-content>
 </mat-card>
-

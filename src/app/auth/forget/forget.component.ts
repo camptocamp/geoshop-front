@@ -1,17 +1,28 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {EMAIL_REGEX} from '../../_helpers/regex';
-import {ApiService} from '../../_services/api.service';
+import { EMAIL_REGEX } from '@app/helpers/regex';
+import { ApiService } from '@app/services/api.service';
+
+import { CommonModule } from '@angular/common';
+import { Component, HostBinding } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatError, MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+
+
 
 @Component({
-    selector: 'gs2-forget',
-    templateUrl: './forget.component.html',
-    styleUrls: ['./forget.component.scss'],
-    standalone: false
+  selector: 'gs2-forget',
+  templateUrl: './forget.component.html',
+  styleUrls: ['./forget.component.scss'],
+  imports: [
+    MatError, FormsModule, ReactiveFormsModule, MatIconModule, MatCardModule, MatFormFieldModule, CommonModule, MatInputModule, MatButtonModule
+  ],
 })
-export class ForgetComponent implements OnInit {
+export class ForgetComponent {
 
   @HostBinding('class') class = 'main-container';
 
@@ -23,16 +34,13 @@ export class ForgetComponent implements OnInit {
   }
 
   constructor(private fb: UntypedFormBuilder,
-              private router: Router,
-              public snackBar: MatSnackBar,
-              private apiService: ApiService
+    private router: Router,
+    public snackBar: MatSnackBar,
+    private apiService: ApiService
   ) {
     this.form = this.fb.group({
       email: ['', Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEX)])],
     });
-  }
-
-  ngOnInit(): void {
   }
 
   onSubmit(event: MouseEvent) {
@@ -48,7 +56,7 @@ export class ForgetComponent implements OnInit {
           return;
         } else {
           this.snackBar.open(`${this.successMessage} ${this.form.value.email}`,
-            'Ok', {panelClass: 'notification-success'});
+            'Ok', { panelClass: 'notification-success' });
           this.router.navigate(['']);
         }
       });

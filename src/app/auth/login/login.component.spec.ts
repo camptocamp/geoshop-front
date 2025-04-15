@@ -1,24 +1,38 @@
+import { ConfigService } from '@app/services/config.service';
+import { AppState } from '@app/store';
+
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { OidcSecurityService, StsConfigLoader } from 'angular-auth-oidc-client';
+import { of } from 'rxjs';
+import { vi } from 'vitest';
 
 import { LoginComponent } from './login.component';
-import { of } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/_store';
-import { HttpClient, HttpHandler } from '@angular/common/http';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
-import { StsConfigLoader } from 'angular-auth-oidc-client';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 
 class StoreMock {
-  select =  jasmine.createSpy().and.returnValue(of(jasmine.createSpy()));
-  dispatch = jasmine.createSpy();
+  select = vi.fn().mockImplementation(() => of(vi.fn()));
+  dispatch = vi.fn();
 }
 
+
+class ConfigServiceMock {
+  public config = {
+  }
+}
+
+class StsConfigLoaderMock {
+  loadConfigs = vi.fn().mockImplementation(() => of([]));
+}
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -26,7 +40,7 @@ describe('LoginComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[
+      imports: [
         RouterModule.forRoot([]),
         MatIconModule,
         ReactiveFormsModule,
@@ -34,16 +48,18 @@ describe('LoginComponent', () => {
         MatCardModule,
         MatInputModule,
         NoopAnimationsModule,
+        LoginComponent,
       ],
-      declarations: [ LoginComponent ],
       providers: [
-        StsConfigLoader,
-        {provide: Store<AppState>, useClass: StoreMock},
-        HttpClient,
-        HttpHandler,
+        OidcSecurityService,
+        { provide: StsConfigLoader, useClass: StsConfigLoaderMock },
+        { provide: ConfigService, useClass: ConfigServiceMock },
+        { provide: Store<AppState>, useClass: StoreMock },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

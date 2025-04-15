@@ -1,14 +1,15 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ResetComponent } from './reset.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { HttpClient, HttpHandler } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+
+import { ResetComponent } from './reset.component';
 
 describe('ResetComponent', () => {
   let component: ResetComponent;
@@ -16,22 +17,22 @@ describe('ResetComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[
+      imports: [
         ReactiveFormsModule,
         NoopAnimationsModule,
         MatCardModule,
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
+        ResetComponent,
         RouterModule.forRoot([])
       ],
-      declarations: [ ResetComponent ],
       providers: [
-        HttpClient,
-        HttpHandler
+        provideHttpClient(),
+        provideHttpClientTesting()
       ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

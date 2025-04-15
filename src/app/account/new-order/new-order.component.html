@@ -1,4 +1,3 @@
-<!-- TODO: Create proper layout so navigation buttons will be always in the bottom -->
 <mat-horizontal-stepper #stepper [linear]="true">
   <mat-step [stepControl]="orderFormGroup" i18n-label label="Détails du mandat">
     <form [formGroup]="orderFormGroup">
@@ -71,10 +70,12 @@
       </mat-radio-group>
     </form>
 
-    <mat-label *ngIf="!IsOrderTypePrivate" i18n>Vous devez spécifier les informations de contact du tiers pour un mandat
-      de type &quot;{{ getLocalizedTypeName(orderFormGroup.get('orderType')?.value) }}&quot;.</mat-label>
+    <mat-label *ngIf="!IsOrderTypePrivate" i18n>
+      Vous devez spécifier les informations de contact du tiers pour un mandat de type
+      &quot;{{ getLocalizedTypeName(orderFormGroup.get('orderType')?.value) }}&quot;.
+    </mat-label>
 
-    <form class="form-height-mini" [formGroup]="contactFormGroup">
+    <form class="form-height-mini billing-form " [formGroup]="contactFormGroup">
       <ng-container *ngIf="(IsOrderTypePrivate && !IsAddressForCurrentUser) || !IsOrderTypePrivate">
         <div class="flex-row">
           <!-- Search -->
@@ -111,7 +112,7 @@
           </button>
         </div>
 
-        <div class="flex-column" style="overflow: auto" *ngIf="isCustomerSelected">
+        <div class="customer_data" style="overflow: auto" *ngIf="isCustomerSelected">
           <!-- Contact info -->
           <mat-form-field color="primary">
             <input formControlName="first_name" autocapitalize="off" autofocus spellcheck="false" required matInput

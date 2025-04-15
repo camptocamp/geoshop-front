@@ -1,12 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WelcomeComponent } from './welcome.component';
-import { HttpClient, HttpHandler } from '@angular/common/http';
-import { of } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { AppState } from '../_store';
+
+import { ConfigService } from '@app/services/config.service';
+import { AppState } from '@app/store';
+import { DialogMetadataComponent } from '@app/welcome/catalog/dialog-metadata/dialog-metadata.component';
+
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,18 +25,32 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { AngularSplitModule } from 'angular-split';
-import { MapComponent } from './map/map.component';
+import { of } from 'rxjs';
+import { vi } from 'vitest';
+
 import { CatalogComponent } from './catalog/catalog.component';
 import { DownloadComponent } from './download/download.component';
-import { ValidateComponent } from './validate/validate.component';
-import { DialogMetadataComponent } from './catalog/dialog-metadata/dialog-metadata.component';
 import { ManualentryComponent } from './map/manualentry/manualentry.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MapComponent } from './map/map.component';
+import { ValidateComponent } from './validate/validate.component';
+import { WelcomeComponent } from './welcome.component';
+
+
 
 class StoreMock {
-  select =  jasmine.createSpy().and.returnValue(of(jasmine.createSpy()));
-  dispatch = jasmine.createSpy();
+  select = vi.fn().mockImplementation(() => of(vi.fn()));
+  dispatch = vi.fn();
+}
+
+class ConfigServiceMock {
+  public config = {
+    initialExtent: [0, 0, 1, 1],
+    pageformats: [{ name: "", height: 1, width: 1 }],
+  }
 }
 
 describe('WelcomeComponent', () => {
@@ -65,8 +81,6 @@ describe('WelcomeComponent', () => {
         MatSelectModule,
         ReactiveFormsModule,
         NoopAnimationsModule,
-      ],
-      declarations: [
         WelcomeComponent,
         MapComponent,
         CatalogComponent,
@@ -77,12 +91,14 @@ describe('WelcomeComponent', () => {
       ],
       providers: [
         NgControl,
-        HttpClient,
-        HttpHandler,
-        {provide: Store<AppState>, useClass: StoreMock}
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: ActivatedRoute, useValue: { queryParamMap: of() } },
+        { provide: ConfigService, useClass: ConfigServiceMock },
+        { provide: Store<AppState>, useClass: StoreMock }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

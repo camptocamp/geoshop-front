@@ -1,6 +1,4 @@
-@import '../../../../theme.scss';
 :host {
-
   .mat-expansion-panel-header-title {
     align-items: center;
     margin-top: 0.35em;
@@ -21,7 +19,7 @@
         font-style: italic;
         padding-right: 1em;
       }
-   }
+    }
   }
 
   .mat-expansion-panel-header-description {
@@ -46,6 +44,11 @@
     button {
       margin-left: 10px;
     }
+  }
+
+  .flex-row {
+    display: flex;
+    flex-direction: row;
   }
 
 }

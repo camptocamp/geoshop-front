@@ -1,29 +1,38 @@
+import { OrderItemViewComponent } from '@app/components/order-item-view/order-item-view.component';
+import * as Constants from '@app/constants';
+import { generateMiniMap, displayMiniMap } from '@app/helpers/geoHelper';
+import { Order } from '@app/models/IOrder';
+import { ApiOrderService } from '@app/services/api-order.service';
+import { ConfigService } from '@app/services/config.service';
+import { MapService } from '@app/services/map.service';
+
+import { CommonModule, DatePipe } from '@angular/common';
+import { HttpResponse } from '@angular/common/http';
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { MatCard, MatCardContent, MatCardHeader, MatCardTitle, MatCardSubtitle } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { Feature } from 'ol';
+import Map from 'ol/Map';
+import Geometry from 'ol/geom/Geometry';
+import VectorSource from 'ol/source/Vector';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import Map from 'ol/Map';
-import VectorSource from 'ol/source/Vector';
 
-import { GeoHelper } from '../../_helpers/geoHelper';
-import { GeoshopUtils } from '../../_helpers/GeoshopUtils';
-import { Order, IOrderDowloadLink } from '../../_models/IOrder';
-import { ApiOrderService } from '../../_services/api-order.service';
-import { ConfigService} from '../../_services/config.service';
-import { MapService} from '../../_services/map.service';
-import Geometry from 'ol/geom/Geometry';
-import { ConstantsService } from 'src/app/constants.service';
-import { Feature } from 'ol';
-import { HttpResponse } from '@angular/common/http';
+
 
 
 @Component({
-    selector: 'gs2-download',
-    templateUrl: './download.component.html',
-    styleUrls: ['./download.component.scss'],
-    standalone: false
+  selector: 'gs2-download',
+  templateUrl: './download.component.html',
+  styleUrls: ['./download.component.scss'],
+  imports: [
+    MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatProgressSpinner,
+    DatePipe, MatIcon, OrderItemViewComponent, CommonModule,
+  ],
 })
 export class DownloadComponent implements OnInit, OnDestroy {
 
@@ -36,7 +45,7 @@ export class DownloadComponent implements OnInit, OnDestroy {
   vectorSource: VectorSource<Feature<Geometry>>;
 
   // Constants
-  readonly DOWNLOAD = ConstantsService.DOWNLOAD;
+  readonly DOWNLOAD = Constants.DOWNLOAD;
 
   constructor(
     private apiOrderService: ApiOrderService,
@@ -55,10 +64,10 @@ export class DownloadComponent implements OnInit, OnDestroy {
       .subscribe(order => {
         if (order) {
           this.order = order;
-          GeoHelper.generateMiniMap(this.configService, this.mapService).then(result => {
+          generateMiniMap(this.configService, this.mapService).then(result => {
             this.minimap = result.minimap;
             this.vectorSource = result.vectorSource;
-            GeoHelper.displayMiniMap(this.order, [this.minimap], [this.vectorSource], 0);
+            displayMiniMap(this.order, [this.minimap], [this.vectorSource], 0);
           });
         }
       });
@@ -77,11 +86,11 @@ export class DownloadComponent implements OnInit, OnDestroy {
         const link = document.createElement('a');
         // TODO: resolve filename properly after upgrading to the latest Angular
         link.download = 'result.zip';
-        link.href = window.URL.createObjectURL(response.body!);
+        link.href = window.URL.createObjectURL(response.body ?? new Blob());
         link.click();
         window.URL.revokeObjectURL(link.href);
       },
-      error: (error: any) => {
+      error: (error) => {
         this.snackBar.open(error.detail ?? $localize`Aucun fichier disponible`, 'Ok', { panelClass: 'notification-info' });
       }
     });

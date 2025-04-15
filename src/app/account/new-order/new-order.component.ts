@@ -1,34 +1,53 @@
+import { ConfirmDialogComponent } from '@app/components/confirm-dialog/confirm-dialog.component';
+import * as Constants from '@app/constants';
+import { PHONE_REGEX, IDE_REGEX, EMAIL_REGEX, EXTRACT_FORBIDDEN_REGEX } from '@app/helpers/regex';
+import { Contact, IContact } from '@app/models/IContact';
+import { IIdentity } from '@app/models/IIdentity';
+import { IOrder, IOrderType, Order, IOrderItem } from '@app/models/IOrder';
+import { IProduct } from '@app/models/IProduct';
+import { ApiOrderService } from '@app/services/api-order.service';
+import { ApiService } from '@app/services/api.service';
+import { ConfigService } from '@app/services/config.service';
+import { StoreService } from '@app/services/store.service';
+import { AppState, getUser, selectOrder, selectAllProduct } from '@app/store';
+import * as fromCart from '@app/store/cart/cart.action';
+
+import { AsyncPipe, CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, HostBinding, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { ApiService } from '../../_services/api.service';
-import { PHONE_REGEX, IDE_REGEX, EMAIL_REGEX, EXTRACT_FORBIDDEN_REGEX } from '../../_helpers/regex';
-import { Observable, Subject } from 'rxjs';
-import { IIdentity } from '../../_models/IIdentity';
-import { debounceTime, filter, map, mergeMap, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import { IProduct } from '../../_models/IProduct';
-import { select, Store } from '@ngrx/store';
-import { AppState, getUser, selectOrder, selectAllProduct } from '../../_store';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatOptionModule } from '@angular/material/core';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatError, MatLabel, MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { IOrder, IOrderType, Order, IOrderItem } from '../../_models/IOrder';
-import { ApiOrderService } from '../../_services/api-order.service';
-import { MatStepper } from '@angular/material/stepper';
-import { StoreService } from '../../_services/store.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Contact, IContact } from '../../_models/IContact';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
-import * as fromCart from '../../_store/cart/cart.action';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../_components/confirm-dialog/confirm-dialog.component';
-import { ConstantsService } from 'src/app/constants.service';
-import { ConfigService } from 'src/app/_services/config.service';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, filter, map, mergeMap, startWith, switchMap, takeUntil } from 'rxjs/operators';
+
+
+
 
 @Component({
   selector: 'gs2-new-order',
   templateUrl: './new-order.component.html',
   styleUrls: ['./new-order.component.scss'],
-  standalone: false
+  imports: [
+    MatAutocompleteModule, MatStepperModule, FormsModule, ReactiveFormsModule, MatLabel, MatSelectModule, MatOptionModule,
+    MatError, MatFormFieldModule, MatInputModule, MatRadioButton, MatRadioGroup, AsyncPipe, CurrencyPipe,
+    MatProgressSpinnerModule, MatTableModule, MatIconModule, CommonModule, MatButtonModule, MatTableModule,
+    ReactiveFormsModule, MatStepperModule, MatButtonModule, MatFormFieldModule, MatSelectModule, MatInputModule,
+    MatAutocompleteModule, MatIconModule, MatTableModule, MatAutocompleteModule, MatStepperModule, MatProgressSpinnerModule,
+    MatDialogModule
+  ],
 })
 export class NewOrderComponent implements OnInit, OnDestroy {
 
@@ -39,20 +58,20 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   @ViewChild('stepper') stepper: MatStepper;
 
   // constants
-  readonly REQUIRED = ConstantsService.REQUIRED;
-  readonly WRONG_EMAIL = ConstantsService.WRONG_EMAIL;
-  readonly WRONG_PHONE = ConstantsService.WRONG_PHONE;
-  readonly NEXT = ConstantsService.NEXT;
-  readonly PREVIOUS = ConstantsService.PREVIOUS;
+  readonly REQUIRED = Constants.REQUIRED;
+  readonly WRONG_EMAIL = Constants.WRONG_EMAIL;
+  readonly WRONG_PHONE = Constants.WRONG_PHONE;
+  readonly NEXT = Constants.NEXT;
+  readonly PREVIOUS = Constants.PREVIOUS;
   readonly BACK: string = $localize`Réinitialiser`;
-  readonly COUNTRIES = ConstantsService.COUNTRIES;
+  readonly COUNTRIES = Constants.COUNTRIES;
 
 
   orderFormGroup: UntypedFormGroup;
   addressChoiceForm: UntypedFormGroup;
   contactFormGroup: UntypedFormGroup;
   orderItemFormGroup: UntypedFormGroup;
-  invoiceContactsFormControls: { [key: string]: UntypedFormControl };
+  invoiceContactsFormControls: Record<string, UntypedFormControl>;
 
   isSearchLoading = false;
   isOrderPatchLoading = false;
@@ -159,9 +178,9 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       if (order) {
         this.currentOrder = order;
         this.updateForms(this.currentOrder);
+        this._createOrUpdateDraftOrder(undefined, 0);
       }
     });
-    this._createOrUpdateDraftOrder(undefined, 0);
   }
 
   ngOnDestroy() {
@@ -198,9 +217,9 @@ export class NewOrderComponent implements OnInit, OnDestroy {
 
   // FIXME this is a duplication of the same function in the order-item-view.component.ts
   getOrerStatus(orderItem: IOrderItem): string {
-    let returnValue: string = '';
-    if (orderItem.status !== undefined && ConstantsService.ORDER_STATUS.hasOwnProperty(orderItem.status)) {
-      returnValue = ConstantsService.ORDER_STATUS[orderItem.status];
+    let returnValue = '';
+    if (orderItem.status !== undefined && Constants.ORDER_STATUS[orderItem.status]) {
+      returnValue = Constants.ORDER_STATUS[orderItem.status];
     }
     return returnValue;
   }
@@ -208,7 +227,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   private getOrderType(id: number) {
     return this.orderTypes.find(x => id === x.id) || {
       id: 1,
-      name: ConstantsService.ORDERTYPE_PRIVATE
+      name: Constants.ORDERTYPE_PRIVATE
     };
   }
 
@@ -284,27 +303,22 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       this.addressChoiceCtrl?.setValue('1');
     }
 
-
-    try {
-      if (this.contactFormGroup) {
-        this.contactFormGroup.setValue({
-          customer: null,
-          first_name: order.invoiceContact?.first_name || '',
-          last_name: order.invoiceContact?.last_name || '',
-          email: order.invoiceContact?.email || '',
-          company_name: order.invoiceContact?.company_name || '',
-          ide_id: order.invoiceContact?.ide_id || '',
-          phone: order.invoiceContact?.phone || '',
-          street: order.invoiceContact?.street || '',
-          street2: order.invoiceContact?.street2 || '',
-          postcode: order.invoiceContact?.postcode || '',
-          city: order.invoiceContact?.city || '',
-          country: order.invoiceContact?.country || '',
-          url: order.invoiceContact?.url || '',
-        });
-      }
-    } catch {
-
+    if (this.contactFormGroup) {
+      this.contactFormGroup.setValue({
+        customer: null,
+        // first_name: order.invoiceContact?.first_name || '',
+        // last_name: order.invoiceContact?.last_name || '',
+        // email: order.invoiceContact?.email || '',
+        // company_name: order.invoiceContact?.company_name || '',
+        // ide_id: order.invoiceContact?.ide_id || '',
+        // phone: order.invoiceContact?.phone || '',
+        // street: order.invoiceContact?.street || '',
+        // street2: order.invoiceContact?.street2 || '',
+        // postcode: order.invoiceContact?.postcode || '',
+        // city: order.invoiceContact?.city || '',
+        // country: order.invoiceContact?.country || '',
+        // url: order.invoiceContact?.url || '',
+      });
     }
 
     for (const attr in this.orderItemFormGroup.controls) {
@@ -440,7 +454,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     });
 
     for (const key in this.invoiceContactsFormControls) {
-      if (this.currentOrder.invoiceContact && this.currentOrder.invoiceContact.hasOwnProperty(key)) {
+      if (this.currentOrder.invoiceContact && this.currentOrder.invoiceContact[key]) {
         this.contactFormGroup.get(key)?.setValue(this.currentOrder.invoiceContact[key]);
       }
     }
@@ -453,7 +467,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     return a && b && a.id === b.id;
   }
 
-  createOrUpdateDraftOrder(page: number = 0) {
+  createOrUpdateDraftOrder(page = 0) {
     const invoiceContact = this.getInvoiceContact();
 
     // means the contact was updated
@@ -488,7 +502,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     }
   }
 
-  private _createOrUpdateDraftOrder(invoiceContact: Contact | undefined, page: number = 0) {
+  private _createOrUpdateDraftOrder(invoiceContact: Contact | undefined, page = 0) {
     this.currentOrder.title = this.orderFormGroup.get('title')?.value;
     this.currentOrder.invoice_reference = this.orderFormGroup.get('invoice_reference')?.value;
     this.currentOrder.email_deliver = this.orderFormGroup.get('emailDeliver')?.value;
@@ -612,11 +626,14 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   public getLocalizedTypeName(type: IOrderType): string {
+    if (!type) {
+      return "?";
+    }
     switch (type.id) {
       case 1:
-        return ConstantsService.ORDER_NAME.PRIVATE;
+        return Constants.ORDER_NAME.PRIVATE;
       case 2:
-        return ConstantsService.ORDER_NAME.PUBLIC;
+        return Constants.ORDER_NAME.PUBLIC;
     };
     return type.name;
   }

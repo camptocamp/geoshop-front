@@ -1,8 +1,10 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { ModifyProfileComponent } from './modify-profile.component';
-import { HttpClient, HttpHandler } from '@angular/common/http';
-import { MatDialogRef } from '@angular/material/dialog';
+
 
 describe('ModifyProfileComponent', () => {
   let component: ModifyProfileComponent;
@@ -10,14 +12,14 @@ describe('ModifyProfileComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModifyProfileComponent ],
+      imports: [ModifyProfileComponent],
       providers: [
-        HttpClient,
-        HttpHandler,
-        {provide: MatDialogRef, useValue: {}},
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: MatDialogRef, useValue: {} },
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

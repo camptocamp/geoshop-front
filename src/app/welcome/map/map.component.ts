@@ -1,17 +1,28 @@
-import {Component, Input, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {ConfigService} from 'src/app/_services/config.service';
-import {MapService} from '../../_services/map.service';
-import { CustomIconService } from '../../_services/custom-icon.service';
-import {IBasemap, IPageFormat} from 'src/app/_models/IConfig';
-import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
-import {debounceTime, switchMap} from 'rxjs/operators';
-import Geometry from 'ol/geom/Geometry';
-import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
-import Feature from 'ol/Feature';
-import {MatDialog} from '@angular/material/dialog';
-import {ManualentryComponent} from './manualentry/manualentry.component';
+import { IBasemap, IPageFormat } from '@app/models/IConfig';
+import { ConfigService } from '@app/services/config.service';
+import { CustomIconService } from '@app/services/custom-icon.service';
+import { MapService } from '@app/services/map.service';
 
-export const nameOfCategoryForGeocoder: { [prop: string]: string; } = { // TODO this should be translated
+import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent, MatOptgroup } from '@angular/material/autocomplete';
+import { MatButtonModule, MatMiniFabButton } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatOptionModule } from '@angular/material/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatHint, MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import Feature from 'ol/Feature';
+import Geometry from 'ol/geom/Geometry';
+import { debounceTime, switchMap } from 'rxjs/operators';
+
+import { ManualentryComponent } from './manualentry/manualentry.component';
+
+export const nameOfCategoryForGeocoder: Record<string, string> = { // TODO this should be translated
   zipcode: 'Ortschaftenverzeichnis PLZ',
   gg25: 'Gemeinden',
   district: 'Bezirke',
@@ -22,27 +33,32 @@ export const nameOfCategoryForGeocoder: { [prop: string]: string; } = { // TODO 
 };
 
 @Component({
-    selector: 'gs2-map',
-    templateUrl: './map.component.html',
-    styleUrls: ['./map.component.scss'],
-    standalone: false
+  selector: 'gs2-map',
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.scss'],
+  imports: [
+    MatProgressSpinnerModule, MatCardModule, ReactiveFormsModule, FormsModule,
+    MatFormFieldModule, MatAutocompleteModule, MatIconModule, MatOptgroup,
+    MatOptionModule, MatHint, MatButtonModule, MatMiniFabButton, MatMenuModule,
+    CommonModule, MatInputModule, MatDialogModule
+  ],
 })
 export class MapComponent implements OnInit {
 
   @Input() leftPositionForButtons: number;
-  @ViewChild('fileUpload', {static: false}) fileUpload: ElementRef;
+  @ViewChild('fileUpload', { static: false }) fileUpload: ElementRef;
 
   isDrawing = false;
   isTracking = false;
   isSearchLoading = false;
   shouldDisplayClearButton = false;
-  basemaps: Array<IBasemap>;
-  pageformats: Array<IPageFormat>;
+  basemaps: IBasemap[];
+  pageformats: IPageFormat[];
   isMapLoading$ = this.mapService.isMapLoading$;
   selectedPageFormat: IPageFormat | undefined;
   selectedPageFormatScale = 500;
   rotationPageFormat = 0;
-  pageFormatScales: Array<number> = [500, 1000, 2000, 5000];
+  pageFormatScales: number[] = [500, 1000, 2000, 5000];
   xMin = null;
   yMin = null;
   xMax = null;
@@ -64,9 +80,9 @@ export class MapComponent implements OnInit {
   }
 
   constructor(private mapService: MapService,
-              private configService: ConfigService,
-              private customIconService: CustomIconService,
-              public dialog: MatDialog) {
+    private configService: ConfigService,
+    private customIconService: CustomIconService,
+    public dialog: MatDialog) {
     // Initialize custom icons
     this.customIconService.init();
   }

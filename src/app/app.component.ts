@@ -1,23 +1,43 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AppState, authFeatureSelector, getUser, selectCartTotal, selectOrder } from './_store';
+import { AccountOverlayComponent } from '@app/components/account-overlay/account-overlay.component';
+import { CartOverlayComponent } from '@app/components/cart-overlay/cart-overlay.component';
+import { HelpOverlayComponent } from '@app/components/help-overlay/help-overlay.component';
+import { ConfigService } from '@app/services/config.service';
+import { AppState, getUser, selectCartTotal, selectOrder } from '@app/store';
+import * as fromAuth from '@app/store/auth/auth.action';
+
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, OnDestroy } from '@angular/core';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { combineLatest, Subscription, zip } from 'rxjs';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import * as fromAuth from './_store/auth/auth.action';
-import { ConfigService } from './_services/config.service';
+import { combineLatest, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+
+
 
 @Component({
   selector: 'gs2-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: false
+  imports: [
+    RouterOutlet, RouterLink, AsyncPipe,
+    MatBadgeModule, MatDividerModule, MatIconModule, MatToolbarModule, MatMenuModule, MatMenuTrigger,
+    AccountOverlayComponent, CartOverlayComponent, HelpOverlayComponent, CommonModule, MatInputModule,
+    MatFormFieldModule, MatButtonModule
+  ],
 })
 export class AppComponent implements OnDestroy {
 
   private refreshTokenInterval: NodeJS.Timeout | number; // TODO this is breaking the build it was originaly set to type number
-  private static autoLoginFailed: boolean = false;
+  private static autoLoginFailed = false;
   title = 'front';
   subTitle = '';
 
@@ -52,7 +72,7 @@ export class AppComponent implements OnDestroy {
     if (err === "interaction_required") {
       AppComponent.autoLoginFailed = true;
     } else if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
-      let authSubscription = new Subscription()
+      const authSubscription = new Subscription()
       combineLatest([this.oidcService.checkAuth(), this.store.select(getUser)]).subscribe(([loginResponse, user]) => {
         if (loginResponse.isAuthenticated && !user) {
           this.store.dispatch(fromAuth.oidcLogin(loginResponse));

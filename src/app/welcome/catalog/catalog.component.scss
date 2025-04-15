@@ -23,8 +23,7 @@
       .item-logo {
         grid-column: 1;
         grid-row: 1 / span 2;
-        justify-self: center;
-        align-self: center;
+        place-self: center center;
         width: 40px;
         height: 40px;
       }
@@ -48,15 +47,13 @@
       .item-help {
         grid-column: 3;
         grid-row: 1 / span 2;
-        justify-self: center;
-        align-self: center;
+        place-self: center center;
       }
 
       .item-cart {
         grid-column: 4;
         grid-row: 1 / span 2;
-        justify-self: center;
-        align-self: center;
+        place-self: center center;
       }
 
       .icon-sm {

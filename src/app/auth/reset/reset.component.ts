@@ -1,19 +1,28 @@
-import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
-import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {ApiService} from '../../_services/api.service';
-import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {ActivatedRoute, Router} from '@angular/router';
-import { ConstantsService } from 'src/app/constants.service';
+import * as Constants from '@app/constants';
+import { ApiService } from '@app/services/api.service';
+
+import { CommonModule } from '@angular/common';
+import { Component, HostBinding, OnDestroy } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatError, MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+
 
 @Component({
-    selector: 'gs2-reset',
-    templateUrl: './reset.component.html',
-    styleUrls: ['./reset.component.scss'],
-    standalone: false
+  selector: 'gs2-reset',
+  templateUrl: './reset.component.html',
+  styleUrls: ['./reset.component.scss'],
+  imports: [
+    MatError, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatCardModule, CommonModule, MatInputModule
+  ],
 })
-export class ResetComponent implements OnInit, OnDestroy {
+export class ResetComponent implements OnDestroy {
 
   @HostBinding('class') class = 'main-container';
 
@@ -24,7 +33,7 @@ export class ResetComponent implements OnInit, OnDestroy {
   private successMessage = 'Votre nouveau mot de passe a bien été pris en compte. Vous pouvez vous authentifier.';
 
   // Constants
-  readonly REQUIRED = ConstantsService.REQUIRED
+  readonly REQUIRED = Constants.REQUIRED
 
   passwords = new UntypedFormGroup({
     password: new UntypedFormControl('', Validators.required),
@@ -40,16 +49,13 @@ export class ResetComponent implements OnInit, OnDestroy {
   }
 
   constructor(private apiService: ApiService, private snackBar: MatSnackBar,
-              private router: Router, private route: ActivatedRoute) {
+    private router: Router, private route: ActivatedRoute) {
     this.route.params
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(params => {
         this.token = params.token;
         this.uid = params.uid;
       });
-  }
-
-  ngOnInit(): void {
   }
 
   submit() {
@@ -60,7 +66,7 @@ export class ResetComponent implements OnInit, OnDestroy {
             return;
           } else {
             await this.router.navigate(['/auth/login']);
-            this.snackBar.open(this.successMessage, 'Ok', {panelClass: 'notification-success'});
+            this.snackBar.open(this.successMessage, 'Ok', { panelClass: 'notification-success' });
           }
         });
     }
@@ -69,7 +75,7 @@ export class ResetComponent implements OnInit, OnDestroy {
   private passwordMatchValidator(g: UntypedFormGroup) {
     const passValue = g.get('password')?.value;
     const passConfirmValue = g.get('passwordConfirm')?.value;
-    return passValue === passConfirmValue ? null : {mismatch: true};
+    return passValue === passConfirmValue ? null : { mismatch: true };
   }
 
   ngOnDestroy(): void {
