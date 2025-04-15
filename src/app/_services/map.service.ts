@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-
 import { Collection, Feature, Overlay } from 'ol';
 import { FeatureLike } from 'ol/Feature';
 import Map from 'ol/Map';
@@ -34,6 +33,7 @@ import VectorSource from 'ol/source/Vector';
 import WMTS, { Options } from 'ol/source/WMTS';
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
+// @ts-expect-error: plain js import
 import Transform from 'ol-ext/interaction/Transform';
 import proj4 from 'proj4';
 import { BehaviorSubject, of } from 'rxjs';
