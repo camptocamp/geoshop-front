@@ -1,3 +1,6 @@
+import * as Constants from '@app/constants';
+import { ApiService } from '@app/services/api.service';
+
 import { CommonModule } from '@angular/common';
 import { Component, HostBinding, OnDestroy } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
@@ -9,8 +12,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { ApiService } from '../../_services/api.service';
-import * as Constants from '../../constants';
 
 
 @Component({

@@ -1,14 +1,15 @@
+import { IIdentity } from '@app/models/IIdentity';
+import { MapService } from '@app/services/map.service';
+import { AppState, getUser } from '@app/store';
+import { CatalogComponent } from '@app/welcome/catalog/catalog.component';
+import { MapComponent } from '@app/welcome/map/map.component';
+
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Component, ChangeDetectorRef, OnDestroy, HostBinding } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AngularSplitModule, SplitGutterInteractionEvent } from 'angular-split';
 import { BehaviorSubject } from 'rxjs';
 
-import { CatalogComponent } from './catalog/catalog.component';
-import { MapComponent } from './map/map.component';
-import { IIdentity } from '../_models/IIdentity';
-import { MapService } from '../_services/map.service';
-import { AppState, getUser } from '../_store';
 
 @Component({
   selector: 'gs2-welcome',

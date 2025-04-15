@@ -1,3 +1,6 @@
+import { ConfigService } from '@app/services/config.service';
+import { AppState } from '@app/store';
+
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
@@ -18,8 +21,7 @@ import { vi } from 'vitest';
 
 import { OrderComponent } from './order/order.component';
 import { OrdersComponent } from './orders.component';
-import { ConfigService } from '../../_services/config.service';
-import { AppState } from '../../_store';
+
 
 
 class StoreMock {

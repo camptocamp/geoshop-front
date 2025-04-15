@@ -1,3 +1,8 @@
+import { AccountOverlayComponent } from '@app/components/account-overlay/account-overlay.component';
+import { CartOverlayComponent } from '@app/components/cart-overlay/cart-overlay.component';
+import { HelpOverlayComponent } from '@app/components/help-overlay/help-overlay.component';
+import { AppState } from '@app/store';
+
 import { CommonModule } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
@@ -16,13 +21,10 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { StsConfigLoader } from 'angular-auth-oidc-client';
 import { of } from 'rxjs';
-import { beforeEach, describe, expect, it , vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { AccountOverlayComponent } from './_components/account-overlay/account-overlay.component';
-import { CartOverlayComponent } from './_components/cart-overlay/cart-overlay.component';
-import { HelpOverlayComponent } from './_components/help-overlay/help-overlay.component';
-import { AppState } from './_store';
 import { AppComponent } from './app.component';
+
 
 class StoreMock {
   select = vi.fn().mockImplementation(() => of(vi.fn()));

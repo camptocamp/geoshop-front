@@ -1,3 +1,12 @@
+import { deepCopyOrder } from '@app/helpers/GeoshopUtils';
+import { IOrder } from '@app/models/IOrder';
+import { IProduct } from '@app/models/IProduct';
+import { ApiService } from '@app/services/api.service';
+import { ConfigService } from '@app/services/config.service';
+import { AppState, selectOrder } from '@app/store';
+import { updateOrder } from '@app/store/cart/cart.action';
+import { DialogMetadataComponent } from '@app/welcome/catalog/dialog-metadata/dialog-metadata.component';
+
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
@@ -12,14 +21,6 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
 import { debounceTime, map, mergeMap, scan, switchMap, tap, throttleTime } from 'rxjs/operators';
 
-import { DialogMetadataComponent } from './dialog-metadata/dialog-metadata.component';
-import { deepCopyOrder } from '../../_helpers/GeoshopUtils';
-import { IOrder } from '../../_models/IOrder';
-import { IProduct } from '../../_models/IProduct';
-import { ApiService } from '../../_services/api.service';
-import { ConfigService } from '../../_services/config.service';
-import { AppState, selectOrder } from '../../_store';
-import { updateOrder } from '../../_store/cart/cart.action';
 
 
 @Component({

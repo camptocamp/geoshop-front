@@ -1,3 +1,10 @@
+import { AccountOverlayComponent } from '@app/components/account-overlay/account-overlay.component';
+import { CartOverlayComponent } from '@app/components/cart-overlay/cart-overlay.component';
+import { HelpOverlayComponent } from '@app/components/help-overlay/help-overlay.component';
+import { ConfigService } from '@app/services/config.service';
+import { AppState, getUser, selectCartTotal, selectOrder } from '@app/store';
+import * as fromAuth from '@app/store/auth/auth.action';
+
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -14,12 +21,6 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { combineLatest, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { AccountOverlayComponent } from './_components/account-overlay/account-overlay.component';
-import { CartOverlayComponent } from './_components/cart-overlay/cart-overlay.component';
-import { HelpOverlayComponent } from './_components/help-overlay/help-overlay.component';
-import { ConfigService } from './_services/config.service';
-import { AppState, getUser, selectCartTotal, selectOrder } from './_store';
-import * as fromAuth from './_store/auth/auth.action';
 
 
 @Component({

@@ -1,3 +1,6 @@
+import { EMAIL_REGEX } from '@app/helpers/regex';
+import { ApiService } from '@app/services/api.service';
+
 import { CommonModule } from '@angular/common';
 import { Component, HostBinding } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
@@ -9,8 +12,6 @@ import { MatError, MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import { EMAIL_REGEX } from '../../_helpers/regex';
-import { ApiService } from '../../_services/api.service';
 
 
 @Component({

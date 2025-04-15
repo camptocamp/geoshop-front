@@ -1,3 +1,5 @@
+import { AppState } from '@app/store';
+
 import { CommonModule } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
@@ -18,7 +20,6 @@ import { of } from 'rxjs';
 import { vi } from 'vitest';
 
 import { RegisterComponent } from './register.component';
-import { AppState } from '../../_store';
 
 
 class StoreMock {

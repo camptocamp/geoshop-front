@@ -1,3 +1,6 @@
+import { ConfigService } from '@app/services/config.service';
+import { AppState } from '@app/store';
+
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -22,8 +25,6 @@ import { ForgetComponent } from './forget/forget.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetComponent } from './reset/reset.component';
-import { ConfigService } from '../_services/config.service';
-import { AppState } from '../_store';
 
 
 class StoreMock {

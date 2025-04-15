@@ -1,3 +1,6 @@
+import { ConfigService } from '@app/services/config.service';
+import { AppState } from '@app/store';
+
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -14,8 +17,6 @@ import { of } from 'rxjs';
 import { vi } from 'vitest';
 
 import { LoginComponent } from './login.component';
-import { ConfigService } from '../../_services/config.service';
-import { AppState } from '../../_store';
 
 
 class StoreMock {

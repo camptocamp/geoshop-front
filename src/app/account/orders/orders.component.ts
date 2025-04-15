@@ -1,3 +1,14 @@
+import { OrderComponent } from '@app/account/orders/order/order.component';
+import { extractIdFromUrl } from '@app/helpers/GeoshopUtils';
+import { generateMiniMap } from '@app/helpers/geoHelper';
+import { IOrderSummary, Order } from '@app/models/IOrder';
+import { ApiOrderService } from '@app/services/api-order.service';
+import { ApiService } from '@app/services/api.service';
+import { ConfigService } from '@app/services/config.service';
+import { MapService } from '@app/services/map.service';
+import { selectOrder } from '@app/store';
+import { deleteOrder } from '@app/store/cart/cart.action';
+
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
@@ -16,16 +27,6 @@ import VectorSource from 'ol/source/Vector';
 import { BehaviorSubject, merge, of, Subject, Subscription } from 'rxjs';
 import { debounceTime, filter, map, mergeMap, scan, skip, switchMap, takeUntil, tap } from 'rxjs/operators';
 
-import { OrderComponent } from './order/order.component';
-import { extractIdFromUrl } from '../../_helpers/GeoshopUtils';
-import { generateMiniMap } from '../../_helpers/geoHelper';
-import { IOrderSummary, Order } from '../../_models/IOrder';
-import { ApiOrderService } from '../../_services/api-order.service';
-import { ApiService } from '../../_services/api.service';
-import { ConfigService } from '../../_services/config.service';
-import { MapService } from '../../_services/map.service';
-import { selectOrder } from '../../_store';
-import { deleteOrder } from '../../_store/cart/cart.action';
 
 
 

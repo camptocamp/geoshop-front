@@ -1,3 +1,11 @@
+import { OrderItemViewComponent } from '@app/components/order-item-view/order-item-view.component';
+import * as Constants from '@app/constants';
+import { generateMiniMap, displayMiniMap } from '@app/helpers/geoHelper';
+import { Order } from '@app/models/IOrder';
+import { ApiOrderService } from '@app/services/api-order.service';
+import { ConfigService } from '@app/services/config.service';
+import { MapService } from '@app/services/map.service';
+
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpResponse } from '@angular/common/http';
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
@@ -13,13 +21,6 @@ import VectorSource from 'ol/source/Vector';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { OrderItemViewComponent } from '../../_components/order-item-view/order-item-view.component';
-import { generateMiniMap, displayMiniMap } from '../../_helpers/geoHelper';
-import { Order } from '../../_models/IOrder';
-import { ApiOrderService } from '../../_services/api-order.service';
-import { ConfigService } from '../../_services/config.service';
-import { MapService } from '../../_services/map.service';
-import * as Constants from '../../constants';
 
 
 

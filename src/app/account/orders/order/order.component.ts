@@ -1,3 +1,14 @@
+import { ConfirmDialogComponent } from '@app/components/confirm-dialog/confirm-dialog.component';
+import { OrderItemViewComponent } from '@app/components/order-item-view/order-item-view.component';
+import * as Constants from '@app/constants';
+import { WidgetHostDirective } from '@app/directives/widget-host.directive';
+import { deepCopyOrder } from '@app/helpers/GeoshopUtils';
+import { displayMiniMap } from '@app/helpers/geoHelper';
+import { IOrderSummary, Order } from '@app/models/IOrder';
+import { IProduct } from '@app/models/IProduct';
+import { ApiOrderService } from '@app/services/api-order.service';
+import { StoreService } from '@app/services/store.service';
+
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpResponse } from '@angular/common/http';
 import { Component, ComponentFactoryResolver, EventEmitter, Input, Output, ViewChild } from '@angular/core';
@@ -12,16 +23,7 @@ import Map from 'ol/Map';
 import Geometry from 'ol/geom/Geometry';
 import VectorSource from 'ol/source/Vector';
 
-import { ConfirmDialogComponent } from '../../../_components/confirm-dialog/confirm-dialog.component';
-import { OrderItemViewComponent } from '../../../_components/order-item-view/order-item-view.component';
-import { WidgetHostDirective } from '../../../_directives/widget-host.directive';
-import { deepCopyOrder } from '../../../_helpers/GeoshopUtils';
-import { displayMiniMap } from '../../../_helpers/geoHelper';
-import { IOrderSummary, Order } from '../../../_models/IOrder';
-import { IProduct } from '../../../_models/IProduct';
-import { ApiOrderService } from '../../../_services/api-order.service';
-import { StoreService } from '../../../_services/store.service';
-import * as Constants from '../../../constants';
+
 import { IconTextComponent } from '../../../shared/icon-text/icon-text.component';
 
 

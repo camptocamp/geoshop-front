@@ -1,3 +1,8 @@
+import * as Constants from '@app/constants';
+import { PHONE_REGEX, IDE_REGEX } from '@app/helpers/regex';
+import { IIdentity } from '@app/models/IIdentity';
+import { ApiService } from '@app/services/api.service';
+
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, HostBinding, OnInit, ViewChild } from '@angular/core';
@@ -15,10 +20,6 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 
-import { PHONE_REGEX, IDE_REGEX } from '../../_helpers/regex';
-import { IIdentity } from '../../_models/IIdentity';
-import { ApiService } from '../../_services/api.service';
-import * as Constants from '../../constants';
 
 
 @Component({

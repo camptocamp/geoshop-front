@@ -1,4 +1,11 @@
 
+import { routes } from '@app/app.routes';
+import { interceptor as authInterceptor } from '@app/interceptors/authInterceptor';
+import { ConfigService } from '@app/services/config.service';
+import * as store from '@app/store';
+import { AuthEffects } from '@app/store/auth/auth.effects';
+import { CartEffects } from '@app/store/cart/cart.effects';
+
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection, provideAppInitializer, inject } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -7,12 +14,6 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideAuth, StsConfigLoader, StsConfigStaticLoader } from 'angular-auth-oidc-client';
 
-import { interceptor as authInterceptor } from './_interceptors/authInterceptor';
-import { ConfigService } from './_services/config.service';
-import { AuthEffects } from './_store/auth/auth.effects';
-import { CartEffects } from './_store/cart/cart.effects';
-import * as store from './_store/index';
-import { routes } from './app.routes';
 
 
 const stsConfigFactory = () => {

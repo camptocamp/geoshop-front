@@ -1,3 +1,6 @@
+import { IUser } from '@app/models/IUser';
+import { ApiService } from '@app/services/api.service';
+
 import { CommonModule } from '@angular/common';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -6,8 +9,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 
-import { IUser } from '../../_models/IUser';
-import { ApiService } from '../../_services/api.service';
 
 
 

@@ -1,3 +1,9 @@
+import { generateMiniMap, displayMiniMap } from '@app/helpers/geoHelper';
+import { Order, OrderItem } from '@app/models/IOrder';
+import { ApiOrderService } from '@app/services/api-order.service';
+import { ConfigService } from '@app/services/config.service';
+import { MapService } from '@app/services/map.service';
+
 import { CommonModule, LowerCasePipe } from '@angular/common';
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
@@ -11,11 +17,6 @@ import VectorSource from 'ol/source/Vector';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { generateMiniMap, displayMiniMap } from '../../_helpers/geoHelper';
-import { Order, OrderItem } from '../../_models/IOrder';
-import { ApiOrderService } from '../../_services/api-order.service';
-import { ConfigService } from '../../_services/config.service';
-import { MapService } from '../../_services/map.service';
 
 
 
