@@ -1,0 +1,46 @@
+<ng-container *ngIf="isLoggedIn$|async">
+  <div class="mat-mdc-menu-item">
+    <mat-icon>face</mat-icon>
+    <span>{{(user$|async) && (user$|async)?.first_name && (user$|async)?.last_name ?
+      (user$|async)?.first_name + ' ' + (user$|async)?.last_name :
+      (user$|async)?.username}}</span>
+  </div>
+
+  <button mat-menu-item [routerLink]="['/account/orders']">
+    <mat-icon>receipt</mat-icon>
+    <span i18n="@@account.order">Mes Commandes</span>
+  </button>
+  <button mat-menu-item [routerLink]="['/account/profile']">
+    <mat-icon>perm_identity</mat-icon>
+    <span i18n="@@account.profile">Mon profil</span>
+  </button>
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon>
+    <span i18n="@@account.logout">Déconnexion</span>
+  </button>
+
+</ng-container>
+
+<ng-container *ngIf="!(isLoggedIn$|async) && localAuthEnabled">
+  <div class="mat-mdc-menu-item">
+    <mat-icon class="overflow">info</mat-icon>
+    <span i18n="@@account.auth_required">Pour commander vous devez obligatoirement vous authentifier.</span>
+  </div>
+  <button mat-menu-item [routerLink]="['auth/login']">
+    <mat-icon>input</mat-icon>
+    <span i18n="@@account.log_in">S'authentifier</span>
+  </button>
+  <button mat-menu-item [routerLink]="['auth/register']">
+    <mat-icon>person_add</mat-icon>
+    <span i18n="@@account.create_account">Créer un compte</span>
+  </button>
+</ng-container>
+
+<button *ngIf="!(isLoggedIn$|async) && !localAuthEnabled && oidcEnabled" mat-menu-item (click)="oidcAuthClick()">
+  <mat-icon>input</mat-icon>
+  <span i18n="@@login.login_oidc">OIDC S'authentifier</span>
+</button>
+
+<span mat-menu-item *ngIf="!localAuthEnabled && !oidcEnabled" i18n="@@login.no_auth_available">
+  Aucune méthode d'authentification disponible
+</span>

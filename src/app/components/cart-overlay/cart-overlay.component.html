@@ -1,0 +1,27 @@
+<ng-container *ngFor="let product of products">
+  <div class="mat-mdc-menu-item">
+    <span class="text-ellipsis-2" [matTooltip]="product.label">{{product.label}}</span>
+    <button mat-icon-button *ngIf="product.metadata" (click)="openMetadata(product)">
+      <mat-icon>description</mat-icon>
+    </button>
+    <button mat-icon-button color="accent" (click)="removeProduct(product.label)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+
+  <mat-divider></mat-divider>
+</ng-container>
+
+<button class="mat-mdc-menu-item" mat-raised-button color="accent" (click)="deleteCart()" i18n="@@cart.empty">
+  Vider le panier
+</button>
+
+<button class="mat-mdc-menu-item" [disabled]="order && !order.geom" mat-raised-button (click)="naviguateToNewOrder()"
+  i18n="@@cart.order_continue">
+  Poursuivre la commande...
+</button>
+
+<div *ngIf="order && !order?.geom" class="mat-mdc-menu-item">
+  <mat-icon>warning</mat-icon>
+  <span i18n="@@cart.select_perimeter">Vous devez sélectionner un périmètre avant de poursuivre la commande.</span>
+</div>
