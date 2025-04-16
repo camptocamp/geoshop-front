@@ -17,6 +17,9 @@ html {
   @include mat.toolbar-overrides((container-background-color: var(--mat-sys-primary),
       container-text-color: var(--mat-sys-on-primary),
     ));
+  @include mat.snack-bar-overrides((container-color: var(--mat-sys-primary),
+      supporting-text-color:var(--mat-sys-on-primary),
+    ));
   @include mat.button-overrides((protected-container-shape: 4px,
       protected-container-color: var(--mat-sys-primary),
       protected-label-text-color: var(--mat-sys-on-primary),
@@ -78,5 +81,29 @@ ul {
 
   &:nth-child(odd) {
     background-color: #eee;
+  }
+}
+
+.mat-mdc-snack-bar-container {
+  --mdc-snackbar-supporting-text-color: var(--mat-sys-on-primary);
+
+  button {
+    border-radius: 4px;
+  }
+
+  &.notification-error {
+    --mdc-snackbar-container-color: red;
+
+    button {
+      background-color: darkred;
+    }
+  }
+
+  &.notification-success {
+    --mdc-snackbar-container-color: var(--mat-sys-primary);
+
+    button {
+      background-color: var(--mat-sys-on-primary);
+    }
   }
 }
