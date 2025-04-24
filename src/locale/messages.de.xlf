@@ -408,12 +408,12 @@
           <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="82336380104b44b9f6ffd944b18581e0df8ee4d8" datatype="html">
+      <trans-unit id="5938060479305453476" datatype="html">
         <source>Les données seront envoyées à l&apos;adresse email de l&apos;utilisateur courant: <x id="INTERPOLATION" equiv-text="{{(currentUser$|async)?.email}}"/></source>
         <target>Die Daten werden an die e-Mail Adresse des aktuellen Benutzers gesendet: <x id="INTERPOLATION" equiv-text="{{(currentUser$|async)?.email}}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
-          <context context-type="linenumber">45,46</context>
+          <context context-type="linenumber">44,45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="45276644993a243f5ee2db9bbecab8b394b3b704" datatype="html">
@@ -1739,12 +1739,16 @@
         <source>Saisie manuelle</source>
         <target>Manuelle Eingabe</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/welcome/map/map.component.html</context>
-          <context context-type="linenumber">84</context>
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">2,3</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/map/map.component.html</context>
-          <context context-type="linenumber">85</context>
+          <context context-type="linenumber">84,86</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/map.component.html</context>
+          <context context-type="linenumber">85,88</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2ca1910b4a34f125cf1ada39e13b0b94b221805b" datatype="html">
