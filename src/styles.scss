@@ -4,7 +4,8 @@
 
 
 html {
-  @include mat.theme((color: (theme-type: light,
+  @include mat.theme((
+      color: (theme-type: light,
         primary: palette.$primary-palette,
         tertiary: palette.$tertiary-palette,
       ),
@@ -12,7 +13,7 @@ html {
       density: 0,
     ));
 }
-
+// 26a59a
 :root {
   @include mat.toolbar-overrides((container-background-color: var(--mat-sys-primary),
       container-text-color: var(--mat-sys-on-primary),
