@@ -12,14 +12,18 @@
   <mat-divider></mat-divider>
 </ng-container>
 
-<button class="mat-mdc-menu-item" mat-raised-button color="accent" (click)="deleteCart()" i18n="@@cart.empty">
-  Vider le panier
-</button>
+<div class="mat-mdc-menu-item">
+  <button  class="order-button" mat-raised-button color="accent" (click)="deleteCart()" i18n="@@cart.empty">
+    Vider le panier
+  </button>
+</div>
 
-<button class="mat-mdc-menu-item" [disabled]="order && !order.geom" mat-raised-button (click)="naviguateToNewOrder()"
-  i18n="@@cart.order_continue">
-  Poursuivre la commande...
-</button>
+<div class="mat-mdc-menu-item">
+  <button class="order-button" [disabled]="order && !order.geom" mat-raised-button (click)="naviguateToNewOrder()"
+    i18n="@@cart.order_continue">
+    Poursuivre la commande...
+  </button>
+</div>
 
 <div *ngIf="order && !order?.geom" class="mat-mdc-menu-item">
   <mat-icon>warning</mat-icon>
