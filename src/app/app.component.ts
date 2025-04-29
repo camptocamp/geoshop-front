@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { AppState, authFeatureSelector, getUser, selectCartTotal, selectOrder } from './_store';
 import { Store } from '@ngrx/store';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { combineLatest, Subscription, zip } from 'rxjs';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
@@ -28,6 +28,7 @@ export class AppComponent implements OnDestroy {
     private oidcService: OidcSecurityService,
     private configService: ConfigService,
     private store: Store<AppState>,
+    private ngZone: NgZone,
     private router: Router,
   ) {
     const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
@@ -48,10 +49,17 @@ export class AppComponent implements OnDestroy {
         }
       });
 
-    const err = new URLSearchParams(window.location.search).get('error');
-    if (err === "interaction_required") {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('error') === "interaction_required") {
       AppComponent.autoLoginFailed = true;
-    } else if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
+      return
+    }
+    if (!params.get("bounds") && localStorage.getItem("bounds")) {
+      this.ngZone.run(() => {
+          this.router.navigateByUrl("/welcome?bounds=" + localStorage.getItem("bounds"));
+      });
+    }
+    if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
       let authSubscription = new Subscription()
       combineLatest([this.oidcService.checkAuth(), this.store.select(getUser)]).subscribe(([loginResponse, user]) => {
         if (loginResponse.isAuthenticated && !user) {
@@ -68,6 +76,8 @@ export class AppComponent implements OnDestroy {
             }, 120000);
           }
         } else if (!AppComponent.autoLoginFailed) {
+          const bounds = new URLSearchParams(window.location.search).get("bounds")
+          localStorage.setItem("bounds", bounds ?? "");
           this.oidcService.authorize(undefined, { customParams: { prompt: 'none' } });
         }
         authSubscription.unsubscribe();
