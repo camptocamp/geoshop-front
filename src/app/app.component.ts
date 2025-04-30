@@ -32,6 +32,7 @@ export class AppComponent implements OnDestroy {
     private router: Router,
   ) {
     const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
+    const params = new URLSearchParams(window.location.search);
 
     combineLatest([routerNavEnd$, this.store.select(selectCartTotal)])
       .subscribe((pair) => {
@@ -47,17 +48,17 @@ export class AppComponent implements OnDestroy {
             this.subTitle = '';
           }
         }
+
+        if (!params.get("bounds") && localStorage.getItem("bounds")) {
+          this.ngZone.run(() => {
+              this.router.navigateByUrl("/welcome?bounds=" + localStorage.getItem("bounds"));
+          });
+        }
       });
 
-    const params = new URLSearchParams(window.location.search);
     if (params.get('error') === "interaction_required") {
       AppComponent.autoLoginFailed = true;
       return
-    }
-    if (!params.get("bounds") && localStorage.getItem("bounds")) {
-      this.ngZone.run(() => {
-          this.router.navigateByUrl("/welcome?bounds=" + localStorage.getItem("bounds"));
-      });
     }
     if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
       let authSubscription = new Subscription()
@@ -77,7 +78,9 @@ export class AppComponent implements OnDestroy {
           }
         } else if (!AppComponent.autoLoginFailed) {
           const bounds = new URLSearchParams(window.location.search).get("bounds")
-          localStorage.setItem("bounds", bounds ?? "");
+          if (bounds) {
+              localStorage.setItem("bounds", bounds);
+          }
           this.oidcService.authorize(undefined, { customParams: { prompt: 'none' } });
         }
         authSubscription.unsubscribe();
