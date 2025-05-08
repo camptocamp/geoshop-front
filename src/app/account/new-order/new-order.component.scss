@@ -61,13 +61,7 @@
         flex: 0 0 auto !important;
         width: auto !important;
         overflow-wrap: break-word;
-        word-wrap: break-word;
-
         word-break: break-word;
-
-        -ms-hyphens: auto;
-        -moz-hyphens: auto;
-        -webkit-hyphens: auto;
         hyphens: auto;
       }
 
@@ -77,13 +71,7 @@
         flex: 0 0 20% !important;
         width: 20% !important;
         overflow-wrap: break-word;
-        word-wrap: break-word;
-
         word-break: break-word;
-
-        -ms-hyphens: auto;
-        -moz-hyphens: auto;
-        -webkit-hyphens: auto;
         hyphens: auto;
       }
 
@@ -94,14 +82,8 @@
         width: 20% !important;
         min-width: 8rem !important;
         overflow-wrap: break-word;
-        word-wrap: break-word;
         text-align: right;
-
         word-break: break-word;
-
-        -ms-hyphens: auto;
-        -moz-hyphens: auto;
-        -webkit-hyphens: auto;
         hyphens: auto;
       }
 
@@ -109,5 +91,15 @@
         width: 100%;
       }
     }
+  }
+
+  form.billing-form .customer_data{
+    display: grid;
+    border: solid 1px red;
+    height: calc(100vh - 64px - 72px - 24px);
+  }
+
+  .bottom-container {
+    margin-top: auto;
   }
 }

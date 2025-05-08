@@ -1,26 +1,38 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ConfigService } from '@app/services/config.service';
+import { CustomIconService } from '@app/services/custom-icon.service';
+import { AppState } from '@app/store';
 
-import { MapComponent } from './map.component';
-import { HttpClient, HttpHandler } from '@angular/common/http';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/_store';
-import { of } from 'rxjs';
-import { CustomIconService } from 'src/app/_services/custom-icon.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatButtonModule } from '@angular/material/button';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
+import { vi } from 'vitest';
+
+import { MapComponent } from './map.component';
+
 
 class StoreMock {
-  select =  jasmine.createSpy().and.returnValue(of(jasmine.createSpy()));
-  dispatch = jasmine.createSpy();
+  select = vi.fn().mockImplementation(() => of(vi.fn()));
+  dispatch = vi.fn();
+}
+
+class ConfigServiceMock {
+  public config = {
+    initialExtent: [0, 0, 1, 1],
+    pageformats: [{ name: "", height: 1, width: 1 }],
+  }
 }
 
 describe('MapComponent', () => {
@@ -40,17 +52,20 @@ describe('MapComponent', () => {
         MatFormFieldModule,
         MatCardModule,
         NoopAnimationsModule,
+        MapComponent,
         RouterModule.forRoot([])
       ],
-      declarations: [ MapComponent ],
-      providers:[
+      providers: [
         CustomIconService,
-        {provide: Store<AppState>, useClass: StoreMock},
-        HttpClient,
-        HttpHandler,
+        ConfigServiceMock,
+        { provide: ActivatedRoute, useValue: { queryParamMap: of() } },
+        { provide: ConfigService, useClass: ConfigServiceMock },
+        { provide: Store<AppState>, useClass: StoreMock },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -1,27 +1,41 @@
-import {Component, ElementRef, HostBinding, OnInit} from '@angular/core';
-import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {Store} from '@ngrx/store';
-import {AppState} from '../../_store';
-import * as AuthActions from '../../_store/auth/auth.action';
-import {ICredentials} from '../../_models/IIdentity';
-import {ActivatedRoute} from '@angular/router';
-import { ConstantsService } from 'src/app/constants.service';
+import * as Constants from '@app/constants';
+import { ICredentials } from '@app/models/IIdentity';
+import { ConfigService } from '@app/services/config.service';
+import { AppState } from '@app/store';
+import * as AuthActions from '@app/store/auth/auth.action';
+
+import { CommonModule } from '@angular/common';
+import { Component, ElementRef, HostBinding, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatError, MatInputModule } from '@angular/material/input';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { ConfigService } from 'src/app/_services/config.service';
+
+
+
+
 
 @Component({
-    selector: 'gs2-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    standalone: false
+  selector: 'gs2-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
+  imports: [
+    MatCardModule, MatIconModule, RouterLink, MatError, FormsModule, ReactiveFormsModule,
+    MatFormFieldModule, CommonModule, MatInputModule, MatButtonModule,
+  ],
 })
 export class LoginComponent implements OnInit {
 
   @HostBinding('class') class = 'main-container';
 
   // Constants
-  readonly REQUIRED = ConstantsService.REQUIRED;
-  readonly LOGIN = ConstantsService.LOGIN;
+  readonly REQUIRED = Constants.REQUIRED;
+  readonly LOGIN = Constants.LOGIN;
 
   form: UntypedFormGroup = new UntypedFormGroup({
     username: new UntypedFormControl('', Validators.required),
@@ -39,9 +53,9 @@ export class LoginComponent implements OnInit {
   private callbackUrl: string;
 
   constructor(private store: Store<AppState>, private route: ActivatedRoute,
-              private el: ElementRef,
-              private readonly config: ConfigService,
-              private readonly oidcSecurityService: OidcSecurityService) {
+    private el: ElementRef,
+    private readonly config: ConfigService,
+    private readonly oidcSecurityService: OidcSecurityService) {
     this.route.queryParams.subscribe(queryParams => {
       this.callbackUrl = queryParams.callback;
     });
@@ -71,12 +85,12 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  get oidcEnabled():boolean {
+  get oidcEnabled(): boolean {
     return this.config.config?.oidcConfig ? true : false;
   }
 
-  get localAuthEnabled():boolean {
-    return this.config.config?.localAuthEnabled ? true: false;
+  get localAuthEnabled(): boolean {
+    return this.config.config?.localAuthEnabled ? true : false;
   }
 
   oidcAuthClick() {

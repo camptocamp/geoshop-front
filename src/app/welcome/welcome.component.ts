@@ -1,19 +1,25 @@
-import {Component, OnInit, ChangeDetectorRef, OnDestroy, HostBinding} from '@angular/core';
-import {MediaMatcher} from '@angular/cdk/layout';
-import {MapService} from '../_services/map.service';
-import {AppState, getUser} from '../_store';
-import {Store} from '@ngrx/store';
-import * as fromAuth from '../_store/auth/auth.action';
-import {BehaviorSubject} from 'rxjs';
-import {IIdentity} from '../_models/IIdentity';
+import { IIdentity } from '@app/models/IIdentity';
+import { MapService } from '@app/services/map.service';
+import { AppState, getUser } from '@app/store';
+import { CatalogComponent } from '@app/welcome/catalog/catalog.component';
+import { MapComponent } from '@app/welcome/map/map.component';
+
+import { MediaMatcher } from '@angular/cdk/layout';
+import { Component, ChangeDetectorRef, OnDestroy, HostBinding } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AngularSplitModule, SplitGutterInteractionEvent } from 'angular-split';
+import { BehaviorSubject } from 'rxjs';
+
 
 @Component({
-    selector: 'gs2-welcome',
-    templateUrl: './welcome.component.html',
-    styleUrls: ['./welcome.component.scss'],
-    standalone: false
+  selector: 'gs2-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss'],
+  imports: [
+    AngularSplitModule, CatalogComponent, MapComponent,
+  ],
 })
-export class WelcomeComponent implements OnInit, OnDestroy {
+export class WelcomeComponent implements OnDestroy {
 
   @HostBinding('class') class = 'main-container';
 
@@ -25,9 +31,9 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   private user$ = new BehaviorSubject<Partial<IIdentity> | null>(null);
 
   constructor(changeDetectorRef: ChangeDetectorRef,
-              media: MediaMatcher,
-              private mapService: MapService,
-              private store: Store<AppState>,
+    media: MediaMatcher,
+    private mapService: MapService,
+    private store: Store<AppState>,
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -35,19 +41,18 @@ export class WelcomeComponent implements OnInit, OnDestroy {
     this.store.select(getUser).subscribe(user => this.user$.next(user));
   }
 
-  ngOnInit() {
-  }
-
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this.mobileQueryListener);
   }
 
-  dragEnd(event: any) {
+  dragEnd(event: SplitGutterInteractionEvent) {
+    console.log(event);
     this.mapService.resizeMap();
-    this.leftPositionForButtons = event.sizes[0];
+    this.leftPositionForButtons = event.sizes[0] as number;
   }
 
   transitionEnd(event: number) {
+    console.log(event);
     this.mapService.resizeMap();
     this.leftPositionForButtons = 10;
   }

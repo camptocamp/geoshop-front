@@ -1,24 +1,30 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppState } from '@app/store';
 
-import { RegisterComponent } from './register.component';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/_store';
-import { HttpClient, HttpHandler } from '@angular/common/http';
-import { of } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSelectModule } from '@angular/material/select';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
+import { vi } from 'vitest';
+
+import { RegisterComponent } from './register.component';
+
 
 class StoreMock {
-  select =  jasmine.createSpy().and.returnValue(of(jasmine.createSpy()));
-  dispatch = jasmine.createSpy();
+  select = vi.fn().mockImplementation(() => of(vi.fn()));
+  dispatch = vi.fn();
 }
 
 describe('RegisterComponent', () => {
@@ -27,26 +33,20 @@ describe('RegisterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatIconModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatStepperModule,
-        MatSelectModule,
-        NoopAnimationsModule,
-        ReactiveFormsModule,
+      imports: [
+        MatIconModule, MatDatepickerModule,
+        FormsModule, ReactiveFormsModule, MatFormFieldModule, MatOptionModule, MatSelectModule,
+        NoopAnimationsModule, MatNativeDateModule,
+        MatStepperModule, MatCardModule, CommonModule, MatInputModule, MatButtonModule,
+        RegisterComponent
       ],
-      declarations: [ RegisterComponent ],
-      providers:[
-        {provide: Store<AppState>, useClass: StoreMock},
-        HttpClient,
-        HttpHandler,
+      providers: [
+        { provide: Store<AppState>, useClass: StoreMock },
+        provideHttpClient(),
+        provideHttpClientTesting()
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

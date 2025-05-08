@@ -1,25 +1,36 @@
+import { deepCopyOrder } from '@app/helpers/GeoshopUtils';
+import { IOrder } from '@app/models/IOrder';
+import { IProduct } from '@app/models/IProduct';
+import { ApiService } from '@app/services/api.service';
+import { ConfigService } from '@app/services/config.service';
+import { AppState, selectOrder } from '@app/store';
+import { updateOrder } from '@app/store/cart/cart.action';
+import { DialogMetadataComponent } from '@app/welcome/catalog/dialog-metadata/dialog-metadata.component';
+
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { IProduct } from 'src/app/_models/IProduct';
-import { ApiService } from 'src/app/_services/api.service';
-import { ConfigService } from 'src/app/_services/config.service';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogMetadataComponent } from './dialog-metadata/dialog-metadata.component';
-import { UntypedFormControl } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormField, MatInputModule } from '@angular/material/input';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
 import { debounceTime, map, mergeMap, scan, switchMap, tap, throttleTime } from 'rxjs/operators';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { AppState, selectOrder } from '../../_store';
-import { Store } from '@ngrx/store';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { GeoshopUtils } from '../../_helpers/GeoshopUtils';
-import { IOrder } from '../../_models/IOrder';
-import { updateOrder } from '../../_store/cart/cart.action';
+
+
 
 @Component({
   selector: 'gs2-catalog',
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss'],
-  standalone: false
+  imports: [
+    MatFormField, ReactiveFormsModule, MatProgressSpinner, CdkVirtualScrollViewport,
+    ScrollingModule, CommonModule, MatInputModule, MatIconModule, MatButtonModule, MatDialogModule
+  ],
 })
 export class CatalogComponent implements OnInit {
 
@@ -36,7 +47,7 @@ export class CatalogComponent implements OnInit {
   // Filtering
   catalogInputControl = new UntypedFormControl('');
 
-  mediaUrl: String | undefined;
+  mediaUrl: string | undefined;
   order: IOrder;
 
   constructor(private apiService: ApiService,
@@ -99,7 +110,7 @@ export class CatalogComponent implements OnInit {
   }
 
   addToCart(product: IProduct) {
-    const order = GeoshopUtils.deepCopyOrder(this.order);
+    const order = deepCopyOrder(this.order);
     const itemsInCart = order.items.map(x => x.product_id);
     if (itemsInCart.indexOf(product.id) === -1) {
       order.items.push({

@@ -1,12 +1,15 @@
+import { IMetadata } from '@app/models/IMetadata';
+
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatAccordion } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 
 import { DialogMetadataComponent } from './dialog-metadata.component';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { IMetadata } from 'src/app/_models/IMetadata';
-import { HttpClient, HttpHandler } from '@angular/common/http';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatAccordion } from '@angular/material/expansion';
+
 
 describe('DialogMetadataComponent', () => {
   let component: DialogMetadataComponent;
@@ -19,13 +22,13 @@ describe('DialogMetadataComponent', () => {
         MatCardModule,
         MatIconModule,
         MatAccordion,
+        DialogMetadataComponent,
       ],
-      declarations: [DialogMetadataComponent],
       providers: [
         { provide: MatDialogRef, useValue: {} },
-        { provide: HttpClient, useClass: HttpClient },
-        { provide: HttpHandler, useClass: HttpHandler },
-        { provide: MAT_DIALOG_DATA, useValue: {geocat_link: ""} as IMetadata }
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: MAT_DIALOG_DATA, useValue: { geocat_link: "" } as IMetadata }
       ]
     })
       .compileComponents();

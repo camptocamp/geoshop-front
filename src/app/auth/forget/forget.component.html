@@ -14,14 +14,14 @@
     </div>
     <form [formGroup]="form" (ngSubmit)="onSubmit($event)">
       <mat-form-field color="accent">
-        <input type="email" autocapitalize="off" spellcheck="false" id="email"
-               formControlName="email" required matInput i18n-placeholder placeholder="Courriel">
+        <input type="email" autocapitalize="off" spellcheck="false" id="email" formControlName="email" required matInput
+          i18n-placeholder placeholder="Courriel">
         <mat-error *ngIf="email?.hasError('required')" i18n="@@auth.required">Requis</mat-error>
         <mat-error *ngIf="email?.hasError('pattern')" i18n="@@auth.mail_awaiting">Courriel attendu</mat-error>
       </mat-form-field>
 
       <button class="form-login-button" color="accent" mat-raised-button type="submit"
-              [disabled]="form.pristine || form.invalid" i18n="@@main.send">
+        [disabled]="form.pristine || form.invalid" i18n="@@main.send">
         Envoyer
       </button>
     </form>
