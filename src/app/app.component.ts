@@ -6,7 +6,7 @@ import { AppState, getUser, selectCartTotal, selectOrder } from '@app/store';
 import * as fromAuth from '@app/store/auth/auth.action';
 
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, NgZone, OnDestroy } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -76,10 +76,11 @@ export class AppComponent implements OnDestroy {
         }
       });
 
-    const err = new URLSearchParams(window.location.search).get('error');
-    if (err === "interaction_required") {
+    if (params.get('error') === "interaction_required") {
       AppComponent.autoLoginFailed = true;
-    } else if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
+      return
+    }
+    if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
       const authSubscription = new Subscription()
       combineLatest([this.oidcService.checkAuth(), this.store.select(getUser)]).subscribe(([loginResponse, user]) => {
         if (loginResponse.isAuthenticated && !user) {

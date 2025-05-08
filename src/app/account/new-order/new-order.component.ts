@@ -33,9 +33,6 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, filter, map, mergeMap, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
-
-
-
 @Component({
   selector: 'gs2-new-order',
   templateUrl: './new-order.component.html',
@@ -178,9 +175,9 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       if (order) {
         this.currentOrder = order;
         this.updateForms(this.currentOrder);
-        this._createOrUpdateDraftOrder(undefined, 0);
       }
     });
+    this._createOrUpdateDraftOrder(undefined, 0);
   }
 
   ngOnDestroy() {
@@ -626,9 +623,6 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   public getLocalizedTypeName(type: IOrderType): string {
-    if (!type) {
-      return "?";
-    }
     switch (type.id) {
       case 1:
         return Constants.ORDER_NAME.PRIVATE;
