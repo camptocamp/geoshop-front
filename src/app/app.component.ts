@@ -6,7 +6,7 @@ import { AppState, getUser, selectCartTotal, selectOrder } from '@app/store';
 import * as fromAuth from '@app/store/auth/auth.action';
 
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, NgZone, OnDestroy } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -48,9 +48,11 @@ export class AppComponent implements OnDestroy {
     private oidcService: OidcSecurityService,
     private configService: ConfigService,
     private store: Store<AppState>,
+    private ngZone: NgZone,
     private router: Router,
   ) {
     const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
+    const params = new URLSearchParams(window.location.search);
 
     combineLatest([routerNavEnd$, this.store.select(selectCartTotal)])
       .subscribe((pair) => {
@@ -66,12 +68,19 @@ export class AppComponent implements OnDestroy {
             this.subTitle = '';
           }
         }
+
+        if (!params.get("bounds") && localStorage.getItem("bounds")) {
+          this.ngZone.run(() => {
+              this.router.navigateByUrl("/welcome?bounds=" + localStorage.getItem("bounds"));
+          });
+        }
       });
 
-    const err = new URLSearchParams(window.location.search).get('error');
-    if (err === "interaction_required") {
+    if (params.get('error') === "interaction_required") {
       AppComponent.autoLoginFailed = true;
-    } else if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
+      return
+    }
+    if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
       const authSubscription = new Subscription()
       combineLatest([this.oidcService.checkAuth(), this.store.select(getUser)]).subscribe(([loginResponse, user]) => {
         if (loginResponse.isAuthenticated && !user) {
@@ -88,6 +97,10 @@ export class AppComponent implements OnDestroy {
             }, 120000);
           }
         } else if (!AppComponent.autoLoginFailed) {
+          const bounds = new URLSearchParams(window.location.search).get("bounds")
+          if (bounds) {
+              localStorage.setItem("bounds", bounds);
+          }
           this.oidcService.authorize(undefined, { customParams: { prompt: 'none' } });
         }
         authSubscription.unsubscribe();
