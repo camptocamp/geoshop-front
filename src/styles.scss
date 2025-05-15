@@ -113,6 +113,11 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto; }
 
 
+.ol-tooltip-area.invalid {
+  border:solid 1px red;
+  background: rgba(255, 0, 0, 0.75);
+}
+
 .ol-tooltip-area {
   position: relative;
   background: rgba(0, 0, 0, 0.5);

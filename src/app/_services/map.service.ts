@@ -40,23 +40,25 @@ import { BehaviorSubject, of } from 'rxjs';
 import { GeoHelper } from '../_helpers/geoHelper';
 import proj4 from 'proj4';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { IBasemap, IPageFormat } from '../_models/IConfig';
 import { AppState, selectOrder } from '../_store';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { updateGeometry } from '../_store/cart/cart.action';
 import { DragAndDropEvent } from 'ol/interaction/DragAndDrop';
 import { shiftKeyOnly } from 'ol/events/condition';
 import { createBox } from 'ol/interaction/Draw';
 import { CoordinateSearchService } from './coordinate-search.service';
 import { ActivatedRoute } from '@angular/router';
-import {getArea as getAreaSphere} from 'ol/sphere.js';
+import { getArea as getAreaSphere } from 'ol/sphere.js';
+import { ApiOrderService } from './api-order.service';
+import { Order } from '../_models/IOrder';
+import { OrderValidationStatus } from '../_models/IApi';
 
-const formatArea = (geom: Geometry): string => {
-  const area = getAreaSphere(geom);
-  return area > 100000 ?
-      `${Math.round((area / 1000000) * 100) / 100}km<sup>2</sup>` :
-      `${Math.round(area * 100) / 100}m<sup>2</sup>`;
+const formatArea = (area: number): string => {
+  return Math.abs(area) > 100000 ?
+    `${Math.round((area / 1000000) * 100) / 100}km<sup>2</sup>` :
+    `${Math.round(area * 100) / 100}m<sup>2</sup>`;
 }
 
 
@@ -75,6 +77,7 @@ export class MapService {
   private initialExtent: number[];
   private areaTooltipElement: HTMLElement;
   private areaTooltip: Overlay;
+  private validationStatus: OrderValidationStatus = {valid: true};
 
   // Drawing
   private transformInteraction: Transform;
@@ -115,6 +118,12 @@ export class MapService {
     }),
   ];
 
+  private orderStatus = this.store.pipe(
+      select(selectOrder),
+      filter(order => !!order.geom && order.items.length > 0),
+      switchMap(order => this.apiOrderService.validateOrder(new Order(order))),
+    )
+
   // Map's interactions
   private dragInteraction: DragPan;
 
@@ -136,6 +145,7 @@ export class MapService {
   constructor(
     private configService: ConfigService,
     private route: ActivatedRoute,
+    private apiOrderService: ApiOrderService,
     private coordinateSearchService: CoordinateSearchService,
     private store: Store<AppState>,
     private snackBar: MatSnackBar,
@@ -161,7 +171,7 @@ export class MapService {
           const feature = new Feature(geometry);
           this.drawingSource.addFeature(feature);
           this.areaTooltip.setPosition(getCenter(feature.getGeometry()!.getExtent()));
-          this.areaTooltipElement.innerHTML = formatArea(feature.getGeometry()!);
+          this.updateAreaTooltip();
         }
       });
       this.initialized = true;
@@ -175,6 +185,11 @@ export class MapService {
             { nearest: true });
         }
       });
+    });
+
+    this.orderStatus.subscribe((status) => {
+      this.validationStatus = status;
+      this.updateAreaTooltip();
     });
   }
 
@@ -582,14 +597,25 @@ export class MapService {
       this.toggleDrawing();
     });
     this.map.addInteraction(this.drawInteraction);
-    this.map.on('pointermove', () => {
-      const feat = this.featureFromDrawing;
-      if (feat && feat.getRevision() > 0) {
-        this.areaTooltipElement.style.visibility = "visible";
-        this.areaTooltip.setPosition(getCenter(feat.getGeometry()!.getExtent()));
-        this.areaTooltipElement.innerHTML = formatArea(feat.getGeometry()!);
-      }
-    });
+    this.map.on('pointermove', () => this.updateAreaTooltip());
+  }
+
+  private updateAreaTooltip() {
+    const feat = this.featureFromDrawing;
+    if (!feat || feat.getRevision() <= 0) {
+      return
+    }
+    var content = formatArea(getAreaSphere(feat.getGeometry()!));
+    const status = this.validationStatus;
+    if (status && status.valid) {
+      this.areaTooltipElement.classList.remove('invalid');
+    } else if (status.error){
+      this.areaTooltipElement.classList.add('invalid');
+      content += `<br/> ${status!.error.message[0]}: (By ${formatArea(status!.error.excluded[0]-status!.error.expected[0])})`;
+    }
+    this.areaTooltipElement.style.visibility = "visible";
+    this.areaTooltip.setPosition(getCenter(feat.getGeometry()!.getExtent()));
+    this.areaTooltipElement.innerHTML = content;
   }
 
   private initializeDrawing() {
