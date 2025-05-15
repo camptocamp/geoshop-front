@@ -120,9 +120,12 @@ export class MapService {
 
   private orderStatus = this.store.pipe(
       select(selectOrder),
-      filter(order => !!order.geom && order.items.length > 0),
-      switchMap(order => this.apiOrderService.validateOrder(new Order(order))),
-    )
+      switchMap(order => {
+        if (!order.geom || order.items.length <= 0) {
+          return of({valid: true});
+        }
+        return this.apiOrderService.validateOrder(new Order(order));
+      }));
 
   // Map's interactions
   private dragInteraction: DragPan;
