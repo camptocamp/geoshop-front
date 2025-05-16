@@ -215,11 +215,12 @@ export class Order {
       order_type: this.order_type,
       title: this.title,
       items: this.items.map(x => {
-        x.product = {label: x.product.label} as IProduct;
-        if (!x.data_format) {
-          delete x.data_format;
+        const item = JSON.parse(JSON.stringify(x));
+        item.product = {label: item.product.label} as IProduct;
+        if (!item.data_format) {
+          delete item.data_format;
         }
-        return x;
+        return item;
       })
     };
 

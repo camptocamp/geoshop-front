@@ -1,12 +1,12 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { AppState, authFeatureSelector, getUser, selectCartTotal, selectOrder } from './_store';
+import { Component, NgZone, OnDestroy } from '@angular/core';
+import { AppState, getUser, selectCartTotal, selectOrder } from './_store';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { combineLatest, Subscription, zip } from 'rxjs';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import * as fromAuth from './_store/auth/auth.action';
-import { ConfigService } from './_services/config.service';
+import { ConfigService } from './_services/config.service';;
 
 @Component({
   selector: 'gs2-root',
