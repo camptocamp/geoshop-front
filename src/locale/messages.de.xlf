@@ -295,7 +295,22 @@
         <target>Die Auswahl wurde erfolgreich übermittelt</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/api-order.service.ts</context>
-          <context context-type="linenumber">83</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5947760680752260655" datatype="html">
+        <source>Commande passée avec succès! Vous recevrez un email lorsque tous les téléchargements seront prêts.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/api-order.service.ts</context>
+          <context context-type="linenumber">237</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1933042732014554806" datatype="html">
+        <source>Order area is too large, by <x id="PH" equiv-text="formatArea(status!.error!.excluded[0]-status!.error!.expected[0])"/></source>
+        <target>Der ausgewählte Bereich ist zu gross. Ausgewählt ist (<x id="PH" equiv-text="formatArea(status!.error!.excluded[0]-status!.error!.expected[0])"/>)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/map.service.ts</context>
+          <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5947760680752260655" datatype="html">
