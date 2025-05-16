@@ -24,9 +24,8 @@ import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import Point from 'ol/geom/Point';
 import GeoJSON from 'ol/format/GeoJSON';
 import Projection from 'ol/proj/Projection';
-import { boundingExtent, buffer, getCenter, getArea } from 'ol/extent';
+import { buffer, getCenter, getArea } from 'ol/extent';
 import MultiPoint from 'ol/geom/MultiPoint';
-import { fromLonLat } from 'ol/proj';
 import KML from 'ol/format/KML';
 import { Coordinate } from 'ol/coordinate';
 import Geometry from 'ol/geom/Geometry';
@@ -37,10 +36,10 @@ import TileSource from 'ol/source/Tile';
 import Transform from 'ol-ext/interaction/Transform';
 
 import { BehaviorSubject, of } from 'rxjs';
-import { GeoHelper } from '../_helpers/geoHelper';
+import { formatArea } from '../_helpers/geoHelper';
 import proj4 from 'proj4';
 import { HttpClient } from '@angular/common/http';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { IBasemap, IPageFormat } from '../_models/IConfig';
 import { AppState, selectOrder } from '../_store';
 import { select, Store } from '@ngrx/store';
@@ -55,12 +54,10 @@ import { ApiOrderService } from './api-order.service';
 import { Order } from '../_models/IOrder';
 import { OrderValidationStatus } from '../_models/IApi';
 
-const formatArea = (area: number): string => {
-  return Math.abs(area) > 100000 ?
-    `${Math.round((area / 1000000) * 100) / 100}km<sup>2</sup>` :
-    `${Math.round(area * 100) / 100}m<sup>2</sup>`;
-}
 
+function formatAreaError(status: OrderValidationStatus): string {
+  return $localize`Order area is too large, by ${formatArea(status!.error!.excluded[0]-status!.error!.expected[0])}`;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -614,7 +611,7 @@ export class MapService {
       this.areaTooltipElement.classList.remove('invalid');
     } else if (status.error){
       this.areaTooltipElement.classList.add('invalid');
-      content += `<br/> ${status!.error.message[0]}: (By ${formatArea(status!.error.excluded[0]-status!.error.expected[0])})`;
+      content += `<br/> ${formatAreaError(status)}`;
     }
     this.areaTooltipElement.style.visibility = "visible";
     this.areaTooltip.setPosition(getCenter(feat.getGeometry()!.getExtent()));
@@ -691,7 +688,7 @@ export class MapService {
   private dispatchCurrentGeometry(fitMap: boolean) {
     if (this.featureFromDrawing) {
       const polygon = this.featureFromDrawing.getGeometry() as Polygon;
-      const area = GeoHelper.formatArea(polygon);
+      const area = formatArea(getAreaSphere(polygon));
       this.featureFromDrawing.set('area', area);
       this.store.dispatch(
         updateGeometry(

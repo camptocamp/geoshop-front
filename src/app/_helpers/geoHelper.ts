@@ -16,22 +16,13 @@ import { Order } from '../_models/IOrder';
 import Feature from 'ol/Feature';
 import { Fill, Style } from 'ol/style';
 
+export const formatArea = (area: number): string => {
+  return Math.abs(area) > 100000 ?
+    `${Math.round((area / 1000000) * 100) / 100}km<sup>2</sup>` :
+    `${Math.round(area * 100) / 100}m<sup>2</sup>`;
+}
+
 export class GeoHelper {
-  /**
-   * Format area output.
-   */
-  public static formatArea(polygon: Polygon): string {
-    const area = getArea(polygon);
-    let output;
-    if (area > 10000) {
-      output = (Math.round(area / 1000000 * 100) / 100) +
-        ' ' + 'km2';
-    } else {
-      output = (Math.round(area * 100) / 100) +
-        ' ' + 'm2';
-    }
-    return output;
-  }
 
   public static async generateMiniMap(configService: ConfigService, mapService: MapService) {
     mapService.initialize();
