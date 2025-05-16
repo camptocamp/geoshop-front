@@ -40,7 +40,7 @@ export const nameOfCategoryForGeocoder: Record<string, string> = { // TODO this 
     MatProgressSpinnerModule, MatCardModule, ReactiveFormsModule, FormsModule,
     MatFormFieldModule, MatAutocompleteModule, MatIconModule, MatOptgroup,
     MatOptionModule, MatHint, MatButtonModule, MatMiniFabButton, MatMenuModule,
-    CommonModule, MatInputModule, MatDialogModule
+    CommonModule, MatInputModule, MatDialogModule, MatButtonModule, MatOptionModule,
   ],
 })
 export class MapComponent implements OnInit {
