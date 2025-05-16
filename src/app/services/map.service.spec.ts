@@ -16,6 +16,7 @@ import { MapService } from './map.service';
 
 class StoreMock {
   select = vi.fn().mockImplementation(() => of(vi.fn()));
+  pipe = vi.fn().mockImplementation(() => of(vi.fn()));
   dispatch = vi.fn();
 }
 

@@ -24,9 +24,8 @@ const DEFAULT_EXTENT = [2419995.7488073637, 1030006.663199476, 2900009.727428728
 /**
  * Format area output.
  */
-export function formatArea(geom: Geometry): string {
-  const area = getAreaSphere(geom);
-  return area > 100000 ?
+export const formatArea = (area: number): string => {
+  return Math.abs(area) > 100000 ?
     `${Math.round((area / 1000000) * 100) / 100}km<sup>2</sup>` :
     `${Math.round(area * 100) / 100}m<sup>2</sup>`;
 }

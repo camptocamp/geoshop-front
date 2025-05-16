@@ -70,7 +70,7 @@
       </mat-radio-group>
     </form>
 
-    <mat-label *ngIf="!IsOrderTypePrivate" i18n>
+    <mat-label *ngIf="!IsOrderTypePrivate && orderFormGroup.get('orderType')?.value" i18n>
       Vous devez spécifier les informations de contact du tiers pour un mandat de type
       &quot;{{ getLocalizedTypeName(orderFormGroup.get('orderType')?.value) }}&quot;.
     </mat-label>

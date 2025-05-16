@@ -6,8 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { Collection, Feature, Overlay } from 'ol';
+import { select, Store } from '@ngrx/store';
+import { Feature, Overlay } from 'ol';
 import { FeatureLike } from 'ol/Feature';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -30,6 +30,7 @@ import BaseLayer from 'ol/layer/Base';
 import LayerGroup from 'ol/layer/Group';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
+import { getArea as getAreaSphere } from 'ol/sphere.js';
 import Projection from 'ol/proj/Projection';
 import { register } from 'ol/proj/proj4';
 import TileSource from 'ol/source/Tile';
@@ -41,15 +42,14 @@ import WMTSTileGrid from 'ol/tilegrid/WMTS';
 import Transform from 'ol-ext/interaction/Transform';
 import proj4 from 'proj4';
 import { BehaviorSubject, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
-import { ConfigService } from './config.service';
-import { CoordinateSearchService } from './coordinate-search.service';
-import { formatArea } from '../helpers/geoHelper';
-
-
-
-
+import { ConfigService } from '@app/services/config.service';
+import { CoordinateSearchService } from '@app/services/coordinate-search.service';
+import { formatArea } from '@app/helpers/geoHelper';
+import { Order } from '@app/models/IOrder';
+import { ApiOrderService } from './api-order.service';
+import { OrderValidationStatus } from '@app/models/IApi';
 
 const DEFAULT_EXTENT = [2419995.7488073637, 1030006.663199476, 2900009.727428728, 1350004.292478851];
 const DEFAULT_RESOLUTIONS = [250, 100, 50, 20, 10, 5, 2.5, 2, 1.5, 1, 0.5, 0.25];
@@ -69,6 +69,7 @@ export class MapService {
   private initialExtent: number[];
   private areaTooltipElement: HTMLElement;
   private areaTooltip: Overlay;
+  private validationStatus: OrderValidationStatus = {valid: true};
 
   // Drawing
   private transformInteraction: Transform;
@@ -109,6 +110,15 @@ export class MapService {
     }),
   ];
 
+  private orderStatus = this.store.pipe(
+      select(selectOrder),
+      switchMap(order => {
+        if (!order.geom || order.items.length <= 0) {
+          return of({valid: true});
+        }
+        return this.apiOrderService.validateOrder(new Order(order));
+      }));
+
   // Map's interactions
   private dragInteraction: DragPan;
 
@@ -130,6 +140,7 @@ export class MapService {
   constructor(
     private configService: ConfigService,
     private route: ActivatedRoute,
+    private apiOrderService: ApiOrderService,
     private coordinateSearchService: CoordinateSearchService,
     private store: Store<AppState>,
     private snackBar: MatSnackBar,
@@ -152,8 +163,8 @@ export class MapService {
           const geometry = this.geoJsonFormatter.readGeometry(order.geom);
           const feature = new Feature(geometry);
           this.drawingSource.addFeature(feature);
-          this.areaTooltip.setPosition(getCenter(geometry.getExtent()));
-          this.areaTooltipElement.innerHTML = formatArea(geometry);
+          this.areaTooltip.setPosition(getCenter(feature.getGeometry()!.getExtent()));
+          this.updateAreaTooltip();
         }
       });
       this.initialized = true;
@@ -167,6 +178,11 @@ export class MapService {
             { nearest: true });
         }
       });
+    });
+
+    this.orderStatus.subscribe((status) => {
+      this.validationStatus = status;
+      this.updateAreaTooltip();
     });
   }
 
@@ -573,15 +589,25 @@ export class MapService {
       this.toggleDrawing();
     });
     this.map.addInteraction(this.drawInteraction);
-    this.map.on('pointermove', () => {
-      const feat = this.featureFromDrawing;
-      const geom = feat?.getGeometry();
-      if (feat && feat.getRevision() > 0 && geom) {
-        this.areaTooltipElement.style.visibility = "visible";
-        this.areaTooltip.setPosition(getCenter(geom.getExtent()));
-        this.areaTooltipElement.innerHTML = formatArea(geom);
-      }
-    });
+    this.map.on('pointermove', () => this.updateAreaTooltip());
+  }
+
+  private updateAreaTooltip() {
+    const feat = this.featureFromDrawing;
+    if (!feat || feat.getRevision() <= 0) {
+      return
+    }
+    var content = formatArea(getAreaSphere(feat.getGeometry()!));
+    const status = this.validationStatus;
+    if (status && status.valid) {
+      this.areaTooltipElement.classList.remove('invalid');
+    } else if (status.error){
+      this.areaTooltipElement.classList.add('invalid');
+      content += `<br/> ${status!.error.message[0]}: (By ${formatArea(status!.error.excluded[0]-status!.error.expected[0])})`;
+    }
+    this.areaTooltipElement.style.visibility = "visible";
+    this.areaTooltip.setPosition(getCenter(feat.getGeometry()!.getExtent()));
+    this.areaTooltipElement.innerHTML = content;
   }
 
   private initializeDrawing() {
@@ -594,10 +620,7 @@ export class MapService {
     if (this.featureFromDrawing) {
       this.drawingSource.addFeature(this.featureFromDrawing);
     }
-    this.drawingSource.on('addfeature', (evt: { feature?: Feature<Geometry> }) => {
-      if (!evt.feature) {
-        return
-      }
+    this.drawingSource.on('addfeature', (evt: { feature: any; }) => {
       this.featureFromDrawing = evt.feature;
       this.dispatchCurrentGeometry(true);
 
@@ -657,7 +680,7 @@ export class MapService {
   private dispatchCurrentGeometry(fitMap: boolean) {
     if (this.featureFromDrawing) {
       const polygon = this.featureFromDrawing.getGeometry() as Polygon;
-      const area = formatArea(polygon);
+      const area = formatArea(getAreaSphere(polygon));
       this.featureFromDrawing.set('area', area);
       this.store.dispatch(
         updateGeometry(
@@ -723,7 +746,7 @@ export class MapService {
       hitTolerance: 2,
     });
 
-    this.transformInteraction.on(['rotateend', 'translateend'], (evt: { features: Collection<Feature<Geometry>> }) => {
+    this.transformInteraction.on(['rotateend', 'translateend'], (evt: any) => {
       this.featureFromDrawing = evt.features.item(0);
       this.dispatchCurrentGeometry(true);
     });
@@ -764,7 +787,7 @@ export class MapService {
 
     const w = format.width * scale / 2000;
     const h = format.height * scale / 2000;
-    let coordinates: Coordinate[][];
+    let coordinates: Array<Array<Coordinate>>;
     if (center && center.length > 0) {
       coordinates = [[
         [center[0] - w, center[1] - h],

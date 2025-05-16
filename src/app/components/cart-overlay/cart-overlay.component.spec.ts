@@ -18,6 +18,7 @@ import { CartOverlayComponent } from './cart-overlay.component';
 class StoreMock {
   select = vi.fn().mockImplementation(() => of(vi.fn()));
   dispatch = vi.fn();
+  pipe = vi.fn().mockImplementation(() => of(vi.fn()));
 }
 
 describe('CartOverlayComponent', () => {

@@ -23,3 +23,13 @@ export interface IApiResponseError {
   name: string;
   status: number;
 }
+
+export interface OrderValidationStatus {
+  valid: boolean;
+  error?: {
+    message: string[];
+    excluded: number[];
+    expected: number[];
+    actual: number[];
+  }
+}

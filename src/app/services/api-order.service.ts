@@ -1,4 +1,4 @@
-import { IApiResponse } from '@app/models/IApi';
+import { IApiResponse, OrderValidationStatus } from '@app/models/IApi';
 import { Contact, IContact } from '@app/models/IContact';
 import { IOrder, IOrderItem, IOrderSummary, IOrderToPost, IOrderType, Order } from '@app/models/IOrder';
 import { IProduct } from '@app/models/IProduct';
@@ -360,5 +360,13 @@ export class ApiOrderService {
         return of(false);
       })
     );
+  }
+
+  validateOrder(order: Order): Observable<OrderValidationStatus> {
+    this._getApiUrl();
+    const url = new URL(`${this.apiUrl}/validate/order`);
+    const postJson = order.toPostAsJson
+    postJson.order_type = "private";
+    return this.http.post<OrderValidationStatus>(url.toString(), postJson);
   }
 }

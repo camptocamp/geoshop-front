@@ -177,7 +177,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
         this.updateForms(this.currentOrder);
       }
     });
-    this._createOrUpdateDraftOrder(undefined, 0);
+    //this._createOrUpdateDraftOrder(undefined, 0);
   }
 
   ngOnDestroy() {

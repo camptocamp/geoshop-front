@@ -17,14 +17,10 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Store } from '@ngrx/store';
-import { EMPTY } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { vi } from 'vitest';
 
 import { NewOrderComponent } from './new-order.component';
-
-
-
-
 
 class StoreMock {
   select = vi.fn(() => EMPTY);
@@ -36,6 +32,12 @@ class MockConfig {
   config = {
     apiUrl: "http://some/api/url"
   } as IConfig;
+}
+
+class MockApiOrderService {
+  getOrderTypes() {
+    return of([]);
+  }
 }
 
 describe('NewOrderComponent', () => {
@@ -58,7 +60,7 @@ describe('NewOrderComponent', () => {
         NewOrderComponent,
       ],
       providers: [
-        ApiOrderService,
+        { provide: ApiOrderService,useClass: MockApiOrderService },
         provideHttpClient(),
         provideHttpClientTesting(),
         { provide: ConfigService, useClass: MockConfig },
