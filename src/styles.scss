@@ -4,6 +4,7 @@
 
 
 html {
+
   @include mat.theme((
       color: (theme-type: light,
         primary: palette.$primary-palette,
@@ -32,6 +33,9 @@ body {
   height: 100%;
   margin: 0;
   font-family: Roboto, Arial, Helvetica, sans-serif;
+
+  --mat-sys-primary: #26a59a;
+  --mat-sys-on-primary: #ffffff;
 }
 
 ul {
