@@ -35,7 +35,8 @@
     padding: 3px 3px 3px 10px;
     font-size: 12px;
     margin-left: 10px;
-    color: white;
+    color: var(--mat-sys-on-primary);
+    background-color: var(--mat-sys-primary);
     transition: left 0.3s;
 
     .map-credits {
@@ -54,6 +55,9 @@
 
     button {
       margin-bottom: 10px;
+      color: var(--mat-sys-on-primary);
+      background-color: var(--mat-sys-primary);
+      border-radius: 100%;
     }
   }
 }
