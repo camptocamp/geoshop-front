@@ -605,13 +605,13 @@ export class MapService {
     if (!feat || feat.getRevision() <= 0) {
       return
     }
-    var content = formatArea(getAreaSphere(feat.getGeometry()!));
     const status = this.validationStatus;
+    var content = formatArea(status?.error?.actual[0] ?? (feat.getGeometry()! as Polygon).getArea());
     if (status && status.valid) {
       this.areaTooltipElement.classList.remove('invalid');
     } else if (status.error){
       this.areaTooltipElement.classList.add('invalid');
-      content += `<br/> ${formatAreaError(status)}`;
+      content += `<br/> ${status!.error.message[0]}: (By ${formatArea(status!.error.excluded[0]-status!.error.expected[0])})`;
     }
     this.areaTooltipElement.style.visibility = "visible";
     this.areaTooltip.setPosition(getCenter(feat.getGeometry()!.getExtent()));
