@@ -319,17 +319,13 @@ export class MapService {
       return of([]);
     }
     const coordinateResult = this.coordinateSearchService.stringCoordinatesToFeature(inputText);
-    const urlText = this.configService.config?.geocoderUrl;
-    if (!urlText) {
+    const searchConfig = this.configService.config?.search;
+    if (!searchConfig) {
       return of([]);
     }
-    const url = new URL(urlText);
-    url.searchParams.append('searchText', inputText);
-    url.searchParams.append('limit', '5');  // TODO find a good limit for this
-    url.searchParams.append('geometryFormat', 'geojson');
-    url.searchParams.append('type', 'locations');
-    url.searchParams.append('sr', '2056');
-    url.searchParams.append('origins', 'district,gg25,parcel,address');
+    const url = new URL(searchConfig.url);
+    url.searchParams.append(searchConfig.queryParamName, inputText);
+    url.search += `&${searchConfig.querySuffix}`;
     return this.httpClient.get(url.toString()).pipe(
       map((featureCollectionData) => {
         const featureCollection = this.geoJsonFormatter.readFeatures(featureCollectionData);
