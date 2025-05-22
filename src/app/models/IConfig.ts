@@ -9,13 +9,20 @@ export interface IBasemap {
   format: string;
 }
 
+export interface ISearchConfig {
+  url: string;
+  queryParamName: string;
+  querySuffix: string;
+  layers: string;
+  providerType: string;
+}
+
 // TODO it look like thie interface is never used -> remove it or use it!
 export interface IConfig {
   apiUrl: string;
   mediaUrl: string;
   baseMapUrl: string;
-  geocoderUrl: string;
-  geocoderLayers: string[];
+  search: ISearchConfig;
   contact: {
     links: { conditions: string; tariffs: string; };
     phone: { label: string; number: string };

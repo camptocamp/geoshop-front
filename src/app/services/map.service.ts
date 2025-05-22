@@ -307,33 +307,6 @@ export class MapService {
     return tileLayer;
   }
 
-  public geocoderSearch(inputText: string) {
-    if (!inputText || inputText.length === 0 || typeof inputText !== 'string') {
-      return of([]);
-    }
-    const coordinateResult = this.coordinateSearchService.stringCoordinatesToFeature(inputText);
-    const urlText = this.configService.config?.geocoderUrl;
-    if (!urlText) {
-      return of([]);
-    }
-    const url = new URL(urlText);
-    url.searchParams.append('searchText', inputText);
-    url.searchParams.append('limit', '5');  // TODO find a good limit for this
-    url.searchParams.append('geometryFormat', 'geojson');
-    url.searchParams.append('type', 'locations');
-    url.searchParams.append('sr', '2056');
-    url.searchParams.append('origins', 'district,gg25,parcel,address');
-    return this.httpClient.get(url.toString()).pipe(
-      map((featureCollectionData) => {
-        const featureCollection = this.geoJsonFormatter.readFeatures(featureCollectionData);
-        if (coordinateResult) {
-          featureCollection.push(coordinateResult);
-        }
-        return featureCollection;
-      })
-    );
-  }
-
   public stripHtmlTags(html: string): string {
     const div = document.createElement('div');
     div.innerHTML = html;

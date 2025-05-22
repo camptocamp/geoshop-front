@@ -2,6 +2,7 @@ import { IBasemap, IPageFormat } from '@app/models/IConfig';
 import { ConfigService } from '@app/services/config.service';
 import { CustomIconService } from '@app/services/custom-icon.service';
 import { MapService } from '@app/services/map.service';
+import { SearchService } from '@app/services/search.service';
 
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
@@ -82,6 +83,7 @@ export class MapComponent implements OnInit {
   constructor(private mapService: MapService,
     private configService: ConfigService,
     private customIconService: CustomIconService,
+    private readonly searchService: SearchService,
     public dialog: MatDialog) {
     // Initialize custom icons
     this.customIconService.init();
@@ -103,7 +105,7 @@ export class MapComponent implements OnInit {
             if (inputText.length === 0) {
               this.shouldDisplayClearButton = false;
             }
-            return this.mapService.geocoderSearch(inputText);
+            return this.searchService.search(inputText);
           })
         )
         .subscribe(features => {
