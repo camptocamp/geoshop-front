@@ -10,6 +10,7 @@ import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import Feature from 'ol/Feature';
 import {MatDialog} from '@angular/material/dialog';
 import {ManualentryComponent} from './manualentry/manualentry.component';
+import { SearchService } from 'src/app/_services/search.service';
 
 export const nameOfCategoryForGeocoder: { [prop: string]: string; } = { // TODO this should be translated
   zipcode: 'Ortschaftenverzeichnis PLZ',
@@ -66,6 +67,7 @@ export class MapComponent implements OnInit {
   constructor(private mapService: MapService,
               private configService: ConfigService,
               private customIconService: CustomIconService,
+              private readonly searchService: SearchService,
               public dialog: MatDialog) {
     // Initialize custom icons
     this.customIconService.init();
@@ -87,7 +89,7 @@ export class MapComponent implements OnInit {
             if (inputText.length === 0) {
               this.shouldDisplayClearButton = false;
             }
-            return this.mapService.geocoderSearch(inputText);
+            return this.searchService.search(inputText);
           })
         )
         .subscribe(features => {

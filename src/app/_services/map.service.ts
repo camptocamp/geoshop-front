@@ -39,7 +39,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { formatArea } from '../_helpers/geoHelper';
 import proj4 from 'proj4';
 import { HttpClient } from '@angular/common/http';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { IBasemap, IPageFormat } from '../_models/IConfig';
 import { AppState, selectOrder } from '../_store';
 import { select, Store } from '@ngrx/store';
@@ -47,7 +47,6 @@ import { updateGeometry } from '../_store/cart/cart.action';
 import { DragAndDropEvent } from 'ol/interaction/DragAndDrop';
 import { shiftKeyOnly } from 'ol/events/condition';
 import { createBox } from 'ol/interaction/Draw';
-import { CoordinateSearchService } from './coordinate-search.service';
 import { ActivatedRoute } from '@angular/router';
 import { getArea as getAreaSphere } from 'ol/sphere.js';
 import { ApiOrderService } from './api-order.service';
@@ -146,10 +145,8 @@ export class MapService {
     private configService: ConfigService,
     private route: ActivatedRoute,
     private apiOrderService: ApiOrderService,
-    private coordinateSearchService: CoordinateSearchService,
     private store: Store<AppState>,
-    private snackBar: MatSnackBar,
-    private httpClient: HttpClient) {
+    private snackBar: MatSnackBar) {
   }
 
   public initialize() {
@@ -312,33 +309,6 @@ export class MapService {
     tileLayer.set('thumbnail', baseMapConfig.thumbUrl);
 
     return tileLayer;
-  }
-
-  public geocoderSearch(inputText: string) {
-    if (!inputText || inputText.length === 0 || typeof inputText !== 'string') {
-      return of([]);
-    }
-    const coordinateResult = this.coordinateSearchService.stringCoordinatesToFeature(inputText);
-    const urlText = this.configService.config?.geocoderUrl;
-    if (!urlText) {
-      return of([]);
-    }
-    const url = new URL(urlText);
-    url.searchParams.append('searchText', inputText);
-    url.searchParams.append('limit', '5');  // TODO find a good limit for this
-    url.searchParams.append('geometryFormat', 'geojson');
-    url.searchParams.append('type', 'locations');
-    url.searchParams.append('sr', '2056');
-    url.searchParams.append('origins', 'district,gg25,parcel,address');
-    return this.httpClient.get(url.toString()).pipe(
-      map((featureCollectionData) => {
-        const featureCollection = this.geoJsonFormatter.readFeatures(featureCollectionData);
-        if (coordinateResult) {
-          featureCollection.push(coordinateResult);
-        }
-        return featureCollection;
-      })
-    );
   }
 
   public stripHtmlTags(html: string): string {
