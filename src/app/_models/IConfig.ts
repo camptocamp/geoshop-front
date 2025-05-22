@@ -14,6 +14,7 @@ export interface ISearchConfig {
   queryParamName: string;
   querySuffix: string;
   layers: string;
+  providerType: string;
 }
 
 // TODO it look like thie interface is never used -> remove it or use it!
