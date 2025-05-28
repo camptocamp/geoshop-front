@@ -30,6 +30,7 @@ import KML from 'ol/format/KML';
 import { Coordinate } from 'ol/coordinate';
 import Geometry from 'ol/geom/Geometry';
 import TileSource from 'ol/source/Tile';
+import * as MapAction from '../_store/map/map.action';
 
 // ol-ext
 // @ts-ignore
@@ -41,7 +42,7 @@ import proj4 from 'proj4';
 import { HttpClient } from '@angular/common/http';
 import { switchMap } from 'rxjs/operators';
 import { IBasemap, IPageFormat } from '../_models/IConfig';
-import { AppState, selectOrder } from '../_store';
+import { AppState, selectMapState, selectOrder } from '../_store';
 import { select, Store } from '@ngrx/store';
 import { updateGeometry } from '../_store/cart/cart.action';
 import { DragAndDropEvent } from 'ol/interaction/DragAndDrop';
@@ -52,6 +53,7 @@ import { getArea as getAreaSphere } from 'ol/sphere.js';
 import { ApiOrderService } from './api-order.service';
 import { Order } from '../_models/IOrder';
 import { OrderValidationStatus } from '../_models/IApi';
+import BaseEvent from 'ol/events/Event';
 
 
 function formatAreaError(status: OrderValidationStatus): string {
@@ -175,12 +177,10 @@ export class MapService {
     }).catch(() => {
       this.initialized = true;
     }).then(() => {
-      this.route.queryParamMap.subscribe(params => {
-        const bounds = params.get("bounds")?.split(",", -1).map(parseFloat)
-        if (bounds) {
-          this.map.getView().fit(new Polygon([[[bounds[0], bounds[1]], [bounds[2], bounds[3]]]]),
-            { nearest: true });
-        }
+      this.store.select(selectMapState).subscribe(params => {
+        const bounds = params.bounds;
+        this.map.getView().fit(new Polygon([[[bounds[0], bounds[1]], [bounds[2], bounds[3]]]]),
+          { nearest: true });
       });
     });
 
@@ -450,6 +450,12 @@ export class MapService {
 
     this.map.on('rendercomplete', () => this.map_renderCompleteExecuted);
     this.map.on('change', () => this.isMapLoading$.next(true));
+    this.map.on('moveend', () => {
+      const bounds = this.map.getView().calculateExtent(this.map.getSize());
+      this.store.dispatch(MapAction.saveState({
+        state: { bounds: [bounds[0], bounds[1], bounds[2], bounds[3]] },
+      }));
+    });
   }
 
   /* Base Map Managment */

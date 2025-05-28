@@ -2,7 +2,7 @@ import {Action, ActionReducer} from '@ngrx/store';
 import {merge, pick} from 'lodash-es';
 import {AppState} from './index';
 
-const STATE_KEYS = ['cart', 'auth'];
+const STATE_KEYS = ['cart', 'auth', 'map'];
 // the key for the local storage.
 const LOCAL_STORAGE_KEY = '__geoshop_storage__';
 

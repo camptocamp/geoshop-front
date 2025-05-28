@@ -1,12 +1,14 @@
 import { Component, NgZone, OnDestroy } from '@angular/core';
-import { AppState, getUser, selectCartTotal, selectOrder } from './_store';
+import { AppState, getUser, selectCartTotal, selectMapState, selectOrder } from './_store';
 import { Store } from '@ngrx/store';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { combineLatest, Subscription, zip } from 'rxjs';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import * as fromAuth from './_store/auth/auth.action';
-import { ConfigService } from './_services/config.service';;
+import * as MapAction from './_store/map/map.action';
+import { ConfigService } from './_services/config.service';
+
 
 @Component({
   selector: 'gs2-root',
@@ -30,14 +32,16 @@ export class AppComponent implements OnDestroy {
     private store: Store<AppState>,
     private ngZone: NgZone,
     private router: Router,
+    private readonly route: ActivatedRoute,
   ) {
-    const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
     const params = new URLSearchParams(window.location.search);
+    const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
 
-    combineLatest([routerNavEnd$, this.store.select(selectCartTotal)])
+    combineLatest([routerNavEnd$, this.store.select(selectCartTotal), this.store.select(selectMapState)])
       .subscribe((pair) => {
         const navEnd = pair[0];
         const numberOfItemInTheCart = pair[1];
+        const mapState = pair[2];
 
         if (navEnd instanceof NavigationEnd) {
           if (navEnd.url.indexOf('orders') > -1) {
@@ -49,16 +53,22 @@ export class AppComponent implements OnDestroy {
           }
         }
 
-        if (!params.get("bounds") && localStorage.getItem("bounds")) {
-          this.ngZone.run(() => {
-              this.router.navigateByUrl("/welcome?bounds=" + localStorage.getItem("bounds"));
+        const paramsBounds = params.get("bounds")?.split(",").map(parseFloat);
+        const stateBounds = mapState.bounds;
+        if (paramsBounds && (!stateBounds || paramsBounds.length != stateBounds.length || !paramsBounds.every((b, i) => b === stateBounds[i]))) {
+          this.store.dispatch(MapAction.saveState({
+            state: { bounds: [paramsBounds[0], paramsBounds[1], paramsBounds[2], paramsBounds[3]] },
+          }));
+        } else if (stateBounds) {
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { bounds: mapState.bounds.join(",") },
+            queryParamsHandling: 'merge'
           });
         }
       });
-
     if (params.get('error') === "interaction_required") {
       AppComponent.autoLoginFailed = true;
-      return
     }
     if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
       let authSubscription = new Subscription()
@@ -77,10 +87,6 @@ export class AppComponent implements OnDestroy {
             }, 120000);
           }
         } else if (!AppComponent.autoLoginFailed) {
-          const bounds = new URLSearchParams(window.location.search).get("bounds")
-          if (bounds) {
-              localStorage.setItem("bounds", bounds);
-          }
           this.oidcService.authorize(undefined, { customParams: { prompt: 'none' } });
         }
         authSubscription.unsubscribe();

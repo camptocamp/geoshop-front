@@ -123,7 +123,6 @@ export class CartOverlayComponent implements OnInit, OnDestroy {
 
   naviguateToNewOrder() {
     if (this.isUserLoggedIn) {
-
       this.router.navigate(['/account/new-order'], {
         queryParams: {
           callback: '/account/new-order'
