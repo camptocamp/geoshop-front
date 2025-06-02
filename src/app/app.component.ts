@@ -30,9 +30,7 @@ export class AppComponent implements OnDestroy {
     private oidcService: OidcSecurityService,
     private configService: ConfigService,
     private store: Store<AppState>,
-    private ngZone: NgZone,
-    private router: Router,
-    private readonly route: ActivatedRoute,
+    private router: Router
   ) {
     const params = new URLSearchParams(window.location.search);
     const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
@@ -59,12 +57,6 @@ export class AppComponent implements OnDestroy {
           this.store.dispatch(MapAction.saveState({
             state: { bounds: [paramsBounds[0], paramsBounds[1], paramsBounds[2], paramsBounds[3]] },
           }));
-        } else if (stateBounds) {
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { bounds: mapState.bounds.join(",") },
-            queryParamsHandling: 'merge'
-          });
         }
       });
     if (params.get('error') === "interaction_required") {

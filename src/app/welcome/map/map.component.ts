@@ -15,10 +15,12 @@ import { SearchService } from 'src/app/_services/search.service';
 export const nameOfCategoryForGeocoder: { [prop: string]: string; } = { // TODO this should be translated
   zipcode: 'Ortschaftenverzeichnis PLZ',
   gg25: 'Gemeinden',
+  Gemeindegrenzen: 'Gemeinden',
   district: 'Bezirke',
   kantone: 'Kantone',
   gazetteer: 'OEV Haltestellen',
   address: 'Adressen',
+  Adressen: 'Adressen',
   parcel: 'Parzellen',
 };
 
@@ -98,7 +100,7 @@ export class MapComponent implements OnInit {
           this.geocoderGroupOptions = [];
 
           for (const feature of features) {
-            const categoryId = feature.get('origin') || feature.get('origin') !== '' ? feature.get('origin') : 'Allgemein'; // TODO add to translation Allgemein
+            const categoryId = feature.get('layer_name') || feature.get('layer_name') !== '' ? feature.get('layer_name') : 'Allgemein'; // TODO add to translation Allgemein
 
             let currentCategory = this.geocoderGroupOptions.find(x => x.id === categoryId);
             if (currentCategory) {

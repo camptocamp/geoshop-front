@@ -48,12 +48,13 @@ import { updateGeometry } from '../_store/cart/cart.action';
 import { DragAndDropEvent } from 'ol/interaction/DragAndDrop';
 import { shiftKeyOnly } from 'ol/events/condition';
 import { createBox } from 'ol/interaction/Draw';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { getArea as getAreaSphere } from 'ol/sphere.js';
 import { ApiOrderService } from './api-order.service';
 import { Order } from '../_models/IOrder';
 import { OrderValidationStatus } from '../_models/IApi';
 import BaseEvent from 'ol/events/Event';
+import { MultiPolygon } from 'ol/geom';
 
 
 function formatAreaError(status: OrderValidationStatus): string {
@@ -146,6 +147,7 @@ export class MapService {
   constructor(
     private configService: ConfigService,
     private route: ActivatedRoute,
+    private readonly router: Router,
     private apiOrderService: ApiOrderService,
     private store: Store<AppState>,
     private snackBar: MatSnackBar) {
@@ -352,7 +354,7 @@ export class MapService {
     if (this.featureFromDrawing) {
       this.drawingSource.removeFeature(this.featureFromDrawing);
     }
-    this.geocoderSource.addFeature(feature.clone());
+    //this.geocoderSource.addFeature(feature.clone());
 
     let poly: Polygon;
     const geometry = feature.getGeometry();
@@ -376,6 +378,8 @@ export class MapService {
         const area = getArea(originalExtent);
         if (geometry instanceof Polygon && area > 1000000) {
           poly = geometry;
+        } if (geometry instanceof MultiPolygon) {
+          poly = geometry.getPolygon(0);
         } else {
           const bufferValue = area * 0.001;
           poly = fromExtent(buffer(originalExtent, bufferValue));
@@ -452,9 +456,11 @@ export class MapService {
     this.map.on('change', () => this.isMapLoading$.next(true));
     this.map.on('moveend', () => {
       const bounds = this.map.getView().calculateExtent(this.map.getSize());
-      this.store.dispatch(MapAction.saveState({
-        state: { bounds: [bounds[0], bounds[1], bounds[2], bounds[3]] },
-      }));
+      this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { bounds: bounds.join(",") },
+            queryParamsHandling: 'merge'
+          });
     });
   }
 

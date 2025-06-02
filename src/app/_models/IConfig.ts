@@ -1,4 +1,5 @@
 import { OpenIdConfiguration } from "angular-auth-oidc-client";
+import { ISearchConfig } from "./ISearch";
 
 export interface IBasemap {
   id: string;
@@ -7,14 +8,6 @@ export interface IBasemap {
   thumbUrl: string;
   matrixSet: string;
   format: string;
-}
-
-export interface ISearchConfig {
-  url: string;
-  queryParamName: string;
-  querySuffix: string;
-  layers: string;
-  providerType: string;
 }
 
 // TODO it look like thie interface is never used -> remove it or use it!

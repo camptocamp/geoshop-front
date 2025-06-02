@@ -6,7 +6,7 @@ import { Geometry } from "ol/geom";
 import { CoordinateSearchService } from "./coordinate-search.service";
 import { Feature } from "ol";
 import GeoJSON from "ol/format/GeoJSON";
-import { ISearchConfig } from "../_models/IConfig";
+import { ISearchConfig } from "../_models/ISearch";
 
 
 @Injectable({
@@ -35,8 +35,26 @@ export class SearchService {
     switch (searchConfig.providerType) {
       case 'geocoder':
         return this.searchGeocoder(query, searchConfig);
+      case 'mapfish':
+        return this.searchMapFish(query, searchConfig);
     }
     return of([]);
+  }
+
+  private searchMapFish(query: string, config: ISearchConfig) {
+    const coordinateResult = this.coordinateSearchService.stringCoordinatesToFeature(query);
+    const url = new URL(config.url);
+    url.searchParams.append(config.queryParamName, query);
+    url.search += `&${config.querySuffix}`;
+    return this.httpClient.get(url.toString()).pipe(
+      map((featureCollectionData) => {
+        const featureCollection = this.geoJsonFormatter.readFeatures(featureCollectionData);
+        if (coordinateResult) {
+          featureCollection.push(coordinateResult);
+        }
+        return featureCollection;
+      })
+    );
   }
 
   private searchGeocoder(query: string, config: ISearchConfig) {
