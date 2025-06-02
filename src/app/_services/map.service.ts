@@ -319,15 +319,9 @@ export class MapService {
     return div.textContent || div.innerText || '';
   }
 
-  public createPolygonFromBBOX(bboxString: string): Polygon {
-    const coords = bboxString
-      .replace('BOX(', '')
-      .replace(')', '')
-      .split(',')
-      .map(coord => coord.trim().split(' ').map(Number));
-
-    const [minX, minY] = coords[0];
-    const [maxX, maxY] = coords[1];
+  public createPolygonFromBBOX(bbox: [number, number, number, number]): Polygon {
+    const [minX, minY] = [bbox[0], bbox[1]];
+    const [maxX, maxY] = [bbox[2], bbox[3]];
     const polygonCoords = [
       [minX, minY],
       [maxX, minY],
@@ -360,9 +354,7 @@ export class MapService {
     const geometry = feature.getGeometry();
     if (geometry instanceof Point) {
       // TODO if the BBOX is just a point
-      const bboxstring = feature.get('geom_st_box2d');
-
-      poly = this.createPolygonFromBBOX(bboxstring);
+      poly = this.createPolygonFromBBOX(feature.get('bbox'));
       feature.setGeometry(poly);
 
       this.drawingSource.addFeature(feature);
