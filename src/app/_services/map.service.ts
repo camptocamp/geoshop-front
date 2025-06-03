@@ -30,7 +30,6 @@ import KML from 'ol/format/KML';
 import { Coordinate } from 'ol/coordinate';
 import Geometry from 'ol/geom/Geometry';
 import TileSource from 'ol/source/Tile';
-import * as MapAction from '../_store/map/map.action';
 
 // ol-ext
 // @ts-ignore
@@ -39,7 +38,6 @@ import Transform from 'ol-ext/interaction/Transform';
 import { BehaviorSubject, of } from 'rxjs';
 import { formatArea } from '../_helpers/geoHelper';
 import proj4 from 'proj4';
-import { HttpClient } from '@angular/common/http';
 import { switchMap } from 'rxjs/operators';
 import { IBasemap, IPageFormat } from '../_models/IConfig';
 import { AppState, selectMapState, selectOrder } from '../_store';
@@ -53,13 +51,7 @@ import { getArea as getAreaSphere } from 'ol/sphere.js';
 import { ApiOrderService } from './api-order.service';
 import { Order } from '../_models/IOrder';
 import { OrderValidationStatus } from '../_models/IApi';
-import BaseEvent from 'ol/events/Event';
 import { MultiPolygon } from 'ol/geom';
-
-
-function formatAreaError(status: OrderValidationStatus): string {
-  return $localize`Order area is too large, by ${formatArea(status!.error!.excluded[0]-status!.error!.expected[0])}`;
-}
 
 @Injectable({
   providedIn: 'root'
