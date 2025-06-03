@@ -30,7 +30,6 @@ import KML from 'ol/format/KML';
 import { Coordinate } from 'ol/coordinate';
 import Geometry from 'ol/geom/Geometry';
 import TileSource from 'ol/source/Tile';
-import * as MapAction from '../_store/map/map.action';
 
 // ol-ext
 // @ts-ignore
@@ -39,7 +38,6 @@ import Transform from 'ol-ext/interaction/Transform';
 import { BehaviorSubject, of } from 'rxjs';
 import { formatArea } from '../_helpers/geoHelper';
 import proj4 from 'proj4';
-import { HttpClient } from '@angular/common/http';
 import { switchMap } from 'rxjs/operators';
 import { IBasemap, IPageFormat } from '../_models/IConfig';
 import { AppState, selectMapState, selectOrder } from '../_store';
@@ -48,17 +46,12 @@ import { updateGeometry } from '../_store/cart/cart.action';
 import { DragAndDropEvent } from 'ol/interaction/DragAndDrop';
 import { shiftKeyOnly } from 'ol/events/condition';
 import { createBox } from 'ol/interaction/Draw';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { getArea as getAreaSphere } from 'ol/sphere.js';
 import { ApiOrderService } from './api-order.service';
 import { Order } from '../_models/IOrder';
 import { OrderValidationStatus } from '../_models/IApi';
-import BaseEvent from 'ol/events/Event';
-
-
-function formatAreaError(status: OrderValidationStatus): string {
-  return $localize`Order area is too large, by ${formatArea(status!.error!.excluded[0]-status!.error!.expected[0])}`;
-}
+import { MultiPolygon } from 'ol/geom';
 
 @Injectable({
   providedIn: 'root'
@@ -146,6 +139,7 @@ export class MapService {
   constructor(
     private configService: ConfigService,
     private route: ActivatedRoute,
+    private readonly router: Router,
     private apiOrderService: ApiOrderService,
     private store: Store<AppState>,
     private snackBar: MatSnackBar) {
@@ -317,15 +311,9 @@ export class MapService {
     return div.textContent || div.innerText || '';
   }
 
-  public createPolygonFromBBOX(bboxString: string): Polygon {
-    const coords = bboxString
-      .replace('BOX(', '')
-      .replace(')', '')
-      .split(',')
-      .map(coord => coord.trim().split(' ').map(Number));
-
-    const [minX, minY] = coords[0];
-    const [maxX, maxY] = coords[1];
+  public createPolygonFromBBOX(bbox: [number, number, number, number]): Polygon {
+    const [minX, minY] = [bbox[0], bbox[1]];
+    const [maxX, maxY] = [bbox[2], bbox[3]];
     const polygonCoords = [
       [minX, minY],
       [maxX, minY],
@@ -352,15 +340,13 @@ export class MapService {
     if (this.featureFromDrawing) {
       this.drawingSource.removeFeature(this.featureFromDrawing);
     }
-    this.geocoderSource.addFeature(feature.clone());
+    //this.geocoderSource.addFeature(feature.clone());
 
     let poly: Polygon;
     const geometry = feature.getGeometry();
     if (geometry instanceof Point) {
       // TODO if the BBOX is just a point
-      const bboxstring = feature.get('geom_st_box2d');
-
-      poly = this.createPolygonFromBBOX(bboxstring);
+      poly = this.createPolygonFromBBOX(feature.get('bbox'));
       feature.setGeometry(poly);
 
       this.drawingSource.addFeature(feature);
@@ -376,6 +362,8 @@ export class MapService {
         const area = getArea(originalExtent);
         if (geometry instanceof Polygon && area > 1000000) {
           poly = geometry;
+        } if (geometry instanceof MultiPolygon) {
+          poly = geometry.getPolygon(0);
         } else {
           const bufferValue = area * 0.001;
           poly = fromExtent(buffer(originalExtent, bufferValue));
@@ -452,9 +440,11 @@ export class MapService {
     this.map.on('change', () => this.isMapLoading$.next(true));
     this.map.on('moveend', () => {
       const bounds = this.map.getView().calculateExtent(this.map.getSize());
-      this.store.dispatch(MapAction.saveState({
-        state: { bounds: [bounds[0], bounds[1], bounds[2], bounds[3]] },
-      }));
+      this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { bounds: bounds.join(",") },
+            queryParamsHandling: 'merge'
+          });
     });
   }
 
