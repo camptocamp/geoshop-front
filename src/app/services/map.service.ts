@@ -1,11 +1,10 @@
 import { IBasemap, IPageFormat } from '@app/models/IConfig';
-import { AppState, selectOrder } from '@app/store';
+import {  AppState, selectMapState, selectOrder } from '@app/store';
 import { updateGeometry } from '@app/store/cart/cart.action';
+import * as MapAction from '@app/store/map/map.action';
 
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Feature, Overlay } from 'ol';
 import { FeatureLike } from 'ol/Feature';
@@ -139,12 +138,9 @@ export class MapService {
 
   constructor(
     private configService: ConfigService,
-    private route: ActivatedRoute,
     private apiOrderService: ApiOrderService,
-    private coordinateSearchService: CoordinateSearchService,
     private store: Store<AppState>,
-    private snackBar: MatSnackBar,
-    private httpClient: HttpClient) {
+    private snackBar: MatSnackBar) {
   }
 
   public initialize() {
@@ -171,12 +167,10 @@ export class MapService {
     }).catch(() => {
       this.initialized = true;
     }).then(() => {
-      this.route.queryParamMap.subscribe(params => {
-        const bounds = params.get("bounds")?.split(",", -1).map(parseFloat)
-        if (bounds) {
-          this.map.getView().fit(new Polygon([[[bounds[0], bounds[1]], [bounds[2], bounds[3]]]]),
-            { nearest: true });
-        }
+      this.store.select(selectMapState).subscribe(params => {
+        const bounds = params.bounds;
+        this.map.getView().fit(new Polygon([[[bounds[0], bounds[1]], [bounds[2], bounds[3]]]]),
+          { nearest: true });
       });
     });
 
@@ -446,6 +440,12 @@ export class MapService {
 
     this.map.on('rendercomplete', () => this.map_renderCompleteExecuted);
     this.map.on('change', () => this.isMapLoading$.next(true));
+    this.map.on('moveend', () => {
+      const bounds = this.map.getView().calculateExtent(this.map.getSize());
+      this.store.dispatch(MapAction.saveState({
+        state: { bounds: [bounds[0], bounds[1], bounds[2], bounds[3]] },
+      }));
+    });
   }
 
   /* Base Map Managment */
