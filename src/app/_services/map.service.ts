@@ -340,7 +340,6 @@ export class MapService {
     if (this.featureFromDrawing) {
       this.drawingSource.removeFeature(this.featureFromDrawing);
     }
-    //this.geocoderSource.addFeature(feature.clone());
 
     let poly: Polygon;
     const geometry = feature.getGeometry();
