@@ -1,7 +1,7 @@
-import { Component, NgZone, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AppState, getUser, selectCartTotal, selectMapState, selectOrder } from './_store';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { combineLatest, Subscription, zip } from 'rxjs';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
@@ -30,9 +30,7 @@ export class AppComponent implements OnDestroy {
     private oidcService: OidcSecurityService,
     private configService: ConfigService,
     private store: Store<AppState>,
-    private ngZone: NgZone,
-    private router: Router,
-    private readonly route: ActivatedRoute,
+    private router: Router
   ) {
     const params = new URLSearchParams(window.location.search);
     const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
@@ -42,7 +40,6 @@ export class AppComponent implements OnDestroy {
         const navEnd = pair[0];
         const numberOfItemInTheCart = pair[1];
         const mapState = pair[2];
-
         if (navEnd instanceof NavigationEnd) {
           if (navEnd.url.indexOf('orders') > -1) {
             this.subTitle = $localize`Mes commandes`;
@@ -52,19 +49,12 @@ export class AppComponent implements OnDestroy {
             this.subTitle = '';
           }
         }
-
         const paramsBounds = params.get("bounds")?.split(",").map(parseFloat);
         const stateBounds = mapState.bounds;
         if (paramsBounds && (!stateBounds || paramsBounds.length != stateBounds.length || !paramsBounds.every((b, i) => b === stateBounds[i]))) {
           this.store.dispatch(MapAction.saveState({
             state: { bounds: [paramsBounds[0], paramsBounds[1], paramsBounds[2], paramsBounds[3]] },
           }));
-        } else if (stateBounds) {
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { bounds: mapState.bounds.join(",") },
-            queryParamsHandling: 'merge'
-          });
         }
       });
     if (params.get('error') === "interaction_required") {
