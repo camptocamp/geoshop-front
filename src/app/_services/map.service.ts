@@ -48,7 +48,7 @@ import { updateGeometry } from '../_store/cart/cart.action';
 import { DragAndDropEvent } from 'ol/interaction/DragAndDrop';
 import { shiftKeyOnly } from 'ol/events/condition';
 import { createBox } from 'ol/interaction/Draw';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { getArea as getAreaSphere } from 'ol/sphere.js';
 import { ApiOrderService } from './api-order.service';
 import { Order } from '../_models/IOrder';
@@ -148,6 +148,7 @@ export class MapService {
     private route: ActivatedRoute,
     private apiOrderService: ApiOrderService,
     private store: Store<AppState>,
+    private readonly router: Router,
     private snackBar: MatSnackBar) {
   }
 
@@ -452,9 +453,11 @@ export class MapService {
     this.map.on('change', () => this.isMapLoading$.next(true));
     this.map.on('moveend', () => {
       const bounds = this.map.getView().calculateExtent(this.map.getSize());
-      this.store.dispatch(MapAction.saveState({
-        state: { bounds: [bounds[0], bounds[1], bounds[2], bounds[3]] },
-      }));
+      this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { bounds: bounds.join(",") },
+            queryParamsHandling: 'merge'
+          });
     });
   }
 
