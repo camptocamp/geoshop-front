@@ -51,7 +51,7 @@ import { getArea as getAreaSphere } from 'ol/sphere.js';
 import { ApiOrderService } from './api-order.service';
 import { Order } from '../_models/IOrder';
 import { OrderValidationStatus } from '../_models/IApi';
-import { MultiPolygon } from 'ol/geom';
+import { MultiPolygon, SimpleGeometry } from 'ol/geom';
 
 @Injectable({
   providedIn: 'root'
@@ -341,11 +341,11 @@ export class MapService {
       this.drawingSource.removeFeature(this.featureFromDrawing);
     }
 
-    let poly: Polygon;
+    let poly: SimpleGeometry;
     const geometry = feature.getGeometry();
     if (geometry instanceof Point) {
       // TODO if the BBOX is just a point
-      poly = this.createPolygonFromBBOX(feature.get('bbox'));
+      poly = feature.get('bbox') ? this.createPolygonFromBBOX(feature.get('bbox')) : geometry;
       feature.setGeometry(poly);
 
       this.drawingSource.addFeature(feature);
@@ -567,7 +567,7 @@ export class MapService {
 
   private updateAreaTooltip() {
     const feat = this.featureFromDrawing;
-    if (!feat || feat.getRevision() <= 0) {
+    if (!feat || feat.getRevision() <= 0 || feat.getGeometry()?.getType() === 'Point') {
       return
     }
     const status = this.validationStatus;
