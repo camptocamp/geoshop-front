@@ -139,7 +139,6 @@ export class MapService {
   constructor(
     private configService: ConfigService,
     private route: ActivatedRoute,
-    private readonly router: Router,
     private apiOrderService: ApiOrderService,
     private store: Store<AppState>,
     private readonly router: Router,
