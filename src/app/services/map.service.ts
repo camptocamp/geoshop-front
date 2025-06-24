@@ -44,11 +44,11 @@ import { BehaviorSubject, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { ConfigService } from '@app/services/config.service';
-import { CoordinateSearchService } from '@app/services/coordinate-search.service';
 import { formatArea } from '@app/helpers/geoHelper';
 import { Order } from '@app/models/IOrder';
 import { ApiOrderService } from './api-order.service';
 import { OrderValidationStatus } from '@app/models/IApi';
+import { MultiPolygon, SimpleGeometry } from 'ol/geom';
 
 const DEFAULT_EXTENT = [2419995.7488073637, 1030006.663199476, 2900009.727428728, 1350004.292478851];
 const DEFAULT_RESOLUTIONS = [250, 100, 50, 20, 10, 5, 2.5, 2, 1.5, 1, 0.5, 0.25];
@@ -342,15 +342,12 @@ export class MapService {
     if (this.featureFromDrawing) {
       this.drawingSource.removeFeature(this.featureFromDrawing);
     }
-    this.geocoderSource.addFeature(feature.clone());
 
-    let poly: Polygon;
+    let poly: SimpleGeometry;
     const geometry = feature.getGeometry();
     if (geometry instanceof Point) {
       // TODO if the BBOX is just a point
-      const bboxstring = feature.get('geom_st_box2d');
-
-      poly = this.createPolygonFromBBOX(bboxstring);
+      poly = feature.get('bbox') ? this.createPolygonFromBBOX(feature.get('bbox')) : geometry;
       feature.setGeometry(poly);
 
       this.drawingSource.addFeature(feature);
@@ -366,6 +363,8 @@ export class MapService {
         const area = getArea(originalExtent);
         if (geometry instanceof Polygon && area > 1000000) {
           poly = geometry;
+        } if (geometry instanceof MultiPolygon) {
+          poly = geometry.getPolygon(0);
         } else {
           const bufferValue = area * 0.001;
           poly = fromExtent(buffer(originalExtent, bufferValue));
@@ -380,6 +379,7 @@ export class MapService {
       }
     }
   }
+
 
   private async initializeMap() {
     if (!this.configService.config) {
@@ -567,7 +567,7 @@ export class MapService {
 
   private updateAreaTooltip() {
     const feat = this.featureFromDrawing;
-    if (!feat || feat.getRevision() <= 0) {
+    if (!feat || feat.getRevision() <= 0 || feat.getGeometry()?.getType() === 'Point') {
       return
     }
     var content = formatArea(getAreaSphere(feat.getGeometry()!));

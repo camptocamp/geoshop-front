@@ -6,14 +6,37 @@ import { Geometry } from "ol/geom";
 import { CoordinateSearchService } from "./coordinate-search.service";
 import { Feature } from "ol";
 import GeoJSON from "ol/format/GeoJSON";
-import { ISearchConfig } from "@app/models/IConfig";
+import WKT from "ol/format/WKT";
+import { ISearchConfig, ISearchResult } from "@app/models/ISearch";
 
+function parseBox(box: string) {
+  const match = box.match(/BOX\(([^ ]+) ([^,]+),([^ ]+) ([^)]+)\)/);
+  if (!match) {
+    throw new Error(`Invalid BOX format: ${box}`);
+  }
+  return match.map(Number).slice(1);
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
   private readonly geoJsonFormatter = new GeoJSON();
+  private readonly wktFormatter = new WKT();
+  private readonly searchResultFormat = new Map<string, (f: Feature<Geometry>) => ISearchResult>([
+    ['geocoder', (f: Feature<Geometry>) => <ISearchResult>{
+      label: f.get("label"),
+      category: f.get('origin') ?? 'Allgemein',
+      bbox: parseBox(<string>f.get('geom_st_box2d')),
+      geometry: f.getGeometry()
+    }],
+    ['mapfish', (f: Feature<Geometry>) => <ISearchResult>{
+      label: f.get("label"),
+      category: f.get('layer_name') ?? 'Allgemein',
+      bbox: f.get('bbox'),
+      geometry: f.getGeometry()
+    }]
+  ]);
 
   constructor(
     private readonly configService: ConfigService,
@@ -23,7 +46,7 @@ export class SearchService {
 
   }
 
-  public search(query: string): Observable<Feature<Geometry>[]> {
+  public search(query: string): Observable<ISearchResult[]> {
     if (!query || query.length === 0 || typeof query !== 'string') {
       return of([]);
     }
@@ -31,15 +54,14 @@ export class SearchService {
     if (!searchConfig) {
       return of([]);
     }
-
-    switch (searchConfig.providerType) {
-      case 'geocoder':
-        return this.searchGeocoder(query, searchConfig);
+    const resultFormat = this.searchResultFormat.get(searchConfig.providerType);
+    if (!resultFormat) {
+      return of([]);
     }
-    return of([]);
+    return this.performQuery(query, searchConfig).pipe(map(result => result.map(resultFormat)))
   }
 
-  private searchGeocoder(query: string, config: ISearchConfig) {
+  private performQuery(query: string, config: ISearchConfig) {
     const coordinateResult = this.coordinateSearchService.stringCoordinatesToFeature(query);
     const url = new URL(config.url);
     url.searchParams.append(config.queryParamName, query);
