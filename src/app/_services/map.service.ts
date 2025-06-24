@@ -35,12 +35,12 @@ import TileSource from 'ol/source/Tile';
 // @ts-ignore
 import Transform from 'ol-ext/interaction/Transform';
 
-import { BehaviorSubject, of } from 'rxjs';
+import { combineLatest, BehaviorSubject, of } from 'rxjs';
 import { formatArea } from '../_helpers/geoHelper';
 import proj4 from 'proj4';
-import { switchMap } from 'rxjs/operators';
+import { filter, mergeMap, switchMap } from 'rxjs/operators';
 import { IBasemap, IPageFormat } from '../_models/IConfig';
-import { AppState, selectMapState, selectOrder } from '../_store';
+import { AppState, selectMapState, selectOrder, getUser } from '../_store';
 import { select, Store } from '@ngrx/store';
 import { updateGeometry } from '../_store/cart/cart.action';
 import { DragAndDropEvent } from 'ol/interaction/DragAndDrop';
@@ -109,14 +109,19 @@ export class MapService {
     }),
   ];
 
-  private orderStatus = this.store.pipe(
-      select(selectOrder),
-      switchMap(order => {
-        if (!order.geom || order.items.length <= 0) {
-          return of({valid: true});
-        }
-        return this.apiOrderService.validateOrder(new Order(order));
-      }));
+  private orderStatus = combineLatest([
+    this.store.select(selectOrder),
+    this.store.select(getUser)
+  ]).pipe(
+    switchMap(([order, user]) => {
+      if (!user) {
+        return of({ valid: true });
+      }
+      if (!order.geom || order.items.length <= 0) {
+        return of({ valid: true });
+      }
+      return this.apiOrderService.validateOrder(new Order(order));
+    }));
 
   // Map's interactions
   private dragInteraction: DragPan;
