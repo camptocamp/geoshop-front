@@ -1,5 +1,5 @@
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { AppState } from '../_store';
 import { Store } from '@ngrx/store';
@@ -48,9 +48,10 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError(response => {
         if (response instanceof HttpErrorResponse) {
-          if (response.status === 401) {
+          if (response.status === 401 || response.status === 403) {
             this.store.dispatch(fromAuth.logout());
             this.router.navigate(['/auth/login']);
+            return of();
           } else {
             let message = "";
             const err = response.error;
