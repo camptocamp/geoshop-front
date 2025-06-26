@@ -6,7 +6,7 @@ export interface MapState {
 }
 
 const initialState: MapState = {
-  // Swiss bounds in EPSG: 2056
+  // Bounds in EPSG:2056
   bounds: [2699266.122561534,1140974.9002843325,2832866.122561534,1234074.9002843325]
 };
 
