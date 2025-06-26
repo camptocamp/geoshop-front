@@ -1,14 +1,13 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, computed, OnDestroy } from '@angular/core';
 import { AppState, getUser, selectCartTotal, selectMapState, selectOrder } from './_store';
 import { Store } from '@ngrx/store';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { combineLatest, Subscription, zip } from 'rxjs';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import * as fromAuth from './_store/auth/auth.action';
-import * as MapAction from './_store/map/map.action';
 import { ConfigService } from './_services/config.service';
-
+import * as MapAction from './_store/map/map.action';
 
 @Component({
   selector: 'gs2-root',
@@ -30,10 +29,31 @@ export class AppComponent implements OnDestroy {
     private oidcService: OidcSecurityService,
     private configService: ConfigService,
     private store: Store<AppState>,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     const params = new URLSearchParams(window.location.search);
     const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
+
+    const initialParams = routerNavEnd$.subscribe(() => {
+      const bounds = params.get("bounds")?.split(",").map(parseFloat);
+      if (!bounds || bounds.length !== 4) {
+        initialParams.unsubscribe();
+        return;
+      }
+      this.store.dispatch(MapAction.saveState({
+        state: { bounds: [bounds[0], bounds[1], bounds[2], bounds[3]] },
+      }));
+    });
+
+    this.store.select(selectMapState).subscribe((mapState) => {
+      const bounds = mapState.bounds;
+      this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { bounds: bounds.join(",") },
+            queryParamsHandling: 'merge'
+          });
+    });
 
     combineLatest([routerNavEnd$, this.store.select(selectCartTotal), this.store.select(selectMapState)])
       .subscribe((pair) => {
@@ -48,13 +68,6 @@ export class AppComponent implements OnDestroy {
           } else {
             this.subTitle = '';
           }
-        }
-        const paramsBounds = params.get("bounds")?.split(",").map(parseFloat);
-        const stateBounds = mapState.bounds;
-        if (paramsBounds && (!stateBounds || paramsBounds.length != stateBounds.length || !paramsBounds.every((b, i) => b === stateBounds[i]))) {
-          this.store.dispatch(MapAction.saveState({
-            state: { bounds: [paramsBounds[0], paramsBounds[1], paramsBounds[2], paramsBounds[3]] },
-          }));
         }
       });
     if (params.get('error') === "interaction_required") {

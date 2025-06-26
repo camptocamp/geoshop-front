@@ -52,6 +52,7 @@ import { ApiOrderService } from './api-order.service';
 import { Order } from '../_models/IOrder';
 import { OrderValidationStatus } from '../_models/IApi';
 import { MultiPolygon, SimpleGeometry } from 'ol/geom';
+import * as MapAction from '../_store/map/map.action';
 
 @Injectable({
   providedIn: 'root'
@@ -444,11 +445,9 @@ export class MapService {
     this.map.on('change', () => this.isMapLoading$.next(true));
     this.map.on('moveend', () => {
       const bounds = this.map.getView().calculateExtent(this.map.getSize());
-      this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { bounds: bounds.join(",") },
-            queryParamsHandling: 'merge'
-          });
+      this.store.dispatch(MapAction.saveState({
+        state: { bounds: [bounds[0], bounds[1], bounds[2], bounds[3]] },
+      }));
     });
   }
 
