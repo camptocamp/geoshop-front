@@ -36,7 +36,7 @@ import TileSource from 'ol/source/Tile';
 import Transform from 'ol-ext/interaction/Transform';
 
 import { combineLatest, BehaviorSubject, of } from 'rxjs';
-import { formatArea } from '../_helpers/geoHelper';
+import { formatArea, formatAreaError } from '../_helpers/geoHelper';
 import proj4 from 'proj4';
 import { filter, mergeMap, switchMap } from 'rxjs/operators';
 import { IBasemap, IPageFormat } from '../_models/IConfig';
@@ -580,7 +580,7 @@ export class MapService {
       this.areaTooltipElement.classList.remove('invalid');
     } else if (status.error){
       this.areaTooltipElement.classList.add('invalid');
-      content += `<br/> ${status!.error.message[0]}: (By ${formatArea(status!.error.excluded[0]-status!.error.expected[0])})`;
+      content += `<br/> ${formatAreaError(status.error)}`;
     }
     this.areaTooltipElement.style.visibility = "visible";
     this.areaTooltip.setPosition(getCenter(feat.getGeometry()!.getExtent()));

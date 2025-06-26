@@ -22,6 +22,10 @@ export const formatArea = (area: number): string => {
     `${Math.round(area * 100) / 100}m<sup>2</sup>`;
 }
 
+ export function formatAreaError(err: { message: string[], excluded: number[], actual: number[] }): string {
+  return $localize`Selected area is too large, selected: ${formatArea(err.actual[0])}, overflow: ${formatArea(err.excluded[0])}`;
+}
+
 export class GeoHelper {
 
   public static async generateMiniMap(configService: ConfigService, mapService: MapService) {

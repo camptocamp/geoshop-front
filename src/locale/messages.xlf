@@ -254,6 +254,10 @@
       <trans-unit id="5300981229662517671" datatype="html">
         <source>Selected area is too large, selected: <x id="PH" equiv-text="formatArea(err.actual[0])"/>, overflow: <x id="PH_1" equiv-text="formatArea(err.excluded[0])"/></source>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_helpers/geoHelper.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/_interceptors/errorInterceptor.ts</context>
           <context context-type="linenumber">18</context>
         </context-group>
@@ -269,7 +273,7 @@
         <source>La session est expirée</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_interceptors/errorInterceptor.ts</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8151944010898811895" datatype="html">
@@ -284,13 +288,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/api-order.service.ts</context>
           <context context-type="linenumber">237</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1933042732014554806" datatype="html">
-        <source>Order area is too large, by <x id="PH" equiv-text="formatArea(status!.error!.excluded[0]-status!.error!.expected[0])"/></source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/_services/map.service.ts</context>
-          <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4637514545679027566" datatype="html">
@@ -896,14 +893,14 @@
         <source>Mes commandes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2835126772987299546" datatype="html">
         <source>Votre commande de <x id="PH" equiv-text="numberOfItemInTheCart"/> produits</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">67</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5977257151487958132" datatype="html">
