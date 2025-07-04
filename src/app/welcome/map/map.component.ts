@@ -114,21 +114,21 @@ export class MapComponent implements OnInit {
           this.geocoderGroupOptions = [];
 
           for (const feature of features) {
-            const categoryId = feature.get('origin') || feature.get('origin') !== '' ? feature.get('origin') : 'Allgemein'; // TODO add to translation Allgemein
+            const categoryId = feature.category;
 
             let currentCategory = this.geocoderGroupOptions.find(x => x.id === categoryId);
             if (currentCategory) {
               currentCategory.items.push({
-                label: this.mapService.stripHtmlTags(feature.get('label')),
-                feature
+                label: this.mapService.stripHtmlTags(feature.label),
+                feature: new Feature<Geometry>(feature.geometry)
               });
             } else {
               currentCategory = {
                 id: categoryId,
                 label: nameOfCategoryForGeocoder[categoryId],
                 items: [{
-                  label: this.mapService.stripHtmlTags(feature.get('label')),
-                  feature
+                  label: this.mapService.stripHtmlTags(feature.label),
+                  feature: new Feature<Geometry>(feature.geometry)
                 }]
               };
               this.geocoderGroupOptions.push(currentCategory);

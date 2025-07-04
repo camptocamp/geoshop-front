@@ -22,7 +22,6 @@ function parseBox(box: string) {
 })
 export class SearchService {
   private readonly geoJsonFormatter = new GeoJSON();
-  private readonly wktFormatter = new WKT();
   private readonly searchResultFormat = new Map<string, (f: Feature<Geometry>) => ISearchResult>([
     ['geocoder', (f: Feature<Geometry>) => <ISearchResult>{
       label: f.get("label"),
