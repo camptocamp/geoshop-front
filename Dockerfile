@@ -9,7 +9,9 @@ RUN npm ci  --legacy-peer-deps
 
 COPY . .
 
-RUN npm run build -- --localize
+RUN  npm i @angular/cli@19.2.15 && \
+     npm ci && npm run build -- --localize
+     
 # Serve with nginx unpprevileged
 FROM nginxinc/nginx-unprivileged:stable
 
