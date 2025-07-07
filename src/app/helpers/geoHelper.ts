@@ -5,7 +5,6 @@ import { MapService } from '@app/services/map.service';
 import Feature from 'ol/Feature';
 import Map from 'ol/Map';
 import View from 'ol/View';
-import { Geometry } from 'ol/geom';
 import { defaults } from 'ol/interaction';
 import LayerGroup from 'ol/layer/Group';
 import VectorLayer from 'ol/layer/Vector';
@@ -13,7 +12,6 @@ import { fromLonLat } from 'ol/proj';
 import Projection from 'ol/proj/Projection';
 import { register } from 'ol/proj/proj4';
 import VectorSource from 'ol/source/Vector';
-import { getArea as getAreaSphere } from 'ol/sphere.js';
 import { Fill, Style } from 'ol/style';
 import proj4 from 'proj4';
 

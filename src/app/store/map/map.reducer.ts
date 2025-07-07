@@ -1,4 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
+
 import { saveState } from './map.action';
 
 export interface MapState {

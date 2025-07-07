@@ -3,12 +3,12 @@ import { IManualEntryDialogData } from '@app/models/IManualEntryDialog';
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatOptionModule } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogClose, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormField, MatLabel } from '@angular/material/input';
 import { MatOption, MatSelect, MatSelectModule } from '@angular/material/select';
 import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
-import { MatOptionModule } from '@angular/material/core';
-import { MatButtonModule } from '@angular/material/button';
 
 
 @Component({

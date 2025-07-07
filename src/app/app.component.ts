@@ -7,7 +7,7 @@ import * as AuthAction from '@app/store/auth/auth.action';
 import * as MapAction from '@app/store/map/map.action';
 
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, NgZone, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -38,7 +38,7 @@ import { filter } from 'rxjs/operators';
 export class AppComponent implements OnDestroy {
 
   private refreshTokenInterval: NodeJS.Timeout | number; // TODO this is breaking the build it was originaly set to type number
-  private static autoLoginFailed: boolean = false;
+  private static autoLoginFailed = false;
   title = 'front';
   subTitle = '';
 
@@ -89,7 +89,7 @@ export class AppComponent implements OnDestroy {
       AppComponent.autoLoginFailed = true;
     }
     if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
-      let authSubscription = new Subscription()
+      const authSubscription = new Subscription()
       combineLatest([this.oidcService.checkAuth(), this.store.select(getUser)]).subscribe(([loginResponse, user]) => {
         if (loginResponse.isAuthenticated && !user) {
           this.store.dispatch(AuthAction.oidcLogin(loginResponse));
