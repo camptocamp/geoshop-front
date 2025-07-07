@@ -146,9 +146,11 @@ export class MapService {
   public initialize() {
     if (this.initialized) {
       this.isMapLoading$.next(false);
-      this.map?.dispose();
+      this.map.dispose();
+      // @ts-ignore
+      this.map = null;
     }
-    this.initialExtent = this.configService.config?.initialExtent || DEFAULT_EXTENT;
+    this.initialExtent = this.configService.config!.initialExtent;
     this.initializeMap().then(() => {
       this.initializeDrawing();
       this.initializeInteraction();

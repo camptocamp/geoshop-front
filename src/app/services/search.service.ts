@@ -1,12 +1,12 @@
-import { ISearchConfig, ISearchResult } from "@app/models/ISearch";
-
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+
 import { Feature } from "ol";
 import GeoJSON from "ol/format/GeoJSON";
 import { Geometry } from "ol/geom";
 import { map, Observable, of } from "rxjs";
 
+import { ISearchConfig, ISearchResult } from "@app/models/ISearch";
 import { ConfigService } from "./config.service";
 import { CoordinateSearchService } from "./coordinate-search.service";
 
@@ -25,18 +25,18 @@ function parseBox(box: string) {
 export class SearchService {
   private readonly geoJsonFormatter = new GeoJSON();
   private readonly searchResultFormat = new Map<string, (f: Feature<Geometry>) => ISearchResult>([
-    ['geocoder', (f: Feature<Geometry>) => ({
+    ['geocoder', (f: Feature<Geometry>) => <ISearchResult>{
       label: f.get("label"),
       category: f.get('origin') ?? 'Allgemein',
-      bbox: parseBox((f.get('geom_st_box2d') as string)),
+      bbox: parseBox(<string>f.get('geom_st_box2d')),
       geometry: f.getGeometry()
-    } as ISearchResult)],
-    ['mapfish', (f: Feature<Geometry>) => ({
+    }],
+    ['mapfish', (f: Feature<Geometry>) => <ISearchResult>{
       label: f.get("label"),
       category: f.get('layer_name') ?? 'Allgemein',
       bbox: f.get('bbox'),
       geometry: f.getGeometry()
-    } as ISearchResult)]
+    }]
   ]);
 
   constructor(
