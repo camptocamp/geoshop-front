@@ -802,5 +802,4 @@ export class MapService {
     this.drawingSource.addFeature(feature);
     this.featureFromDrawing?.set('area', poly);
   }
-
 }
