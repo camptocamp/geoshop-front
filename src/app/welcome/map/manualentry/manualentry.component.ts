@@ -1,14 +1,14 @@
 import { IManualEntryDialogData } from '@app/models/IManualEntryDialog';
-
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
-import { MAT_DIALOG_DATA, MatDialogClose, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormField, MatLabel } from '@angular/material/input';
-import { MatOption, MatSelect, MatSelectModule } from '@angular/material/select';
-import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 @Component({
@@ -16,9 +16,9 @@ import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
   templateUrl: './manualentry.component.html',
   styleUrls: ['./manualentry.component.scss'],
   imports: [
-    MatTab, MatTabGroup, MatFormField, MatLabel, MatSelect, FormsModule, MatOption, MatFormField,
-    MatDialogClose, MatSelectModule, ReactiveFormsModule, MatDialogModule, MatOptionModule,
-    MatButtonModule, CommonModule,
+    MatTabsModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDialogModule,
+    MatButtonModule, MatSelectModule, MatOptionModule, FormsModule, MatInputModule,
+    CommonModule
   ],
 })
 export class ManualentryComponent {
