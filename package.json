@@ -11,10 +11,12 @@
     "e2e": "ng e2e"
   },
   "private": true,
+  "overrides": {
+    "stylus": "0.0.1-security"
+  },
   "dependencies": {
     "@angular/animations": "^19.2.6",
     "@angular/cdk": "~19.2.4",
-    "@angular/forms": "^19.0.0 || ^20.0.0",
     "@angular/material": "~19.2.4",
     "@angular/router": "^19.2.6",
     "@ngrx/effects": "^19.1.0",
