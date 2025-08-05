@@ -1,5 +1,5 @@
 import { IBasemap, IPageFormat } from '@app/models/IConfig';
-import {  AppState, selectMapState, selectOrder } from '@app/store';
+import { AppState, selectMapState, selectOrder } from '@app/store';
 import { updateGeometry } from '@app/store/cart/cart.action';
 import * as MapAction from '@app/store/map/map.action';
 
@@ -49,6 +49,7 @@ import { Order } from '@app/models/IOrder';
 import { ApiOrderService } from './api-order.service';
 import { OrderValidationStatus } from '@app/models/IApi';
 import { MultiPolygon, SimpleGeometry } from 'ol/geom';
+import { ISearchResult } from '@app/models/ISearch';
 
 const DEFAULT_EXTENT = [2419995.7488073637, 1030006.663199476, 2900009.727428728, 1350004.292478851];
 const DEFAULT_RESOLUTIONS = [250, 100, 50, 20, 10, 5, 2.5, 2, 1.5, 1, 0.5, 0.25];
@@ -68,7 +69,7 @@ export class MapService {
   private initialExtent: number[];
   private areaTooltipElement: HTMLElement;
   private areaTooltip: Overlay;
-  private validationStatus: OrderValidationStatus = {valid: true};
+  private validationStatus: OrderValidationStatus = { valid: true };
 
   // Drawing
   private transformInteraction: Transform;
@@ -110,13 +111,13 @@ export class MapService {
   ];
 
   private orderStatus = this.store.pipe(
-      select(selectOrder),
-      switchMap(order => {
-        if (!order.geom || order.items.length <= 0) {
-          return of({valid: true});
-        }
-        return this.apiOrderService.validateOrder(new Order(order));
-      }));
+    select(selectOrder),
+    switchMap(order => {
+      if (!order.geom || order.items.length <= 0) {
+        return of({ valid: true });
+      }
+      return this.apiOrderService.validateOrder(new Order(order));
+    }));
 
   // Map's interactions
   private dragInteraction: DragPan;
@@ -339,46 +340,41 @@ export class MapService {
    *
    * @param feature - The feature returned by the geocoder
    */
-  public addFeatureFromGeocoderToDrawing(feature: Feature<Geometry>) {
+  public addFeatureFromGeocoderToDrawing(searchResult: ISearchResult) {
     this.geocoderSource.clear();
     if (this.featureFromDrawing) {
       this.drawingSource.removeFeature(this.featureFromDrawing);
     }
 
-    let poly: SimpleGeometry;
-    const geometry = feature.getGeometry();
+    const geometry = searchResult.geometry;
     if (geometry instanceof Point) {
       // TODO if the BBOX is just a point
-      poly = feature.get('bbox') ? this.createPolygonFromBBOX(feature.get('bbox')) : geometry;
-      feature.setGeometry(poly);
-
+      const feature = new Feature(searchResult.bbox ? fromExtent(searchResult.bbox) : geometry)
       this.drawingSource.addFeature(feature);
       this.modifyInteraction.setActive(true);
-
-      this.map.getView().fit(poly, {
+      this.map.getView().fit(feature.getGeometry()!, {
         padding: [75, 75, 75, 75]
       });
-
     } else {
-      const originalExtent = feature.getGeometry()?.getExtent();
-      if (originalExtent) {
-        const area = getArea(originalExtent);
-        if (geometry instanceof Polygon && area > 1000000) {
-          poly = geometry;
-        } if (geometry instanceof MultiPolygon) {
-          poly = geometry.getPolygon(0);
-        } else {
-          const bufferValue = area * 0.001;
-          poly = fromExtent(buffer(originalExtent, bufferValue));
-        }
-        feature.setGeometry(poly);
-        this.drawingSource.addFeature(feature);
-        this.modifyInteraction.setActive(true);
-
-        this.map.getView().fit(poly, {
-          padding: [100, 100, 100, 100]
-        });
+      const originalExtent = geometry.getExtent();
+      if (!originalExtent) {
+        return;
       }
+      let poly: SimpleGeometry;
+      const area = getArea(originalExtent);
+      if (geometry instanceof Polygon && area > 1000000) {
+        poly = geometry;
+      } if (geometry instanceof MultiPolygon) {
+        poly = geometry.getPolygon(0);
+      } else {
+        const bufferValue = area * 0.001;
+        poly = fromExtent(buffer(originalExtent, bufferValue));
+      }
+      this.drawingSource.addFeature(new Feature(poly));
+      this.modifyInteraction.setActive(true);
+      this.map.getView().fit(poly, {
+        padding: [100, 100, 100, 100]
+      });
     }
   }
 
@@ -576,9 +572,9 @@ export class MapService {
     const status = this.validationStatus;
     if (status && status.valid) {
       this.areaTooltipElement.classList.remove('invalid');
-    } else if (status.error){
+    } else if (status.error) {
       this.areaTooltipElement.classList.add('invalid');
-      content += `<br/> ${status!.error.message[0]}: (By ${formatArea(status!.error.excluded[0]-status!.error.expected[0])})`;
+      content += `<br/> ${status!.error.message[0]}: (By ${formatArea(status!.error.excluded[0] - status!.error.expected[0])})`;
     }
     this.areaTooltipElement.style.visibility = "visible";
     this.areaTooltip.setPosition(getCenter(feat.getGeometry()!.getExtent()));
