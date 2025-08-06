@@ -27,13 +27,13 @@ export class SearchService {
   private readonly searchResultFormat = new Map<string, (f: Feature<Geometry>) => ISearchResult>([
     ['geocoder', (f: Feature<Geometry>) => <ISearchResult>{
       label: f.get("label"),
-      category: f.get('origin') ?? 'Allgemein',
+      category: f.get('origin'),
       bbox: parseBox(<string>f.get('geom_st_box2d')),
       geometry: f.getGeometry()
     }],
     ['mapfish', (f: Feature<Geometry>) => <ISearchResult>{
       label: f.get("label"),
-      category: f.get('layer_name') ?? 'Allgemein',
+      category: f.get('layer_name'),
       bbox: f.get('bbox'),
       geometry: f.getGeometry()
     }]

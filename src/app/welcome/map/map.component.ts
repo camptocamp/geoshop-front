@@ -17,20 +17,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatHint, MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import Feature from 'ol/Feature';
 import Geometry from 'ol/geom/Geometry';
 import { debounceTime, switchMap } from 'rxjs/operators';
 
 import { ManualentryComponent } from './manualentry/manualentry.component';
+import { ISearchResult } from '@app/models/ISearch';
+import { SEARCH_CATEGORY, SEARCH_CATEGORY_GENERAL } from '@app/constants';
 
 export const nameOfCategoryForGeocoder: Record<string, string> = { // TODO this should be translated
-  zipcode: 'Ortschaftenverzeichnis PLZ',
-  gg25: 'Gemeinden',
-  district: 'Bezirke',
-  kantone: 'Kantone',
-  gazetteer: 'OEV Haltestellen',
-  address: 'Adressen',
-  parcel: 'Parzellen',
+  "zipcode": 'Ortschaftenverzeichnis PLZ',
+  "gg25": 'Gemeinden',
+  "district": 'Bezirke',
+  "kantone": 'Kantone',
+  "gazetteer": 'OEV Haltestellen',
+  "address": 'Adressen',
+  "parcel": 'Parzellen',
 };
 
 @Component({
@@ -70,11 +71,7 @@ export class MapComponent implements OnInit {
   formGeocoder = new UntypedFormGroup({
     search: new UntypedFormControl('')
   });
-  geocoderGroupOptions: {
-    id: string;
-    label: string;
-    items: { label: string; feature: Feature<Geometry>; }[]
-  }[];
+  featureByCategory: Map<string, ISearchResult[]> = new Map<string, ISearchResult[]>();
 
   public get searchCtrl() {
     return this.formGeocoder.get('search');
@@ -111,29 +108,15 @@ export class MapComponent implements OnInit {
         .subscribe(features => {
           this.isSearchLoading = false;
           this.shouldDisplayClearButton = true;
-          this.geocoderGroupOptions = [];
-
-          for (const feature of features) {
-            const categoryId = feature.category;
-
-            let currentCategory = this.geocoderGroupOptions.find(x => x.id === categoryId);
-            if (currentCategory) {
-              currentCategory.items.push({
-                label: this.mapService.stripHtmlTags(feature.label),
-                feature: new Feature<Geometry>(feature.geometry)
-              });
-            } else {
-              currentCategory = {
-                id: categoryId,
-                label: nameOfCategoryForGeocoder[categoryId],
-                items: [{
-                  label: this.mapService.stripHtmlTags(feature.label),
-                  feature: new Feature<Geometry>(feature.geometry)
-                }]
-              };
-              this.geocoderGroupOptions.push(currentCategory);
+          this.featureByCategory = features.reduce((acc, feature) => {
+            console.log(feature.category);
+            const categoryId = SEARCH_CATEGORY.get(feature.category) || SEARCH_CATEGORY_GENERAL;
+            if (!acc.has(categoryId)) {
+              acc.set(categoryId, []);
             }
-          }
+            acc.get(categoryId)!.push(feature);
+            return acc;
+          }, new Map<string, ISearchResult[]>);
         });
     }
   }
@@ -143,7 +126,7 @@ export class MapComponent implements OnInit {
   }
 
   displayGeocoderResultOnTheMap(evt: MatAutocompleteSelectedEvent) {
-    this.mapService.addFeatureFromGeocoderToDrawing(evt.option.value.feature);
+    this.mapService.addFeatureFromGeocoderToDrawing(evt.option.value);
     this.shouldDisplayClearButton = true;
   }
 

@@ -19,6 +19,7 @@
     "@angular/cdk": "~19.2.4",
     "@angular/material": "~19.2.4",
     "@angular/router": "^19.2.6",
+    "@angular/forms": "^19.2.6",
     "@ngrx/effects": "^19.1.0",
     "@ngrx/store": "^19.1.0",
     "@schematics/angular": "^19.2.7",

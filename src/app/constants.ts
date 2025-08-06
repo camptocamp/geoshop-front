@@ -40,3 +40,19 @@ export const COUNTRIES = {
     name: $localize`:@@country.fr.name:France`
   }
 };
+
+export const SEARCH_CATEGORY: Map<string, string> = new Map([
+  // Geocoder categories
+  ["zipcode", $localize`:@@search.category.zipcode:Ortschaftenverzeichnis PLZ`],
+  ["gg25", $localize`:@@search.category.gemeinden:Gemeinden`],
+  ["district", $localize`:@@search.category.district:Bezirke`],
+  ["kantone", $localize`:@@search.category.kanton:Kantone`],
+  ["gazetteer", $localize`:@@search.category.gazetteer:OEV Haltestellen`],
+  ["address", $localize`:@@search.category.address:Adressen`],
+  ["parcel", $localize`:@@search.category.parcel:Parzellen`],
+  // Mapfish categories
+  ["Adressen", $localize`:@@search.category.address:Adressen`],
+  ["Gemeindegrenzen", $localize`:@@search.category.gemeinden:Gemeinden`],
+]);
+
+export const SEARCH_CATEGORY_GENERAL = $localize`:@@search.category.unknown:Allgemein`;
