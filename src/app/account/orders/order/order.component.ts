@@ -125,7 +125,7 @@ export class OrderComponent {
 
     dialogRef.componentInstance.noButtonTitle = $localize`Annuler`;
     dialogRef.componentInstance.yesButtonTitle = $localize`Confirmer`;
-    dialogRef.componentInstance.confirmMessage = $localize`Etes-vous sûr de vouloir confimrer la commande?`;
+    dialogRef.componentInstance.confirmMessage = $localize`Etes-vous sûr de vouloir confirmer la commande?`;
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.apiOrderService.confirmOrder(this.selectedOrder.id).subscribe(confirmed => {
