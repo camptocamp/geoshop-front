@@ -1183,14 +1183,14 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.zipcode" datatype="html">
-        <source>Ortschaftenverzeichnis PLZ</source>
+        <source>Code postal</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.gemeinden" datatype="html">
-        <source>Gemeinden</source>
+        <source>Communes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">47</context>
@@ -1201,28 +1201,28 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.district" datatype="html">
-        <source>Bezirke</source>
+        <source>Districts</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.kanton" datatype="html">
-        <source>Kantone</source>
+        <source>Cantons</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.gazetteer" datatype="html">
-        <source>OEV Haltestellen</source>
+        <source>Arrêts OEV</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.address" datatype="html">
-        <source>Adressen</source>
+        <source>Adresses</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">51</context>
@@ -1233,14 +1233,14 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.parcel" datatype="html">
-        <source>Parzellen</source>
+        <source>Parcelles</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">52</context>
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.unknown" datatype="html">
-        <source>Allgemein</source>
+        <source>Général</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">58</context>

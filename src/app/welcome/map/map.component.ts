@@ -24,16 +24,6 @@ import { ManualentryComponent } from './manualentry/manualentry.component';
 import { ISearchResult } from '@app/models/ISearch';
 import { SEARCH_CATEGORY, SEARCH_CATEGORY_GENERAL } from '@app/constants';
 
-export const nameOfCategoryForGeocoder: Record<string, string> = { // TODO this should be translated
-  "zipcode": 'Ortschaftenverzeichnis PLZ',
-  "gg25": 'Gemeinden',
-  "district": 'Bezirke',
-  "kantone": 'Kantone',
-  "gazetteer": 'OEV Haltestellen',
-  "address": 'Adressen',
-  "parcel": 'Parzellen',
-};
-
 @Component({
   selector: 'gs2-map',
   templateUrl: './map.component.html',
