@@ -47,7 +47,7 @@ export const SEARCH_CATEGORY: Map<string, string> = new Map([
   ["gg25", $localize`:@@search.category.gemeinden:Communes`],
   ["district", $localize`:@@search.category.district:Districts`],
   ["kantone", $localize`:@@search.category.kanton:Cantons`],
-  ["gazetteer", $localize`:@@search.category.gazetteer:Arrêts OEV`],
+  ["gazetteer", $localize`:@@search.category.gazetteer:Transports publics`],
   ["address", $localize`:@@search.category.address:Adresses`],
   ["parcel", $localize`:@@search.category.parcel:Parcelles`],
   // Mapfish categories
