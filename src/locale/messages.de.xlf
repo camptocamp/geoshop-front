@@ -1402,7 +1402,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.gemeinden" datatype="html">
-        <source>Gemeinden</source>
+        <source>Communes</source>
         <target state="new">Gemeinden</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
@@ -1414,7 +1414,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.district" datatype="html">
-        <source>Bezirke</source>
+        <source>Districts</source>
         <target state="new">Bezirke</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
@@ -1422,7 +1422,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.kanton" datatype="html">
-        <source>Kantone</source>
+        <source>Cantons</source>
         <target state="new">Kantone</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
@@ -1430,7 +1430,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.gazetteer" datatype="html">
-        <source>OEV Haltestellen</source>
+        <source>Arrêts OEV</source>
         <target state="new">OEV Haltestellen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
@@ -1438,7 +1438,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.address" datatype="html">
-        <source>Adressen</source>
+        <source>Adresses</source>
         <target state="new">Adressen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
@@ -1450,7 +1450,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.parcel" datatype="html">
-        <source>Parzellen</source>
+        <source>Parcelles</source>
         <target state="new">Parzellen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
@@ -1849,7 +1849,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.zipcode" datatype="html">
-        <source>Ortschaftenverzeichnis PLZ</source>
+        <source>Code postal</source>
         <target state="new">Ortschaftenverzeichnis PLZ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>

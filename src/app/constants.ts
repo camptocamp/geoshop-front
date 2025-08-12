@@ -43,16 +43,17 @@ export const COUNTRIES = {
 
 export const SEARCH_CATEGORY: Map<string, string> = new Map([
   // Geocoder categories
-  ["zipcode", $localize`:@@search.category.zipcode:Ortschaftenverzeichnis PLZ`],
-  ["gg25", $localize`:@@search.category.gemeinden:Gemeinden`],
-  ["district", $localize`:@@search.category.district:Bezirke`],
-  ["kantone", $localize`:@@search.category.kanton:Kantone`],
-  ["gazetteer", $localize`:@@search.category.gazetteer:OEV Haltestellen`],
-  ["address", $localize`:@@search.category.address:Adressen`],
-  ["parcel", $localize`:@@search.category.parcel:Parzellen`],
+  ["zipcode", $localize`:@@search.category.zipcode:Code postal`],
+  ["gg25", $localize`:@@search.category.gemeinden:Communes`],
+  ["district", $localize`:@@search.category.district:Districts`],
+  ["kantone", $localize`:@@search.category.kanton:Cantons`],
+  ["gazetteer", $localize`:@@search.category.gazetteer:Arrêts OEV`],
+  ["address", $localize`:@@search.category.address:Adresses`],
+  ["parcel", $localize`:@@search.category.parcel:Parcelles`],
   // Mapfish categories
-  ["Adressen", $localize`:@@search.category.address:Adressen`],
-  ["Gemeindegrenzen", $localize`:@@search.category.gemeinden:Gemeinden`],
+  ["Adressen", $localize`:@@search.category.address:Adresses`],
+  ["Gemeindegrenzen", $localize`:@@search.category.gemeinden:Communes`],
+  ["Kantone", $localize`:@@search.category.kanton:Cantons`],
 ]);
 
-export const SEARCH_CATEGORY_GENERAL = $localize`:@@search.category.unknown:Allgemein`;
+export const SEARCH_CATEGORY_GENERAL = $localize`:@@search.category.unknown:Général`;
