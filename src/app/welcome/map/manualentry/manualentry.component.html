@@ -29,19 +29,19 @@
       <div mat-dialog-content>
         <mat-form-field>
           <mat-label i18n>Ouest (X min)</mat-label>
-          <input matInput type="number" min=2500000 max=2580000 [(ngModel)]="data.xMin">
+          <input matInput type="number" [min]="data.constraints[0]" [max]="data.constraints[2]" [(ngModel)]="data.extent[0]">
         </mat-form-field>
         <mat-form-field>
           <mat-label i18n>Sud (Y min)</mat-label>
-          <input matInput type="number" min=1180000 max=1240000 [(ngModel)]="data.yMin">
+          <input matInput type="number" [min]="data.constraints[1]" [max]="data.constraints[3]" [(ngModel)]="data.extent[1]">
         </mat-form-field>
         <mat-form-field>
           <mat-label i18n>Est (X max)</mat-label>
-          <input matInput type="number" min=2500000 max=2580000 [(ngModel)]="data.xMax">
+          <input matInput type="number" [min]="data.constraints[0]" [max]="data.constraints[2]" [(ngModel)]="data.extent[2]">
         </mat-form-field>
         <mat-form-field>
           <mat-label i18n>Nord (Y max)</mat-label>
-          <input matInput type="number" min=1180000 max=1240000 [(ngModel)]="data.yMax">
+          <input matInput type="number" [min]="data.constraints[1]" [max]="data.constraints[3]" [(ngModel)]="data.extent[3]">
         </mat-form-field>
       </div>
     </mat-tab>
