@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
+import { Extent } from 'ol/extent';
 import { vi, describe, it, beforeEach, expect } from 'vitest';
 
 import { ManualentryComponent } from './manualentry.component';
@@ -42,10 +43,7 @@ describe('ManualentryComponent', () => {
             PageFormatRotation: 0,
             rotationPageFormat: 0,
             activeTab: 0,
-            xMin: 0,
-            yMin: 0,
-            xMax: 0,
-            yMax: 0,
+            extent: [2500000, 1180000, 2580000, 1240000] as Extent
           } as IManualEntryDialogData
         }
       ]
