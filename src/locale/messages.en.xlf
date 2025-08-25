@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file source-language="fr" datatype="plaintext" original="ng2.template" target-language="en">
+  <file source-language="fr" target-language="en" datatype="plaintext" original="ng2.template">
     <body>
       <trans-unit id="account.order" datatype="html">
         <source>Mes Commandes</source>
@@ -51,7 +51,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="account.log_in" datatype="html">
-        <source>S'authentifier</source>
+        <source>S&apos;authentifier</source>
         <target>Log in</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/account-overlay/account-overlay.component.html</context>
@@ -99,7 +99,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="help.show" datatype="html">
-        <source>Voir l'aide</source>
+        <source>Voir l&apos;aide</source>
         <target>See help</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/help-overlay/help-overlay.component.html</context>
@@ -155,8 +155,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="6386377933746770252" datatype="html">
-        <source> Un ou plusieurs produits commandés doivent encore être devisés.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br>"/> Une fois les produits devisés, vous pourrez valider ici la commande. </source>
-        <target>One or more ordered products still need to be quoted.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br>"/> Once the products are quoted, you can validate the order here.</target>
+        <source> Un ou plusieurs produits commandés doivent encore être devisés.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> Une fois les produits devisés, vous pourrez valider ici la commande. </source>
+        <target>One or more ordered products still need to be quoted.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> Once the products are quoted, you can validate the order here.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/order-item-view/order-item-view.component.html</context>
           <context context-type="linenumber">9</context>
@@ -279,8 +279,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="5938060479305453476" datatype="html">
-        <source>Les données seront envoyées à l'adresse email de l'utilisateur courant: <x id="INTERPOLATION" equiv-text="{{(currentUser$|async)?.email}}"/></source>
-        <target>The data will be sent to the current user's email address: <x id="INTERPOLATION" equiv-text="{{(currentUser$|async)?.email}}"/></target>
+        <source>Les données seront envoyées à l&apos;adresse email de l&apos;utilisateur courant: <x id="INTERPOLATION" equiv-text="{{(currentUser$|async)?.email}}"/></source>
+        <target>The data will be sent to the current user&apos;s email address: <x id="INTERPOLATION" equiv-text="{{(currentUser$|async)?.email}}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
           <context context-type="linenumber">43</context>
@@ -295,7 +295,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="5457045476183220490" datatype="html">
-        <source>Saisir l'adresse email de livraison</source>
+        <source>Saisir l&apos;adresse email de livraison</source>
         <target>Enter the delivery email address</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
@@ -319,7 +319,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="9084649170158530340" datatype="html">
-        <source>La facturation est adressée à l'utilisateur courant: <x id="INTERPOLATION" equiv-text="{{(currentUser$|async)?.username}}"/> (<x id="INTERPOLATION_1" equiv-text="{{(currentUser$|async)?.email}}"/>)</source>
+        <source>La facturation est adressée à l&apos;utilisateur courant: <x id="INTERPOLATION" equiv-text="{{(currentUser$|async)?.username}}"/> (<x id="INTERPOLATION_1" equiv-text="{{(currentUser$|async)?.email}}"/>)</source>
         <target>The billing is addressed to the current user: <x id="INTERPOLATION" equiv-text="{{(currentUser$|async)?.username}}"/> (<x id="INTERPOLATION_1" equiv-text="{{(currentUser$|async)?.email}}"/>)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
@@ -375,7 +375,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="6840029554610349837" datatype="html">
-        <source>Complément d'adresse</source>
+        <source>Complément d&apos;adresse</source>
         <target>Address complement</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
@@ -455,8 +455,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="8589795542459120521" datatype="html">
-        <source> Un ou plusieurs produits commandés doivent être devisés préalablement.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br>"/> N'hésitez pas à demander gratuitement votre devis sans engagement.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br>"/> Vous pourrez ensuite définitevement valider votre commande. </source>
-        <target> One or more ordered products must be quoted beforehand.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br>"/> Feel free to request your quote for free and without obligation.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br>"/> You will then be able to definitively validate your order. </target>
+        <source> Un ou plusieurs produits commandés doivent être devisés préalablement.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> N&apos;hésitez pas à demander gratuitement votre devis sans engagement.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> Vous pourrez ensuite définitevement valider votre commande. </source>
+        <target> One or more ordered products must be quoted beforehand.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> Feel free to request your quote for free and without obligation.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> You will then be able to definitively validate your order. </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
           <context context-type="linenumber">224</context>
@@ -555,7 +555,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="7086776492273815216" datatype="html">
-        <source> Aucune commande n'a été trouvée. </source>
+        <source> Aucune commande n&apos;a été trouvée. </source>
         <target> No orders were found.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/orders/orders.component.html</context>
@@ -563,7 +563,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="profile.username_unchangabel" datatype="html">
-        <source>Nom d'utilisateur (ne peut être modifié)</source>
+        <source>Nom d&apos;utilisateur (ne peut être modifié)</source>
         <target>Username (cannot be changed)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/modify-profile.component.html</context>
@@ -851,7 +851,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="7407681109203487144" datatype="html">
-        <source>Nom de l'entreprise</source>
+        <source>Nom de l&apos;entreprise</source>
         <target>Company name</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
@@ -899,7 +899,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="3268609828350419755" datatype="html">
-        <source>En vous inscrivant sur le géoshop, vous vous soumettez aux conditions générales d'utilisation</source>
+        <source>En vous inscrivant sur le géoshop, vous vous soumettez aux conditions générales d&apos;utilisation</source>
         <target>By signing up on the geoshop, you agree to the terms of use</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
@@ -907,7 +907,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="5361637828916040714" datatype="html">
-        <source>Ouvrir les conditions générales d'utilisation</source>
+        <source>Ouvrir les conditions générales d&apos;utilisation</source>
         <target>Open the terms of use</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/register/register.component.html</context>
@@ -1107,8 +1107,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="3552503680756392318" datatype="html">
-        <source> Voir sur le géoportail<x id="START_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;mat-icon class=&quot;icon-sm&quot;>"/>open_in_new<x id="CLOSE_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;/mat-icon>"/></source>
-        <target> View on the geoportal<x id="START_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;mat-icon class=&quot;icon-sm&quot;>"/>open_in_new<x id="CLOSE_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;/mat-icon>"/></target>
+        <source> Voir sur le géoportail<x id="START_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;mat-icon class=&quot;icon-sm&quot;&gt;"/>open_in_new<x id="CLOSE_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;/mat-icon&gt;"/></source>
+        <target> View on the geoportal<x id="START_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;mat-icon class=&quot;icon-sm&quot;&gt;"/>open_in_new<x id="CLOSE_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;/mat-icon&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.html</context>
           <context context-type="linenumber">25</context>
@@ -1179,8 +1179,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="dialog.geocat_link" datatype="html">
-        <source> Ouvrir géocat <x id="START_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;mat-icon>"/>open_in_new<x id="CLOSE_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;/mat-icon>"/></source>
-        <target> Open geocat <x id="START_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;mat-icon>"/>open_in_new<x id="CLOSE_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;/mat-icon>"/></target>
+        <source> Ouvrir géocat <x id="START_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;mat-icon&gt;"/>open_in_new<x id="CLOSE_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;/mat-icon&gt;"/></source>
+        <target> Open geocat <x id="START_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;mat-icon&gt;"/>open_in_new<x id="CLOSE_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;/mat-icon&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/dialog-metadata/dialog-metadata.component.html</context>
           <context context-type="linenumber">88</context>
@@ -1195,15 +1195,15 @@
         </context-group>
       </trans-unit>
       <trans-unit id="6120902722697780721" datatype="html">
-        <source> Commande du <x id="INTERPOLATION" equiv-text="{{order.date_ordered | date}}"/>.<x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-ellipsis-2&quot;>"/><x id="INTERPOLATION_1" equiv-text="{{order.description}}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span>"/></source>
-        <target> Order from <x id="INTERPOLATION" equiv-text="{{order.date_ordered | date}}"/>.<x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-ellipsis-2&quot;>"/><x id="INTERPOLATION_1" equiv-text="{{order.description}}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span>"/></target>
+        <source> Commande du <x id="INTERPOLATION" equiv-text="{{order.date_ordered | date}}"/>.<x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-ellipsis-2&quot;&gt;"/><x id="INTERPOLATION_1" equiv-text="{{order.description}}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <target> Order from <x id="INTERPOLATION" equiv-text="{{order.date_ordered | date}}"/>.<x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-ellipsis-2&quot;&gt;"/><x id="INTERPOLATION_1" equiv-text="{{order.description}}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/download/download.component.html</context>
           <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5869335322202566743" datatype="html">
-        <source>Votre commande n'est plus disponible.</source>
+        <source>Votre commande n&apos;est plus disponible.</source>
         <target>Your order is no longer available.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/download/download.component.html</context>
@@ -1211,8 +1211,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="453914606934173135" datatype="html">
-        <source>Les liens de téléchargement ne sont valables que pendant un mois. <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br>"/> N'hésitez pas à nous contacter si vous souhaitez une nouvelle extraction.</source>
-        <target>The download links are only valid for one month. <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br>"/> Do not hesitate to contact us if you want a new extraction.</target>
+        <source>Les liens de téléchargement ne sont valables que pendant un mois. <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> N&apos;hésitez pas à nous contacter si vous souhaitez une nouvelle extraction.</source>
+        <target>The download links are only valid for one month. <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> Do not hesitate to contact us if you want a new extraction.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/download/download.component.html</context>
           <context context-type="linenumber">29</context>
@@ -1331,7 +1331,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="4515716860476357376" datatype="html">
-        <source>Choisir l'email de livraison</source>
+        <source>Choisir l&apos;email de livraison</source>
         <target state="translated">Choose the delivery email</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
@@ -1339,8 +1339,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="5929531880571632059" datatype="html">
-        <source> Vous devez spécifier les informations de contact du tiers pour un mandat de type "<x id="INTERPOLATION" equiv-text="{{ getLocalizedTypeName(orderFormGroup.get('orderType')?.value) }}"/>". </source>
-        <target state="translated">Please specify the contact details of the third party for a "<x id="INTERPOLATION" equiv-text="{{ getLocalizedTypeName(orderFormGroup.get('orderType')?.value) }}"/>" type mandate. </target>
+        <source> Vous devez spécifier les informations de contact du tiers pour un mandat de type &quot;<x id="INTERPOLATION" equiv-text="{{ getLocalizedTypeName(orderFormGroup.get(&apos;orderType&apos;)?.value) }}"/>&quot;. </source>
+        <target state="translated">Please specify the contact details of the third party for a &quot;<x id="INTERPOLATION" equiv-text="{{ getLocalizedTypeName(orderFormGroup.get(&apos;orderType&apos;)?.value) }}"/>&quot; type mandate. </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
           <context context-type="linenumber">74</context>
@@ -1415,7 +1415,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4207918560099388002" datatype="html">
@@ -1427,8 +1427,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="2477113259664468311" datatype="html">
-        <source>Le contact &lt;b style='color:#26a59a;'&gt;<x id="PH" equiv-text="this.currentSelectedContact.first_name"/> <x id="PH_1" equiv-text="this.currentSelectedContact.last_name"/>&lt;/b&gt; a été modifié. Voulez-vous continuer?</source>
-        <target state="translated">The contact &lt;b style='color:#26a59a;'&gt;<x id="PH" equiv-text="this.currentSelectedContact.first_name"/> <x id="PH_1" equiv-text="this.currentSelectedContact.last_name"/>&lt;/b&gt; has been modified. Do you want to proceed?</target>
+        <source>Le contact &lt;b style=&apos;color:#26a59a;&apos;&gt;<x id="PH" equiv-text="this.currentSelectedContact.first_name"/> <x id="PH_1" equiv-text="this.currentSelectedContact.last_name"/>&lt;/b&gt; a été modifié. Voulez-vous continuer?</source>
+        <target state="translated">The contact &lt;b style=&apos;color:#26a59a;&apos;&gt;<x id="PH" equiv-text="this.currentSelectedContact.first_name"/> <x id="PH_1" equiv-text="this.currentSelectedContact.last_name"/>&lt;/b&gt; has been modified. Do you want to proceed?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
           <context context-type="linenumber">485</context>
@@ -1447,8 +1447,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="8531193569169880344" datatype="html">
-        <source>Etes-vous sûr de vouloir supprimer le contact &lt;b style='color:#26a59a;'&gt;<x id="PH" equiv-text="contact.first_name"/> <x id="PH_1" equiv-text="contact.last_name"/>&lt;/b&gt; ?</source>
-        <target state="translated">Are you sure you want to delete the contact &lt;b style='color:#26a59a;'&gt;<x id="PH" equiv-text="contact.first_name"/> <x id="PH_1" equiv-text="contact.last_name"/>&lt;/b&gt; ?</target>
+        <source>Etes-vous sûr de vouloir supprimer le contact &lt;b style=&apos;color:#26a59a;&apos;&gt;<x id="PH" equiv-text="contact.first_name"/> <x id="PH_1" equiv-text="contact.last_name"/>&lt;/b&gt; ?</source>
+        <target state="translated">Are you sure you want to delete the contact &lt;b style=&apos;color:#26a59a;&apos;&gt;<x id="PH" equiv-text="contact.first_name"/> <x id="PH_1" equiv-text="contact.last_name"/>&lt;/b&gt; ?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
           <context context-type="linenumber">610</context>
@@ -1486,7 +1486,7 @@
           <context context-type="linenumber">127</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="7412537097243373197" datatype="html">
+      <trans-unit id="828990133309204185" datatype="html">
         <source>Etes-vous sûr de vouloir confirmer la commande?</source>
         <target state="translated">Are you sure you want to confirm the order?</target>
         <context-group purpose="location">
@@ -1495,8 +1495,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="3963713773815278142" datatype="html">
-        <source>Etes-vous sûr de vouloir supprimer la commande "<x id="PH" equiv-text="this.order.title"/>" ?</source>
-        <target state="translated">Are you sure you want to delete the order "<x id="PH" equiv-text="this.order.title"/>" ?</target>
+        <source>Etes-vous sûr de vouloir supprimer la commande &quot;<x id="PH" equiv-text="this.order.title"/>&quot; ?</source>
+        <target state="translated">Are you sure you want to delete the order &quot;<x id="PH" equiv-text="this.order.title"/>&quot; ?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
           <context context-type="linenumber">159</context>
@@ -1519,7 +1519,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="3641166415384919072" datatype="html">
-        <source>Vous n'avez rien modifié !</source>
+        <source>Vous n&apos;avez rien modifié !</source>
         <target state="translated">Nothing was changed</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/modify-profile.component.ts</context>
@@ -1527,7 +1527,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="8587025035674585223" datatype="html">
-        <source>Le mot de passe a été envoyé à l'adresse : </source>
+        <source>Le mot de passe a été envoyé à l&apos;adresse : </source>
         <target state="translated">The password has been sent to : </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/forget/forget.component.ts</context>
@@ -1535,8 +1535,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="5311853898871610206" datatype="html">
-        <source>Redirecting to Authentification page. If that doesn't happen, please click the button</source>
-        <target state="translated">Redirecting to Authentification page. If that doesn't happen, please click the button</target>
+        <source>Redirecting to Authentification page. If that doesn&apos;t happen, please click the button</source>
+        <target state="translated">Redirecting to Authentification page. If that doesn&apos;t happen, please click the button</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
           <context context-type="linenumber">36</context>
@@ -1551,7 +1551,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="login.no_auth_available" datatype="html">
-        <source> Aucune méthode d'authentification disponible </source>
+        <source> Aucune méthode d&apos;authentification disponible </source>
         <target state="translated"> No authentication method available </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/account-overlay/account-overlay.component.html</context>
@@ -1591,16 +1591,16 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.zipcode" datatype="html">
-        <source>Ortschaftenverzeichnis PLZ</source>
-        <target state="new">Ortschaftenverzeichnis PLZ</target>
+        <source>Code postal</source>
+        <target state="new">Code postal</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.gemeinden" datatype="html">
-        <source>Gemeinden</source>
-        <target state="new">Gemeinden</target>
+        <source>Communes</source>
+        <target state="new">Communes</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">47</context>
@@ -1611,32 +1611,36 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.district" datatype="html">
-        <source>Bezirke</source>
-        <target state="new">Bezirke</target>
+        <source>Districts</source>
+        <target state="new">Districts</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.kanton" datatype="html">
-        <source>Kantone</source>
-        <target state="new">Kantone</target>
+        <source>Cantons</source>
+        <target state="new">Cantons</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">49</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/constants.ts</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="search.category.gazetteer" datatype="html">
-        <source>OEV Haltestellen</source>
-        <target state="new">OEV Haltestellen</target>
+        <source>Transports publics</source>
+        <target state="new">Transports publics</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.address" datatype="html">
-        <source>Adressen</source>
-        <target state="new">Adressen</target>
+        <source>Adresses</source>
+        <target state="new">Adresses</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">51</context>
@@ -1647,19 +1651,19 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.parcel" datatype="html">
-        <source>Parzellen</source>
-        <target state="new">Parzellen</target>
+        <source>Parcelles</source>
+        <target state="new">Parcelles</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">52</context>
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.unknown" datatype="html">
-        <source>Allgemein</source>
-        <target state="new">Allgemein</target>
+        <source>Général</source>
+        <target state="new">Général</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
-          <context context-type="linenumber">58</context>
+          <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5300981229662517671" datatype="html">
@@ -1771,7 +1775,7 @@
         <target state="translated">South (Y min)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6470595891025142330" datatype="html">
@@ -1779,7 +1783,7 @@
         <target state="translated">East (X max)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2028055506042593399" datatype="html">
@@ -1787,7 +1791,7 @@
         <target state="translated">North (Y max)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8946409139739128921" datatype="html">
@@ -1807,7 +1811,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="2747788433655367550" datatype="html">
-        <source> Cette page permet d'autoriser ou d'annuler l'utilisation d'un produit commandé sur le geoshop. </source>
+        <source> Cette page permet d&apos;autoriser ou d&apos;annuler l&apos;utilisation d&apos;un produit commandé sur le geoshop. </source>
         <target state="translated"> This page lets you approve or revoke the use of a product ordered from the geoshop. </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/validate/validate.component.html</context>
@@ -1852,6 +1856,46 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/validate/validate.component.html</context>
           <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8857159515510586089" datatype="html">
+        <source>Ce champ est requis</source>
+        <target state="new">Ce champ est requis</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3297562179987742303" datatype="html">
+        <source> La valeur doit être comprise entre <x id="INTERPOLATION" equiv-text="{{data.constraints[0]}}"/> et <x id="INTERPOLATION_1" equiv-text="{{data.constraints[2]}}"/> </source>
+        <target state="new"> La valeur doit être comprise entre <x id="INTERPOLATION" equiv-text="{{data.constraints[0]}}"/> et <x id="INTERPOLATION_1" equiv-text="{{data.constraints[2]}}"/> </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
     </body>

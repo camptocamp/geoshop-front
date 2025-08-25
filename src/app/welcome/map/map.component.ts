@@ -25,6 +25,7 @@ import { debounceTime, switchMap } from 'rxjs/operators';
 
 
 import { ManualentryComponent } from './manualentry/manualentry.component';
+import { IManualEntryDialogData } from '@app/models/IManualEntryDialog';
 
 @Component({
   selector: 'gs2-map',
@@ -46,15 +47,20 @@ export class MapComponent implements OnInit {
   isTracking = false;
   isSearchLoading = false;
   shouldDisplayClearButton = false;
-  basemaps: IBasemap[];
-  pageformats: IPageFormat[];
+
   isMapLoading$ = this.mapService.isMapLoading$;
-  selectedPageFormat: IPageFormat | undefined;
-  selectedPageFormatScale = 500;
-  rotationPageFormat = 0;
-  pageFormatScales: number[] = [500, 1000, 2000, 5000];
-  extent: Extent = [2500000, 1180000, 2580000, 1240000];
-  activeTab = 0;
+  basemaps: IBasemap[];
+
+  manualEntryParams: IManualEntryDialogData = {
+    pageFormats: [],
+    selectedPageFormat: <IPageFormat>{},
+    selectedPageFormatScale: 500,
+    rotationPageFormat: 0,
+    pageFormatScales: [500, 1000, 2000, 5000],
+    extent: <Extent>[2500000, 1180000, 2580000, 1240000],
+    constraints: <Extent>[2500000, 1180000, 2580000, 1240000],
+    activeTab: 0
+  };
 
   // Geocoder
   formGeocoder = new UntypedFormGroup({
@@ -79,8 +85,8 @@ export class MapComponent implements OnInit {
     this.mapService.initialize();
     this.mapService.isDrawing$.subscribe((isDrawing) => this.isDrawing = isDrawing);
     this.basemaps = this.mapService.Basemaps || [];
-    this.pageformats = this.mapService.PageFormats || [];
-    this.selectedPageFormat = this.configService.config?.pageformats[0];
+    this.manualEntryParams.pageFormats = this.mapService.PageFormats || [];
+    this.manualEntryParams.selectedPageFormat = <IPageFormat>this.configService.config?.pageformats[0];
 
     if (this.searchCtrl) {
       this.searchCtrl.valueChanges
@@ -142,38 +148,25 @@ export class MapComponent implements OnInit {
     const dialogRef = this.dialog.open(ManualentryComponent, {
       minWidth: 250,
       autoFocus: true,
-      data: {
-        pageFormatScales: this.pageFormatScales,
-        pageFormats: this.pageformats,
-        selectedPageFormat: this.selectedPageFormat,
-        selectedPageFormatScale: this.selectedPageFormatScale,
-        rotationPageFormat: this.rotationPageFormat,
-        activeTab: this.activeTab,
-        extent: this.extent,
-        constraints: [2500000, 1180000, 2580000, 1240000]
-      }
+      data: this.manualEntryParams
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (!result) {
         return;
       }
+      this.manualEntryParams = result;
       if (result.activeTab === 0) {
-        this.selectedPageFormat = result.selectedPageFormat;
-        this.selectedPageFormatScale = result.selectedPageFormatScale;
-        this.rotationPageFormat = result.rotationPageFormat;
-        if (this.selectedPageFormat) {
+        if (result.selectedPageFormat) {
           this.mapService.setPageFormat(
-            this.selectedPageFormat,
-            this.selectedPageFormatScale,
-            this.rotationPageFormat
+            result.selectedPageFormat,
+            result.selectedPageFormatScale,
+            result.rotationPageFormat
           );
         }
       } else {
-        this.activeTab = 0;
         this.mapService.setBBox(result.extent);
       }
     });
   }
-
 }

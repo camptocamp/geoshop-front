@@ -26,28 +26,44 @@
       </div>
     </mat-tab>
     <mat-tab i18n-label label="Rectangle englobant">
-      <div mat-dialog-content>
+      <div mat-dialog-content [formGroup]="form">
         <mat-form-field>
           <mat-label i18n>Ouest (X min)</mat-label>
-          <input matInput type="number" [min]="data.constraints[0]" [max]="data.constraints[2]" [(ngModel)]="data.extent[0]">
+          <input matInput type="number" [min]="data.constraints[0]" [max]="data.constraints[2]" [value]="data.extent[0]" formControlName="xmin">
+          <mat-error *ngIf="form.get('xmin')?.hasError('required')" i18n>Ce champ est requis</mat-error>
+          <mat-error *ngIf="form.get('xmin')?.hasError('min') || form.get('xmin')?.hasError('max')" i18n>
+            La valeur doit être comprise entre {{data.constraints[0]}} et {{data.constraints[2]}}
+          </mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label i18n>Sud (Y min)</mat-label>
-          <input matInput type="number" [min]="data.constraints[1]" [max]="data.constraints[3]" [(ngModel)]="data.extent[1]">
+          <input matInput type="number" [min]="data.constraints[1]" [max]="data.constraints[3]" [value]="data.extent[1]" formControlName="ymin" >
+          <mat-error *ngIf="form.get('ymin')?.hasError('required')" i18n>Ce champ est requis</mat-error>
+          <mat-error *ngIf="form.get('ymin')?.hasError('min') || form.get('ymin')?.hasError('max')" i18n>
+            La valeur doit être comprise entre {{data.constraints[1]}} et {{data.constraints[3]}}
+          </mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label i18n>Est (X max)</mat-label>
-          <input matInput type="number" [min]="data.constraints[0]" [max]="data.constraints[2]" [(ngModel)]="data.extent[2]">
+          <input matInput type="number" [min]="data.constraints[0]" [max]="data.constraints[2]" [value]="data.extent[2]" formControlName="xmax">
+          <mat-error *ngIf="form.get('xmax')?.hasError('required')" i18n>Ce champ est requis</mat-error>
+          <mat-error *ngIf="form.get('xmax')?.hasError('min') || form.get('xmax')?.hasError('max')" i18n>
+            La valeur doit être comprise entre {{data.constraints[0]}} et {{data.constraints[2]}}
+          </mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label i18n>Nord (Y max)</mat-label>
-          <input matInput type="number" [min]="data.constraints[1]" [max]="data.constraints[3]" [(ngModel)]="data.extent[3]">
+          <input matInput type="number" [min]="data.constraints[1]" [max]="data.constraints[3]" [value]="data.extent[3]" formControlName="ymax">
+          <mat-error *ngIf="form.get('ymax')?.hasError('required')" i18n>Ce champ est requis</mat-error>
+          <mat-error *ngIf="form.get('ymax')?.hasError('min') || form.get('ymax')?.hasError('max')" i18n>
+            La valeur doit être comprise entre {{data.constraints[0]}} et {{data.constraints[2]}}
+          </mat-error>
         </mat-form-field>
       </div>
     </mat-tab>
   </mat-tab-group>
   <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()" i18n>Annuler</button>
-    <button mat-button [mat-dialog-close]="data">Ok</button>
+    <button mat-button [mat-dialog-close]="data" [disabled]="form.invalid">Ok</button>
   </div>
 </div>

@@ -742,7 +742,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4207918560099388002" datatype="html">
@@ -797,7 +797,7 @@
           <context context-type="linenumber">127</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="7412537097243373197" datatype="html">
+      <trans-unit id="828990133309204185" datatype="html">
         <source>Etes-vous sûr de vouloir confirmer la commande?</source>
         <target>Sind Sie sicher, dass Sie die Bestellung bestätigen wollen?</target>
         <context-group purpose="location">
@@ -1428,9 +1428,13 @@
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">49</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/constants.ts</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="search.category.gazetteer" datatype="html">
-        <source>Arrêts OEV</source>
+        <source>Transports publics</source>
         <target state="new">OEV Haltestellen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
@@ -1458,10 +1462,10 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.category.unknown" datatype="html">
-        <source>Allgemein</source>
+        <source>Général</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
-          <context context-type="linenumber">58</context>
+          <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="catalog_productSearch" datatype="html">
@@ -1653,7 +1657,7 @@
         <target>Süd (Y min)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6470595891025142330" datatype="html">
@@ -1661,7 +1665,7 @@
         <target>Ost (X max)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2028055506042593399" datatype="html">
@@ -1669,7 +1673,7 @@
         <target>Nord (Y max)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6839832173064993832" datatype="html">
@@ -1862,6 +1866,46 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/validate/validate.component.html</context>
           <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8857159515510586089" datatype="html">
+        <source>Ce champ est requis</source>
+        <target state="new">Ce champ est requis</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3297562179987742303" datatype="html">
+        <source> La valeur doit être comprise entre <x id="INTERPOLATION" equiv-text="{{data.constraints[0]}}"/> et <x id="INTERPOLATION_1" equiv-text="{{data.constraints[2]}}"/> </source>
+        <target state="new"> La valeur doit être comprise entre <x id="INTERPOLATION" equiv-text="{{data.constraints[0]}}"/> et <x id="INTERPOLATION_1" equiv-text="{{data.constraints[2]}}"/> </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
+          <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
     </body>

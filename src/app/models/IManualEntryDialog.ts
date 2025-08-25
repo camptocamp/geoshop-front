@@ -9,7 +9,6 @@ export interface IManualEntryDialogData {
   pageFormatScales: number[];
   selectedPageFormat: IPageFormat;
   pageFormats: IPageFormat[];
-  PageFormatRotation: number;
   rotationPageFormat: number;
 
   // Bounding box

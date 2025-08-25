@@ -40,7 +40,6 @@ describe('ManualentryComponent', () => {
             pageFormatScales: [0],
             selectedPageFormat: { name: "A", height: 10, width: 10 } as IPageFormat,
             pageFormats: Array<IPageFormat>({ name: "A", height: 10, width: 10 }),
-            PageFormatRotation: 0,
             rotationPageFormat: 0,
             activeTab: 0,
             extent: [2500000, 1180000, 2580000, 1240000] as Extent
