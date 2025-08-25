@@ -42,7 +42,8 @@ describe('ManualentryComponent', () => {
             pageFormats: Array<IPageFormat>({ name: "A", height: 10, width: 10 }),
             rotationPageFormat: 0,
             activeTab: 0,
-            extent: [2500000, 1180000, 2580000, 1240000] as Extent
+            extent: [2500000, 1180000, 2580000, 1240000] as Extent,
+            constraints: [2500000, 1180000, 2580000, 1240000] as Extent
           } as IManualEntryDialogData
         }
       ]
@@ -50,8 +51,56 @@ describe('ManualentryComponent', () => {
 
   });
 
+  function setExtent(component: ManualentryComponent, extent: Extent|null){
+    const bounds = extent ?? [null, null, null, null];
+    component.form.controls['xmin'].setValue(bounds[0]);
+    component.form.controls['ymin'].setValue(bounds[1]);
+    component.form.controls['xmax'].setValue(bounds[2]);
+    component.form.controls['ymax'].setValue(bounds[3]);
+  }
+
+  function expectError(component: ManualentryComponent, error: string) {
+    expect(component.form.invalid).toBe(true);
+    for (const f of ["xmin", "ymin", "xmax", "ymax"]) {
+      expect(component.form.controls['xmin'].hasError(error)).toBe(true);
+    }
+  }
+
   it('should create', () => {
     const fixture = TestBed.createComponent(ManualentryComponent);
     expect(fixture.componentInstance).toBeTruthy();
+  });
+
+  it('should not allow empty values in extent', () => {
+    const fixture = TestBed.createComponent(ManualentryComponent);
+    fixture.detectChanges();
+    const component = fixture.componentInstance;
+    setExtent(component, null);
+    expectError(component, 'required');
+  });
+
+  it('should not allow values below minimum', () => {
+    const fixture = TestBed.createComponent(ManualentryComponent);
+    fixture.detectChanges();
+    const component = fixture.componentInstance;
+    setExtent(component, [2500000 - 1, 1180000 - 1, 2500000 - 1, 1180000 - 1]);
+    expectError(component, 'min');
+  });
+
+  it('should not allow values above maximum minimum', () => {
+    const fixture = TestBed.createComponent(ManualentryComponent);
+    fixture.detectChanges();
+    const component = fixture.componentInstance;
+    setExtent(component, [2580000 + 1, 1240000 + 1, 2580000 + 1, 1240000 + 1]);
+    expectError(component, 'max');
+  });
+
+  it('should allow valid values in extent', () => {
+    const fixture = TestBed.createComponent(ManualentryComponent);
+    fixture.detectChanges();
+    const component = fixture.componentInstance;
+    setExtent(component, [2500000, 1180000, 2580000, 1240000]);
+
+    expect(component.form.valid).toBe(true);
   });
 });

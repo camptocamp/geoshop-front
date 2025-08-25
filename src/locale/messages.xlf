@@ -1653,6 +1653,7 @@
       </trans-unit>
       <trans-unit id="3297562179987742303" datatype="html">
         <source> La valeur doit être comprise entre <x id="INTERPOLATION" equiv-text="{{data.constraints[0]}}"/> et <x id="INTERPOLATION_1" equiv-text="{{data.constraints[2]}}"/> </source>
+        <target> Value must be between <x id="INTERPOLATION" equiv-text="{{data.constraints[0]}}"/> and <x id="INTERPOLATION_1" equiv-text="{{data.constraints[2]}}"/> </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
           <context context-type="linenumber">35</context>

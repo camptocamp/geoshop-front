@@ -31,16 +31,13 @@ export class ManualentryComponent {
     private readonly fb: FormBuilder,
   ) {
     this.form = this.fb.group({
-      xmin: [null, [Validators.required]],
-      ymin: [null, [Validators.required]],
-      xmax: [null, [Validators.required]],
-      ymax: [null, [Validators.required]],
+      xmin: [data.constraints[0], [Validators.required]],
+      ymin: [data.constraints[1], [Validators.required]],
+      xmax: [data.constraints[2], [Validators.required]],
+      ymax: [data.constraints[3], [Validators.required]],
     });
   }
 
-  tostr(o: unknown): string {
-    return JSON.stringify(o);
-  }
   onNoClick(): void {
     this.dialogRef.close();
   }
