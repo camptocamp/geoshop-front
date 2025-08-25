@@ -1463,6 +1463,7 @@
       </trans-unit>
       <trans-unit id="search.category.unknown" datatype="html">
         <source>Général</source>
+        <target>Allgemein</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">59</context>
@@ -1870,7 +1871,7 @@
       </trans-unit>
       <trans-unit id="8857159515510586089" datatype="html">
         <source>Ce champ est requis</source>
-        <target state="new">Ce champ est requis</target>
+        <target>Dieses Feld ist erforderlich</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
           <context context-type="linenumber">33</context>
@@ -1890,7 +1891,7 @@
       </trans-unit>
       <trans-unit id="3297562179987742303" datatype="html">
         <source> La valeur doit être comprise entre <x id="INTERPOLATION" equiv-text="{{data.constraints[0]}}"/> et <x id="INTERPOLATION_1" equiv-text="{{data.constraints[2]}}"/> </source>
-        <target state="new"> Der Wert muss zwischen <x id="INTERPOLATION" equiv-text="{{data.constraints[0]}}"/> und <x id="INTERPOLATION_1" equiv-text="{{data.constraints[2]}}"/> liegen </target>
+        <target> Der Wert muss zwischen <x id="INTERPOLATION" equiv-text="{{data.constraints[0]}}"/> und <x id="INTERPOLATION_1" equiv-text="{{data.constraints[2]}}"/> liegen </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
           <context context-type="linenumber">35</context>
