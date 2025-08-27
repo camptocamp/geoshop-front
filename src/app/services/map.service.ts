@@ -13,7 +13,7 @@ import View from 'ol/View';
 import ScaleLine from 'ol/control/ScaleLine';
 import { Coordinate } from 'ol/coordinate';
 import { shiftKeyOnly } from 'ol/events/condition';
-import { buffer, getCenter, getArea } from 'ol/extent';
+import { buffer, getCenter, getArea, Extent } from 'ol/extent';
 import FeatureFormat from 'ol/format/Feature';
 import GeoJSON from 'ol/format/GeoJSON';
 import KML from 'ol/format/KML';
@@ -779,17 +779,10 @@ export class MapService {
     }
   }
 
-  public setBbox(xmin: number, ymin: number, xmax: number, ymax: number) {
+  public setBBox(extent: Extent) {
+    const poly = fromExtent(extent);
     this.eraseDrawing();
     this.transformInteraction.setActive(true);
-    const coordinates: Coordinate[][] = [[
-      [xmin, ymin],
-      [xmin, ymax],
-      [xmax, ymax],
-      [xmax, ymin],
-      [xmin, ymin],
-    ]];
-    const poly = new Polygon(coordinates);
     const feature = new Feature();
     feature.setGeometry(poly);
     this.map.getView().fit(poly, { nearest: true });

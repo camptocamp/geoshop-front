@@ -1,15 +1,15 @@
 import { IManualEntryDialogData } from '@app/models/IManualEntryDialog';
+
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
+import { MatSelectModule } from '@angular/material/select';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'gs2-manualentry',
@@ -23,10 +23,20 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class ManualentryComponent {
 
+  form: FormGroup;
+
   constructor(
     public dialogRef: MatDialogRef<ManualentryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IManualEntryDialogData,
-  ) { }
+    private readonly fb: FormBuilder,
+  ) {
+    this.form = this.fb.group({
+      xmin: [data.constraints[0], [Validators.required]],
+      ymin: [data.constraints[1], [Validators.required]],
+      xmax: [data.constraints[2], [Validators.required]],
+      ymax: [data.constraints[3], [Validators.required]],
+    });
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

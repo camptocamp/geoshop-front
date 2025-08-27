@@ -78,4 +78,9 @@ describe('MapComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should use config to get default extent', () => {
+    component.manualEntryParams.extent = [0, 0, 1, 1];
+    component.manualEntryParams.constraints = [0, 0, 1, 1];
+  })
 });
