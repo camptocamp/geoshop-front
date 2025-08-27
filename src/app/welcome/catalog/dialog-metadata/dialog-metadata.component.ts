@@ -1,5 +1,5 @@
 import { IMetadata } from '@app/models/IMetadata';
-import { SafeHtmlPipe } from '@app/pipes/SafeHtmlPipe';
+import { StripHtmlPipe } from '@app/pipes/strip-html.pipe';
 import { ConfigService } from '@app/services/config.service';
 
 import { CommonModule } from '@angular/common';
@@ -18,7 +18,7 @@ import { MatList, MatListItem } from '@angular/material/list';
   imports: [
     MatCard, MatCardTitle, MatCardContent, MatIcon, MatCardHeader, MatCardTitleGroup,
     MatCardSubtitle, MatAccordion, MatExpansionPanel, MatExpansionPanelTitle,
-    MatExpansionPanelDescription, SafeHtmlPipe, MatExpansionPanelHeader,
+    MatExpansionPanelDescription, StripHtmlPipe, MatExpansionPanelHeader,
     MatList, MatListItem, MatCardActions, CommonModule, MatDialogModule
   ],
 })

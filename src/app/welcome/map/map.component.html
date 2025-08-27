@@ -20,7 +20,7 @@
         @for (category of featureByCategory.entries(); track category[0]) {
         <mat-optgroup [label]="category[0]">
           @for (item of category[1]; track item.label) {
-            <mat-option [value]="item">{{item.label}}</mat-option>
+            <mat-option [value]="item" [innerHTML]="item.label | stripHtml:['b']"></mat-option>
           }
         </mat-optgroup>
         }

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { StripHtmlPipe } from '@app/pipes/strip-html.pipe';
 
-import { SafeHtmlPipe } from '../../pipes/SafeHtmlPipe';
 
 @Component({
   selector: 'gs2-confirm-dialog',
   templateUrl: './confirm-dialog.component.html',
   styleUrls: ['./confirm-dialog.component.scss'],
-  imports: [SafeHtmlPipe, MatDialogModule, MatButtonModule]
+  imports: [StripHtmlPipe, MatDialogModule, MatButtonModule]
 })
 export class ConfirmDialogComponent {
 
