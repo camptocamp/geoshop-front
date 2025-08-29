@@ -6,11 +6,11 @@
     <mat-card-content>
       <div class="person-container">
         <div class="flex-row">
-  
+
           <div class="flex-column">
             <span class="line-height-36">{{person.contact_person.first_name}} {{person.contact_person.last_name}}</span>
           </div>
-  
+
           <div class="flex-column">
             <a class="flex-row" [href]="'mailto:'+person.contact_person.email" mat-button color="primary">
               <mat-icon class="m-r-5" i18n="@@main.email">email</mat-icon>
@@ -21,7 +21,7 @@
               <span>{{person.contact_person.phone}}</span>
             </a>
           </div>
-  
+
         </div>
       </div>
     </mat-card-content>
@@ -54,7 +54,7 @@
           <mat-panel-description></mat-panel-description>
         </mat-expansion-panel-header>
 
-        <p class="long-description" [innerHTML]="data.description_long | safeHtml"></p>
+        <p class="long-description" [innerHTML]="data.description_long | stripHtml:['b','i','strong','sub','sup']"></p>
         <p *ngIf="data.data_last_update_date" i18n="@@main.last_update">Dernière mise à jour des données: {{ data.data_last_update_date }}</p>
       </mat-expansion-panel>
       <mat-expansion-panel *ngIf="data.legend_link && data.legend_link?.indexOf('http') > -1">

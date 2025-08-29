@@ -1,10 +1,13 @@
 import { SEARCH_CATEGORY, SEARCH_CATEGORY_GENERAL } from '@app/constants';
 import { IBasemap, IPageFormat } from '@app/models/IConfig';
+import { IManualEntryDialogData } from '@app/models/IManualEntryDialog';
 import { ISearchResult } from '@app/models/ISearch';
+import { StripHtmlPipe } from '@app/pipes/strip-html.pipe';
 import { ConfigService } from '@app/services/config.service';
 import { CustomIconService } from '@app/services/custom-icon.service';
 import { MapService } from '@app/services/map.service';
 import { SearchService } from '@app/services/search.service';
+import { ManualentryComponent } from '@app/welcome/map/manualentry/manualentry.component';
 
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
@@ -24,8 +27,6 @@ import Geometry from 'ol/geom/Geometry';
 import { debounceTime, switchMap } from 'rxjs/operators';
 
 
-import { ManualentryComponent } from './manualentry/manualentry.component';
-import { IManualEntryDialogData } from '@app/models/IManualEntryDialog';
 
 @Component({
   selector: 'gs2-map',
@@ -36,6 +37,7 @@ import { IManualEntryDialogData } from '@app/models/IManualEntryDialog';
     MatFormFieldModule, MatAutocompleteModule, MatIconModule, MatOptgroup,
     MatOptionModule, MatHint, MatButtonModule, MatMiniFabButton, MatMenuModule,
     CommonModule, MatInputModule, MatDialogModule, MatButtonModule, MatOptionModule,
+    StripHtmlPipe
   ],
 })
 export class MapComponent implements OnInit {
@@ -53,12 +55,12 @@ export class MapComponent implements OnInit {
 
   manualEntryParams: IManualEntryDialogData = {
     pageFormats: [],
-    selectedPageFormat: <IPageFormat>{},
+    selectedPageFormat: {} as IPageFormat,
     selectedPageFormatScale: 500,
     rotationPageFormat: 0,
     pageFormatScales: [500, 1000, 2000, 5000],
-    extent: <Extent>[2500000, 1180000, 2580000, 1240000],
-    constraints: <Extent>[2500000, 1180000, 2580000, 1240000],
+    extent: [2500000, 1180000, 2580000, 1240000] as Extent,
+    constraints: [2500000, 1180000, 2580000, 1240000] as Extent,
     activeTab: 0
   };
 
@@ -86,7 +88,7 @@ export class MapComponent implements OnInit {
     this.mapService.isDrawing$.subscribe((isDrawing) => this.isDrawing = isDrawing);
     this.basemaps = this.mapService.Basemaps || [];
     this.manualEntryParams.pageFormats = this.mapService.PageFormats || [];
-    this.manualEntryParams.selectedPageFormat = <IPageFormat>this.configService.config?.pageformats[0];
+    this.manualEntryParams.selectedPageFormat = this.configService.config?.pageformats[0] as IPageFormat;
 
     if (this.searchCtrl) {
       this.searchCtrl.valueChanges
@@ -108,7 +110,7 @@ export class MapComponent implements OnInit {
             if (!acc.has(categoryId)) {
               acc.set(categoryId, []);
             }
-            acc.get(categoryId)!.push(feature);
+            acc.get(categoryId)?.push(feature);
             return acc;
           }, new Map<string, ISearchResult[]>);
         });
