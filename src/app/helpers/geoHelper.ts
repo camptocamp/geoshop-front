@@ -30,7 +30,7 @@ export const formatArea = (area: number): string => {
 
 export async function generateMiniMap(configService: ConfigService, mapService: MapService) {
   mapService.initialize();
-  const EPSG = configService.config?.epsg || 'EPSG:2056';
+  const EPSG = configService.config?.map.projection.epsg || 'EPSG:2056';
   if (!mapService.FirstBaseMapLayer) {
     proj4.defs(EPSG,
       '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333'
@@ -56,7 +56,7 @@ export async function generateMiniMap(configService: ConfigService, mapService: 
 
   const projection = new Projection({
     code: EPSG,
-    extent: configService.config?.initialExtent || DEFAULT_EXTENT,
+    extent: configService.config?.map.projection.initialExtent || DEFAULT_EXTENT,
   });
   const view = new View({
     projection,
@@ -64,7 +64,7 @@ export async function generateMiniMap(configService: ConfigService, mapService: 
     zoom: 4,
   });
 
-  const baseMapConfig = configService.config?.basemaps[0];
+  const baseMapConfig = configService.config?.map.basemaps[0];
 
   let layers;
   if (baseMapConfig) {

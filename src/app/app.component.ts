@@ -73,11 +73,10 @@ export class AppComponent implements OnDestroy {
           });
     });
 
-    combineLatest([routerNavEnd$, this.store.select(selectCartTotal), this.store.select(selectMapState)])
+    combineLatest([routerNavEnd$, this.store.select(selectCartTotal)])
       .subscribe((pair) => {
         const navEnd = pair[0];
         const numberOfItemInTheCart = pair[1];
-        const mapState = pair[2];
         if (navEnd instanceof NavigationEnd) {
           if (navEnd.url.indexOf('orders') > -1) {
             this.subTitle = $localize`Mes commandes`;

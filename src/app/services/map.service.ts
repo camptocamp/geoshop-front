@@ -126,7 +126,7 @@ export class MapService {
   public isDrawing$ = new BehaviorSubject<boolean>(false);
 
   public get Basemaps() {
-    return this.configService.config?.basemaps;
+    return this.configService.config?.map.basemaps;
   }
 
   public get PageFormats() {
@@ -151,7 +151,7 @@ export class MapService {
       // @ts-ignore
       this.map = null;
     }
-    this.initialExtent = this.configService.config!.initialExtent;
+    this.initialExtent = this.configService.config!.map.projection.initialExtent;
     this.initializeMap().then(() => {
       this.initializeDrawing();
       this.initializeInteraction();
@@ -171,9 +171,7 @@ export class MapService {
       this.initialized = true;
     }).then(() => {
       this.store.select(selectMapState).subscribe(params => {
-        const bounds = params.bounds;
-        this.map.getView().fit(new Polygon([[[bounds[0], bounds[1]], [bounds[2], bounds[3]]]]),
-          { nearest: true });
+        this.map.getView().fit(params.bounds, { nearest: true });
       });
     });
 
@@ -265,7 +263,7 @@ export class MapService {
 
   public async createTileLayer(baseMapConfig: IBasemap, isVisible: boolean): Promise<TileLayer<TileSource> | undefined> {
     if (!this.resolutions || !this.initialExtent) {
-      this.resolutions = this.configService.config?.resolutions || DEFAULT_RESOLUTIONS;
+      this.resolutions = this.configService.config?.map.resolutions || DEFAULT_RESOLUTIONS;
 
       await this.debounce(200);
     }
@@ -384,7 +382,7 @@ export class MapService {
       console.error('There is no config defined in configService, map will not be initialized.');
       return;
     }
-    const EPSG = this.configService.config.epsg || 'EPSG2056';
+    const EPSG = this.configService.config.map.projection.epsg || 'EPSG2056';
     // TODO is this correct or is this cauing the projection shift -> check this
     proj4.defs(EPSG,
       '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333'
@@ -392,7 +390,7 @@ export class MapService {
       + '+towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs');
     register(proj4);
 
-    this.resolutions = this.configService.config.resolutions;
+    this.resolutions = this.configService.config.map.resolutions;
     this.projection = new Projection({
       code: EPSG,
       extent: this.initialExtent,
@@ -401,10 +399,11 @@ export class MapService {
     const baseLayers = await this.generateBasemapLayersFromConfig();
     const view = new View({
       projection: this.projection,
-      center: this.configService.config.initialCenter,
+      center: this.configService.config.map.defaultCenter,
       zoom: 2,
       resolutions: this.resolutions,
-      constrainResolution: true
+      constrainResolution: true,
+      extent: this.configService.config.map.constraints
     });
 
     this.areaTooltipElement = document.createElement('div');
@@ -450,8 +449,8 @@ export class MapService {
   public async generateBasemapLayersFromConfig() {
     let isVisible = true;  // -> display the first one
     let basemaps: IBasemap[] = [];
-    if (this.configService.config?.basemaps) {
-      basemaps = this.configService.config?.basemaps;
+    if (this.configService.config?.map.basemaps) {
+      basemaps = this.configService.config.map.basemaps;
     }
     try {
       for (const baseMapConfig of basemaps) {
@@ -741,7 +740,7 @@ export class MapService {
       if (fileContent) {
         const kmlFeatures = kmlFormat.readFeatures(fileContent, {
           dataProjection: 'EPSG:4326',
-          featureProjection: this.configService.config?.epsg
+          featureProjection: this.configService.config?.map.projection.epsg
         });
         this.addSingleFeatureToDrawingSource(kmlFeatures, fileName);
       }

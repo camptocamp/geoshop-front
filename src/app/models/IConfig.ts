@@ -1,4 +1,5 @@
 import { OpenIdConfiguration } from "angular-auth-oidc-client";
+import { Extent } from "ol/extent";
 
 export interface IBasemap {
   id: string;
@@ -17,6 +18,17 @@ export interface ISearchConfig {
   providerType: string;
 }
 
+export interface IMapConfig {
+  projection: {
+      epsg: string;
+      initialExtent: Extent;
+  }
+  defaultCenter: number[];
+  basemaps: IBasemap[];
+  constraints: Extent;
+  resolutions: number[];
+}
+
 // TODO it look like thie interface is never used -> remove it or use it!
 export interface IConfig {
   apiUrl: string;
@@ -28,11 +40,7 @@ export interface IConfig {
     phone: { label: string; number: string };
     email: string;
   };
-  basemaps: IBasemap[];
-  initialCenter: number[];
-  initialExtent: number[];
-  resolutions: number[];
-  epsg: string;
+  map: IMapConfig;
   pageformats: IPageFormat[];
   oidcConfig: OpenIdConfiguration;
   localAuthEnabled: boolean;

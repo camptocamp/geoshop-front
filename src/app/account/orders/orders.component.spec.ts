@@ -32,8 +32,12 @@ class StoreMock {
 
 class ConfigServiceMock {
   public config = {
-    basemaps: [vi.fn()],
-    initialExtent: [0, 0, 1, 1],
+    map: {
+      basemaps: [vi.fn()],
+      projection: {
+        initialExtent: [0, 0, 1, 1],
+      }
+    },
     pageformats: [{ name: "", height: 1, width: 1 }],
   }
 }
