@@ -49,7 +49,11 @@ class StoreMock {
 
 class ConfigServiceMock {
   public config = {
-    initialExtent: [0, 0, 1, 1],
+    map: {
+      projection: {
+        initialExtent: [0, 0, 1, 1],
+      }
+    },
     pageformats: [{ name: "", height: 1, width: 1 }],
   }
 }

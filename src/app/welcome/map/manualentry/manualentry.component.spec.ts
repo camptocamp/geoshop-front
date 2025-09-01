@@ -62,7 +62,7 @@ describe('ManualentryComponent', () => {
   function expectError(component: ManualentryComponent, error: string) {
     expect(component.form.invalid).toBe(true);
     for (const f of ["xmin", "ymin", "xmax", "ymax"]) {
-      expect(component.form.controls['xmin'].hasError(error)).toBe(true);
+      expect(component.form.controls[f].hasError(error)).toBe(true);
     }
   }
 

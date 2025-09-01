@@ -89,6 +89,10 @@ export class MapComponent implements OnInit {
     this.basemaps = this.mapService.Basemaps || [];
     this.manualEntryParams.pageFormats = this.mapService.PageFormats || [];
     this.manualEntryParams.selectedPageFormat = this.configService.config?.pageformats[0] as IPageFormat;
+    const constraints = this.configService.config?.map.constraints;
+    if (constraints) {
+        this.manualEntryParams.constraints = constraints ;
+    }
 
     if (this.searchCtrl) {
       this.searchCtrl.valueChanges
