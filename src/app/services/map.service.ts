@@ -51,7 +51,6 @@ import { OrderValidationStatus } from '@app/models/IApi';
 import { MultiPolygon, SimpleGeometry } from 'ol/geom';
 import { ISearchResult } from '@app/models/ISearch';
 
-const DEFAULT_EXTENT = [2419995.7488073637, 1030006.663199476, 2900009.727428728, 1350004.292478851];
 const DEFAULT_RESOLUTIONS = [250, 100, 50, 20, 10, 5, 2.5, 2, 1.5, 1, 0.5, 0.25];
 
 @Injectable({
@@ -72,13 +71,14 @@ export class MapService {
   private validationStatus: OrderValidationStatus = { valid: true };
 
   // Drawing
-  private transformInteraction: Transform;
+  // private transformInteraction: Transform;
+  // private modifyInteraction: Modify;
+  private drawInteraction: Draw;
+
   private isDrawModeActivated = false;
   private drawingSource: VectorSource<Feature<Geometry>>;
   private geocoderSource: VectorSource<Feature<Geometry>>;
   private drawingLayer: VectorLayer<VectorSource<Feature<Geometry>>>;
-  private modifyInteraction: Modify;
-  private drawInteraction: Draw;
   private featureFromDrawing: Feature<Geometry> | null;
   public readonly drawingStyle = [
     new Style({
@@ -144,6 +144,47 @@ export class MapService {
     private snackBar: MatSnackBar) {
   }
 
+  private initializeInteractions() {
+    const transformInteraction = new Transform({
+      rotate: true,
+      translate: true,
+      scale: false,
+      translateFeature: false,
+      addCondition: shiftKeyOnly,
+      enableRotatedTransform: false,
+      hitTolerance: 2,
+    });
+    transformInteraction.on(['rotateend', 'translateend'], (evt: any) => {
+      this.featureFromDrawing = evt.features.item(0);
+      this.dispatchCurrentGeometry(true);
+    });
+
+    const modifyInteraction = new Modify({
+      source: this.drawingSource
+    });
+
+    modifyInteraction.on('modifystart', () => {
+      transformInteraction.setActive(false);
+    });
+
+    modifyInteraction.on('modifyend', (evt) => {
+      const firstFeature = new Feature(evt.features.item(0)?.getGeometry())
+      this.featureFromDrawing = firstFeature;
+      this.dispatchCurrentGeometry(false);
+      transformInteraction.setActive(true);
+    });
+
+    modifyInteraction.on('change:active', () => {
+      const isActive = modifyInteraction.getActive();
+      if (isActive) {
+        transformInteraction.setActive(false);
+      }
+    });
+
+    this.map.addInteraction(transformInteraction);
+    this.map.addInteraction(modifyInteraction);
+  }
+
   public initialize() {
     if (this.initialized) {
       this.isMapLoading$.next(false);
@@ -154,7 +195,7 @@ export class MapService {
     this.initialExtent = this.configService.config!.map.projection.initialExtent;
     this.initializeMap().then(() => {
       this.initializeDrawing();
-      this.initializeInteraction();
+      this.initializeInteractions();
       this.initializeDragInteraction();
       this.initializeDelKey();
       this.store.select(selectOrder).subscribe(order => {
@@ -185,7 +226,6 @@ export class MapService {
     this.isDrawModeActivated = !this.isDrawModeActivated;
     if (this.isDrawModeActivated) {
       this.createDrawingInteraction(drawMode);
-      this.transformInteraction.setActive(false);
       if (this.featureFromDrawing && this.drawingSource.getFeatures().length > 0) {
         this.drawingSource.removeFeature(this.featureFromDrawing);
         this.featureFromDrawing = null;
@@ -218,9 +258,6 @@ export class MapService {
       this.snackBarRef.dismiss();
     }
 
-    if (this.transformInteraction) {
-      this.transformInteraction.setActive(false);
-    }
     this.areaTooltipElement.style.visibility = "hidden";
     this.featureFromDrawing = null;
     this.store.dispatch(updateGeometry({ geom: '' }));
@@ -349,7 +386,6 @@ export class MapService {
       // TODO if the BBOX is just a point
       const feature = new Feature(searchResult.bbox ? fromExtent(searchResult.bbox) : geometry)
       this.drawingSource.addFeature(feature);
-      this.modifyInteraction.setActive(true);
       this.map.getView().fit(feature.getGeometry()!, {
         padding: [75, 75, 75, 75]
       });
@@ -369,7 +405,6 @@ export class MapService {
         poly = fromExtent(buffer(originalExtent, bufferValue));
       }
       this.drawingSource.addFeature(new Feature(poly));
-      this.modifyInteraction.setActive(true);
       this.map.getView().fit(poly, {
         padding: [100, 100, 100, 100]
       });
@@ -593,10 +628,6 @@ export class MapService {
     this.drawingSource.on('addfeature', (evt: { feature: any; }) => {
       this.featureFromDrawing = evt.feature;
       this.dispatchCurrentGeometry(true);
-
-      setTimeout(() => {
-        this.transformInteraction.setActive(true);
-      }, 500);
     });
     this.drawingLayer = new VectorLayer({
       source: this.drawingSource,
@@ -621,30 +652,7 @@ export class MapService {
     this.map.addLayer(geocoderLayer);
     this.map.addLayer(this.drawingLayer);
 
-    this.modifyInteraction = new Modify({
-      source: this.drawingSource
-    });
 
-    this.modifyInteraction.on('modifystart', () => {
-      this.transformInteraction.setActive(false);
-    });
-    this.modifyInteraction.on('modifyend', (evt) => {
-      const firstFeature = new Feature(evt.features.item(0)?.getGeometry())
-      this.featureFromDrawing = firstFeature;
-      this.dispatchCurrentGeometry(false);
-      setTimeout(() => {
-        this.transformInteraction.setActive(true);
-      }, 500);
-    });
-    this.modifyInteraction.on('change:active', () => {
-      const isActive = this.modifyInteraction.getActive();
-      if (isActive) {
-        this.transformInteraction.setActive(false);
-      }
-    });
-
-    this.map.addInteraction(this.modifyInteraction);
-    this.modifyInteraction.setActive(false);
   }
 
   private dispatchCurrentGeometry(fitMap: boolean) {
@@ -702,30 +710,6 @@ export class MapService {
     });
   }
 
-  private initializeInteraction() {
-    Transform.prototype.Cursors.rotate = 'url(\'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIgogICB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIKICAgdmlld0JveD0iMCAwIDI0IDI0IgogICBmaWxsPSJibGFjayIKICAgd2lkdGg9IjE4cHgiCiAgIGhlaWdodD0iMThweCIKICAgdmVyc2lvbj0iMS4xIgogICBpZD0ic3ZnNiIKICAgc29kaXBvZGk6ZG9jbmFtZT0icm90YXRlX2xlZnQtYmxhY2stMThkcC5zdmciCiAgIGlua3NjYXBlOnZlcnNpb249IjAuOTIuNCAoNWRhNjg5YzMxMywgMjAxOS0wMS0xNCkiPgogIDxtZXRhZGF0YQogICAgIGlkPSJtZXRhZGF0YTEyIj4KICAgIDxyZGY6UkRGPgogICAgICA8Y2M6V29yawogICAgICAgICByZGY6YWJvdXQ9IiI+CiAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+CiAgICAgICAgPGRjOnR5cGUKICAgICAgICAgICByZGY6cmVzb3VyY2U9Imh0dHA6Ly9wdXJsLm9yZy9kYy9kY21pdHlwZS9TdGlsbEltYWdlIiAvPgogICAgICA8L2NjOldvcms+CiAgICA8L3JkZjpSREY+CiAgPC9tZXRhZGF0YT4KICA8ZGVmcwogICAgIGlkPSJkZWZzMTAiIC8+CiAgPHNvZGlwb2RpOm5hbWVkdmlldwogICAgIHBhZ2Vjb2xvcj0iI2ZmZmZmZiIKICAgICBib3JkZXJjb2xvcj0iIzY2NjY2NiIKICAgICBib3JkZXJvcGFjaXR5PSIxIgogICAgIG9iamVjdHRvbGVyYW5jZT0iMTAiCiAgICAgZ3JpZHRvbGVyYW5jZT0iMTAiCiAgICAgZ3VpZGV0b2xlcmFuY2U9IjEwIgogICAgIGlua3NjYXBlOnBhZ2VvcGFjaXR5PSIwIgogICAgIGlua3NjYXBlOnBhZ2VzaGFkb3c9IjIiCiAgICAgaW5rc2NhcGU6d2luZG93LXdpZHRoPSIxODIyIgogICAgIGlua3NjYXBlOndpbmRvdy1oZWlnaHQ9IjEwNTEiCiAgICAgaWQ9Im5hbWVkdmlldzgiCiAgICAgc2hvd2dyaWQ9ImZhbHNlIgogICAgIGlua3NjYXBlOnpvb209IjEzLjExMTExMSIKICAgICBpbmtzY2FwZTpjeD0iLTcuODE3Nzk2NyIKICAgICBpbmtzY2FwZTpjeT0iOC45OTk5OTk5IgogICAgIGlua3NjYXBlOndpbmRvdy14PSI4OSIKICAgICBpbmtzY2FwZTp3aW5kb3cteT0iLTkiCiAgICAgaW5rc2NhcGU6d2luZG93LW1heGltaXplZD0iMSIKICAgICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJzdmc2IiAvPgogIDxwYXRoCiAgICAgZD0iTTAgMGgyNHYyNEgweiIKICAgICBmaWxsPSJub25lIgogICAgIGlkPSJwYXRoMiIgLz4KICA8cGF0aAogICAgIGQ9Ik03LjExIDguNTNMNS43IDcuMTFDNC44IDguMjcgNC4yNCA5LjYxIDQuMDcgMTFoMi4wMmMuMTQtLjg3LjQ5LTEuNzIgMS4wMi0yLjQ3ek02LjA5IDEzSDQuMDdjLjE3IDEuMzkuNzIgMi43MyAxLjYyIDMuODlsMS40MS0xLjQyYy0uNTItLjc1LS44Ny0xLjU5LTEuMDEtMi40N3ptMS4wMSA1LjMyYzEuMTYuOSAyLjUxIDEuNDQgMy45IDEuNjFWMTcuOWMtLjg3LS4xNS0xLjcxLS40OS0yLjQ2LTEuMDNMNy4xIDE4LjMyek0xMyA0LjA3VjFMOC40NSA1LjU1IDEzIDEwVjYuMDljMi44NC40OCA1IDIuOTQgNSA1Ljkxcy0yLjE2IDUuNDMtNSA1LjkxdjIuMDJjMy45NS0uNDkgNy0zLjg1IDctNy45M3MtMy4wNS03LjQ0LTctNy45M3oiCiAgICAgaWQ9InBhdGg0IgogICAgIHN0eWxlPSJmaWxsOiMwMDAwZmY7ZmlsbC1vcGFjaXR5OjEiIC8+Cjwvc3ZnPgo=\') 15 15, auto';
-    Transform.prototype.Cursors.translate = 'url(\'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIgogICB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIKICAgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjQgMjQiCiAgIHZpZXdCb3g9IjAgMCAyNCAyNCIKICAgZmlsbD0iYmxhY2siCiAgIHdpZHRoPSIxOHB4IgogICBoZWlnaHQ9IjE4cHgiCiAgIHZlcnNpb249IjEuMSIKICAgaWQ9InN2ZzE0IgogICBzb2RpcG9kaTpkb2NuYW1lPSJ6b29tX291dF9tYXAtYmxhY2stMThkcC5zdmciCiAgIGlua3NjYXBlOnZlcnNpb249IjAuOTIuNCAoNWRhNjg5YzMxMywgMjAxOS0wMS0xNCkiPgogIDxtZXRhZGF0YQogICAgIGlkPSJtZXRhZGF0YTIwIj4KICAgIDxyZGY6UkRGPgogICAgICA8Y2M6V29yawogICAgICAgICByZGY6YWJvdXQ9IiI+CiAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+CiAgICAgICAgPGRjOnR5cGUKICAgICAgICAgICByZGY6cmVzb3VyY2U9Imh0dHA6Ly9wdXJsLm9yZy9kYy9kY21pdHlwZS9TdGlsbEltYWdlIiAvPgogICAgICA8L2NjOldvcms+CiAgICA8L3JkZjpSREY+CiAgPC9tZXRhZGF0YT4KICA8ZGVmcwogICAgIGlkPSJkZWZzMTgiIC8+CiAgPHNvZGlwb2RpOm5hbWVkdmlldwogICAgIHBhZ2Vjb2xvcj0iI2ZmZmZmZiIKICAgICBib3JkZXJjb2xvcj0iIzY2NjY2NiIKICAgICBib3JkZXJvcGFjaXR5PSIxIgogICAgIG9iamVjdHRvbGVyYW5jZT0iMTAiCiAgICAgZ3JpZHRvbGVyYW5jZT0iMTAiCiAgICAgZ3VpZGV0b2xlcmFuY2U9IjEwIgogICAgIGlua3NjYXBlOnBhZ2VvcGFjaXR5PSIwIgogICAgIGlua3NjYXBlOnBhZ2VzaGFkb3c9IjIiCiAgICAgaW5rc2NhcGU6d2luZG93LXdpZHRoPSIxODIyIgogICAgIGlua3NjYXBlOndpbmRvdy1oZWlnaHQ9IjEwNTEiCiAgICAgaWQ9Im5hbWVkdmlldzE2IgogICAgIHNob3dncmlkPSJmYWxzZSIKICAgICBpbmtzY2FwZTp6b29tPSIxMy4xMTExMTEiCiAgICAgaW5rc2NhcGU6Y3g9Ii03LjgxNzc5NjciCiAgICAgaW5rc2NhcGU6Y3k9IjguOTk5OTk5OSIKICAgICBpbmtzY2FwZTp3aW5kb3cteD0iODkiCiAgICAgaW5rc2NhcGU6d2luZG93LXk9Ii05IgogICAgIGlua3NjYXBlOndpbmRvdy1tYXhpbWl6ZWQ9IjEiCiAgICAgaW5rc2NhcGU6Y3VycmVudC1sYXllcj0ic3ZnMTQiIC8+CiAgPGcKICAgICBpZD0iZzQiPgogICAgPHJlY3QKICAgICAgIGZpbGw9Im5vbmUiCiAgICAgICBoZWlnaHQ9IjI0IgogICAgICAgd2lkdGg9IjI0IgogICAgICAgaWQ9InJlY3QyIiAvPgogIDwvZz4KICA8ZwogICAgIGlkPSJnMTIiCiAgICAgc3R5bGU9ImZpbGw6IzAwMDBmZjtmaWxsLW9wYWNpdHk6MSI+CiAgICA8ZwogICAgICAgaWQ9ImcxMCIKICAgICAgIHN0eWxlPSJmaWxsOiMwMDAwZmY7ZmlsbC1vcGFjaXR5OjEiPgogICAgICA8ZwogICAgICAgICBpZD0iZzgiCiAgICAgICAgIHN0eWxlPSJmaWxsOiMwMDAwZmY7ZmlsbC1vcGFjaXR5OjEiPgogICAgICAgIDxwYXRoCiAgICAgICAgICAgZD0iTTE1LDNsMi4zLDIuM2wtMi44OSwyLjg3bDEuNDIsMS40MkwxOC43LDYuN0wyMSw5VjNIMTV6IE0zLDlsMi4zLTIuM2wyLjg3LDIuODlsMS40Mi0xLjQyTDYuNyw1LjNMOSwzSDNWOXogTTksMjEgbC0yLjMtMi4zbDIuODktMi44N2wtMS40Mi0xLjQyTDUuMywxNy4zTDMsMTV2Nkg5eiBNMjEsMTVsLTIuMywyLjNsLTIuODctMi44OWwtMS40MiwxLjQybDIuODksMi44N0wxNSwyMWg2VjE1eiIKICAgICAgICAgICBpZD0icGF0aDYiCiAgICAgICAgICAgc3R5bGU9ImZpbGw6IzAwMDBmZjtmaWxsLW9wYWNpdHk6MSIgLz4KICAgICAgPC9nPgogICAgPC9nPgogIDwvZz4KPC9zdmc+Cg==\') 10 10, auto';
-
-    this.transformInteraction = new Transform({
-      rotate: true,
-      translate: true,
-      scale: false,
-      translateFeature: false,
-      addCondition: shiftKeyOnly,
-      enableRotatedTransform: false,
-      hitTolerance: 2,
-    });
-
-    this.transformInteraction.on(['rotateend', 'translateend'], (evt: any) => {
-      this.featureFromDrawing = evt.features.item(0);
-      this.dispatchCurrentGeometry(true);
-    });
-
-    this.map.addInteraction(this.transformInteraction);
-
-    this.transformInteraction.setActive(false);
-  }
-
   private map_renderCompleteExecuted() {
     this.isMapLoading$.next(false);
   }
@@ -751,7 +735,6 @@ export class MapService {
   public setPageFormat(format: IPageFormat, scale: number, rotation: number) {
 
     this.eraseDrawing();
-    this.transformInteraction.setActive(true);
 
     const center = this.map.getView().getCenter();
 
@@ -781,7 +764,6 @@ export class MapService {
   public setBBox(extent: Extent) {
     const poly = fromExtent(extent);
     this.eraseDrawing();
-    this.transformInteraction.setActive(true);
     const feature = new Feature();
     feature.setGeometry(poly);
     this.map.getView().fit(poly, { nearest: true });
