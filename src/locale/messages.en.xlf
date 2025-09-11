@@ -607,7 +607,7 @@
         <target>My orders</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">83</context>
+          <context context-type="linenumber">82</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2835126772987299546" datatype="html">
@@ -615,7 +615,7 @@
         <target>Your order of <x id="PH" equiv-text="numberOfItemInTheCart"/> products</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">85</context>
+          <context context-type="linenumber">84</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5977257151487958132" datatype="html">
@@ -1111,7 +1111,7 @@
         <target> View on the geoportal<x id="START_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;mat-icon class=&quot;icon-sm&quot;&gt;"/>open_in_new<x id="CLOSE_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;/mat-icon&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.html</context>
-          <context context-type="linenumber">25</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3967568504340829864" datatype="html">
@@ -1119,11 +1119,11 @@
         <target>View the metadata</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.html</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">24</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.html</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">25</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6492937435856655320" datatype="html">
@@ -1131,11 +1131,11 @@
         <target>Add to cart</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.html</context>
-          <context context-type="linenumber">36</context>
+          <context context-type="linenumber">30</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.html</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="dialog.metadata" datatype="html">
@@ -1711,7 +1711,7 @@
         <target state="translated">This product is already in your cart</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.ts</context>
-          <context context-type="linenumber">121</context>
+          <context context-type="linenumber">77</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9059155436017318544" datatype="html">
@@ -1719,7 +1719,7 @@
         <target state="translated">Close</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.ts</context>
-          <context context-type="linenumber">121</context>
+          <context context-type="linenumber">77</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6696706704241708718" datatype="html">

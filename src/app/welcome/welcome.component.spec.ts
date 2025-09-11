@@ -38,6 +38,7 @@ import { ManualentryComponent } from './map/manualentry/manualentry.component';
 import { MapComponent } from './map/map.component';
 import { ValidateComponent } from './validate/validate.component';
 import { WelcomeComponent } from './welcome.component';
+import { ApiService } from '@app/services/api.service';
 
 
 
@@ -56,6 +57,11 @@ class ConfigServiceMock {
     },
     pageformats: [{ name: "", height: 1, width: 1 }],
   }
+}
+
+class MockApiService {
+  apiUrl = "";
+  getProducts = vi.fn().mockImplementation(() => of(null));
 }
 
 describe('WelcomeComponent', () => {
@@ -99,6 +105,7 @@ describe('WelcomeComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         { provide: ActivatedRoute, useValue: { queryParamMap: of() } },
+        { provide: ApiService, useClass: MockApiService },
         { provide: ConfigService, useClass: ConfigServiceMock },
         { provide: Store<AppState>, useClass: StoreMock }
       ]

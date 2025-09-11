@@ -7,45 +7,46 @@ import { AppState, selectOrder } from '@app/store';
 import { updateOrder } from '@app/store/cart/cart.action';
 import { DialogMetadataComponent } from '@app/welcome/catalog/dialog-metadata/dialog-metadata.component';
 
-import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormField, MatInputModule } from '@angular/material/input';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, merge, Observable } from 'rxjs';
-import { debounceTime, map, mergeMap, scan, switchMap, tap, throttleTime } from 'rxjs/operators';
-
-
+import { BehaviorSubject, combineLatest, merge, of } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'gs2-catalog',
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss'],
   imports: [
-    MatFormField, ReactiveFormsModule, MatProgressSpinner, CdkVirtualScrollViewport,
-    ScrollingModule, CommonModule, MatInputModule, MatIconModule, MatButtonModule, MatDialogModule
+    MatFormFieldModule, ReactiveFormsModule,
+    CommonModule, MatInputModule, MatIconModule, MatButtonModule, MatDialogModule
   ],
 })
 export class CatalogComponent implements OnInit {
-
-  // Infinity scrolling
-  @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport;
-  batch = 20;
-  offset = new BehaviorSubject<number | null>(null);
-  infinite: Observable<IProduct[] | unknown[]>;
-  total = 0;
   stepToLoadData = 0;
   readonly catalogItemHeight = 64;
   isSearchLoading = false;
 
   // Filtering
-  catalogInputControl = new UntypedFormControl('');
+  productFilter = new FormControl<string>('');
+  allProducts = new BehaviorSubject<IProduct[]>([]);
+
+  filteredProducts = combineLatest([
+    this.allProducts,
+    this.productFilter.valueChanges.pipe(startWith(''))
+  ]).pipe(
+    map(([products, query]) => {
+      const filterQuery = query?.toLowerCase() ?? '';
+      return products.filter(
+        (p) => filterQuery.length < 3 || p.label.toLocaleLowerCase().includes(filterQuery));
+    }));
 
   mediaUrl: string | undefined;
   order: IOrder;
@@ -53,60 +54,15 @@ export class CatalogComponent implements OnInit {
   constructor(private apiService: ApiService,
     public dialog: MatDialog,
     private store: Store<AppState>,
-    private elRef: ElementRef,
     private snackBar: MatSnackBar,
     private configService: ConfigService) {
 
     this.store.select(selectOrder).subscribe(x => this.order = x);
-
-    const batchMap = this.offset.pipe(
-      throttleTime(500),
-      mergeMap((n: number) => this.getBatch(n)),
-      scan((acc, batch) => {
-        return { ...acc, ...batch };
-      }, {})
-    );
-
     this.mediaUrl = this.configService.config?.mediaUrl ? `${this.configService.config.mediaUrl}/` : '';
-
-    this.infinite = merge(
-      batchMap.pipe(map(v => Object.values(v))),
-      this.catalogInputControl.valueChanges.pipe(
-        debounceTime(500),
-        switchMap(inputText => {
-          this.isSearchLoading = true;
-
-          if (!inputText || inputText.length < 2) {
-            return this.apiService.getProducts(0, this.batch)
-              .pipe(
-                map((response) => {
-                  this.isSearchLoading = false;
-                  this.total = response ? response.count : 0;
-                  return response ? response.results : [];
-                })
-              );
-          }
-
-          return this.apiService.find<IProduct>(inputText, 'product').pipe(
-            map(response => {
-              this.isSearchLoading = false;
-              this.total = response ? response.count : 0;
-              return response ? response.results : [];
-            })
-          );
-        })
-      )
-    );
   }
 
-  ngOnInit(): void {
-    const firstElement = this.elRef.nativeElement.children[0].clientHeight;
-    const heightAvailable = this.elRef.nativeElement.clientHeight - firstElement - 10;
-
-    const numberOfRowPossible = Math.trunc(heightAvailable / this.catalogItemHeight);
-    const half = Math.trunc(numberOfRowPossible / 2);
-    this.stepToLoadData = numberOfRowPossible - half;
-    this.batch = numberOfRowPossible + half;
+  ngOnInit() {
+    this.apiService.getProducts().pipe(map((p) => p?.results ?? [])).subscribe(this.allProducts);
   }
 
   addToCart(product: IProduct) {
@@ -123,34 +79,8 @@ export class CatalogComponent implements OnInit {
     this.store.dispatch(updateOrder({ order }));
   }
 
-  getBatch(offset: number) {
-    return this.apiService.getProducts(offset, this.batch)
-      .pipe(
-        tap(response => this.total = response ? response.count : 0),
-        map((response) => response ? response.results : []),
-        map(arr => {
-          return arr.reduce((acc, cur) => {
-            const id = cur.label;
-            return { ...acc, [id]: cur };
-          }, {});
-        })
-      );
-  }
-
-  nextBatch(e: number, offset: number) {
-    if (offset + 1 >= this.total) {
-      return;
-    }
-
-    const end = this.viewport.getRenderedRange().end;
-    const total = this.viewport.getDataLength();
-
-    if (end === total) {
-      this.offset.next(offset);
-    }
-  }
-
   trackByIdx(i: number) {
+    console.log("HERE", i);
     return i;
   }
 
