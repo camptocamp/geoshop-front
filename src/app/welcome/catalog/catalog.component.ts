@@ -8,39 +8,45 @@ import { updateOrder } from '@app/store/cart/cart.action';
 import { DialogMetadataComponent } from '@app/welcome/catalog/dialog-metadata/dialog-metadata.component';
 
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { FormControl, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormField, MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-
-import { catchError, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest, merge, of, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, merge, of } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'gs2-catalog',
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss'],
   imports: [
-    MatFormField, ReactiveFormsModule,
+    MatFormFieldModule, ReactiveFormsModule,
     CommonModule, MatInputModule, MatIconModule, MatButtonModule, MatDialogModule
   ],
 })
-export class CatalogComponent {
+export class CatalogComponent implements OnInit {
   stepToLoadData = 0;
   readonly catalogItemHeight = 64;
   isSearchLoading = false;
 
   // Filtering
   productFilter = new FormControl<string>('');
-  allProducts = new BehaviorSubject<IProduct[]>([]) ;
+  allProducts = new BehaviorSubject<IProduct[]>([]);
 
-  filteredProducts = combineLatest([this.allProducts, merge(of(""), this.productFilter.valueChanges)]).pipe(
-    map(([products, query]) => products.filter((p) => query == null || query.length < 3 || p.label.indexOf(query) != -1))
-  );
+  filteredProducts = combineLatest([
+    this.allProducts,
+    this.productFilter.valueChanges.pipe(startWith(''))
+  ]).pipe(
+    map(([products, query]) => {
+      const filterQuery = query?.toLowerCase() ?? '';
+      return products.filter(
+        (p) => filterQuery.length < 3 || p.label.toLocaleLowerCase().includes(filterQuery));
+    }));
 
   mediaUrl: string | undefined;
   order: IOrder;
@@ -53,6 +59,9 @@ export class CatalogComponent {
 
     this.store.select(selectOrder).subscribe(x => this.order = x);
     this.mediaUrl = this.configService.config?.mediaUrl ? `${this.configService.config.mediaUrl}/` : '';
+  }
+
+  ngOnInit() {
     this.apiService.getProducts().pipe(map((p) => p?.results ?? [])).subscribe(this.allProducts);
   }
 
@@ -71,6 +80,7 @@ export class CatalogComponent {
   }
 
   trackByIdx(i: number) {
+    console.log("HERE", i);
     return i;
   }
 

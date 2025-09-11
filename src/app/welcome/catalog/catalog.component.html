@@ -1,5 +1,5 @@
 <mat-form-field color="primary">
-  <input matInput  [formControl]="productFilter" i18n-placeholder="@@catalog_productSearch"
+  <input type="text" matInput  [formControl]="productFilter" i18n-placeholder="@@catalog_productSearch"
     placeholder="Rechercher un produit...">
   <div matSuffix class="flex-row">
     <button *ngIf="productFilter.value" mat-icon-button aria-label="Clear"
@@ -10,7 +10,7 @@
 </mat-form-field>
 
 <div class="list-container">
-  @for (product of filteredProducts | async; track product.id) {
+  @for (product of filteredProducts | async; track trackByIdx(product.id)) {
   <div [style.height]="catalogItemHeight + 'px'" class="list-group-item">
     <img class="item-logo rounded-image" alt="Logo du produit" aria-label="Logo du produit"
       src="{{mediaUrl}}{{product.thumbnail_link}}">
