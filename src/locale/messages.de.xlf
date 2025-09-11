@@ -906,7 +906,7 @@
         <target>Meine Bestellungen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">83</context>
+          <context context-type="linenumber">82</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2835126772987299546" datatype="html">
@@ -914,7 +914,7 @@
         <target>Ihre Bestellung von <x id="PH" equiv-text="numberOfItemInTheCart"/> Produkten</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">85</context>
+          <context context-type="linenumber">84</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5977257151487958132" datatype="html">
@@ -1482,12 +1482,24 @@
         <target> Auf dem Geoportal öffnen<x id="START_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;mat-icon class=&quot;icon-sm&quot;&gt;"/>open_in_new<x id="CLOSE_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;/mat-icon&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.html</context>
-          <context context-type="linenumber">25</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3967568504340829864" datatype="html">
         <source>Voir les meta données</source>
         <target>Metadaten anzeigen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6492937435856655320" datatype="html">
+        <source>Ajouter au panier</source>
+        <target>Zum Warenkorb hinzufügen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.html</context>
           <context context-type="linenumber">30</context>
@@ -1497,24 +1509,12 @@
           <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6492937435856655320" datatype="html">
-        <source>Ajouter au panier</source>
-        <target>Zum Warenkorb hinzufügen</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.html</context>
-          <context context-type="linenumber">36</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.html</context>
-          <context context-type="linenumber">37</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="5618137344171566342" datatype="html">
         <source>Le produit est déjà dans le panier</source>
         <target>Das Produkt befindet sich bereits im Warenkorb</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.ts</context>
-          <context context-type="linenumber">121</context>
+          <context context-type="linenumber">77</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9059155436017318544" datatype="html">
@@ -1522,7 +1522,7 @@
         <target>Schliessen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/catalog.component.ts</context>
-          <context context-type="linenumber">121</context>
+          <context context-type="linenumber">77</context>
         </context-group>
       </trans-unit>
       <trans-unit id="dialog.metadata" datatype="html">
