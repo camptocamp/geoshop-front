@@ -79,11 +79,6 @@ export class CatalogComponent implements OnInit {
     this.store.dispatch(updateOrder({ order }));
   }
 
-  trackByIdx(i: number) {
-    console.log("HERE", i);
-    return i;
-  }
-
   openMetadata(product: IProduct) {
     this.apiService.loadMetadata(product.metadata)
       .subscribe(result => {
