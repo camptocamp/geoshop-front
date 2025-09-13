@@ -34,9 +34,9 @@
     </td>
     <td mat-footer-cell *matFooterCellDef class="sitn-tf-price">
       <ul class="padding-vertical-5" *ngIf="order.isAllOrderItemCalculated">
-        <li class="text-primary">{{ order.processing_fee | currency }}</li>
-        <li class="text-primary mat-body-strong">{{ order.total_with_vat | currency }}</li>
-        <li class="mat-small">{{ order.part_vat | currency }}</li>
+        <li class="text-primary">{{ order.processing_fee | currency: order.processing_fee_currency  }}</li>
+        <li class="text-primary mat-body-strong">{{ order.total_with_vat | currency: order.total_with_vat_currency }}</li>
+        <li class="mat-small">{{ order.part_vat | currency: order.part_vat_currency }}</li>
       </ul>
     </td>
   </ng-container>

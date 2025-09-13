@@ -272,9 +272,9 @@
             </td>
             <td mat-footer-cell *matFooterCellDef class="sitn-tf-price">
               <ul class="padding-vertical-5" *ngIf="!isOrderHasPendingItem">
-                <li class="text-primary">{{ currentOrder.processing_fee | currency }}</li>
-                <li class="text-primary mat-body-strong">{{ currentOrder.total_with_vat | currency }}</li>
-                <li class="mat-small">{{ currentOrder.part_vat | currency }}</li>
+                <li class="text-primary">{{ currentOrder.processing_fee | currency: currentOrder.processing_fee_currency }}</li>
+                <li class="text-primary mat-body-strong">{{ currentOrder.total_with_vat | currency: currentOrder.total_with_vat_currency }}</li>
+                <li class="mat-small">{{ currentOrder.part_vat | currency: currentOrder.part_vat_currency }}</li>
               </ul>
             </td>
           </ng-container>

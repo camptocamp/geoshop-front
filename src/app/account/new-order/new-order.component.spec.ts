@@ -3,30 +3,33 @@ import { ApiOrderService } from '@app/services/api-order.service';
 import { ConfigService } from '@app/services/config.service';
 import { AppState } from '@app/store';
 
+import * as Constants from '@app/constants';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Store } from '@ngrx/store';
-import { EMPTY, of } from 'rxjs';
-import { vi } from 'vitest';
+import { of } from 'rxjs';
+import { expect, it, describe, beforeEach } from 'vitest';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { NewOrderComponent } from './new-order.component';
-
-class StoreMock {
-  select = vi.fn(() => EMPTY);
-  dispatch = vi.fn();
-  pipe = vi.fn(() => EMPTY);
-}
+import { IOrder, Order } from '@app/models/IOrder';
+import { MatOptionModule } from '@angular/material/core';
+import { AsyncPipe, CommonModule, CurrencyPipe } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { CartState } from '@app/store/cart/cart.reducer';
+import { DEFAULT_CURRENCY_CODE } from '@angular/core';
 
 class MockConfig {
   config = {
@@ -35,48 +38,73 @@ class MockConfig {
 }
 
 class MockApiOrderService {
-  getOrderTypes() {
-    return of([]);
-  }
+  getOrderTypes = () => of([{ id: 1, name: Constants.ORDERTYPE_PRIVATE }]);
+  updateOrder = () => of(null);
+  getFullOrder = (x: IOrder) => of(new Order(x));
 }
 
+const initialState = {
+  auth: {},
+  map: {},
+  cart: {
+    total: 1,
+    items: [{
+      price_status: "CALCULATED",
+      price: 100,
+      product: {},
+      product_id: 1
+    }],
+    title: "Fake order",
+    invoice_reference: '',
+    email_deliver: '',
+    description: '',
+    order_type: Constants.ORDERTYPE_PRIVATE,
+    processing_fee: 1,
+  } as unknown as CartState
+} as AppState;
+
 describe('NewOrderComponent', () => {
-  let component: NewOrderComponent;
-  let fixture: ComponentFixture<NewOrderComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatStepperModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatRadioModule,
-        MatTableModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatAutocompleteModule,
-        MatIconModule,
-        NoopAnimationsModule,
-        NewOrderComponent,
+        AsyncPipe, CommonModule, CurrencyPipe, FormsModule, MatAutocompleteModule, MatButtonModule,
+        MatDialogModule, MatError, MatFormFieldModule, MatIconModule, MatInputModule,
+        MatOptionModule, MatProgressSpinnerModule, MatRadioButton, MatRadioGroup, MatSelectModule,
+        MatStepperModule, MatTableModule, NoopAnimationsModule, ReactiveFormsModule
       ],
       providers: [
-        { provide: ApiOrderService,useClass: MockApiOrderService },
         provideHttpClient(),
         provideHttpClientTesting(),
+        provideMockStore({ initialState }),
+        { provide: DEFAULT_CURRENCY_CODE, useValue: 'CHF' },
         { provide: ConfigService, useClass: MockConfig },
-        { provide: Store<AppState>, useClass: StoreMock }
+        { provide: ApiOrderService, useClass: MockApiOrderService },
       ],
-    })
-      .compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(NewOrderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    }).compileComponents();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(TestBed.createComponent(NewOrderComponent).componentInstance).toBeTruthy();
+  });
+
+  it('should use CHF as default currency', () => {
+    const fixture = TestBed.createComponent(NewOrderComponent);
+    fixture.detectChanges();
+    fixture.componentInstance.createOrUpdateDraftOrder(2);
+    fixture.detectChanges();
+    fixture.whenRenderingDone();
+
+    expect(fixture.nativeElement.querySelector(".sitn-td-price span").innerHTML).toEqual("CHF100.00");
+  });
+
+  it('should use CHF as default currency', () => {
+    const fixture = TestBed.createComponent(NewOrderComponent);
+    fixture.detectChanges();
+    fixture.componentInstance.createOrUpdateDraftOrder(2);
+    fixture.detectChanges();
+    fixture.whenRenderingDone();
+
+    expect(fixture.nativeElement.querySelector(".sitn-td-price span").innerHTML).toEqual("CHF100.00");
   });
 });

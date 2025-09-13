@@ -283,7 +283,6 @@ export class Order {
       }
       this._isAllOrderItemCalculated = this._isAllOrderItemCalculated && item.price_status === 'CALCULATED';
     }
-
     this.geom = this.initializeGeometry(options.geom) ?? this.geom;
     this.excludedGeom = this.initializeGeometry(options.excludedGeom) ?? this.excludedGeom;
     this.statusAsReadableIconText = Order.initializeStatus(options);
