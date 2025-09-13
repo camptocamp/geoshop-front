@@ -38,12 +38,10 @@ import { debounceTime, filter, map, mergeMap, startWith, switchMap, takeUntil } 
   templateUrl: './new-order.component.html',
   styleUrls: ['./new-order.component.scss'],
   imports: [
-    MatAutocompleteModule, MatStepperModule, FormsModule, ReactiveFormsModule, MatLabel, MatSelectModule, MatOptionModule,
-    MatError, MatFormFieldModule, MatInputModule, MatRadioButton, MatRadioGroup, AsyncPipe, CurrencyPipe,
-    MatProgressSpinnerModule, MatTableModule, MatIconModule, CommonModule, MatButtonModule, MatTableModule,
-    ReactiveFormsModule, MatStepperModule, MatButtonModule, MatFormFieldModule, MatSelectModule, MatInputModule,
-    MatAutocompleteModule, MatIconModule, MatTableModule, MatAutocompleteModule, MatStepperModule, MatProgressSpinnerModule,
-    MatDialogModule
+        AsyncPipe, CommonModule, CurrencyPipe, FormsModule, MatAutocompleteModule, MatButtonModule,
+        MatDialogModule, MatError, MatFormFieldModule, MatIconModule, MatInputModule,
+        MatOptionModule, MatProgressSpinnerModule, MatRadioButton, MatRadioGroup, MatSelectModule,
+        MatStepperModule, MatTableModule, ReactiveFormsModule
   ],
 })
 export class NewOrderComponent implements OnInit, OnDestroy {
@@ -230,7 +228,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
 
   private createForms() {
     this.orderFormGroup = this.formBuilder.group({
-      orderType: new UntypedFormControl(null, Validators.required),
+      orderType: new UntypedFormControl(this, Validators.required),
       title: new UntypedFormControl('', Validators.compose(
         [Validators.pattern(EXTRACT_FORBIDDEN_REGEX), Validators.required])),
       invoice_reference: new UntypedFormControl(''),
@@ -283,7 +281,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
 
   private updateForms(order: Order) {
     this.isCustomerSelected = order.HasInvoiceContact;
-
+    try {
     this.orderFormGroup?.setValue({
       orderType: this.getOrderType(parseInt(order.order_type)),
       title: order.title,
@@ -292,6 +290,10 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       emailDeliverChoice: order.email_deliver ? "2" : "1",
       description: order.description
     });
+    } catch (e) {
+      console.log("HERE-ERR", e);
+      throw e;
+    }
 
     if (order.HasInvoiceContact) {
       this.addressChoiceCtrl?.setValue('2');

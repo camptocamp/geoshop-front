@@ -8,7 +8,7 @@ import { AuthEffects } from '@app/store/auth/auth.effects';
 import { CartEffects } from '@app/store/cart/cart.effects';
 
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, provideZoneChangeDetection, provideAppInitializer, inject } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, provideAppInitializer, inject, DEFAULT_CURRENCY_CODE } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
@@ -25,6 +25,7 @@ const stsConfigFactory = () => {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    {provide: DEFAULT_CURRENCY_CODE, useValue: 'CHF'},
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimations(),
