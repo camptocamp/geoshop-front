@@ -1,7 +1,8 @@
+import { StripHtmlPipe } from '@app/pipes/strip-html.pipe';
+
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { StripHtmlPipe } from '@app/pipes/strip-html.pipe';
 
 
 @Component({

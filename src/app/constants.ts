@@ -41,7 +41,7 @@ export const COUNTRIES = {
   }
 };
 
-export const SEARCH_CATEGORY: Map<string, string> = new Map([
+export const SEARCH_CATEGORY = new Map<string, string>([
   // Geocoder categories
   ["zipcode", $localize`:@@search.category.zipcode:Code postal`],
   ["gg25", $localize`:@@search.category.gemeinden:Communes`],

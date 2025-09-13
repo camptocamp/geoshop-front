@@ -1,4 +1,9 @@
+import { formatArea } from '@app/helpers/geoHelper';
+import { OrderValidationStatus } from '@app/models/IApi';
 import { IBasemap, IPageFormat } from '@app/models/IConfig';
+import { Order } from '@app/models/IOrder';
+import { ISearchResult } from '@app/models/ISearch';
+import { ConfigService } from '@app/services/config.service';
 import { AppState, selectMapState, selectOrder } from '@app/store';
 import { updateGeometry } from '@app/store/cart/cart.action';
 import * as MapAction from '@app/store/map/map.action';
@@ -17,6 +22,7 @@ import { buffer, getCenter, getArea, Extent } from 'ol/extent';
 import FeatureFormat from 'ol/format/Feature';
 import GeoJSON from 'ol/format/GeoJSON';
 import KML from 'ol/format/KML';
+import { MultiPolygon, SimpleGeometry } from 'ol/geom';
 import Geometry from 'ol/geom/Geometry';
 import MultiPoint from 'ol/geom/MultiPoint';
 import Point from 'ol/geom/Point';
@@ -29,29 +35,22 @@ import BaseLayer from 'ol/layer/Base';
 import LayerGroup from 'ol/layer/Group';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
-import { getArea as getAreaSphere } from 'ol/sphere.js';
 import Projection from 'ol/proj/Projection';
 import { register } from 'ol/proj/proj4';
 import TileSource from 'ol/source/Tile';
-import VectorSource from 'ol/source/Vector';
+import VectorSource, { VectorSourceEvent } from 'ol/source/Vector';
 import WMTS, { Options } from 'ol/source/WMTS';
+import { getArea as getAreaSphere } from 'ol/sphere.js';
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
 // @ts-expect-error: plain js import
 import Transform from 'ol-ext/interaction/Transform';
 import proj4 from 'proj4';
 import { BehaviorSubject, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
-import { ConfigService } from '@app/services/config.service';
-import { formatArea } from '@app/helpers/geoHelper';
-import { Order } from '@app/models/IOrder';
 import { ApiOrderService } from './api-order.service';
-import { OrderValidationStatus } from '@app/models/IApi';
-import { MultiPolygon, SimpleGeometry } from 'ol/geom';
-import { ISearchResult } from '@app/models/ISearch';
 
-const DEFAULT_EXTENT = [2419995.7488073637, 1030006.663199476, 2900009.727428728, 1350004.292478851];
 const DEFAULT_RESOLUTIONS = [250, 100, 50, 20, 10, 5, 2.5, 2, 1.5, 1, 0.5, 0.25];
 
 @Injectable({
@@ -148,10 +147,14 @@ export class MapService {
     if (this.initialized) {
       this.isMapLoading$.next(false);
       this.map.dispose();
-      // @ts-ignore
+      // @ts-expect-error: setting map to null on purpose
       this.map = null;
     }
-    this.initialExtent = this.configService.config!.map.projection.initialExtent;
+    const config = this.configService.config;
+    if (!config) {
+      throw new Error("Config is unavailable");
+    }
+    this.initialExtent = config.map.projection.initialExtent;
     this.initializeMap().then(() => {
       this.initializeDrawing();
       this.initializeInteraction();
@@ -160,9 +163,8 @@ export class MapService {
       this.store.select(selectOrder).subscribe(order => {
         if (!this.featureFromDrawing && order && order.geom) {
           const geometry = this.geoJsonFormatter.readGeometry(order.geom);
-          const feature = new Feature(geometry);
-          this.drawingSource.addFeature(feature);
-          this.areaTooltip.setPosition(getCenter(feature.getGeometry()!.getExtent()));
+          this.drawingSource.addFeature(new Feature(geometry));
+          this.areaTooltip.setPosition(getCenter(geometry.getExtent()));
           this.updateAreaTooltip();
         }
       });
@@ -347,10 +349,10 @@ export class MapService {
     const geometry = searchResult.geometry;
     if (geometry instanceof Point) {
       // TODO if the BBOX is just a point
-      const feature = new Feature(searchResult.bbox ? fromExtent(searchResult.bbox) : geometry)
-      this.drawingSource.addFeature(feature);
+      const targetGeom = searchResult.bbox ? fromExtent(searchResult.bbox) : geometry;
+      this.drawingSource.addFeature(new Feature(targetGeom));
       this.modifyInteraction.setActive(true);
-      this.map.getView().fit(feature.getGeometry()!, {
+      this.map.getView().fit(targetGeom, {
         padding: [75, 75, 75, 75]
       });
     } else {
@@ -564,19 +566,21 @@ export class MapService {
 
   private updateAreaTooltip() {
     const feat = this.featureFromDrawing;
-    if (!feat || feat.getRevision() <= 0 || feat.getGeometry()?.getType() === 'Point') {
+    const geom = feat?.getGeometry();
+    const status = this.validationStatus;
+    this.areaTooltipElement.classList.remove('invalid');
+    if (!feat || feat.getRevision() <= 0 ||
+        !geom || geom.getType() === 'Point' ||
+        !status || status.valid) {
       return
     }
-    var content = formatArea(getAreaSphere(feat.getGeometry()!));
-    const status = this.validationStatus;
-    if (status && status.valid) {
-      this.areaTooltipElement.classList.remove('invalid');
-    } else if (status.error) {
-      this.areaTooltipElement.classList.add('invalid');
-      content += `<br/> ${status!.error.message[0]}: (By ${formatArea(status!.error.excluded[0] - status!.error.expected[0])})`;
+    let content = formatArea(getAreaSphere(geom));
+    this.areaTooltipElement.classList.add('invalid')
+    if (status.error) {
+      content += `<br/> ${status.error.message[0]}: (By ${formatArea(status.error.excluded[0] - status.error.expected[0])})`;
     }
     this.areaTooltipElement.style.visibility = "visible";
-    this.areaTooltip.setPosition(getCenter(feat.getGeometry()!.getExtent()));
+    this.areaTooltip.setPosition(getCenter(geom.getExtent()));
     this.areaTooltipElement.innerHTML = content;
   }
 
@@ -590,8 +594,8 @@ export class MapService {
     if (this.featureFromDrawing) {
       this.drawingSource.addFeature(this.featureFromDrawing);
     }
-    this.drawingSource.on('addfeature', (evt: { feature: any; }) => {
-      this.featureFromDrawing = evt.feature;
+    this.drawingSource.on('addfeature', (evt: VectorSourceEvent) => {
+      this.featureFromDrawing = evt.feature ?? null;
       this.dispatchCurrentGeometry(true);
 
       setTimeout(() => {
@@ -716,8 +720,8 @@ export class MapService {
       hitTolerance: 2,
     });
 
-    this.transformInteraction.on(['rotateend', 'translateend'], (evt: any) => {
-      this.featureFromDrawing = evt.features.item(0);
+    this.transformInteraction.on(['rotateend', 'translateend'], (evt: VectorSourceEvent) => {
+      this.featureFromDrawing = evt.feature ?? null;
       this.dispatchCurrentGeometry(true);
     });
 
@@ -757,7 +761,7 @@ export class MapService {
 
     const w = format.width * scale / 2000;
     const h = format.height * scale / 2000;
-    let coordinates: Array<Array<Coordinate>>;
+    let coordinates: Coordinate[][];
     if (center && center.length > 0) {
       coordinates = [[
         [center[0] - w, center[1] - h],
