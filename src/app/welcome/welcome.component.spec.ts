@@ -1,5 +1,6 @@
 
 
+import { ApiService } from '@app/services/api.service';
 import { ConfigService } from '@app/services/config.service';
 import { AppState } from '@app/store';
 import { DialogMetadataComponent } from '@app/welcome/catalog/dialog-metadata/dialog-metadata.component';
@@ -38,7 +39,6 @@ import { ManualentryComponent } from './map/manualentry/manualentry.component';
 import { MapComponent } from './map/map.component';
 import { ValidateComponent } from './validate/validate.component';
 import { WelcomeComponent } from './welcome.component';
-import { ApiService } from '@app/services/api.service';
 
 
 
