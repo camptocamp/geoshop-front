@@ -10,7 +10,7 @@
 </mat-form-field>
 
 <div class="list-container">
-  @for (product of filteredProducts | async; track trackByIdx(product.id)) {
+  @for (product of filteredProducts | async; track product.id) {
   <div [style.height]="catalogItemHeight + 'px'" class="list-group-item">
     <img class="item-logo rounded-image" alt="Logo du produit" aria-label="Logo du produit"
       src="{{mediaUrl}}{{product.thumbnail_link}}">

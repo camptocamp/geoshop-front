@@ -13,7 +13,6 @@ export class StripHtmlPipe implements PipeTransform {
       .reverse()
       .filter((el) => !whitelist.has(el.nodeName))
       .forEach((el) => el.replaceWith(...Array.from(el.childNodes)));
-    console.log(doc.body.innerHTML);
     return doc.body.innerHTML || '';
   }
 }
