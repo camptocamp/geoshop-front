@@ -50,7 +50,7 @@ export class WelcomeComponent implements OnDestroy {
     this.leftPositionForButtons = event.sizes[0] as number;
   }
 
-  transitionEnd(event: number) {
+  transitionEnd() {
     this.mapService.resizeMap();
     this.leftPositionForButtons = 10;
   }

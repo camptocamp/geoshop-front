@@ -1,35 +1,35 @@
+import * as Constants from '@app/constants';
 import { IConfig } from '@app/models/IConfig';
+import { IOrder, Order } from '@app/models/IOrder';
 import { ApiOrderService } from '@app/services/api-order.service';
 import { ConfigService } from '@app/services/config.service';
 import { AppState } from '@app/store';
+import { CartState } from '@app/store/cart/cart.reducer';
 
-import * as Constants from '@app/constants';
+import { AsyncPipe, CommonModule, CurrencyPipe } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { DEFAULT_CURRENCY_CODE } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatOptionModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
 import { expect, it, describe, beforeEach } from 'vitest';
-import { provideMockStore } from '@ngrx/store/testing';
 
 import { NewOrderComponent } from './new-order.component';
-import { IOrder, Order } from '@app/models/IOrder';
-import { MatOptionModule } from '@angular/material/core';
-import { AsyncPipe, CommonModule, CurrencyPipe } from '@angular/common';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-import { CartState } from '@app/store/cart/cart.reducer';
-import { DEFAULT_CURRENCY_CODE } from '@angular/core';
 
 class MockConfig {
   config = {

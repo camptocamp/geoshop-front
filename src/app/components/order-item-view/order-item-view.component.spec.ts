@@ -1,12 +1,15 @@
+import * as Constants from '@app/constants';
+import { IOrder, Order } from '@app/models/IOrder';
+
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-
-import { expect, it, describe, beforeEach } from 'vitest';
-import * as Constants from '@app/constants';
-import { OrderItemViewComponent } from './order-item-view.component';
 import { DEFAULT_CURRENCY_CODE } from '@angular/core';
-import { IOrder, Order } from '@app/models/IOrder';
+import { TestBed } from '@angular/core/testing';
+import { expect, it, describe, beforeEach } from 'vitest';
+
+import { OrderItemViewComponent } from './order-item-view.component';
+
+
 
 const fakeOrder = new Order({
   total: 1,

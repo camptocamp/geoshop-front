@@ -12,6 +12,7 @@ export default tseslint.config(
   importPlugin.configs.typescript,
   {
     rules: {
+      "no-console": ["error", { allow: ["warn", "error"] }],
       "import/order": [
         "error", {
           "newlines-between": "always",
