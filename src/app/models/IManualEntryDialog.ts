@@ -1,4 +1,5 @@
 import { Extent } from 'ol/extent';
+
 import {IPageFormat} from './IConfig';
 
 export interface IManualEntryDialogData {
