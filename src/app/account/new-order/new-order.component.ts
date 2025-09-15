@@ -281,7 +281,6 @@ export class NewOrderComponent implements OnInit, OnDestroy {
 
   private updateForms(order: Order) {
     this.isCustomerSelected = order.HasInvoiceContact;
-    try {
     this.orderFormGroup?.setValue({
       orderType: this.getOrderType(parseInt(order.order_type)),
       title: order.title,
@@ -290,10 +289,6 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       emailDeliverChoice: order.email_deliver ? "2" : "1",
       description: order.description
     });
-    } catch (e) {
-      console.log("HERE-ERR", e);
-      throw e;
-    }
 
     if (order.HasInvoiceContact) {
       this.addressChoiceCtrl?.setValue('2');

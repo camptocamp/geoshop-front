@@ -46,13 +46,11 @@ export class WelcomeComponent implements OnDestroy {
   }
 
   dragEnd(event: SplitGutterInteractionEvent) {
-    console.log(event);
     this.mapService.resizeMap();
     this.leftPositionForButtons = event.sizes[0] as number;
   }
 
   transitionEnd(event: number) {
-    console.log(event);
     this.mapService.resizeMap();
     this.leftPositionForButtons = 10;
   }
