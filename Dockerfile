@@ -3,6 +3,9 @@ FROM node:22.6.0-slim AS builder
 
 WORKDIR /usr/app
 
+ARG VERSION
+ENV VERSION=$VERSION
+
 COPY package*.json ./.
 RUN npm ci  --legacy-peer-deps
 

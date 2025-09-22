@@ -1,3 +1,5 @@
+import { environment } from '@app/../environments/environment';
+import { version } from '@app/../environments/version';
 import { ConfigService } from '@app/services/config.service';
 
 import { CommonModule } from '@angular/common';
@@ -26,6 +28,7 @@ export class HelpOverlayComponent {
   phoneLabel: string;
   phoneNumber: string;
   email: string;
+  versionInfo = `${version}-${environment.production ? "prod" : "test"}`;
 
   constructor(configService: ConfigService) {
     this.phoneLabel = configService.config?.contact.phone.label || '';

@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "prebuild": "echo export const version=\\\"${VERSION:-master}\\\"\\; > src/environments/version.ts",
     "build": "ng build",
     "test": "vitest",
     "stylelint": "stylelint '**/*.scss'",
