@@ -1903,7 +1903,7 @@
       </trans-unit>
       <trans-unit id="2413082759302639169" datatype="html">
         <source> Informations sur la tarification </source>
-        <target state="new"> Informations sur la tarification </target>
+        <target> Informationen zum Tarif </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/help-overlay/help-overlay.component.html</context>
           <context context-type="linenumber">13</context>
@@ -1911,7 +1911,7 @@
       </trans-unit>
       <trans-unit id="4630377014809961587" datatype="html">
         <source> Conditions d&apos;utilisation </source>
-        <target state="new"> Conditions d&apos;utilisation </target>
+        <target> Nutzungsbedingungen </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/help-overlay/help-overlay.component.html</context>
           <context context-type="linenumber">17</context>
