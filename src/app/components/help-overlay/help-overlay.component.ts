@@ -28,7 +28,7 @@ export class HelpOverlayComponent {
   phoneLabel: string;
   phoneNumber: string;
   email: string;
-  versionInfo = `${version}-${environment.production ? "prod" : "test"}`;
+  versionInfo = `${version}-${environment.name}`;
 
   constructor(configService: ConfigService) {
     this.phoneLabel = configService.config?.contact.phone.label || '';
