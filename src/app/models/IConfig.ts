@@ -36,7 +36,7 @@ export interface IConfig {
   baseMapUrl: string;
   search: ISearchConfig;
   contact: {
-    links: { conditions: string; tariffs: string; };
+    links: { conditions: string; tariffs: string; support: string;};
     phone: { label: string; number: string };
     email: string;
   };
@@ -48,7 +48,9 @@ export interface IConfig {
   appLogo: {
     path: string;
     alt: string;
-  } | undefined;}
+  } | undefined;
+
+}
 
 export interface IPageFormat {
   name: string;
