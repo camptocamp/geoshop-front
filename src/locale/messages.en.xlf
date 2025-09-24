@@ -103,7 +103,7 @@
         <target>See help</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/help-overlay/help-overlay.component.html</context>
-          <context context-type="linenumber">4</context>
+          <context context-type="linenumber">9</context>
         </context-group>
       </trans-unit>
       <trans-unit id="778065110421325268" datatype="html">
@@ -111,7 +111,7 @@
         <target>Do you have any questions?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/help-overlay/help-overlay.component.html</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="main.phone" datatype="html">
@@ -120,10 +120,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/profile.component.html</context>
           <context context-type="linenumber">22</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/help-overlay/help-overlay.component.html</context>
-          <context context-type="linenumber">21</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/dialog-metadata/dialog-metadata.component.html</context>
@@ -136,10 +132,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/profile.component.html</context>
           <context context-type="linenumber">18</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/help-overlay/help-overlay.component.html</context>
-          <context context-type="linenumber">26</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/catalog/dialog-metadata/dialog-metadata.component.html</context>
@@ -511,7 +503,7 @@
         <target>Reset</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">61</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7079597122499354381" datatype="html">
@@ -519,7 +511,7 @@
         <target>Confirm order</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
-          <context context-type="linenumber">120</context>
+          <context context-type="linenumber">118</context>
         </context-group>
       </trans-unit>
       <trans-unit id="order.delete" datatype="html">
@@ -1391,7 +1383,7 @@
         <target state="translated">Request a quote</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
-          <context context-type="linenumber">121</context>
+          <context context-type="linenumber">119</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1711750570766225138" datatype="html">
@@ -1399,11 +1391,11 @@
         <target state="translated">Cancel</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
-          <context context-type="linenumber">482</context>
+          <context context-type="linenumber">479</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
-          <context context-type="linenumber">607</context>
+          <context context-type="linenumber">604</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
@@ -1423,7 +1415,7 @@
         <target state="translated">Continue</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
-          <context context-type="linenumber">483</context>
+          <context context-type="linenumber">480</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2477113259664468311" datatype="html">
@@ -1431,7 +1423,7 @@
         <target state="translated">The contact &lt;b style=&apos;color:#26a59a;&apos;&gt;<x id="PH" equiv-text="this.currentSelectedContact.first_name"/> <x id="PH_1" equiv-text="this.currentSelectedContact.last_name"/>&lt;/b&gt; has been modified. Do you want to proceed?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
-          <context context-type="linenumber">485</context>
+          <context context-type="linenumber">482</context>
         </context-group>
       </trans-unit>
       <trans-unit id="180879386399550529" datatype="html">
@@ -1439,7 +1431,7 @@
         <target state="translated">Delete</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
-          <context context-type="linenumber">608</context>
+          <context context-type="linenumber">605</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/orders/order/order.component.ts</context>
@@ -1451,7 +1443,7 @@
         <target state="translated">Are you sure you want to delete the contact &lt;b style=&apos;color:#26a59a;&apos;&gt;<x id="PH" equiv-text="contact.first_name"/> <x id="PH_1" equiv-text="contact.last_name"/>&lt;/b&gt; ?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.ts</context>
-          <context context-type="linenumber">610</context>
+          <context context-type="linenumber">607</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5740445985300777436" datatype="html">
@@ -1563,7 +1555,7 @@
         <target state="translated">No</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/confirm-dialog/confirm-dialog.component.ts</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7180575964287205441" datatype="html">
@@ -1571,7 +1563,7 @@
         <target state="translated">Yes</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/confirm-dialog/confirm-dialog.component.ts</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="country.ch.name" datatype="html">
@@ -1896,6 +1888,22 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/map/manualentry/manualentry.component.html</context>
           <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2413082759302639169" datatype="html">
+        <source> Informations sur la tarification </source>
+        <target state="new"> Informations sur la tarification </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/help-overlay/help-overlay.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4630377014809961587" datatype="html">
+        <source> Conditions d&apos;utilisation </source>
+        <target state="new"> Conditions d&apos;utilisation </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/help-overlay/help-overlay.component.html</context>
+          <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
     </body>

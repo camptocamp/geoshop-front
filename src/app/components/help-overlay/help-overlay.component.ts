@@ -28,9 +28,11 @@ export class HelpOverlayComponent {
   phoneLabel: string;
   phoneNumber: string;
   email: string;
+  supportUrl: string;
   versionInfo = `${version}-${environment.name}`;
 
   constructor(configService: ConfigService) {
+    this.supportUrl = configService.config?.contact.links.support || '';
     this.phoneLabel = configService.config?.contact.phone.label || '';
     this.phoneNumber = configService.config?.contact.phone.number || '';
     this.email = configService.config?.contact.email || '';
