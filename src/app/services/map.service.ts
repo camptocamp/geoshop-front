@@ -4,13 +4,13 @@ import { IBasemap, IPageFormat } from '@app/models/IConfig';
 import { Order } from '@app/models/IOrder';
 import { ISearchResult } from '@app/models/ISearch';
 import { ConfigService } from '@app/services/config.service';
-import { AppState, selectMapState, selectOrder } from '@app/store';
+import { AppState, getUser, selectMapState, selectOrder } from '@app/store';
 import { updateGeometry } from '@app/store/cart/cart.action';
 import * as MapAction from '@app/store/map/map.action';
 
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Feature, Overlay } from 'ol';
 import { FeatureLike } from 'ol/Feature';
 import Map from 'ol/Map';
@@ -46,7 +46,7 @@ import WMTSTileGrid from 'ol/tilegrid/WMTS';
 // @ts-expect-error: plain js import
 import Transform from 'ol-ext/interaction/Transform';
 import proj4 from 'proj4';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { ApiOrderService } from './api-order.service';
@@ -109,10 +109,13 @@ export class MapService {
     }),
   ];
 
-  private orderStatus = this.store.pipe(
-    select(selectOrder),
-    switchMap(order => {
-      if (!order.geom || order.items.length <= 0) {
+  private orderStatus = combineLatest([
+    this.store.select(selectOrder),
+    this.store.select(getUser),
+    this.store.select(state => state.auth.loginFailed),
+  ]).pipe(
+    switchMap(([order, , loginFailed]) => {
+      if (loginFailed || !order.geom || order.items.length <= 0) {
         return of({ valid: true });
       }
       return this.apiOrderService.validateOrder(new Order(order));
