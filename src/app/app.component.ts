@@ -2,9 +2,8 @@ import { AccountOverlayComponent } from '@app/components/account-overlay/account
 import { CartOverlayComponent } from '@app/components/cart-overlay/cart-overlay.component';
 import { HelpOverlayComponent } from '@app/components/help-overlay/help-overlay.component';
 import { ConfigService } from '@app/services/config.service';
-import { AppState, getUser, selectCartTotal, selectMapState, selectOrder } from '@app/store';
+import { AppState, getUser, selectCartTotal, selectOrder } from '@app/store';
 import * as AuthAction from '@app/store/auth/auth.action';
-import * as MapAction from '@app/store/map/map.action';
 
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
@@ -52,26 +51,6 @@ export class AppComponent implements OnDestroy {
   ) {
     const params = new URLSearchParams(window.location.search);
     const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
-
-    const initialParams = routerNavEnd$.subscribe(() => {
-      const bounds = params.get("bounds")?.split(",").map(parseFloat);
-      if (!bounds || bounds.length !== 4) {
-        initialParams.unsubscribe();
-        return;
-      }
-      this.store.dispatch(MapAction.saveState({
-        state: { bounds: [bounds[0], bounds[1], bounds[2], bounds[3]] },
-      }));
-    });
-
-    this.store.select(selectMapState).subscribe((mapState) => {
-      const bounds = mapState.bounds;
-      this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { bounds: bounds.join(",") },
-            queryParamsHandling: 'merge'
-          });
-    });
 
     combineLatest([routerNavEnd$, this.store.select(selectCartTotal)])
       .subscribe((pair) => {
