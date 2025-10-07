@@ -126,9 +126,9 @@ export class MapComponent implements OnInit {
         });
     }
 
-    this.store.select(selectMapState).pipe(distinctUntilChanged((a, b) => {
-      return a.bounds.every((item, i) => item == b.bounds[i])
-    })).subscribe((mapState) => {
+    this.store.select(selectMapState).pipe(
+      distinctUntilChanged((a, b) => a.bounds.every((item, i) => item == b.bounds[i]))
+    ).subscribe((mapState) => {
       const urlTree = this.router.parseUrl(this.router.url);
       const bounds = mapState.bounds.join(",");
       if (bounds !== urlTree.queryParams['bounds']) {

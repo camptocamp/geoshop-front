@@ -176,9 +176,8 @@ export class MapService {
       this.initialized = true;
     }).then(() => {
       this.store.select(selectMapState).pipe(
-        distinctUntilChanged((a, b) => {
-          return a.bounds.every((item, i) => item == b.bounds[i])
-        })).subscribe(params => {
+        distinctUntilChanged((prev, curr) => prev.bounds.every((item, i) => item == curr.bounds[i]))
+      ).subscribe(params => {
         this.map.getView().fit(params.bounds, { nearest: true });
       });
     });
