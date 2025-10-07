@@ -23,7 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatHint, MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Extent } from 'ol/extent';
 import Geometry from 'ol/geom/Geometry';
@@ -84,6 +84,7 @@ export class MapComponent implements OnInit {
     public dialog: MatDialog,
     private store: Store<AppState>,
     private router: Router,
+    private route: ActivatedRoute
   ) {
     // Initialize custom icons
     this.customIconService.init();
@@ -129,14 +130,12 @@ export class MapComponent implements OnInit {
     this.store.select(selectMapState).pipe(
       distinctUntilChanged((prev, curr) => prev.bounds.every((item, i) => item == curr.bounds[i]))
     ).subscribe((mapState) => {
-      const urlTree = this.router.parseUrl(this.router.url);
       const bounds = mapState.bounds.join(",");
-      if (bounds !== urlTree.queryParams['bounds']) {
-        const params = urlTree.queryParams;
-        urlTree.queryParams = {}
-        params['bounds'] = bounds;
-        this.router.navigate([urlTree.toString()], { queryParams: params });
-      }
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { bounds },
+        queryParamsHandling: 'merge'
+      });
     });
   }
 
