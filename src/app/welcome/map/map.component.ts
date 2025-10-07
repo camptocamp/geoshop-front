@@ -127,7 +127,7 @@ export class MapComponent implements OnInit {
     }
 
     this.store.select(selectMapState).pipe(
-      distinctUntilChanged((a, b) => a.bounds.every((item, i) => item == b.bounds[i]))
+      distinctUntilChanged((prev, curr) => prev.bounds.every((item, i) => item == curr.bounds[i]))
     ).subscribe((mapState) => {
       const urlTree = this.router.parseUrl(this.router.url);
       const bounds = mapState.bounds.join(",");
