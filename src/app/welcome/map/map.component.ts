@@ -7,6 +7,8 @@ import { ConfigService } from '@app/services/config.service';
 import { CustomIconService } from '@app/services/custom-icon.service';
 import { MapService } from '@app/services/map.service';
 import { SearchService } from '@app/services/search.service';
+import { AppState, selectMapState } from '@app/store';
+import * as MapAction from '@app/store/map/map.action';
 import { ManualentryComponent } from '@app/welcome/map/manualentry/manualentry.component';
 
 import { CommonModule } from '@angular/common';
@@ -22,9 +24,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatHint, MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Extent } from 'ol/extent';
 import Geometry from 'ol/geom/Geometry';
-import { debounceTime, switchMap } from 'rxjs/operators';
+import { debounceTime, filter, switchMap } from 'rxjs/operators';
 
 
 
@@ -78,7 +82,11 @@ export class MapComponent implements OnInit {
     private configService: ConfigService,
     private customIconService: CustomIconService,
     private readonly searchService: SearchService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private store: Store<AppState>,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     // Initialize custom icons
     this.customIconService.init();
   }
@@ -91,7 +99,7 @@ export class MapComponent implements OnInit {
     this.manualEntryParams.selectedPageFormat = this.configService.config?.pageformats[0] as IPageFormat;
     const constraints = this.configService.config?.map.constraints;
     if (constraints) {
-        this.manualEntryParams.constraints = constraints ;
+      this.manualEntryParams.constraints = constraints;
     }
 
     if (this.searchCtrl) {
@@ -119,6 +127,30 @@ export class MapComponent implements OnInit {
           }, new Map<string, ISearchResult[]>);
         });
     }
+
+    const params = new URLSearchParams(window.location.search);
+    const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
+    const initialParams = routerNavEnd$.subscribe(() => {
+      const bounds = params.get("bounds")?.split(",").map(parseFloat);
+      if (!bounds || bounds.length !== 4) {
+        initialParams.unsubscribe();
+        return;
+      }
+      this.store.dispatch(MapAction.saveState({
+        state: { bounds: [bounds[0], bounds[1], bounds[2], bounds[3]] },
+      }));
+    });
+
+    this.store.select(selectMapState).subscribe((mapState) => {
+      const urlTree = this.router.parseUrl(this.router.url);
+      const bounds = mapState.bounds.join(",");
+      if (bounds !== urlTree.queryParams['bounds']) {
+        const params = urlTree.queryParams;
+        urlTree.queryParams = {}
+        params['bounds'] = bounds;
+        this.router.navigate([urlTree.toString()], {queryParams: params});
+      }
+    });
   }
 
   displayGeocoderResultWith(value: { label: string; geometry: Geometry }) {
