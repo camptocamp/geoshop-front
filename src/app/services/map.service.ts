@@ -47,7 +47,7 @@ import WMTSTileGrid from 'ol/tilegrid/WMTS';
 import Transform from 'ol-ext/interaction/Transform';
 import proj4 from 'proj4';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, distinctUntilChanged } from 'rxjs/operators';
 
 import { ApiOrderService } from './api-order.service';
 
@@ -175,7 +175,10 @@ export class MapService {
     }).catch(() => {
       this.initialized = true;
     }).then(() => {
-      this.store.select(selectMapState).subscribe(params => {
+      this.store.select(selectMapState).pipe(
+        distinctUntilChanged((a, b) => {
+          return a.bounds.every((item, i) => item == b.bounds[i])
+        })).subscribe(params => {
         this.map.getView().fit(params.bounds, { nearest: true });
       });
     });
