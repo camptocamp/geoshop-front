@@ -142,12 +142,14 @@ export class MapComponent implements OnInit {
     });
 
     this.store.select(selectMapState).subscribe((mapState) => {
-      const bounds = mapState.bounds;
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: { bounds: bounds.join(",") },
-        queryParamsHandling: 'merge'
-      });
+      const urlTree = this.router.parseUrl(this.router.url);
+      const bounds = mapState.bounds.join(",");
+      if (bounds !== urlTree.queryParams['bounds']) {
+        const params = urlTree.queryParams;
+        urlTree.queryParams = {}
+        params['bounds'] = bounds;
+        this.router.navigate([urlTree.toString()], {queryParams: params});
+      }
     });
   }
 
