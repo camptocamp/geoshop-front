@@ -4,6 +4,7 @@ import { HelpOverlayComponent } from '@app/components/help-overlay/help-overlay.
 import { ConfigService } from '@app/services/config.service';
 import { AppState, getUser, selectCartTotal, selectOrder } from '@app/store';
 import * as AuthAction from '@app/store/auth/auth.action';
+import * as MapAction from '@app/store/map/map.action';
 
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
@@ -51,6 +52,21 @@ export class AppComponent implements OnDestroy {
   ) {
     const params = new URLSearchParams(window.location.search);
     const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
+
+    // This URL permalink listener must be in app.component during startup of the app
+    // URL is decoded first of all into the mapState
+    const initialParams = routerNavEnd$.subscribe(() => {
+      const bounds = params.get("bounds")?.split(",").map(parseFloat);
+      if (!bounds || bounds.length !== 4) {
+        return;
+      }
+      this.store.dispatch(MapAction.saveState({
+        state: { bounds: [bounds[0], bounds[1], bounds[2], bounds[3]] },
+      }));
+      // URL shall be decoded only once, later URL changes (from panning the map)
+      // shall not reload the view
+      initialParams.unsubscribe();
+    });
 
     combineLatest([routerNavEnd$, this.store.select(selectCartTotal)])
       .subscribe((pair) => {

@@ -8,7 +8,6 @@ import { CustomIconService } from '@app/services/custom-icon.service';
 import { MapService } from '@app/services/map.service';
 import { SearchService } from '@app/services/search.service';
 import { AppState, selectMapState } from '@app/store';
-import * as MapAction from '@app/store/map/map.action';
 import { ManualentryComponent } from '@app/welcome/map/manualentry/manualentry.component';
 
 import { CommonModule } from '@angular/common';
@@ -24,11 +23,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatHint, MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Extent } from 'ol/extent';
 import Geometry from 'ol/geom/Geometry';
-import { debounceTime, filter, switchMap } from 'rxjs/operators';
+import { debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators';
 
 
 
@@ -128,28 +127,15 @@ export class MapComponent implements OnInit {
         });
     }
 
-    const params = new URLSearchParams(window.location.search);
-    const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
-    const initialParams = routerNavEnd$.subscribe(() => {
-      const bounds = params.get("bounds")?.split(",").map(parseFloat);
-      if (!bounds || bounds.length !== 4) {
-        initialParams.unsubscribe();
-        return;
-      }
-      this.store.dispatch(MapAction.saveState({
-        state: { bounds: [bounds[0], bounds[1], bounds[2], bounds[3]] },
-      }));
-    });
-
-    this.store.select(selectMapState).subscribe((mapState) => {
-      const urlTree = this.router.parseUrl(this.router.url);
+    this.store.select(selectMapState).pipe(
+      distinctUntilChanged((prev, curr) => prev.bounds.every((item, i) => item == curr.bounds[i]))
+    ).subscribe((mapState) => {
       const bounds = mapState.bounds.join(",");
-      if (bounds !== urlTree.queryParams['bounds']) {
-        const params = urlTree.queryParams;
-        urlTree.queryParams = {}
-        params['bounds'] = bounds;
-        this.router.navigate([urlTree.toString()], {queryParams: params});
-      }
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { bounds },
+        queryParamsHandling: 'merge'
+      });
     });
   }
 
