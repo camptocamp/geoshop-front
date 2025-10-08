@@ -14,14 +14,20 @@
 
   .header-title {
     cursor: pointer;
-    color: white;
+    color: var(--mat-sys-primary);
     text-decoration: none;
-    font-size: 18px;
+    font-size: 60px;
   }
 
   .header-subtitle {
     font-size: 16px;
     margin-left: 16px;
+    padding-right: 16px;
+    display: inline-flex;
+    align-items: flex-end;
+    height: 48px;
+    padding-bottom: 5px;
+    line-height: 1; /* avoid extra text offset from line-height */
   }
 
   .right-container {
@@ -33,10 +39,35 @@
   .mat-divider {
     height: 40px;
     margin: 0 10px;
-    border-right-color: var(--mat-sys-on-primary);
+    border-right-color: var(--mat-sys-primary);
+    margin-top: 10px;
   }
 
   .spacer {
     flex: 1 1 auto;
+  }
+
+  .mat-toolbar {
+    background-color: var(--mat-sys-on-primary);
+    color: var(--mat-sys-primary);
+  }
+
+  ::ng-deep .mat-badge-content {
+    background: var(--mat-sys-primary);
+    color: #fff;
+  }
+
+  .mat-mdc-icon-button img {
+    display: block;
+    margin: auto;
+    padding: 0;
+  }
+
+  .mat-mdc-icon-button {
+    top:10px
+  }
+
+  .first-logo {
+    margin-right: 2rem;
   }
 }

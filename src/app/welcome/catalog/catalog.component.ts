@@ -31,7 +31,6 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class CatalogComponent implements OnInit {
   stepToLoadData = 0;
-  readonly catalogItemHeight = 64;
   isSearchLoading = false;
 
   // Filtering

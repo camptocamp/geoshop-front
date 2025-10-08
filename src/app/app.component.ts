@@ -19,7 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { combineLatest, Subscription } from 'rxjs';
+import { combineLatest, Subscription, BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -42,6 +42,10 @@ export class AppComponent implements OnDestroy {
 
   order$ = this.store.select(selectOrder);
   numberOfItemInTheCart$ = this.store.select(selectCartTotal);
+
+  // State holder for the login status so the constructor's auth subscription can update it.
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
   constructor(
     private oidcService: OidcSecurityService,
@@ -88,6 +92,10 @@ export class AppComponent implements OnDestroy {
     if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
       const authSubscription = new Subscription()
       combineLatest([this.oidcService.checkAuth(), this.store.select(getUser)]).subscribe(([loginResponse, user]) => {
+        const loggedIn = !!(loginResponse?.isAuthenticated && user);
+        // log and push the current login state so templates/reactive consumers update
+        this.isLoggedInSubject.next(loggedIn);
+
         if (loginResponse.isAuthenticated && !user) {
           this.store.dispatch(AuthAction.oidcLogin(loginResponse));
         } else if (loginResponse.isAuthenticated && user) {
@@ -117,5 +125,9 @@ export class AppComponent implements OnDestroy {
 
   get appLogo(): { path: string, alt: string } | undefined {
     return this.configService.config?.appLogo;
+  }
+
+  get appLogo1(): { path: string, alt: string } | undefined {
+    return this.configService.config?.appLogo1;
   }
 }

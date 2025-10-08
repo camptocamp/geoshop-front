@@ -49,6 +49,10 @@ export interface IConfig {
     path: string;
     alt: string;
   } | undefined;
+  appLogo1: {
+    path: string;
+    alt: string;
+  } | undefined;
 
 }
 

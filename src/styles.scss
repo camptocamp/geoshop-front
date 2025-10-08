@@ -34,8 +34,15 @@ body {
   margin: 0;
   font-family: Roboto, Arial, Helvetica, sans-serif;
 
-  --mat-sys-primary: #26a59a;
+  --mat-sys-primary: #0785DE;
   --mat-sys-on-primary: #ffffff;
+  --mat-toolbar-standard-height: 6.125rem;
+  --mat-form-field-container-vertical-padding: 13px;
+  --dark-input-background-color: #f5f5f5;
+  --mat-sys-surface-container: #efefef;
+  --mat-sys-secondary-container: #acd2ed;
+  --grey-background: #efefef;
+  --dark-input-border-color: #c4c4c4;
 }
 
 ul {
@@ -81,12 +88,52 @@ ul {
 
   &:nth-child(even) {
     background-color: color.scale(#eee, $lightness: -3%);
-    ;
   }
 
   &:nth-child(odd) {
     background-color: #eee;
   }
+}
+
+.mat-mdc-text-field-wrapper {
+  background-color: var(--dark-input-background-color) !important;
+  border: 1px solid var(--dark-input-border-color) !important;
+  border-radius: 0 !important;
+}
+
+.mat-mdc-form-field-infix {
+  min-height: 3.124rem !important;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+.mat-mdc-form-field .mdc-line-ripple {
+  display: none !important;
+  border: none !important;
+}
+
+.mat-mdc-card {
+  box-shadow: none !important;
+  border: solid 1px var(--dark-input-border-color) !important;
+  border-radius: 0 !important;
+}
+
+gs2-cart-overlay.mat-mdc-menu-item  > :nth-child(2) {
+  margin-left: auto;
+}
+
+.mat-mdc-menu-panel {
+  border-radius: 0;
+}
+
+.mat-mdc-dialog-surface {
+  border-radius: 0 !important;
+}
+
+.mat-mdc-menu-panel {
+  border-radius: 0 !important;
 }
 
 .mat-mdc-snack-bar-container {
