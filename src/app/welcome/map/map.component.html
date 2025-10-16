@@ -36,17 +36,17 @@
   <button i18n-matTooltip matTooltip="Un clic droit ou un double clic termine le dessin" i18n-aria-label
     aria-label="Un clic droit ou un double clic termine le dessin" [color]="isDrawing ? 'accent' : 'primary'"
     mat-mini-fab (click)="toggleDrawing('Free')">
-    <mat-icon>edit</mat-icon>
+    <img src="assets/images/pen.svg" alt="Account" width="20" height="20" style="vertical-align: middle;" />
   </button>
 
   <button i18n-matTooltip matTooltip="Dessiner un rectangle" i18n-aria-label aria-label="Dessiner un rectangle"
     [color]="isDrawing ? 'accent' : 'primary'" mat-mini-fab (click)="toggleDrawing('Box')">
-    <mat-icon>crop_3_2</mat-icon>
+    <img src="assets/images/select.svg" alt="Account" width="20" height="20" style="vertical-align: middle;" />
   </button>
 
   <button i18n-matTooltip matTooltip="Supprimer le dessin" i18n-aria-label aria-label="Supprimer le dessin"
     color="primary" mat-mini-fab (click)="eraseDrawing()">
-    <mat-icon>delete</mat-icon>
+    <img src="assets/images/delete.svg" alt="Account" width="20" height="20" style="vertical-align: middle;" />
   </button>
 
   <button i18n-matTooltip matTooltip="Changer le fond de plan" i18n-aria-label aria-label="Changer le fond de plan"

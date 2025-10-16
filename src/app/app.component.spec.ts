@@ -85,6 +85,6 @@ describe('AppComponent', () => {
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const compiled = fixture.nativeElement;
-    expect(compiled.textContent).toContain('GeoShop Title');
+    expect(compiled.textContent).toContain('Datenbestellung');
   });
 });

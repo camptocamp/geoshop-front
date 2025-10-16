@@ -1,21 +1,23 @@
 <mat-toolbar>
-
-    <img *ngIf="appLogo" src="{{appLogo.path}}" alt="{{appLogo.alt}}" />
-  <a mat-button class="header-title" [routerLink]="['welcome']" i18n="@@main.title">GeoShop Title</a>
-  <mat-divider *ngIf="subTitle" vertical="true" color="accent"></mat-divider>
-  <span class="header-subtitle">{{subTitle}}</span>
+  <img *ngIf="appLogo1" class="first-logo" src="{{appLogo1.path}}" alt="{{appLogo1.alt}}" />
+  <img *ngIf="appLogo" src="{{appLogo.path}}" alt="{{appLogo.alt}}" />
 
   <span class="spacer"></span>
+  <a mat-button class="header-title" [routerLink]="['welcome']" i18n="@@main.title">Datenbestellung</a>
+  <mat-divider *ngIf="subTitle" vertical="true" color="accent"></mat-divider>
+  <span class="header-subtitle">{{subTitle}}</span>
+  <mat-divider *ngIf="subTitle" vertical="true" color="accent"></mat-divider>
 
   <button mat-icon-button [matMenuTriggerFor]="helpOverlay">
-    <mat-icon>contact_support</mat-icon>
+    <img src="assets/images/info.svg" alt="Support" width="24" height="24" style="vertical-align: middle;" />
   </button>
   <mat-menu #helpOverlay="matMenu" class="overlay-menu-container">
     <gs2-help-overlay></gs2-help-overlay>
   </mat-menu>
 
   <button mat-icon-button [matMenuTriggerFor]="accountOverlay">
-    <mat-icon>account_circle</mat-icon>
+    <img *ngIf="!(isLoggedIn$|async)" src="assets/images/login.svg" alt="Login" width="24" height="24" style="vertical-align: middle;" />
+    <img *ngIf="(isLoggedIn$|async)" src="assets/images/login-logged.svg" alt="Logged" width="24" height="24" style="vertical-align: middle;" />
   </button>
   <mat-menu #accountOverlay="matMenu" class="overlay-menu-container">
     <gs2-account-overlay></gs2-account-overlay>
@@ -25,9 +27,14 @@
 
   <button mat-icon-button [disabled]="!(order$|async)?.url && (numberOfItemInTheCart$|async) === 0"
     [matMenuTriggerFor]="cartOverlay">
-    <mat-icon [matBadge]="(numberOfItemInTheCart$|async)  ? (numberOfItemInTheCart$|async)?.toString() : undefined"
-      matBadgePosition="before" matBadgeColor="warn">shopping_cart
-    </mat-icon>
+    <span
+      [matBadge]="(numberOfItemInTheCart$|async) ? (numberOfItemInTheCart$|async)?.toString() : undefined"
+      matBadgePosition="before"
+      matBadgeColor="primary"
+      style="display: inline-flex; align-items: center;"
+    >
+      <img src="assets/images/cart.svg" alt="Cart" width="24" height="24" style="vertical-align: middle;" />
+    </span>
   </button>
   <mat-menu #cartOverlay="matMenu" class="overlay-menu-container">
     <gs2-cart-overlay></gs2-cart-overlay>

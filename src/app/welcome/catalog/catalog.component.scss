@@ -5,55 +5,97 @@
   height: 100%;
 
   .mat-mdc-form-field {
-    width: 90%;
-    margin: 5px 0;
+    width: 100%;
+    margin: 10px 0;
+    align-self: flex-start;
+    margin-left: 16px;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    background-color: var(--mat-sys-on-primary) !important;
   }
 
   .list-container {
     width: 100%;
     height: 100%;
+    padding-left: 1rem; 
+    margin-left: 0;
+    box-sizing: border-box;
 
     .list-group-item {
+      border-top: 2px solid var(--mat-sys-on-primary);
+      background-color: var(--mat-sys-primary);
+      color: var(--mat-sys-on-primary);
       display: grid;
+      min-height: 60px;
+      align-items: center;
       margin: 0;
       padding: 4px;
-      grid-template-columns: 45px 1fr 45px 45px;
-      grid-template-rows: 40px 20px;
+      padding-left: 8px;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
 
-      .item-logo {
-        grid-column: 1;
-        grid-row: 1 / span 2;
-        place-self: center center;
-        width: 40px;
-        height: 40px;
-      }
+      // .item-logo {
+      //   grid-column: 1;
+      //   grid-row: 1;
+      //   place-self: center center;
+      //   width: 40px;
+      //   height: 40px;
+      // }
 
-      .item-label {
-        grid-column: 2;
+      .item-center-group {
         grid-row: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-width: 0;
+      }
+      .item-label {
         padding: 0 10px;
-        align-self: center;
         font-size: 1rem;
+        font-weight: bold;
       }
 
       .item-links {
-        grid-column: 2;
-        grid-row: 2;
         padding: 0 10px;
-        align-self: center;
         font-size: 0.8rem;
       }
 
-      .item-help {
-        grid-column: 3;
-        grid-row: 1 / span 2;
-        place-self: center center;
+      .item-links a {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: flex-start;
+        text-align: left;
+        padding: 0;
       }
 
-      .item-cart {
-        grid-column: 4;
-        grid-row: 1 / span 2;
-        place-self: center center;
+      .item-buttons {
+        grid-column: 3;
+        grid-row: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .mat-mdc-icon-button {
+        color: var(--mat-sys-on-primary);
+        font-size: inherit;
+        height: auto;
+      }
+
+      .mat-icon {
+        color: var(--mat-sys-on-primary);
+        height: auto;
+        width: auto;
+        font-size: 24px;
+      }
+
+      .mdc-button {
+        min-width: 24px;
+        padding: 0;
       }
 
       .icon-sm {
