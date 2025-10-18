@@ -1,0 +1,28 @@
+<mat-card class="geocoder-container">
+  <form [formGroup]="formGeocoder" id="geocoder-container">
+    <mat-form-field color="primary">
+      <input type="text" matInput i18n-placeholder placeholder="Rechercher un lieu ou une paire de coordonnées..."
+        formControlName="search" [matAutocomplete]="autoGroup">
+
+      <div matSuffix class="flex-row">
+        <mat-spinner *ngIf="isSearchLoading" diameter="13" color="accent" style="margin-right: 10px"></mat-spinner>
+        <button i18n-matTooltip matTooltip="Effacer" i18n-aria-label aria-label="Effacer" mat-icon-button color="accent"
+          *ngIf="shouldDisplayClearButton" (click)="searchCtrl?.setValue('');shouldDisplayClearButton = false;">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <mat-autocomplete #autoGroup="matAutocomplete" [displayWith]="displayGeocoderResultWith"
+        (optionSelected)="displayGeocoderResultOnTheMap($event)">
+        @for (category of featureByCategory.entries(); track category[0]) {
+        <mat-optgroup [label]="category[0]">
+          @for (item of category[1]; track item.label) {
+            <mat-option [value]="item" [innerHTML]="item.label | stripHtml:['b']"></mat-option>
+          }
+        </mat-optgroup>
+        }
+      </mat-autocomplete>
+      <mat-hint i18n>Une adresse, une parcelle, une commune, etc.</mat-hint>
+    </mat-form-field>
+  </form>
+</mat-card>

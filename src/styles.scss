@@ -36,6 +36,7 @@ body {
 
   --mat-sys-primary: #0785DE;
   --mat-sys-on-primary: #ffffff;
+  --mat-sys-surface: #ffffff;
   --mat-toolbar-standard-height: 6.125rem;
   --mat-form-field-container-vertical-padding: 13px;
   --dark-input-background-color: #f5f5f5;
@@ -116,7 +117,6 @@ ul {
 
 .mat-mdc-card {
   box-shadow: none !important;
-  border: solid 1px var(--dark-input-border-color) !important;
   border-radius: 0 !important;
 }
 

@@ -1,0 +1,14 @@
+:host {
+  .geocoder-container {
+    position: absolute;
+    top: 20px;
+    left: 30%;
+    min-width: 400px;
+    padding: 0;
+    border-color: #c4c4c4;
+
+    .mat-mdc-form-field {
+      width: 100%;
+    }
+  }
+}

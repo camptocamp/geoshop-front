@@ -1,6 +1,7 @@
 import { AccountOverlayComponent } from '@app/components/account-overlay/account-overlay.component';
 import { CartOverlayComponent } from '@app/components/cart-overlay/cart-overlay.component';
 import { HelpOverlayComponent } from '@app/components/help-overlay/help-overlay.component';
+import { SearchComponent } from '@app/components/search/search.component';
 import { ConfigService } from '@app/services/config.service';
 import { AppState, getUser, selectCartTotal, selectOrder } from '@app/store';
 import * as AuthAction from '@app/store/auth/auth.action';
@@ -30,7 +31,7 @@ import { filter } from 'rxjs/operators';
     RouterOutlet, RouterLink, AsyncPipe,
     MatBadgeModule, MatDividerModule, MatIconModule, MatToolbarModule, MatMenuModule, MatMenuTrigger,
     AccountOverlayComponent, CartOverlayComponent, HelpOverlayComponent, CommonModule, MatInputModule,
-    MatFormFieldModule, MatButtonModule
+    MatFormFieldModule, MatButtonModule, SearchComponent
   ],
 })
 export class AppComponent implements OnDestroy {
@@ -39,6 +40,7 @@ export class AppComponent implements OnDestroy {
   private static autoLoginFailed = false;
   title = 'front';
   subTitle = '';
+  showSearch = false;
 
   order$ = this.store.select(selectOrder);
   numberOfItemInTheCart$ = this.store.select(selectCartTotal);
@@ -79,10 +81,13 @@ export class AppComponent implements OnDestroy {
         if (navEnd instanceof NavigationEnd) {
           if (navEnd.url.indexOf('orders') > -1) {
             this.subTitle = $localize`Mes commandes`;
+            this.showSearch = false;
           } else if (navEnd.url.indexOf('new-order') > -1 && numberOfItemInTheCart > 0) {
             this.subTitle = $localize`Votre commande de ${numberOfItemInTheCart} produits`;
+            this.showSearch = false;
           } else {
             this.subTitle = '';
+            this.showSearch = true;
           }
         }
       });

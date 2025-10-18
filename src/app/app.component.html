@@ -1,7 +1,7 @@
 <mat-toolbar>
   <img *ngIf="appLogo1" class="first-logo" src="{{appLogo1.path}}" alt="{{appLogo1.alt}}" />
   <img *ngIf="appLogo" src="{{appLogo.path}}" alt="{{appLogo.alt}}" />
-
+  <gs2-search *ngIf="showSearch" class="search-bar"></gs2-search>
   <span class="spacer"></span>
   <a mat-button class="header-title" [routerLink]="['welcome']" i18n="@@main.title">Datenbestellung</a>
   <mat-divider *ngIf="subTitle" vertical="true" color="accent"></mat-divider>
