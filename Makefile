@@ -31,9 +31,13 @@ push_ghcr: ## Push docker image to GHCR
 	docker push ghcr.io/camptocamp/geoshop-front:$(VERSION)
 	docker push ghcr.io/camptocamp/geoshop-front:$(DOCKER_TAG)
 
+.PHONY: test_npm
+test_npm: install
+	npm test -- --no-watch
+
 .PHONY: test
-test: install ## Run tests
-	npm test
+test: test_npm test_e2e
+	@echo "All tests passed."
 
 .PHONY: help
 help: ## Display this help
