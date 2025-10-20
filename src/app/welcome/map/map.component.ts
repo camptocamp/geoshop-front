@@ -1,33 +1,27 @@
-import { SEARCH_CATEGORY, SEARCH_CATEGORY_GENERAL } from '@app/constants';
 import { IBasemap, IPageFormat } from '@app/models/IConfig';
 import { IManualEntryDialogData } from '@app/models/IManualEntryDialog';
-import { ISearchResult } from '@app/models/ISearch';
-import { StripHtmlPipe } from '@app/pipes/strip-html.pipe';
 import { ConfigService } from '@app/services/config.service';
 import { CustomIconService } from '@app/services/custom-icon.service';
 import { MapService } from '@app/services/map.service';
-import { SearchService } from '@app/services/search.service';
 import { AppState, selectMapState } from '@app/store';
 import { ManualentryComponent } from '@app/welcome/map/manualentry/manualentry.component';
 
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { MatAutocompleteModule, MatAutocompleteSelectedEvent, MatOptgroup } from '@angular/material/autocomplete';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule, MatMiniFabButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatHint, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Extent } from 'ol/extent';
-import Geometry from 'ol/geom/Geometry';
-import { debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 
 
@@ -37,10 +31,9 @@ import { debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators';
   styleUrls: ['./map.component.scss'],
   imports: [
     MatProgressSpinnerModule, MatCardModule, ReactiveFormsModule, FormsModule,
-    MatFormFieldModule, MatAutocompleteModule, MatIconModule, MatOptgroup,
-    MatOptionModule, MatHint, MatButtonModule, MatMiniFabButton, MatMenuModule,
-    CommonModule, MatInputModule, MatDialogModule, MatButtonModule, MatOptionModule,
-    StripHtmlPipe
+    MatFormFieldModule, MatIconModule, 
+    MatOptionModule, MatButtonModule, MatMiniFabButton, MatMenuModule,
+    CommonModule, MatInputModule, MatDialogModule, MatButtonModule, MatOptionModule
   ],
 })
 export class MapComponent implements OnInit {
@@ -50,8 +43,6 @@ export class MapComponent implements OnInit {
 
   isDrawing = false;
   isTracking = false;
-  isSearchLoading = false;
-  shouldDisplayClearButton = false;
 
   isMapLoading$ = this.mapService.isMapLoading$;
   basemaps: IBasemap[];
@@ -67,20 +58,9 @@ export class MapComponent implements OnInit {
     activeTab: 0
   };
 
-  // Geocoder
-  formGeocoder = new UntypedFormGroup({
-    search: new UntypedFormControl('')
-  });
-  featureByCategory: Map<string, ISearchResult[]> = new Map<string, ISearchResult[]>();
-
-  public get searchCtrl() {
-    return this.formGeocoder.get('search');
-  }
-
   constructor(private mapService: MapService,
     private configService: ConfigService,
     private customIconService: CustomIconService,
-    private readonly searchService: SearchService,
     public dialog: MatDialog,
     private store: Store<AppState>,
     private router: Router,
@@ -101,32 +81,6 @@ export class MapComponent implements OnInit {
       this.manualEntryParams.constraints = constraints;
     }
 
-    if (this.searchCtrl) {
-      this.searchCtrl.valueChanges
-        .pipe(
-          debounceTime(500),
-          switchMap(inputText => {
-            this.isSearchLoading = true;
-            if (inputText.length === 0) {
-              this.shouldDisplayClearButton = false;
-            }
-            return this.searchService.search(inputText);
-          })
-        )
-        .subscribe(features => {
-          this.isSearchLoading = false;
-          this.shouldDisplayClearButton = true;
-          this.featureByCategory = features.reduce((acc, feature) => {
-            const categoryId = SEARCH_CATEGORY.get(feature.category) || SEARCH_CATEGORY_GENERAL;
-            if (!acc.has(categoryId)) {
-              acc.set(categoryId, []);
-            }
-            acc.get(categoryId)?.push(feature);
-            return acc;
-          }, new Map<string, ISearchResult[]>);
-        });
-    }
-
     this.store.select(selectMapState).pipe(
       distinctUntilChanged((prev, curr) => prev.bounds.every((item, i) => item == curr.bounds[i]))
     ).subscribe((mapState) => {
@@ -137,15 +91,6 @@ export class MapComponent implements OnInit {
         queryParamsHandling: 'merge'
       });
     });
-  }
-
-  displayGeocoderResultWith(value: { label: string; geometry: Geometry }) {
-    return value.label;
-  }
-
-  displayGeocoderResultOnTheMap(evt: MatAutocompleteSelectedEvent) {
-    this.mapService.addFeatureFromGeocoderToDrawing(evt.option.value);
-    this.shouldDisplayClearButton = true;
   }
 
   toggleDrawing(drawingMode?: string) {
