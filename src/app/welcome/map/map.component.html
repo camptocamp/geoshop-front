@@ -23,7 +23,7 @@
 
   <button i18n-matTooltip matTooltip="Changer le fond de plan" i18n-aria-label aria-label="Changer le fond de plan"
     mat-mini-fab color="primary" [matMenuTriggerFor]="menu">
-    <mat-icon>layers</mat-icon>
+    <img src="assets/images/shop-layers.svg" alt="Layers" width="28" height="28" style="vertical-align: middle;" />
   </button>
   <mat-menu #menu="matMenu">
     <button mat-menu-item *ngFor="let basemap of basemaps" (click)="switchBasemap(basemap.id)">
@@ -35,12 +35,12 @@
   <button i18n-matTooltip matTooltip="Importer KML ou glisser-déposer le KML sur la carte" i18n-aria-label
     aria-label="Importer KML ou glisser-déposer le KML sur la carte" color="primary" mat-mini-fab
     (click)="openFileImport()">
-    <mat-icon>file_upload</mat-icon>
+     <img src="assets/images/shop-download.svg" alt="File Upload" width="28" height="28" style="vertical-align: middle;" />
   </button>
   <input type="file" #fileUpload id="fileUpload" name="fileUpload" accept=".kml" style="display:none;" />
 
   <button i18n-matTooltip matTooltip="Saisie manuelle" i18n-aria-label aria-label="Saisie manuelle" mat-mini-fab
     color="primary" (click)="toggleManualentry()">
-    <mat-icon svgIcon="format"></mat-icon>
+    <img src="assets/images/format.svg" alt="File Upload" width="24" height="24" style="vertical-align: middle;" />
   </button>
 </div>

@@ -86,14 +86,14 @@ export class MapService {
         width: 3
       }),
       fill: new Fill({
-        color: 'rgba(7,133,222,0.3)'
+        color: 'rgba(143, 71, 42,0.3)'
       })
     }),
     new Style({
       image: new CircleStyle({
         radius: 8,
         fill: new Fill({
-          color: 'rgba(7,133,222,1)'
+          color: 'rgba(143, 71, 42,1)'
         }),
       }),
       geometry: (feature) => {

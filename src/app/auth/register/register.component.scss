@@ -13,6 +13,12 @@
     overflow-y: auto;
   }
 
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; // or any value you prefer
+  }
+
   .bottom-container {
     display: flex;
     justify-content: space-between;

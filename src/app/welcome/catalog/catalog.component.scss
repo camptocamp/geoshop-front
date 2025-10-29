@@ -21,6 +21,20 @@
     padding-left: 1rem; 
     margin-left: 0;
     box-sizing: border-box;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
+    scrollbar-color: #bdbdbd transparent;
+    padding-right: 5px;
+
+    &::-webkit-scrollbar {
+      width: 12px;
+      background: inherit;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #bdbdbd; /* or your color */
+      border-radius: 6px;
+    }
 
     .list-group-item {
       border-top: 2px solid var(--mat-sys-on-primary);
