@@ -3,6 +3,7 @@ import { routes } from '@app/app.routes';
 import { interceptor as authInterceptor } from '@app/interceptors/authInterceptor';
 import { interceptor as errorInterceptor } from '@app/interceptors/errorInterceptor';
 import { ConfigService } from '@app/services/config.service';
+import { OIDCStorageService } from '@app/services/oidc-storage.service';
 import * as store from '@app/store';
 import { AuthEffects } from '@app/store/auth/auth.effects';
 import { CartEffects } from '@app/store/cart/cart.effects';
@@ -13,7 +14,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
-import { provideAuth, StsConfigLoader, StsConfigStaticLoader } from 'angular-auth-oidc-client';
+import { AbstractSecurityStorage, provideAuth, StsConfigLoader, StsConfigStaticLoader } from 'angular-auth-oidc-client';
 
 
 
@@ -40,6 +41,7 @@ export const appConfig: ApplicationConfig = {
         deps: [ConfigService],
       },
     }),
+    { provide: AbstractSecurityStorage, useClass: OIDCStorageService },
     provideEffects(AuthEffects, CartEffects),
     provideStore(store.reducers, { metaReducers: store.metaReducers }),
     provideAppInitializer(() => inject(ConfigService).load())

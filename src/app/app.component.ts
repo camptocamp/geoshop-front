@@ -95,8 +95,8 @@ export class AppComponent implements OnDestroy {
       AppComponent.autoLoginFailed = true;
     }
     if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
-      const authSubscription = new Subscription()
-      combineLatest([this.oidcService.checkAuth(), this.store.select(getUser)]).subscribe(([loginResponse, user]) => {
+      let authSubscription = new Subscription();
+      authSubscription = combineLatest([this.oidcService.checkAuthIncludingServer(), this.store.select(getUser)]).subscribe(([loginResponse, user]) => {
         const loggedIn = !!(loginResponse?.isAuthenticated && user);
         // log and push the current login state so templates/reactive consumers update
         this.isLoggedInSubject.next(loggedIn);
@@ -114,7 +114,7 @@ export class AppComponent implements OnDestroy {
               }
             }, 120000);
           }
-        } else if (!AppComponent.autoLoginFailed) {
+        } else if (!loginResponse.isAuthenticated) {
           this.oidcService.authorize(undefined, { customParams: { prompt: 'none' } });
         }
         authSubscription.unsubscribe();
