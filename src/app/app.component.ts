@@ -17,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { combineLatest, Subscription, BehaviorSubject } from 'rxjs';
@@ -53,8 +53,7 @@ export class AppComponent implements OnDestroy {
     private oidcService: OidcSecurityService,
     private configService: ConfigService,
     private store: Store<AppState>,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) {
     const params = new URLSearchParams(window.location.search);
     const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
@@ -96,7 +95,7 @@ export class AppComponent implements OnDestroy {
     }
     if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
       let authSubscription = new Subscription();
-      authSubscription = combineLatest([this.oidcService.checkAuthIncludingServer(), this.store.select(getUser)]).subscribe(([loginResponse, user]) => {
+      authSubscription = combineLatest([this.oidcService.checkAuth(), this.store.select(getUser)]).subscribe(([loginResponse, user]) => {
         const loggedIn = !!(loginResponse?.isAuthenticated && user);
         // log and push the current login state so templates/reactive consumers update
         this.isLoggedInSubject.next(loggedIn);

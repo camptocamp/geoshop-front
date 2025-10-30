@@ -58,7 +58,7 @@ export const interceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn): Obs
           // TODO allow exceptions: expected API errors should not lead to an error in snack bar
           if (response.url?.includes('validate/orderitem') && (response.status == 404)) {
             message = $localize`Token not found`;
-            return throwError(response);;
+            return throwError(() => response);
           } else if (!err.message && response.url) {
             message = formatConnectionError(response);
           } else if (Array.isArray(err.message) && err.message[0] === 'Order area is too large') {
@@ -75,7 +75,7 @@ export const interceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn): Obs
         }
       }
 
-      return throwError(response);
+      return throwError(() => response);
     }));
 }
 
