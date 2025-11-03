@@ -16,8 +16,11 @@
   </mat-menu>
 
   <button mat-icon-button [matMenuTriggerFor]="accountOverlay">
-    <img *ngIf="!(isLoggedIn$|async)" src="assets/images/login.svg" alt="Login" width="24" height="24" style="vertical-align: middle;" />
-    <img *ngIf="(isLoggedIn$|async)" src="assets/images/login-logged.svg" alt="Logged" width="24" height="24" style="vertical-align: middle;" />
+    @if (isLoggedIn$ | async) {
+        <img src="assets/images/login-logged.svg" alt="Logged" width="24" height="24" style="vertical-align: middle;" />
+    } @else {
+        <img src="assets/images/login.svg" alt="Login" width="24" height="24" style="vertical-align: middle;" />
+    }
   </button>
   <mat-menu #accountOverlay="matMenu" class="overlay-menu-container">
     <gs2-account-overlay></gs2-account-overlay>
