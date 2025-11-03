@@ -180,11 +180,11 @@ export class MapService {
       ).subscribe(params => {
         this.map.getView().fit(params.bounds, { nearest: true });
       });
-    });
-
-    this.orderStatus.subscribe((status) => {
-      this.validationStatus = status;
-      this.updateAreaTooltip();
+    }).then(() => {
+      this.orderStatus.subscribe((status) => {
+        this.validationStatus = status;
+        this.updateAreaTooltip();
+      });
     });
   }
 
@@ -383,7 +383,6 @@ export class MapService {
     }
   }
 
-
   private async initializeMap() {
     if (!this.configService.config) {
       console.error('There is no config defined in configService, map will not be initialized.');
@@ -575,8 +574,8 @@ export class MapService {
     const status = this.validationStatus;
     this.areaTooltipElement.classList.remove('invalid');
     if (!feat || feat.getRevision() <= 0 ||
-        !geom || geom.getType() === 'Point' ||
-        !status || status.valid) {
+      !geom || geom.getType() === 'Point' ||
+      !status || status.valid) {
       return
     }
     let content = formatArea(getAreaSphere(geom));
