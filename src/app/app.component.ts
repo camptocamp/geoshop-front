@@ -3,12 +3,11 @@ import { CartOverlayComponent } from '@app/components/cart-overlay/cart-overlay.
 import { HelpOverlayComponent } from '@app/components/help-overlay/help-overlay.component';
 import { SearchComponent } from '@app/components/search/search.component';
 import { ConfigService } from '@app/services/config.service';
-import { AppState, getUser, selectCartTotal, selectOrder } from '@app/store';
-import * as AuthAction from '@app/store/auth/auth.action';
+import { AppState, selectCartTotal, selectOrder } from '@app/store';
 import * as MapAction from '@app/store/map/map.action';
 
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -19,9 +18,10 @@ import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { combineLatest, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
+import { filter } from 'rxjs/operators';
+
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'gs2-root',
@@ -34,31 +34,32 @@ import { filter, map } from 'rxjs/operators';
     MatFormFieldModule, MatButtonModule, SearchComponent
   ],
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnDestroy, OnInit {
 
-  private refreshTokenInterval: NodeJS.Timeout | number; // TODO this is breaking the build it was originaly set to type number
-  private static autoLoginFailed = false;
   title = 'front';
   subTitle = '';
   showSearch = false;
 
   order$ = this.store.select(selectOrder);
   numberOfItemInTheCart$ = this.store.select(selectCartTotal);
-  isLoggedIn$ = combineLatest([this.oidcService.isAuthenticated$, this.store.select(getUser)])
-    .pipe(map(([oidc, local]) => oidc && !!local));
+  isLoggedIn$ = this.auth.isAuthenticated;
 
   constructor(
-    private oidcService: OidcSecurityService,
     private configService: ConfigService,
     private store: Store<AppState>,
-    private router: Router
+    private router: Router,
+    private readonly auth: AuthService,
   ) {
-    const params = new URLSearchParams(window.location.search);
+  }
+
+  ngOnInit(): void {
+
     const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
 
     // This URL permalink listener must be in app.component during startup of the app
     // URL is decoded first of all into the mapState
     const initialParams = routerNavEnd$.subscribe(() => {
+      const params = new URLSearchParams(window.location.search);
       const bounds = params.get("bounds")?.split(",").map(parseFloat);
       if (!bounds || bounds.length !== 4) {
         return;
@@ -88,38 +89,12 @@ export class AppComponent implements OnDestroy {
           }
         }
       });
-    if (params.get('error') === "interaction_required") {
-      AppComponent.autoLoginFailed = true;
-      this.store.dispatch(AuthAction.logout())
-    }
-    if (this.configService.config?.oidcConfig && !AppComponent.autoLoginFailed) {
-      let authSubscription = new Subscription();
-      authSubscription = combineLatest([this.oidcService.checkAuth(), this.store.select(getUser)]).subscribe(([loginResponse, user]) => {
-        if (loginResponse.isAuthenticated && !user) {
-          this.store.dispatch(AuthAction.oidcLogin(loginResponse));
-        } else if (loginResponse.isAuthenticated && user) {
-          if (this.refreshTokenInterval) {
-            clearInterval(this.refreshTokenInterval);
-          }
-          if (user && user.tokenRefresh) {
-            this.refreshTokenInterval = setInterval(() => {
-              if (user.tokenRefresh) {
-                this.store.dispatch(AuthAction.refreshToken({ token: user.tokenRefresh }));
-              }
-            }, 120000);
-          }
-        } else if (!loginResponse.isAuthenticated) {
-          this.oidcService.authorize(undefined, { customParams: { prompt: 'none' } });
-        }
-        authSubscription.unsubscribe();
-      });
-    }
+
+    this.auth.checkAuth();
   }
 
   ngOnDestroy() {
-    if (this.refreshTokenInterval) {
-      clearInterval(this.refreshTokenInterval);
-    }
+    this.auth.cleanup();
   }
 
   get appLogo(): { path: string, alt: string } | undefined {
