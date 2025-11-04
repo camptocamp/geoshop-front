@@ -1,6 +1,7 @@
 import { generateMiniMap, displayMiniMap } from '@app/helpers/geoHelper';
 import { IOrderItem, Order } from '@app/models/IOrder';
 import { ApiOrderService } from '@app/services/api-order.service';
+import { AuthService } from '@app/services/auth.service';
 import { ConfigService } from '@app/services/config.service';
 import { MapService } from '@app/services/map.service';
 
@@ -11,7 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable, of, Subject } from 'rxjs';
-import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { filter, map, mergeMap, skipUntil, takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -30,14 +31,16 @@ export class ValidateComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject<void>();
   token$: Observable<string>;
   orderData$: Observable<{ order: Order | null, item: IOrderItem | null }>;
-
+  isAuthenticated$ = this.auth.isAuthenticated;
 
   constructor(
-    private apiOrderService: ApiOrderService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private configService: ConfigService,
-    private mapService: MapService) {
+    private readonly apiOrderService: ApiOrderService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly configService: ConfigService,
+    private readonly auth: AuthService,
+    private readonly mapService: MapService) {
+
     this.token$ = this.route.params
       .pipe(
         takeUntil(this.onDestroy$),
@@ -47,6 +50,7 @@ export class ValidateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.orderData$ = this.token$.pipe(
+      skipUntil(this.isAuthenticated$.pipe(filter((value) => value))),
       mergeMap(token => this.apiOrderService.getOrderItemByToken(token)),
       mergeMap(
         item => item ? this.apiOrderService.getOrderByUUID(item.order_guid).pipe(

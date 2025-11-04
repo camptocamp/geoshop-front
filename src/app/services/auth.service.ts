@@ -34,6 +34,7 @@ export class AuthService {
     if (params.get('error') === "interaction_required") {
       this.silentAuthFailed = true;
       this.restoreState();
+      return;
     }
     combineLatest([
       this.store.select(getUser),
@@ -61,7 +62,7 @@ export class AuthService {
       return
     }
     window.sessionStorage.removeItem("oidc_redirect");
-    this.router.navigateByUrl(originalTarget);
+    this.router.navigateByUrl(originalTarget.replace(/^\/de\//, "/"));
   }
 
   private scheduleTokenRefresh(user: Partial<IIdentity>) {
