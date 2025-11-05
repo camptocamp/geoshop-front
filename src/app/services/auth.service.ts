@@ -73,8 +73,9 @@ export class AuthService {
     if (this._refreshTokenInterval) {
       clearInterval(this._refreshTokenInterval);
     }
+    const store = this.store;
     this._refreshTokenInterval = setInterval(() => {
-      this.store.dispatch(refreshToken({ token }));
+      store.dispatch(refreshToken({ token }));
     }, TOKEN_REFRESH_INTERVAL);
   }
 

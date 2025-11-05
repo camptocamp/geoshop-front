@@ -113,9 +113,14 @@ class E2ETests(unittest.TestCase):
                   self.ensureLoggedIn()
                 else:
                   self.ensureLoggedOut()
-                print("HERE", loggedIn, langPrefix, expect)
                 self.go(f"{GEOSHOP_FRONT}{langPrefix}/welcome/validate/orderitem/Token", "orderitem/Token")
                 self.assertIn(expect, self.getText(".mat-mdc-card-content"))
+
+    def testNewTabAfterLogin(self):
+      self.ensureLoggedIn()
+      self._driver.switch_to.new_window('tab')
+      self.go(f"{GEOSHOP_FRONT}/welcome/validate/orderitem/Token", "orderitem/Token")
+      self.assertIn("No order item with token", self.getText(".mat-mdc-card-content"))
 
 if __name__ == "__main__":
     unittest.main()
