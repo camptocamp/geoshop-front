@@ -50,3 +50,4 @@ Thumbs.db
 httpd.conf
 src/assets/configs/config.json
 src/environments/version.ts
+.venv

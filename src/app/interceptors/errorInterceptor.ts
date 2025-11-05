@@ -47,7 +47,7 @@ export const interceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn): Obs
       if (response instanceof HttpErrorResponse) {
         if (response.status === 401) {
           store.dispatch(fromAuth.loginFailure({
-            error: {detail: 'Unauthorized'}, message: 'Unauthorized', name: 'Unauthorized', status: 401,
+            error: { detail: 'Unauthorized' }, message: 'Unauthorized', name: 'Unauthorized', status: 401,
           }));
           router.navigate(['/auth/login']);
         } else {

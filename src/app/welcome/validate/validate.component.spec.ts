@@ -1,5 +1,6 @@
 import { Order, OrderItem } from "@app/models/IOrder";
 import { ApiOrderService } from "@app/services/api-order.service";
+import { AuthService } from "@app/services/auth.service";
 import { ConfigService } from "@app/services/config.service";
 import { MapService } from "@app/services/map.service";
 
@@ -12,6 +13,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { ActivatedRoute, RouterLink, Params } from "@angular/router";
 import { provideMockStore } from '@ngrx/store/testing';
+import { StsConfigLoader } from "angular-auth-oidc-client";
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -27,6 +29,10 @@ class ConfigServiceMock {
     },
     pageformats: [{ name: "", height: 1, width: 1 }],
   }
+}
+
+class MockAuthService {
+  public isAuthenticated = new BehaviorSubject<boolean>(true);
 }
 
 const fakeItem = {
@@ -58,6 +64,8 @@ describe('ValidateComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         provideMockStore({}),
+        StsConfigLoader,
+        { provide: AuthService, useClass: MockAuthService },
         { provide: ActivatedRoute, useValue: { queryParamMap: of(), params: params } },
         {
           provide: ApiOrderService, useValue: {
@@ -106,7 +114,7 @@ describe('ValidateComponent', () => {
     vi.mock('@app/helpers/geoHelper', () => {
       return {
         generateMiniMap: async () => ({ minimap: null, vectorSource: null }),
-        displayMiniMap: () => ({ })
+        displayMiniMap: () => ({})
       };
     });
     items.next(fakeItem);
