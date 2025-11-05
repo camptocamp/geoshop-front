@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, map, Observable } from 'rxjs';
 
 const TOKEN_REFRESH_INTERVAL = 120000;
 
@@ -26,7 +26,7 @@ export class AuthService {
     private readonly router: Router,
   ) {
     this.user$.pipe(map((user) => !!user)).subscribe(this._isAuthenticated);
-    this.user$.subscribe(this.scheduleTokenRefresh);
+    this.user$.pipe(filter((user) => !!user)).subscribe((user) => this.scheduleTokenRefresh(user));
   }
 
   public checkAuth() {
