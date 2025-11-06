@@ -8,15 +8,15 @@
       </mat-form-field>
       <mat-form-field color="primary">
         <mat-label i18n>Prenom</mat-label>
-        <input formControlName="firstName" autocapitalize="off" autofocus spellcheck="false" required matInput
+        <input formControlName="first_name" autocapitalize="off" autofocus spellcheck="false" required matInput
           i18n-placeholder placeholder="Prénom">
-        <mat-error *ngIf="formModifyUser.get('firstName')?.hasError('required')">{{ REQUIRED }}</mat-error>
+        <mat-error *ngIf="formModifyUser.get('first_name')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
       <mat-form-field color="primary">
         <mat-label i18n>Nom</mat-label>
-        <input formControlName="lastName" autocapitalize="off" autofocus spellcheck="false" required matInput
+        <input formControlName="last_name" autocapitalize="off" autofocus spellcheck="false" required matInput
           i18n-placeholder placeholder="Nom">
-        <mat-error *ngIf="formModifyUser.get('lastName')?.hasError('required')">{{ REQUIRED }}</mat-error>
+        <mat-error *ngIf="formModifyUser.get('last_name')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
 
       <mat-form-field color="primary">
@@ -67,12 +67,12 @@
       </mat-form-field>
       <mat-form-field color="primary">
         <mat-label i18n>Raison sociale</mat-label>
-        <input id="registerInput3" formControlName="companyName" autocapitalize="off" autofocus spellcheck="false"
+        <input id="registerInput3" formControlName="company_name" autocapitalize="off" autofocus spellcheck="false"
           matInput i18n-placeholder placeholder="Raison sociale">
       </mat-form-field>
       <mat-form-field color="primary">
         <mat-label i18n>N° IDE</mat-label>
-        <input formControlName="ideId" autocapitalize="off" autofocus spellcheck="false" matInput i18n-placeholder
+        <input formControlName="ide_id" autocapitalize="off" autofocus spellcheck="false" matInput i18n-placeholder
           placeholder="N° IDE">
         <mat-error *ngIf="formModifyUser?.get('ideId')?.hasError('pattern')" i18n="@@profil.bad_IDE_format">Mauvais
           format du numéro IDE, accepté : CHE-012.345.678</mat-error>
@@ -80,7 +80,7 @@
     </form>
   </mat-card-content>
   <mat-card-actions>
-    <button class="action-button-container" color="primary" mat-raised-button type="submit"
+    <button (click)="onModifyUserSubmit()" class="action-button-container" color="primary" mat-raised-button type="submit"
       [disabled]="formModifyUser.pristine || formModifyUser.invalid" i18n="@@main.submitt">
       Soumettre
     </button>

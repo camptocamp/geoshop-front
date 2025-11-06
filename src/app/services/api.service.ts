@@ -143,12 +143,7 @@ export class ApiService {
   change(user: IUserToPost) {
     this._getApiUrl();
 
-    return this.http.post<IUserChangeResponse | null>(this.apiUrl + '/auth/change/', user)
-      .pipe(
-        catchError(() => {
-          return of(null);
-        })
-      );
+    return this.http.post<IUserChangeResponse | null>(this.apiUrl + '/auth/change/', user);
   }
 
   register(user: IIdentity) {
