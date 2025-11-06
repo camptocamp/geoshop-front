@@ -37,4 +37,9 @@
   }
 
   height: 100%;
+
+  gs2-catalog {
+    box-sizing: border-box;
+    background: var(--mat-sys-primary);
+  }
 }
