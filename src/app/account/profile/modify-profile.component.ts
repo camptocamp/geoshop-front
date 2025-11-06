@@ -4,22 +4,21 @@ import { IUser, IUserToPost } from '@app/models/IUser';
 import { ApiService } from '@app/services/api.service';
 
 import { CommonModule } from '@angular/common';
-import { Component, HostBinding } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, UntypedFormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, HostBinding, } from '@angular/core';
+import { FormControl, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatError, MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field'; import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-
-
 
 @Component({
   selector: 'gs2-modify-profile',
   templateUrl: './modify-profile.component.html',
   styleUrls: ['./modify-profile.component.scss'],
   imports: [
-    MatError, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatCardModule, CommonModule, MatInputModule
+    CommonModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule,
+    ReactiveFormsModule,
   ]
 })
 export class ModifyProfileComponent {
@@ -31,37 +30,33 @@ export class ModifyProfileComponent {
   readonly WRONG_EMAIL = Constants.WRONG_EMAIL;
   readonly WRONG_PHONE = Constants.WRONG_PHONE;
 
-  formModifyUser = new UntypedFormGroup({});
-  user: IUser;
+
+  user: IUser = {} as IUser;
+  formModifyUser = new FormGroup({
+    username: new FormControl({ value: this.user.username, disabled: true }, Validators.required),
+    firstName: new FormControl(this.user.first_name, Validators.required),
+    lastName: new FormControl(this.user.last_name, Validators.required),
+    email: new FormControl(this.user.email, Validators.compose(
+      [Validators.required, Validators.pattern(EMAIL_REGEX)])),
+    phone: new FormControl(this.user.phone, Validators.pattern(PHONE_REGEX)),
+    street: new FormControl(this.user.street, Validators.required),
+    street2: new FormControl(this.user.street2),
+    postcode: new FormControl(this.user.postcode, Validators.required),
+    city: new FormControl(this.user.city, Validators.required),
+    country: new FormControl(this.user.country, Validators.required),
+    companyName: new FormControl(this.user.company_name),
+    ideId: new FormControl(this.user.ide_id),
+  });
 
   constructor(
     private apiService: ApiService,
-    private formBuilder: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     private router: Router) {
 
     this.apiService.getProfile().subscribe(user => {
       this.user = user;
-      this.createForm();
-    });
-  }
-
-  private createForm() {
-
-    this.formModifyUser = this.formBuilder.group({
-      username: new UntypedFormControl({ value: this.user.username, disabled: true }, Validators.required),
-      firstName: new UntypedFormControl(this.user.first_name, Validators.required),
-      lastName: new UntypedFormControl(this.user.last_name, Validators.required),
-      email: new UntypedFormControl(this.user.email, Validators.compose(
-        [Validators.required, Validators.pattern(EMAIL_REGEX)])),
-      phone: new UntypedFormControl(this.user.phone, Validators.pattern(PHONE_REGEX)),
-      street: new UntypedFormControl(this.user.street, Validators.required),
-      street2: new UntypedFormControl(this.user.street2),
-      postcode: new UntypedFormControl(this.user.postcode, Validators.required),
-      city: new UntypedFormControl(this.user.city, Validators.required),
-      country: new UntypedFormControl(this.user.country, Validators.required),
-      companyName: new UntypedFormControl(this.user.company_name),
-      ideId: new UntypedFormControl(this.user.ide_id),
+      this.formModifyUser.patchValue(user);
+      this.formModifyUser.markAllAsTouched();
     });
   }
 
@@ -74,18 +69,18 @@ export class ModifyProfileComponent {
 
     if (this.formModifyUser.valid) {
       const user: IUserToPost = {
-        username: this.formModifyUser.get('username')?.value,
-        first_name: this.formModifyUser.get('firstName')?.value,
-        last_name: this.formModifyUser.get('lastName')?.value,
-        email: this.formModifyUser.get('email')?.value,
-        street: this.formModifyUser.get('street')?.value,
-        street2: this.formModifyUser.get('street2')?.value,
-        postcode: this.formModifyUser.get('postcode')?.value,
-        city: this.formModifyUser.get('city')?.value,
-        country: this.formModifyUser.get('country')?.value,
-        company_name: this.formModifyUser.get('companyName')?.value,
-        ide_id: this.formModifyUser.get('ideId')?.value,
-        phone: this.formModifyUser.get('phone')?.value,
+        username: this.formModifyUser.get('username')?.value ?? "",
+        first_name: this.formModifyUser.get('firstName')?.value ?? "",
+        last_name: this.formModifyUser.get('lastName')?.value ?? "",
+        email: this.formModifyUser.get('email')?.value ?? "",
+        street: this.formModifyUser.get('street')?.value ?? "",
+        street2: this.formModifyUser.get('street2')?.value ?? "",
+        postcode: this.formModifyUser.get('postcode')?.value ?? "",
+        city: this.formModifyUser.get('city')?.value ?? "",
+        country: this.formModifyUser.get('country')?.value ?? "",
+        company_name: this.formModifyUser.get('companyName')?.value ?? "",
+        ide_id: this.formModifyUser.get('ideId')?.value ?? 0,
+        phone: this.formModifyUser.get('phone')?.value ?? "",
       };
 
       this.apiService.change(user)
@@ -104,4 +99,5 @@ export class ModifyProfileComponent {
         });
     }
   }
+
 }
