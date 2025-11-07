@@ -149,6 +149,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(orderTypes => {
         this.orderTypes = orderTypes;
+        this.orderTypeCtrl?.setValue(orderTypes[0]);
       });
 
     this.filteredCustomers$ = this.contactFormGroup.get('customer')?.valueChanges.pipe(
