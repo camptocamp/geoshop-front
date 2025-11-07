@@ -343,7 +343,7 @@
       </trans-unit>
       <trans-unit id="8849186627502254446" datatype="html">
         <source>Titre du mandat</source>
-        <target>Auftragsbezeichnung</target>
+        <target>Beschreibung der Bestellung</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
           <context context-type="linenumber">19</context>
@@ -359,7 +359,7 @@
       </trans-unit>
       <trans-unit id="1354754757426725771" datatype="html">
         <source>Description du mandat</source>
-        <target>Beschreibung des Auftrags</target>
+        <target>Verwendungszweck</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/new-order.component.html</context>
           <context context-type="linenumber">28</context>
@@ -1363,7 +1363,7 @@
       </trans-unit>
       <trans-unit id="order.public" datatype="html">
         <source>Public</source>
-        <target>Öffentliches Mandat</target>
+        <target>Bestellung GeoGR</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">31</context>
@@ -1855,7 +1855,7 @@
       </trans-unit>
       <trans-unit id="9042729879235842449" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{orderitem.product}}"/> - à valider</source>
-        <target state="new"><x id="INTERPOLATION" equiv-text="{{orderitem.product}}"/> - à valider</target>
+        <target state="new"><x id="INTERPOLATION" equiv-text="{{orderitem.product}}"/> - zur Validierung</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/validate/validate.component.html</context>
           <context context-type="linenumber">15</context>
