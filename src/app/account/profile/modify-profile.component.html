@@ -1,83 +1,88 @@
 <mat-card *ngIf="user">
   <mat-card-title i18n>GeoShop - Modification du profil</mat-card-title>
   <mat-card-content>
-    <form [formGroup]="formModifyUser" class="flex-column" (ngSubmit)="onModifyUserSubmit()">
+    <form [formGroup]="formModifyUser" (ngSubmit)="onModifyUserSubmit()">
       <mat-form-field color="primary">
         <mat-label i18n="@@profile.username_unchangabel">Nom d'utilisateur (ne peut être modifié)</mat-label>
         <input #firstInput formControlName="username" matInput placeholder="Login">
       </mat-form-field>
       <mat-form-field color="primary">
-        <input formControlName="firstName" autocapitalize="off" autofocus spellcheck="false" required matInput
+        <mat-label i18n>Prenom</mat-label>
+        <input formControlName="first_name" autocapitalize="off" autofocus spellcheck="false" required matInput
           i18n-placeholder placeholder="Prénom">
-        <mat-error *ngIf="formModifyUser.get('firstName')?.hasError('required')">{{ REQUIRED }}</mat-error>
+        <mat-error *ngIf="formModifyUser.get('first_name')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
       <mat-form-field color="primary">
-        <input formControlName="lastName" autocapitalize="off" autofocus spellcheck="false" required matInput
+        <mat-label i18n>Nom</mat-label>
+        <input formControlName="last_name" autocapitalize="off" autofocus spellcheck="false" required matInput
           i18n-placeholder placeholder="Nom">
-        <mat-error *ngIf="formModifyUser.get('lastName')?.hasError('required')">{{ REQUIRED }}</mat-error>
+        <mat-error *ngIf="formModifyUser.get('last_name')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
 
       <mat-form-field color="primary">
+        <mat-label i18n>Courriel</mat-label>
         <input formControlName="email" autocapitalize="off" autofocus spellcheck="false" required matInput
           i18n-placeholder placeholder="Courriel">
         <mat-error *ngIf="formModifyUser.get('email')?.hasError('required')">{{ REQUIRED }}</mat-error>
-        <mat-error *ngIf="formModifyUser.get('email')?.hasError('pattern')">{{ WRONG_EMAIL }</mat-error>
+        <mat-error *ngIf="formModifyUser.get('email')?.hasError('pattern')">{{ WRONG_EMAIL }}</mat-error>
       </mat-form-field>
       <mat-form-field color="primary">
+        <mat-label i18n>Téléphone</mat-label>
         <input formControlName="phone" autocapitalize="off" autofocus spellcheck="false" required matInput
           i18n-placeholder placeholder="Téléphone">
         <mat-error *ngIf="formModifyUser.get('phone')?.hasError('required')">{{ REQUIRED }}</mat-error>
         <mat-error *ngIf="formModifyUser.get('phone')?.hasError('pattern')">
-          <ul>{{ WRONG_PHONE }}
-            <li>+41225252356</li>
-            <li>+41 22 225 25 23</li>
-            <li>0041222252523</li>
-            <li>0041 22 225 25 23</li>
-            <li>0225232523</li>
-            <li>02 25 25 25 23</li>
-          </ul>
+          {{ WRONG_PHONE }} +41225252356, +41 22 225 25 23, 0041222252523, 0041 22 225 25 23,
+          0225232523, 02 25 25 25 23
         </mat-error>
       </mat-form-field>
       <mat-form-field color="primary">
+        <mat-label i18n>Adresse (utilisée pour la facturation)</mat-label>
         <input id="registerInput2" formControlName="street" autocapitalize="off" autofocus spellcheck="false" required
           matInput i18n-placeholder placeholder="Adresse (utilisée pour la facturation)">
         <mat-error *ngIf="formModifyUser.get('street')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
       <mat-form-field color="primary">
+        <mat-label i18n>Complément d'adresse</mat-label>
         <input formControlName="street2" autocapitalize="off" autofocus spellcheck="false" matInput i18n-placeholder
           placeholder="Complément d'adresse">
       </mat-form-field>
       <mat-form-field color="primary">
+        <mat-label i18n>Code postal</mat-label>
         <input formControlName="postcode" autocapitalize="off" autofocus spellcheck="false" required matInput
           i18n-placeholder placeholder="Code postal">
         <mat-error *ngIf="formModifyUser.get('postcode')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
       <mat-form-field color="primary">
+        <mat-label i18n>Ville</mat-label>
         <input formControlName="city" autocapitalize="off" autofocus spellcheck="false" required matInput
           i18n-placeholder placeholder="Ville">
         <mat-error *ngIf="formModifyUser.get('city')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
       <mat-form-field color="primary">
+        <mat-label i18n>Pays</mat-label>
         <input formControlName="country" autocapitalize="off" autofocus spellcheck="false" required matInput
           i18n-placeholder placeholder="Pays">
         <mat-error *ngIf="formModifyUser.get('country')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
       <mat-form-field color="primary">
-        <input id="registerInput3" formControlName="companyName" autocapitalize="off" autofocus spellcheck="false"
+        <mat-label i18n>Raison sociale</mat-label>
+        <input id="registerInput3" formControlName="company_name" autocapitalize="off" autofocus spellcheck="false"
           matInput i18n-placeholder placeholder="Raison sociale">
       </mat-form-field>
       <mat-form-field color="primary">
-        <input formControlName="ideId" autocapitalize="off" autofocus spellcheck="false" matInput i18n-placeholder
+        <mat-label i18n>N° IDE</mat-label>
+        <input formControlName="ide_id" autocapitalize="off" autofocus spellcheck="false" matInput i18n-placeholder
           placeholder="N° IDE">
         <mat-error *ngIf="formModifyUser?.get('ideId')?.hasError('pattern')" i18n="@@profil.bad_IDE_format">Mauvais
           format du numéro IDE, accepté : CHE-012.345.678</mat-error>
       </mat-form-field>
-      <div class="bottom-container">
-        <button class="action-button-container" color="primary" mat-raised-button type="submit"
-          [disabled]="formModifyUser.pristine || formModifyUser.invalid" i18n="@@main.submitt">
-          Soumettre
-        </button>
-      </div>
     </form>
   </mat-card-content>
+  <mat-card-actions>
+    <button (click)="onModifyUserSubmit()" class="action-button-container" color="primary" mat-raised-button type="submit"
+      [disabled]="formModifyUser.pristine || formModifyUser.invalid" i18n="@@main.submitt">
+      Soumettre
+    </button>
+  </mat-card-actions>
 </mat-card>

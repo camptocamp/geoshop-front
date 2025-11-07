@@ -1,20 +1,25 @@
 :host {
-  display: flex;
-  height: calc(100vh - 64px);
 
   .mat-mdc-card {
+    display: grid;
+    gap: 10px;
     margin: 10px auto;
-    flex: 1;
     max-width: 960px;
   }
 
-  form {
-    height: calc(100vh - 64px - 60px - 30px);
-    overflow-y: auto;
+  mat-card-title {
+    padding: 8px;
+  }
 
-    mat-error {
-      position: initial !important;
-    }
+  mat-card-content {
+    height: calc(100vh - 300px);
+    overflow:scroll;
+  }
+
+  form {
+    display: grid;
+    grid-template-columns: auto;
+    gap: 16px;
   }
 
   .bottom-container {
