@@ -542,7 +542,6 @@ export class NewOrderComponent implements OnInit, OnDestroy {
         item.data_format = dataFormatName;
       }
     }
-    alert("UPDATE_DATA_FORMATS");
     this.apiOrderService.updateOrderItemsDataFormats(this.currentOrder).subscribe(newOrder => {
       if (newOrder) {
         this.storeService.addOrderToStore(new Order(newOrder as IOrder));
