@@ -13,6 +13,13 @@ export default tseslint.config(
   {
     rules: {
       "no-console": ["error", { allow: ["warn", "error"] }],
+      "no-restricted-globals": [
+        "error",
+        {
+          "name": "alert",
+          "message": "Do not use alert(); use a proper UI dialog instead."
+        }
+      ],
       "import/order": [
         "error", {
           "newlines-between": "always",
