@@ -7,7 +7,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, of, zip } from 'rxjs';
-import { catchError, flatMap, map } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { ConfigService } from './config.service';
 import { deepCopyOrder, extractIdFromUrl } from '../helpers/GeoshopUtils';
@@ -181,15 +181,13 @@ export class ApiOrderService {
     this._getApiUrl();
 
     const url = new URL(`${this.apiUrl}/order/`);
-
     return this.createOrUpdateContact(contact)
       .pipe(
-        flatMap((newJsonContact) => {
+        mergeMap((newJsonContact) => {
           if (!isAddressForCurrentUser) {
-            if (!newJsonContact) {
-              return of(null);
+            if (newJsonContact) {
+              jsonOrder.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
             }
-            jsonOrder.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
           }
           return this.http.post<IOrder | null>(url.toString(), jsonOrder)
             .pipe(
@@ -205,19 +203,15 @@ export class ApiOrderService {
     this._getApiUrl();
 
     const url = new URL(`${this.apiUrl}/order/`);
-
     return this.createOrUpdateContact(contact)
       .pipe(
-        flatMap((newJsonContact) => {
+        mergeMap((newJsonContact) => {
           const orderToPost = order.toPostAsJson;
-
           if (!isAddressForCurrentUser) {
-            if (!newJsonContact) {
-              return of(null);
+            if (newJsonContact) {
+              orderToPost.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
             }
-            orderToPost.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
           }
-
           return this.http.put<IOrder | null>(`${url.toString()}${order.id}/`, orderToPost)
             .pipe(
               catchError(() => {
@@ -364,9 +358,8 @@ export class ApiOrderService {
 
   validateOrder(order: Order): Observable<OrderValidationStatus> {
     this._getApiUrl();
-    const url = new URL(`${this.apiUrl}/validate/order`);
-    const postJson = order.toPostAsJson
-    postJson.order_type = "private";
-    return this.http.post<OrderValidationStatus>(url.toString(), postJson);
+    return this.http.post<OrderValidationStatus>(
+      new URL(`${this.apiUrl}/validate/order`).toString(),
+      order.toPostAsJson);
   }
 }
