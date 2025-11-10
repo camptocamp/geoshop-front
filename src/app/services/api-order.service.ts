@@ -6,7 +6,7 @@ import { IProduct } from '@app/models/IProduct';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, of, zip } from 'rxjs';
+import { firstValueFrom, Observable, of, zip } from 'rxjs';
 import { catchError, flatMap, map } from 'rxjs/operators';
 
 import { ConfigService } from './config.service';
@@ -27,6 +27,7 @@ export class ApiOrderService {
   ) { }
 
   private _getApiUrl() {
+    alert("GET-API-URL");
     if (!this.apiUrl) {
       this.apiUrl = this.configService.config?.apiUrl;
     }
@@ -364,9 +365,8 @@ export class ApiOrderService {
 
   validateOrder(order: Order): Observable<OrderValidationStatus> {
     this._getApiUrl();
-    const url = new URL(`${this.apiUrl}/validate/order`);
-    const postJson = order.toPostAsJson
-    postJson.order_type = "private";
-    return this.http.post<OrderValidationStatus>(url.toString(), postJson);
+    return this.http.post<OrderValidationStatus>(
+      new URL(`${this.apiUrl}/validate/order`).toString(),
+      order.toPostAsJson);
   }
 }
