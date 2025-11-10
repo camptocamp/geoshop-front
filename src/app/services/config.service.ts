@@ -23,7 +23,6 @@ export class ConfigService {
         if (this.config?.apiUrl.endsWith('/')) {
           this.config.apiUrl = this.config.apiUrl.substr(0, this.config.apiUrl.length - 1);
         }
-        alert("LOAD DONE");
         return config
       }));
   }

@@ -6,8 +6,8 @@ import { IProduct } from '@app/models/IProduct';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { firstValueFrom, Observable, of, zip } from 'rxjs';
-import { catchError, flatMap, map } from 'rxjs/operators';
+import { Observable, of, zip } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { ConfigService } from './config.service';
 import { deepCopyOrder, extractIdFromUrl } from '../helpers/GeoshopUtils';
@@ -27,7 +27,6 @@ export class ApiOrderService {
   ) { }
 
   private _getApiUrl() {
-    alert("GET-API-URL");
     if (!this.apiUrl) {
       this.apiUrl = this.configService.config?.apiUrl;
     }
@@ -182,10 +181,9 @@ export class ApiOrderService {
     this._getApiUrl();
 
     const url = new URL(`${this.apiUrl}/order/`);
-
     return this.createOrUpdateContact(contact)
       .pipe(
-        flatMap((newJsonContact) => {
+        mergeMap((newJsonContact) => {
           if (!isAddressForCurrentUser) {
             if (!newJsonContact) {
               return of(null);
@@ -206,19 +204,15 @@ export class ApiOrderService {
     this._getApiUrl();
 
     const url = new URL(`${this.apiUrl}/order/`);
-
     return this.createOrUpdateContact(contact)
       .pipe(
-        flatMap((newJsonContact) => {
+        mergeMap((newJsonContact) => {
           const orderToPost = order.toPostAsJson;
-
           if (!isAddressForCurrentUser) {
-            if (!newJsonContact) {
-              return of(null);
+            if (newJsonContact) {
+                orderToPost.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
             }
-            orderToPost.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
           }
-
           return this.http.put<IOrder | null>(`${url.toString()}${order.id}/`, orderToPost)
             .pipe(
               catchError(() => {

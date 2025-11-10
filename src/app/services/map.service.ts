@@ -113,14 +113,10 @@ export class MapService {
     this.store.select(selectOrder),
     this.store.select(getUser),
     this.store.select(state => state.auth.loginFailed),
-    this.apiOrderService.getOrderTypes()
   ]).pipe(
-    switchMap(([order, , loginFailed, orderTypes]) => {
+    switchMap(([order, , loginFailed]) => {
       if (loginFailed || !order.geom || order.items.length <= 0) {
         return of({ valid: true });
-      }
-      if (!order.order_type) {
-        order.order_type = orderTypes[0].name;
       }
       return this.apiOrderService.validateOrder(new Order(order));
     }));
