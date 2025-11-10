@@ -185,10 +185,9 @@ export class ApiOrderService {
       .pipe(
         mergeMap((newJsonContact) => {
           if (!isAddressForCurrentUser) {
-            if (!newJsonContact) {
-              return of(null);
+            if (newJsonContact) {
+              jsonOrder.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
             }
-            jsonOrder.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
           }
           return this.http.post<IOrder | null>(url.toString(), jsonOrder)
             .pipe(
@@ -210,7 +209,7 @@ export class ApiOrderService {
           const orderToPost = order.toPostAsJson;
           if (!isAddressForCurrentUser) {
             if (newJsonContact) {
-                orderToPost.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
+              orderToPost.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
             }
           }
           return this.http.put<IOrder | null>(`${url.toString()}${order.id}/`, orderToPost)
