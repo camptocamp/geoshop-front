@@ -7,9 +7,9 @@
         <mat-label i18n>Type de mandat</mat-label>
         <mat-select formControlName="orderType" required (selectionChange)="clearForms()"
           [compareWith]="orderTypeCompareWith">
-          <mat-option *ngFor="let orderType of orderTypes" [value]="orderType">
-            {{getLocalizedTypeName(orderType)}}
-          </mat-option>
+          @for (orderType of orderTypes; track orderType) {
+          <mat-option [value]="orderType">{{getLocalizedTypeName(orderType)}}</mat-option>
+          }
         </mat-select>
         <mat-error *ngIf="orderFormGroup.get('orderType')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>

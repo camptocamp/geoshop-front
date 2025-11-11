@@ -107,4 +107,14 @@ describe('NewOrderComponent', () => {
 
     expect(fixture.nativeElement.querySelector(".sitn-td-price span").innerHTML).toEqual("CHF100.00");
   });
+
+  it('should select default order type', () => {
+    const fixture = TestBed.createComponent(NewOrderComponent);
+    fixture.detectChanges();
+    fixture.whenRenderingDone();
+
+    expect(fixture.componentInstance.orderTypeCtrl?.value).toEqual({
+      id: 1, name:Constants.ORDERTYPE_PRIVATE
+    });
+  });
 });

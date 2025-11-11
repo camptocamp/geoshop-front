@@ -38,10 +38,10 @@ import { debounceTime, filter, map, mergeMap, startWith, switchMap, takeUntil } 
   templateUrl: './new-order.component.html',
   styleUrls: ['./new-order.component.scss'],
   imports: [
-        AsyncPipe, CommonModule, CurrencyPipe, FormsModule, MatAutocompleteModule, MatButtonModule,
-        MatDialogModule, MatError, MatFormFieldModule, MatIconModule, MatInputModule,
-        MatOptionModule, MatProgressSpinnerModule, MatRadioButton, MatRadioGroup, MatSelectModule,
-        MatStepperModule, MatTableModule, ReactiveFormsModule
+    AsyncPipe, CommonModule, CurrencyPipe, FormsModule, MatAutocompleteModule, MatButtonModule,
+    MatDialogModule, MatError, MatFormFieldModule, MatIconModule, MatInputModule,
+    MatOptionModule, MatProgressSpinnerModule, MatRadioButton, MatRadioGroup, MatSelectModule,
+    MatStepperModule, MatTableModule, ReactiveFormsModule
   ],
 })
 export class NewOrderComponent implements OnInit, OnDestroy {
@@ -149,6 +149,9 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(orderTypes => {
         this.orderTypes = orderTypes;
+        if (orderTypes.length > 0) {
+          this.orderTypeCtrl?.setValue(orderTypes[0]);
+        }
       });
 
     this.filteredCustomers$ = this.contactFormGroup.get('customer')?.valueChanges.pipe(
