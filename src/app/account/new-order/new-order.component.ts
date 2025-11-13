@@ -222,8 +222,8 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     return returnValue;
   }
 
-  private getOrderType(id: number) {
-    return this.orderTypes.find(x => id === x.id) || {
+  private getOrderType(key: number|string) {
+    return this.orderTypes.find(x => key === x.id || key === x.name) || {
       id: 1,
       name: Constants.ORDERTYPE_PRIVATE
     };
@@ -285,7 +285,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   private updateForms(order: Order) {
     this.isCustomerSelected = order.HasInvoiceContact;
     this.orderFormGroup?.setValue({
-      orderType: this.getOrderType(parseInt(order.order_type)),
+      orderType: this.getOrderType(order.order_type),
       title: order.title,
       invoice_reference: order.invoice_reference,
       emailDeliver: order.email_deliver,
@@ -504,7 +504,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     this.currentOrder.invoice_reference = this.orderFormGroup.get('invoice_reference')?.value;
     this.currentOrder.email_deliver = this.orderFormGroup.get('emailDeliver')?.value;
     this.currentOrder.description = this.orderFormGroup.get('description')?.value;
-    this.currentOrder.order_type = this.orderFormGroup.get('orderType')?.value.name;
+    this.currentOrder.order_type = this.orderTypeCtrl?.value.name;
     if (this.currentOrder.id === -1) {
       this.currentOrder.invoiceContact = invoiceContact;
       this.apiOrderService.createOrder(this.currentOrder.toPostAsJson, invoiceContact, this.IsAddressForCurrentUser)
