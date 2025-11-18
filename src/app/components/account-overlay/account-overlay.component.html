@@ -1,9 +1,8 @@
-<ng-container *ngIf="isLoggedIn$|async">
+@if (isLoggedIn$|async) {
+  @let user = user$ | async;
   <div class="mat-mdc-menu-item">
     <mat-icon>face</mat-icon>
-    <span>{{(user$|async) && (user$|async)?.first_name && (user$|async)?.last_name ?
-      (user$|async)?.first_name + ' ' + (user$|async)?.last_name :
-      (user$|async)?.username}}</span>
+    <span>{{formatUsername(user)}}</span>
   </div>
 
   <button mat-menu-item [routerLink]="['/account/orders']">
@@ -14,12 +13,20 @@
     <mat-icon>perm_identity</mat-icon>
     <span i18n="@@account.profile">Mon profil</span>
   </button>
+  @if(oidcEnabled){
+      <button mat-menu-item (click)="goToSsoProfile()">
+        <span class="stack">
+          <mat-icon>perm_identity</mat-icon>
+          <mat-icon>cloud</mat-icon>
+        </span>
+        <span i18n="@@account.sso_profile">Mon SSO profil</span>
+      </button>
+  }
   <button mat-menu-item (click)="logout()">
     <mat-icon>exit_to_app</mat-icon>
     <span i18n="@@account.logout">Déconnexion</span>
   </button>
-
-</ng-container>
+}
 
 <ng-container *ngIf="!(isLoggedIn$|async) && localAuthEnabled">
   <div class="mat-mdc-menu-item">

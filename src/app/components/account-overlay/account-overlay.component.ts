@@ -1,4 +1,5 @@
 
+import { IIdentity } from '@app/models/IIdentity';
 import { ConfigService } from '@app/services/config.service';
 import { AppState, getUser, isLoggedIn } from '@app/store';
 import * as fromAuth from '@app/store/auth/auth.action';
@@ -9,9 +10,11 @@ import { Component, HostBinding } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { map, filter } from 'rxjs/operators';
+
 
 
 
@@ -31,9 +34,10 @@ export class AccountOverlayComponent {
   user$ = this.store.select(getUser);
 
   constructor(
-    private store: Store<AppState>,
+    private readonly store: Store<AppState>,
     private readonly config: ConfigService,
-    private readonly oidcSecurityService: OidcSecurityService) {
+    private readonly oidcSecurityService: OidcSecurityService,
+    private readonly router: Router) {
   }
 
   get oidcEnabled(): boolean {
@@ -59,5 +63,19 @@ export class AccountOverlayComponent {
     } else {
       this.notifyLogout();
     }
+  }
+
+  goToSsoProfile() {
+    this.oidcSecurityService.getConfiguration().pipe(
+      map(config => config?.authority),
+      filter((authority) => authority != null),
+    ).subscribe((authority) => window.location.href = authority);
+  }
+
+  formatUsername(user: Partial<IIdentity> | null): string {
+    if (user?.first_name && user?.last_name) {
+      return user.first_name + ' ' + user.last_name;
+    }
+    return user?.username || '';
   }
 }
