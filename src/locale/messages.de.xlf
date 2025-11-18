@@ -1962,8 +1962,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="account.sso_profile" datatype="html">
-        <source>Mon SSO profil</source>
-        <target state="new">Mein SSO-Profil</target>
+        <source>Mon profil SSO</source>
+        <target>Mein SSO-Profil</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/account-overlay/account-overlay.component.html</context>
           <context context-type="linenumber">22</context>

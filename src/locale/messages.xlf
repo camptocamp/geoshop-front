@@ -1779,7 +1779,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="account.sso_profile" datatype="html">
-        <source>Mon SSO profil</source>
+        <source>Mon profil SSO</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/account-overlay/account-overlay.component.html</context>
           <context context-type="linenumber">22</context>
