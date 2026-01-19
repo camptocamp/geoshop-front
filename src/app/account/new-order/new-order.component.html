@@ -26,7 +26,7 @@
       <!-- Description -->
       <mat-form-field *ngIf="orderFormGroup.get('orderType')?.value?.id !== 1">
         <mat-label i18n>Description du mandat</mat-label>
-        <textarea matInput formControlName="description" i18n-placeholder
+        <textarea required matInput formControlName="description" i18n-placeholder
           placeholder="Renseigner une courte description du mandat..."></textarea>
         <mat-error *ngIf="orderFormGroup.get('description')?.hasError('required')">{{ REQUIRED }}</mat-error>
       </mat-form-field>
