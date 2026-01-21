@@ -1,4 +1,5 @@
 import { deepCopyOrder } from '@app/helpers/GeoshopUtils';
+import { IApiResponse } from '@app/models/IApi';
 import { IOrder } from '@app/models/IOrder';
 import { IProduct } from '@app/models/IProduct';
 import { ApiService } from '@app/services/api.service';
@@ -8,7 +9,7 @@ import { updateOrder } from '@app/store/cart/cart.action';
 import { DialogMetadataComponent } from '@app/welcome/catalog/dialog-metadata/dialog-metadata.component';
 
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -17,8 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { distinctUntilChanged, exhaustMap, map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'gs2-catalog',
@@ -29,23 +29,18 @@ import { map, startWith } from 'rxjs/operators';
     CommonModule, MatInputModule, MatIconModule, MatButtonModule, MatDialogModule
   ],
 })
-export class CatalogComponent implements OnInit {
-  stepToLoadData = 0;
+export class CatalogComponent {
   isSearchLoading = false;
 
   // Filtering
   productFilter = new FormControl<string>('');
-  allProducts = new BehaviorSubject<IProduct[]>([]);
 
-  filteredProducts = combineLatest([
-    this.allProducts,
-    this.productFilter.valueChanges.pipe(startWith(''))
-  ]).pipe(
-    map(([products, query]) => {
-      const filterQuery = query?.toLowerCase() ?? '';
-      return products.filter(
-        (p) => filterQuery.length < 3 || p.label.toLocaleLowerCase().includes(filterQuery));
-    }));
+  filteredProducts = this.productFilter.valueChanges.pipe(
+    startWith(''),
+    map(query => query === null || query.length < 3 ? "" : query),
+    distinctUntilChanged(),
+    exhaustMap((query) => this.apiService.find<IProduct>(query, "product")),
+    map((response:IApiResponse<IProduct>) => response.results));
 
   mediaUrl: string | undefined;
   order: IOrder;
@@ -55,13 +50,8 @@ export class CatalogComponent implements OnInit {
     private store: Store<AppState>,
     private snackBar: MatSnackBar,
     private configService: ConfigService) {
-
     this.store.select(selectOrder).subscribe(x => this.order = x);
     this.mediaUrl = this.configService.config?.mediaUrl ? `${this.configService.config.mediaUrl}/` : '';
-  }
-
-  ngOnInit() {
-    this.apiService.getProducts().pipe(map((p) => p?.results ?? [])).subscribe(this.allProducts);
   }
 
   addToCart(product: IProduct) {
