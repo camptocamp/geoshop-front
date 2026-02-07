@@ -74,7 +74,6 @@ export class MapService {
   private transformInteraction: Transform;
   private isDrawModeActivated = false;
   private drawingSource: VectorSource<Feature<Geometry>>;
-  private geocoderSource: VectorSource<Feature<Geometry>>;
   private drawingLayer: VectorLayer<VectorSource<Feature<Geometry>>>;
   private modifyInteraction: Modify;
   private drawInteraction: Draw;
@@ -171,6 +170,7 @@ export class MapService {
           this.updateAreaTooltip();
         }
       });
+      this.setEditable(false);
       this.initialized = true;
     }).catch(() => {
       this.initialized = true;
@@ -192,7 +192,7 @@ export class MapService {
     this.isDrawModeActivated = !this.isDrawModeActivated;
     if (this.isDrawModeActivated) {
       this.createDrawingInteraction(drawMode);
-      this.transformInteraction.setActive(false);
+      this.setEditable(false);
       if (this.featureFromDrawing && this.drawingSource.getFeatures().length > 0) {
         this.drawingSource.removeFeature(this.featureFromDrawing);
         this.featureFromDrawing = null;
@@ -204,7 +204,7 @@ export class MapService {
         window.oncontextmenu = null;
       };
     } else {
-      this.geocoderSource.clear();
+      this.drawingSource.clear();
       this.map.removeInteraction(this.drawInteraction);
     }
     this.toggleDragInteraction(!this.isDrawModeActivated);
@@ -217,8 +217,8 @@ export class MapService {
       this.featureFromDrawing.dispose();
     }
 
-    if (this.geocoderSource) {
-      this.geocoderSource.clear();
+    if (this.drawingSource) {
+      this.drawingSource.clear();
     }
 
     if (this.snackBarRef) {
@@ -226,7 +226,7 @@ export class MapService {
     }
 
     if (this.transformInteraction) {
-      this.transformInteraction.setActive(false);
+      this.setEditable(false);
     }
     this.areaTooltipElement.style.visibility = "hidden";
     this.featureFromDrawing = null;
@@ -294,7 +294,7 @@ export class MapService {
       style: 'default',
       requestEncoding: 'REST'
     }
-    if (options == null) {
+    if (!options) {
       return undefined;
     }
     const source = new WMTS(options as Options);
@@ -309,32 +309,6 @@ export class MapService {
     return tileLayer;
   }
 
-  public stripHtmlTags(html: string): string {
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    return div.textContent || div.innerText || '';
-  }
-
-  public createPolygonFromBBOX(bboxString: string): Polygon {
-    const coords = bboxString
-      .replace('BOX(', '')
-      .replace(')', '')
-      .split(',')
-      .map(coord => coord.trim().split(' ').map(Number));
-
-    const [minX, minY] = coords[0];
-    const [maxX, maxY] = coords[1];
-    const polygonCoords = [
-      [minX, minY],
-      [maxX, minY],
-      [maxX, maxY],
-      [minX, maxY],
-      [minX, minY]
-    ];
-
-    return new Polygon([polygonCoords]);
-  }
-
   /**
    * Sets two geometries on the map based on the feature returned by de geocoder:
    * - The extent as an order perimeter
@@ -346,7 +320,7 @@ export class MapService {
    * @param feature - The feature returned by the geocoder
    */
   public addFeatureFromGeocoderToDrawing(searchResult: ISearchResult) {
-    this.geocoderSource.clear();
+    this.drawingSource.clear();
     if (this.featureFromDrawing) {
       this.drawingSource.removeFeature(this.featureFromDrawing);
     }
@@ -356,7 +330,7 @@ export class MapService {
       // TODO if the BBOX is just a point
       const targetGeom = searchResult.bbox ? fromExtent(searchResult.bbox) : geometry;
       this.drawingSource.addFeature(new Feature(targetGeom));
-      this.modifyInteraction.setActive(true);
+      this.setEditable(true);
       this.map.getView().fit(targetGeom, {
         padding: [75, 75, 75, 75]
       });
@@ -376,7 +350,7 @@ export class MapService {
         poly = fromExtent(buffer(originalExtent, bufferValue));
       }
       this.drawingSource.addFeature(new Feature(poly));
-      this.modifyInteraction.setActive(true);
+      this.setEditable(true);
       this.map.getView().fit(poly, {
         padding: [100, 100, 100, 100]
       });
@@ -592,9 +566,6 @@ export class MapService {
     this.drawingSource = new VectorSource({
       useSpatialIndex: false,
     });
-    this.geocoderSource = new VectorSource({
-      useSpatialIndex: false
-    });
     if (this.featureFromDrawing) {
       this.drawingSource.addFeature(this.featureFromDrawing);
     }
@@ -603,30 +574,13 @@ export class MapService {
       this.dispatchCurrentGeometry(true);
 
       setTimeout(() => {
-        this.transformInteraction.setActive(true);
+        this.setEditable(true);
       }, 500);
     });
     this.drawingLayer = new VectorLayer({
       source: this.drawingSource,
       style: this.drawingStyle
     });
-
-    const geocoderLayer = new VectorLayer({
-      source: this.geocoderSource,
-      style: [
-        new Style({
-          stroke: new Stroke({ width: 2, color: 'rgba(255, 235, 59, 1)' }),
-          fill: new Fill({ color: 'rgba(255, 235, 59, 0.85)' })
-        }),
-        new Style({
-          image: new CircleStyle({
-            radius: 20,
-            fill: new Fill({ color: 'rgba(255, 235, 59, 1)' })
-          })
-        })
-      ]
-    });
-    this.map.addLayer(geocoderLayer);
     this.map.addLayer(this.drawingLayer);
 
     this.modifyInteraction = new Modify({
@@ -641,7 +595,7 @@ export class MapService {
       this.featureFromDrawing = firstFeature;
       this.dispatchCurrentGeometry(false);
       setTimeout(() => {
-        this.transformInteraction.setActive(true);
+        this.setEditable(true);
       }, 500);
     });
     this.modifyInteraction.on('change:active', () => {
@@ -652,36 +606,20 @@ export class MapService {
     });
 
     this.map.addInteraction(this.modifyInteraction);
-    this.modifyInteraction.setActive(false);
   }
 
   private dispatchCurrentGeometry(fitMap: boolean) {
-    if (this.featureFromDrawing) {
-      const polygon = this.featureFromDrawing.getGeometry() as Polygon;
-      const area = formatArea(getAreaSphere(polygon));
-      this.featureFromDrawing.set('area', area);
-      this.store.dispatch(
-        updateGeometry(
-          {
-            geom: this.geoJsonFormatter.writeGeometry(polygon)
-          }
-        )
-      );
-      if (fitMap) {
-        const extent = this.featureFromDrawing.getGeometry()?.getExtent() || [];
-        this.map.getView().fit(extent, {
-          padding: [100, 100, 100, 100]
-        });
-      }
+    if (!this.featureFromDrawing) {
+      return;
     }
-  }
-
-  private displayAreaMessage(area: string) {
-    // TODO: Translate???
-    this.snackBarRef = this.snackBar.open(`L'aire du polygone sélectionné est de ${area}`, 'Cancel', {
-      duration: 5000,
-      panelClass: 'primary-container'
-    });
+    const polygon = this.featureFromDrawing.getGeometry() as Polygon;
+    const area = formatArea(getAreaSphere(polygon));
+    this.featureFromDrawing.set('area', area);
+    this.store.dispatch(updateGeometry({ geom: this.geoJsonFormatter.writeGeometry(polygon) }));
+    if (fitMap) {
+      const extent = this.featureFromDrawing.getGeometry()?.getExtent() || [];
+      this.map.getView().fit(extent, { padding: [100, 100, 100, 100] });
+    }
   }
 
   private toggleDragInteraction(isActive: boolean) {
@@ -730,8 +668,6 @@ export class MapService {
     });
 
     this.map.addInteraction(this.transformInteraction);
-
-    this.transformInteraction.setActive(false);
   }
 
   private map_renderCompleteExecuted() {
@@ -757,9 +693,8 @@ export class MapService {
   }
 
   public setPageFormat(format: IPageFormat, scale: number, rotation: number) {
-
     this.eraseDrawing();
-    this.transformInteraction.setActive(true);
+    this.setEditable(true);
 
     const center = this.map.getView().getCenter();
 
@@ -789,11 +724,16 @@ export class MapService {
   public setBBox(extent: Extent) {
     const poly = fromExtent(extent);
     this.eraseDrawing();
-    this.transformInteraction.setActive(true);
+    this.setEditable(true);
     const feature = new Feature();
     feature.setGeometry(poly);
     this.map.getView().fit(poly, { nearest: true });
     this.drawingSource.addFeature(feature);
     this.featureFromDrawing?.set('area', poly);
+  }
+
+  private setEditable(editable: boolean) {
+    this.transformInteraction.setActive(editable);
+    this.modifyInteraction.setActive(editable);
   }
 }
