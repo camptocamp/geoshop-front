@@ -534,7 +534,6 @@ export class MapService {
       this.toggleDrawing();
     });
     this.map.addInteraction(this.drawInteraction);
-    this.map.on('pointermove', () => this.updateAreaTooltip());
   }
 
   private updateAreaTooltip() {
@@ -542,14 +541,13 @@ export class MapService {
     const geom = feat?.getGeometry();
     const status = this.validationStatus;
     this.areaTooltipElement.classList.remove('invalid');
-    if (!feat || feat.getRevision() <= 0 ||
-      !geom || geom.getType() === 'Point' ||
-      !status || status.valid) {
+    if (!feat || feat.getRevision() <= 0 || !geom || geom.getType() === 'Point') {
+      this.areaTooltipElement.style.visibility = "hidden";
       return
     }
     let content = formatArea(getAreaSphere(geom));
-    this.areaTooltipElement.classList.add('invalid')
-    if (status.error) {
+    if (status.error && !status.valid) {
+      this.areaTooltipElement.classList.add('invalid');
       content += `<br/> ${status.error.message[0]}: (By ${formatArea(status.error.excluded[0] - status.error.expected[0])})`;
     }
     this.areaTooltipElement.style.visibility = "visible";
