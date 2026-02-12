@@ -591,13 +591,6 @@ export class MapService {
         this.setEditable(true);
       }, 500);
     });
-    this.modifyInteraction.on('change:active', () => {
-      // const isActive = this.modifyInteraction.getActive();
-      // if (isActive) {
-      //   this.transformInteraction.setActive(false);
-      // }
-    });
-
     this.map.addInteraction(this.modifyInteraction);
   }
 
