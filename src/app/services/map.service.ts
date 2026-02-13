@@ -1,6 +1,6 @@
 import { formatArea } from '@app/helpers/geoHelper';
 import { OrderValidationStatus } from '@app/models/IApi';
-import { IBasemap, IPageFormat } from '@app/models/IConfig';
+import {IBasemap, IConfig, IPageFormat} from '@app/models/IConfig';
 import { Order } from '@app/models/IOrder';
 import { ISearchResult } from '@app/models/ISearch';
 import { ConfigService } from '@app/services/config.service';
@@ -36,7 +36,6 @@ import LayerGroup from 'ol/layer/Group';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
 import Projection from 'ol/proj/Projection';
-import { register } from 'ol/proj/proj4';
 import TileSource from 'ol/source/Tile';
 import VectorSource, { VectorSourceEvent } from 'ol/source/Vector';
 import WMTS, { Options } from 'ol/source/WMTS';
@@ -45,7 +44,6 @@ import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
 // @ts-expect-error: plain js import
 import Transform from 'ol-ext/interaction/Transform';
-import proj4 from 'proj4';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { switchMap, distinctUntilChanged } from 'rxjs/operators';
 
@@ -72,13 +70,13 @@ export class MapService {
 
   // Drawing
   private transformInteraction: Transform;
-  private isDrawModeActivated = false;
-  private drawingSource: VectorSource<Feature<Geometry>>;
-  private geocoderSource: VectorSource<Feature<Geometry>>;
-  private drawingLayer: VectorLayer<VectorSource<Feature<Geometry>>>;
   private modifyInteraction: Modify;
   private drawInteraction: Draw;
-  private featureFromDrawing: Feature<Geometry> | null;
+
+  private isDrawModeActivated = false;
+  private drawingSource: VectorSource<Feature<Geometry>>;
+  private currentFeature: Feature<Geometry> | null;
+
   public readonly drawingStyle = [
     new Style({
       stroke: new Stroke({
@@ -128,11 +126,11 @@ export class MapService {
   public isDrawing$ = new BehaviorSubject<boolean>(false);
 
   public get Basemaps() {
-    return this.configService.config?.map.basemaps;
+    return this.config.map.basemaps;
   }
 
   public get PageFormats() {
-    return this.configService.config?.pageformats;
+    return this.config.pageformats;
   }
 
   public get FirstBaseMapLayer() {
@@ -146,6 +144,14 @@ export class MapService {
     private snackBar: MatSnackBar) {
   }
 
+  private get config(): IConfig {
+    const config = this.configService.config;
+    if (!config) {
+      throw new Error("Config is unavailable");
+    }
+    return config;
+  }
+
   public initialize() {
     if (this.initialized) {
       this.isMapLoading$.next(false);
@@ -153,24 +159,22 @@ export class MapService {
       // @ts-expect-error: setting map to null on purpose
       this.map = null;
     }
-    const config = this.configService.config;
-    if (!config) {
-      throw new Error("Config is unavailable");
-    }
-    this.initialExtent = config.map.projection.initialExtent;
+    this.initialExtent = this.config.map.projection.initialExtent;
+    this.initializeTooltip();
     this.initializeMap().then(() => {
       this.initializeDrawing();
       this.initializeInteraction();
       this.initializeDragInteraction();
       this.initializeDelKey();
       this.store.select(selectOrder).subscribe(order => {
-        if (!this.featureFromDrawing && order && order.geom) {
+        if (!this.currentFeature && order && order.geom) {
           const geometry = this.geoJsonFormatter.readGeometry(order.geom);
           this.drawingSource.addFeature(new Feature(geometry));
           this.areaTooltip.setPosition(getCenter(geometry.getExtent()));
           this.updateAreaTooltip();
         }
       });
+      this.setEditable(false);
       this.initialized = true;
     }).catch(() => {
       this.initialized = true;
@@ -188,14 +192,25 @@ export class MapService {
     });
   }
 
+  private initializeTooltip() {
+    this.areaTooltipElement = document.createElement('div');
+    this.areaTooltipElement.className = 'ol-tooltip-area';
+    this.areaTooltip = new Overlay({
+      element: this.areaTooltipElement,
+      positioning: 'center-center',
+      stopEvent: false,
+      insertFirst: false,
+    });
+  }
+
   public toggleDrawing(drawMode?: string) {
     this.isDrawModeActivated = !this.isDrawModeActivated;
     if (this.isDrawModeActivated) {
       this.createDrawingInteraction(drawMode);
-      this.transformInteraction.setActive(false);
-      if (this.featureFromDrawing && this.drawingSource.getFeatures().length > 0) {
-        this.drawingSource.removeFeature(this.featureFromDrawing);
-        this.featureFromDrawing = null;
+      this.setEditable(false);
+      if (this.currentFeature && this.drawingSource.getFeatures().length > 0) {
+        this.drawingSource.removeFeature(this.currentFeature);
+        this.currentFeature = null;
       }
       window.oncontextmenu = (event: MouseEvent) => {
         event.preventDefault();
@@ -204,7 +219,7 @@ export class MapService {
         window.oncontextmenu = null;
       };
     } else {
-      this.geocoderSource.clear();
+      this.drawingSource.clear();
       this.map.removeInteraction(this.drawInteraction);
     }
     this.toggleDragInteraction(!this.isDrawModeActivated);
@@ -212,13 +227,13 @@ export class MapService {
   }
 
   public eraseDrawing() {
-    if (this.featureFromDrawing) {
-      this.drawingSource.removeFeature(this.featureFromDrawing);
-      this.featureFromDrawing.dispose();
+    if (this.currentFeature) {
+      this.drawingSource.removeFeature(this.currentFeature);
+      this.currentFeature.dispose();
     }
 
-    if (this.geocoderSource) {
-      this.geocoderSource.clear();
+    if (this.drawingSource) {
+      this.drawingSource.clear();
     }
 
     if (this.snackBarRef) {
@@ -226,10 +241,10 @@ export class MapService {
     }
 
     if (this.transformInteraction) {
-      this.transformInteraction.setActive(false);
+      this.setEditable(false);
     }
     this.areaTooltipElement.style.visibility = "hidden";
-    this.featureFromDrawing = null;
+    this.currentFeature = null;
     this.store.dispatch(updateGeometry({ geom: '' }));
   }
 
@@ -270,7 +285,7 @@ export class MapService {
 
   public async createTileLayer(baseMapConfig: IBasemap, isVisible: boolean): Promise<TileLayer<TileSource> | undefined> {
     if (!this.resolutions || !this.initialExtent) {
-      this.resolutions = this.configService.config?.map.resolutions || DEFAULT_RESOLUTIONS;
+      this.resolutions = this.config.map.resolutions || DEFAULT_RESOLUTIONS;
 
       await this.debounce(200);
     }
@@ -288,13 +303,13 @@ export class MapService {
     const options = {
       layer: baseMapConfig.id,
       projection: this.projection,
-      url: `${this.configService.config?.baseMapUrl}.${baseMapConfig.format}`,
+      url: `${this.config.baseMapUrl}.${baseMapConfig.format}`,
       tileGrid: tileGrid,
       matrixSet: baseMapConfig.matrixSet,
       style: 'default',
       requestEncoding: 'REST'
     }
-    if (options == null) {
+    if (!options) {
       return undefined;
     }
     const source = new WMTS(options as Options);
@@ -309,32 +324,6 @@ export class MapService {
     return tileLayer;
   }
 
-  public stripHtmlTags(html: string): string {
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    return div.textContent || div.innerText || '';
-  }
-
-  public createPolygonFromBBOX(bboxString: string): Polygon {
-    const coords = bboxString
-      .replace('BOX(', '')
-      .replace(')', '')
-      .split(',')
-      .map(coord => coord.trim().split(' ').map(Number));
-
-    const [minX, minY] = coords[0];
-    const [maxX, maxY] = coords[1];
-    const polygonCoords = [
-      [minX, minY],
-      [maxX, minY],
-      [maxX, maxY],
-      [minX, maxY],
-      [minX, minY]
-    ];
-
-    return new Polygon([polygonCoords]);
-  }
-
   /**
    * Sets two geometries on the map based on the feature returned by de geocoder:
    * - The extent as an order perimeter
@@ -346,9 +335,9 @@ export class MapService {
    * @param feature - The feature returned by the geocoder
    */
   public addFeatureFromGeocoderToDrawing(searchResult: ISearchResult) {
-    this.geocoderSource.clear();
-    if (this.featureFromDrawing) {
-      this.drawingSource.removeFeature(this.featureFromDrawing);
+    this.drawingSource.clear();
+    if (this.currentFeature) {
+      this.drawingSource.removeFeature(this.currentFeature);
     }
 
     const geometry = searchResult.geometry;
@@ -356,7 +345,7 @@ export class MapService {
       // TODO if the BBOX is just a point
       const targetGeom = searchResult.bbox ? fromExtent(searchResult.bbox) : geometry;
       this.drawingSource.addFeature(new Feature(targetGeom));
-      this.modifyInteraction.setActive(true);
+      this.setEditable(true);
       this.map.getView().fit(targetGeom, {
         padding: [75, 75, 75, 75]
       });
@@ -376,7 +365,7 @@ export class MapService {
         poly = fromExtent(buffer(originalExtent, bufferValue));
       }
       this.drawingSource.addFeature(new Feature(poly));
-      this.modifyInteraction.setActive(true);
+      this.setEditable(true);
       this.map.getView().fit(poly, {
         padding: [100, 100, 100, 100]
       });
@@ -384,19 +373,8 @@ export class MapService {
   }
 
   private async initializeMap() {
-    if (!this.configService.config) {
-      console.error('There is no config defined in configService, map will not be initialized.');
-      return;
-    }
-    const EPSG = this.configService.config.map.projection.epsg || 'EPSG2056';
-    // TODO is this correct or is this cauing the projection shift -> check this
-    proj4.defs(EPSG,
-      '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333'
-      + ' +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel '
-      + '+towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs');
-    register(proj4);
-
-    this.resolutions = this.configService.config.map.resolutions;
+    const EPSG = this.config.map.projection.epsg || 'EPSG2056';
+    this.resolutions = this.config.map.resolutions;
     this.projection = new Projection({
       code: EPSG,
       extent: this.initialExtent,
@@ -405,20 +383,11 @@ export class MapService {
     const baseLayers = await this.generateBasemapLayersFromConfig();
     const view = new View({
       projection: this.projection,
-      center: this.configService.config.map.defaultCenter,
+      center: this.config.map.defaultCenter,
       zoom: 2,
       resolutions: this.resolutions,
       constrainResolution: true,
-      extent: this.configService.config.map.constraints
-    });
-
-    this.areaTooltipElement = document.createElement('div');
-    this.areaTooltipElement.className = 'ol-tooltip-area';
-    this.areaTooltip = new Overlay({
-      element: this.areaTooltipElement,
-      positioning: 'center-center',
-      stopEvent: false,
-      insertFirst: false,
+      extent: this.config.map.constraints
     });
 
     // Create the map
@@ -455,8 +424,8 @@ export class MapService {
   public async generateBasemapLayersFromConfig() {
     let isVisible = true;  // -> display the first one
     let basemaps: IBasemap[] = [];
-    if (this.configService.config?.map.basemaps) {
-      basemaps = this.configService.config.map.basemaps;
+    if (this.config.map.basemaps) {
+      basemaps = this.config.map.basemaps;
     }
     try {
       for (const baseMapConfig of basemaps) {
@@ -504,10 +473,10 @@ export class MapService {
       if (geom) {
         this.map.getView().fit(geom.getExtent(), { nearest: true });
       }
-      if (this.featureFromDrawing) {
-        this.drawingSource.removeFeature(this.featureFromDrawing);
+      if (this.currentFeature) {
+        this.drawingSource.removeFeature(this.currentFeature);
       }
-      this.featureFromDrawing = feature;
+      this.currentFeature = feature;
       this.drawingSource.addFeature(feature);
       return true;
     }
@@ -559,28 +528,26 @@ export class MapService {
     }
     this.areaTooltipElement.style.visibility = "hidden";
     this.drawInteraction.on('drawstart', (evt) => {
-      this.featureFromDrawing = evt.feature;
+      this.currentFeature = evt.feature;
     })
     this.drawInteraction.on('drawend', () => {
       this.toggleDrawing();
     });
     this.map.addInteraction(this.drawInteraction);
-    this.map.on('pointermove', () => this.updateAreaTooltip());
   }
 
   private updateAreaTooltip() {
-    const feat = this.featureFromDrawing;
+    const feat = this.currentFeature;
     const geom = feat?.getGeometry();
     const status = this.validationStatus;
     this.areaTooltipElement.classList.remove('invalid');
-    if (!feat || feat.getRevision() <= 0 ||
-      !geom || geom.getType() === 'Point' ||
-      !status || status.valid) {
+    if (!feat || feat.getRevision() <= 0 || !geom || geom.getType() === 'Point') {
+      this.areaTooltipElement.style.visibility = "hidden";
       return
     }
     let content = formatArea(getAreaSphere(geom));
-    this.areaTooltipElement.classList.add('invalid')
-    if (status.error) {
+    if (status.error && !status.valid) {
+      this.areaTooltipElement.classList.add('invalid');
       content += `<br/> ${status.error.message[0]}: (By ${formatArea(status.error.excluded[0] - status.error.expected[0])})`;
     }
     this.areaTooltipElement.style.visibility = "visible";
@@ -592,45 +559,25 @@ export class MapService {
     this.drawingSource = new VectorSource({
       useSpatialIndex: false,
     });
-    this.geocoderSource = new VectorSource({
-      useSpatialIndex: false
-    });
-    if (this.featureFromDrawing) {
-      this.drawingSource.addFeature(this.featureFromDrawing);
+    if (this.currentFeature) {
+      this.drawingSource.addFeature(this.currentFeature);
     }
     this.drawingSource.on('addfeature', (evt: VectorSourceEvent) => {
-      this.featureFromDrawing = evt.feature ?? null;
+      this.currentFeature = evt.feature ?? null;
       this.dispatchCurrentGeometry(true);
 
       setTimeout(() => {
-        this.transformInteraction.setActive(true);
+        this.setEditable(true);
       }, 500);
     });
-    this.drawingLayer = new VectorLayer({
+    this.map.addLayer(new VectorLayer({
       source: this.drawingSource,
       style: this.drawingStyle
-    });
-
-    const geocoderLayer = new VectorLayer({
-      source: this.geocoderSource,
-      style: [
-        new Style({
-          stroke: new Stroke({ width: 2, color: 'rgba(255, 235, 59, 1)' }),
-          fill: new Fill({ color: 'rgba(255, 235, 59, 0.85)' })
-        }),
-        new Style({
-          image: new CircleStyle({
-            radius: 20,
-            fill: new Fill({ color: 'rgba(255, 235, 59, 1)' })
-          })
-        })
-      ]
-    });
-    this.map.addLayer(geocoderLayer);
-    this.map.addLayer(this.drawingLayer);
+    }));
 
     this.modifyInteraction = new Modify({
-      source: this.drawingSource
+      source: this.drawingSource,
+      style: this.drawingStyle
     });
 
     this.modifyInteraction.on('modifystart', () => {
@@ -638,50 +585,27 @@ export class MapService {
     });
     this.modifyInteraction.on('modifyend', (evt) => {
       const firstFeature = new Feature(evt.features.item(0)?.getGeometry())
-      this.featureFromDrawing = firstFeature;
+      this.currentFeature = firstFeature;
       this.dispatchCurrentGeometry(false);
       setTimeout(() => {
-        this.transformInteraction.setActive(true);
+        this.setEditable(true);
       }, 500);
     });
-    this.modifyInteraction.on('change:active', () => {
-      const isActive = this.modifyInteraction.getActive();
-      if (isActive) {
-        this.transformInteraction.setActive(false);
-      }
-    });
-
     this.map.addInteraction(this.modifyInteraction);
-    this.modifyInteraction.setActive(false);
   }
 
   private dispatchCurrentGeometry(fitMap: boolean) {
-    if (this.featureFromDrawing) {
-      const polygon = this.featureFromDrawing.getGeometry() as Polygon;
-      const area = formatArea(getAreaSphere(polygon));
-      this.featureFromDrawing.set('area', area);
-      this.store.dispatch(
-        updateGeometry(
-          {
-            geom: this.geoJsonFormatter.writeGeometry(polygon)
-          }
-        )
-      );
-      if (fitMap) {
-        const extent = this.featureFromDrawing.getGeometry()?.getExtent() || [];
-        this.map.getView().fit(extent, {
-          padding: [100, 100, 100, 100]
-        });
-      }
+    if (!this.currentFeature) {
+      return;
     }
-  }
-
-  private displayAreaMessage(area: string) {
-    // TODO: Translate???
-    this.snackBarRef = this.snackBar.open(`L'aire du polygone sélectionné est de ${area}`, 'Cancel', {
-      duration: 5000,
-      panelClass: 'primary-container'
-    });
+    const polygon = this.currentFeature.getGeometry() as Polygon;
+    const area = formatArea(getAreaSphere(polygon));
+    this.currentFeature.set('area', area);
+    this.store.dispatch(updateGeometry({ geom: this.geoJsonFormatter.writeGeometry(polygon) }));
+    if (fitMap) {
+      const extent = this.currentFeature.getGeometry()?.getExtent() || [];
+      this.map.getView().fit(extent, { padding: [100, 100, 100, 100] });
+    }
   }
 
   private toggleDragInteraction(isActive: boolean) {
@@ -704,7 +628,7 @@ export class MapService {
   private initializeDelKey() {
     const mapElement = this.map.getTargetElement();
     mapElement.addEventListener('keyup', (e) => {
-      if (e.key === 'Delete' && this.drawingSource && this.featureFromDrawing) {
+      if (e.key === 'Delete' && this.drawingSource && this.currentFeature) {
         this.eraseDrawing();
       }
     });
@@ -725,13 +649,11 @@ export class MapService {
     });
 
     this.transformInteraction.on(['rotateend', 'translateend'], (evt: VectorSourceEvent) => {
-      this.featureFromDrawing = evt.feature ?? null;
+      this.currentFeature = evt.feature ?? null;
       this.dispatchCurrentGeometry(true);
     });
 
     this.map.addInteraction(this.transformInteraction);
-
-    this.transformInteraction.setActive(false);
   }
 
   private map_renderCompleteExecuted() {
@@ -748,7 +670,7 @@ export class MapService {
       if (fileContent) {
         const kmlFeatures = kmlFormat.readFeatures(fileContent, {
           dataProjection: 'EPSG:4326',
-          featureProjection: this.configService.config?.map.projection.epsg
+          featureProjection: this.config.map.projection.epsg
         });
         this.addSingleFeatureToDrawingSource(kmlFeatures, fileName);
       }
@@ -757,9 +679,8 @@ export class MapService {
   }
 
   public setPageFormat(format: IPageFormat, scale: number, rotation: number) {
-
     this.eraseDrawing();
-    this.transformInteraction.setActive(true);
+    this.setEditable(true);
 
     const center = this.map.getView().getCenter();
 
@@ -782,18 +703,23 @@ export class MapService {
 
       this.map.getView().fit(poly, { nearest: true });
       this.drawingSource.addFeature(feature);
-      this.featureFromDrawing?.set('area', poly);
+      this.currentFeature?.set('area', poly);
     }
   }
 
   public setBBox(extent: Extent) {
     const poly = fromExtent(extent);
     this.eraseDrawing();
-    this.transformInteraction.setActive(true);
+    this.setEditable(true);
     const feature = new Feature();
     feature.setGeometry(poly);
     this.map.getView().fit(poly, { nearest: true });
     this.drawingSource.addFeature(feature);
-    this.featureFromDrawing?.set('area', poly);
+    this.currentFeature?.set('area', poly);
+  }
+
+  private setEditable(editable: boolean) {
+    this.transformInteraction.setActive(editable);
+    this.modifyInteraction.setActive(editable);
   }
 }
