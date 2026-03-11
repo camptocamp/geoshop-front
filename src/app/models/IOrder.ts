@@ -272,7 +272,6 @@ export class Order {
     if (typeof this.id === 'string') {
       this.id = -1;
     }
-
     for (const item of this.items) {
       const product = item.product;
       if (typeof product === 'string') {

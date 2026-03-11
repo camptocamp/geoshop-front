@@ -36,6 +36,7 @@ import LayerGroup from 'ol/layer/Group';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
 import Projection from 'ol/proj/Projection';
+import { register } from 'ol/proj/proj4';
 import TileSource from 'ol/source/Tile';
 import VectorSource, { VectorSourceEvent } from 'ol/source/Vector';
 import WMTS, { Options } from 'ol/source/WMTS';
@@ -45,7 +46,6 @@ import WMTSTileGrid from 'ol/tilegrid/WMTS';
 // @ts-expect-error: plain js import
 import Transform from 'ol-ext/interaction/Transform';
 import proj4 from 'proj4';
-
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { switchMap, distinctUntilChanged } from 'rxjs/operators';
 
