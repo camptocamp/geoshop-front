@@ -27,11 +27,6 @@ import VectorSource from 'ol/source/Vector';
 import { BehaviorSubject, merge, of, Subject, Subscription } from 'rxjs';
 import { debounceTime, filter, map, mergeMap, scan, skip, switchMap, takeUntil, tap } from 'rxjs/operators';
 
-
-
-
-
-
 @Component({
   selector: 'gs2-orders',
   templateUrl: './orders.component.html',

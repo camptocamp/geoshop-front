@@ -4,15 +4,16 @@ import { AppState } from '@app/store';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatAccordion } from '@angular/material/expansion';
+import { MatAccordion, MatExpansionPanel } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -39,6 +40,7 @@ class ConfigServiceMock {
       }
     },
     pageformats: [{ name: "", height: 1, width: 1 }],
+    apiUrl: "http://some/api/url"
   }
 }
 
@@ -51,6 +53,7 @@ describe('OrdersComponent', () => {
 
   let component: OrdersComponent;
   let fixture: ComponentFixture<OrdersComponent>;
+  let httpTesting: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -59,7 +62,7 @@ describe('OrdersComponent', () => {
         FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, AsyncPipe,
         CommonModule, MatButtonModule,
         NoopAnimationsModule,
-        OrdersComponent,
+        OrdersComponent, OrderComponent,
         RouterModule.forRoot([]),
       ],
       providers: [
@@ -69,8 +72,8 @@ describe('OrdersComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting()
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
+    httpTesting = TestBed.inject(HttpTestingController);
   });
 
   beforeEach(() => {
@@ -81,5 +84,27 @@ describe('OrdersComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display order', () => {
+    httpTesting.match(() => true)[0].flush({
+      results: [{ url: "http://orders/1", order_status: "DRAFT", items: [] }],
+    });
+    fixture.detectChanges();
+
+    const panelDebugElement = fixture.debugElement.query(By.directive(MatExpansionPanel));
+    const panelInstance = panelDebugElement.componentInstance as MatExpansionPanel;
+
+    panelInstance.open();
+    fixture.detectChanges();
+    expect(panelInstance.expanded).toBeTruthy();
+
+    const panelBody = fixture.debugElement.query(By.css('.mat-expansion-panel-content'));
+    expect(panelBody.styles['visibility']).not.toBe('hidden');
+
+    httpTesting.match(() => true)[0].flush({
+      url: "http://some/api/url/orders/1", order_status: "DRAFT", items: []
+    });
+    fixture.detectChanges();
   });
 });
