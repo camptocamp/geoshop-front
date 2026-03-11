@@ -3,12 +3,12 @@ import { AppState } from '@app/store';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { provideHttpClient} from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import {MatAccordion, MatExpansionPanel} from '@angular/material/expansion';
+import { MatAccordion, MatExpansionPanel } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
