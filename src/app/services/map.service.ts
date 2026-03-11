@@ -44,6 +44,8 @@ import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
 // @ts-expect-error: plain js import
 import Transform from 'ol-ext/interaction/Transform';
+import proj4 from 'proj4';
+
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { switchMap, distinctUntilChanged } from 'rxjs/operators';
 
@@ -374,6 +376,11 @@ export class MapService {
 
   private async initializeMap() {
     const EPSG = this.config.map.projection.epsg || 'EPSG2056';
+    proj4.defs(EPSG,
+      '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333'
+      + ' +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel '
+      + '+towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs');
+    register(proj4);
     this.resolutions = this.config.map.resolutions;
     this.projection = new Projection({
       code: EPSG,
