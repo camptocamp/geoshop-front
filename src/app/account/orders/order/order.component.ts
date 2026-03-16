@@ -169,18 +169,18 @@ export class OrderComponent {
     });
   }
 
-  displayMiniMap() {
+  async displayMiniMap() {
     if (this.selectedOrder) {
-      displayMiniMap(this.selectedOrder, [this.minimap], [this.vectorSource], 0);
+      await displayMiniMap(this.selectedOrder, [this.minimap], [this.vectorSource], 0);
       return;
     }
 
-    this.apiOrderService.getOrder(this.order.url).subscribe((loadedOrder) => {
+    this.apiOrderService.getOrder(this.order.url).subscribe(async (loadedOrder) => {
       if (loadedOrder) {
         this.selectedOrder = new Order(loadedOrder);
         this.order.statusAsReadableIconText = this.selectedOrder.statusAsReadableIconText;
         this.generateOrderItemsElements(this.selectedOrder);
-        displayMiniMap(this.selectedOrder, [this.minimap], [this.vectorSource], 0);
+        await displayMiniMap(this.selectedOrder, [this.minimap], [this.vectorSource], 0);
       }
     });
   }
