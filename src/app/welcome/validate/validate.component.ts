@@ -68,7 +68,9 @@ export class ValidateComponent implements OnInit, OnDestroy {
         // TODO: improve this sync part with proper Angular logics (await for render)
         // angular experts needed ;-)
         // set timeout is a workaround which fixes the race condition.
-        setTimeout(() => displayMiniMap(order, [result.minimap], [result.vectorSource], 0), 50);
+        // setTimeout(() => displayMiniMap(order, [result.minimap], [result.vectorSource], 0), 50);
+        // 50ms is too short, do active wait for element
+        waitForElementToDisplay(`#mini-map-${order.id}`, () => displayMiniMap(order, [result.minimap], [result.vectorSource], 0), 100, 5000);
       });
     });
   }
@@ -86,4 +88,21 @@ export class ValidateComponent implements OnInit, OnDestroy {
       });
     });
   }
+}
+
+function waitForElementToDisplay(selector: string, callback: () => void, checkFrequencyInMs: number, timeoutInMs: number) {
+  const startTimeInMs = Date.now();
+  (function loopSearch() {
+    if (document.querySelector(selector) != null) {
+      callback();
+      return;
+    }
+    else {
+      setTimeout(function () {
+        if (timeoutInMs && Date.now() - startTimeInMs > timeoutInMs)
+          return;
+        loopSearch();
+      }, checkFrequencyInMs);
+    }
+  })();
 }
