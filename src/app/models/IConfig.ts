@@ -6,8 +6,21 @@ export interface IBasemap {
   label: string;
   description: string;
   thumbUrl: string;
+  type: 'wmts' | 'wms';
+}
+
+export interface IBasemapWMTS extends IBasemap {
+  type: 'wmts';
   matrixSet: string;
   format: string;
+  boundingBoxWGS84: number[];
+}
+
+export interface IBasemapWMS extends IBasemap {
+  type: 'wms';
+  wmsUrl: string;
+  wmsLayers: string;
+  wmsVersion?: string;
 }
 
 export interface ISearchConfig {
@@ -24,7 +37,7 @@ export interface IMapConfig {
       initialExtent: Extent;
   }
   defaultCenter: number[];
-  basemaps: IBasemap[];
+  basemaps: (IBasemapWMTS | IBasemapWMS)[]; // Union of both types
   constraints: Extent;
   resolutions: number[];
 }
