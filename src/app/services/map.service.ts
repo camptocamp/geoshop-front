@@ -315,7 +315,7 @@ export class MapService {
     const source = new WMTS({
       layer: baseMapConfig.id,
       projection: this.projection,
-      url: `${this.config.baseMapUrl}.${baseMapConfig.format}`,
+      url: `${baseMapConfig.wmtsBaseUrl}.${baseMapConfig.format}`,
       tileGrid: tileGrid,
       matrixSet: baseMapConfig.matrixSet,
       style: 'default',

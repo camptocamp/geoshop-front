@@ -1,7 +1,6 @@
 {
   "apiUrl": "${API_BASE_URL}/${API_ROOTURL}",
   "mediaUrl": "${MEDIA_URL}",
-  "baseMapUrl": "https://wmts.geo.admin.ch/1.0.0/{layer}/{style}/current/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}",
   "search": {
     "url": "${SEARCH_URL}",
     "queryParamName": "${SEARCH_QUERY_PARAM_NAME}",
@@ -35,6 +34,8 @@
         "label": "Basiskarte AV",
         "description": "Basiskarte AV",
         "thumbUrl": "assets/images/planville.png",
+        "type": "wmts",
+        "wmtsBaseUrl": "https://wmts.geo.admin.ch/1.0.0/{layer}/{style}/current/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}",
         "matrixSet": "2056",
         "format": "png",
         "boundingBoxWGS84": [5.140242, 45.398181, 11.47757, 48.230651]

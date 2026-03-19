@@ -11,6 +11,7 @@ export interface IBasemap {
 
 export interface IBasemapWMTS extends IBasemap {
   type: 'wmts';
+  wmtsBaseUrl: string;
   matrixSet: string;
   format: string;
   boundingBoxWGS84: number[];
@@ -46,7 +47,6 @@ export interface IMapConfig {
 export interface IConfig {
   apiUrl: string;
   mediaUrl: string;
-  baseMapUrl: string;
   search: ISearchConfig;
   contact: {
     links: { conditions: string; tariffs: string; support: string;};
