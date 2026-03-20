@@ -38,7 +38,7 @@ export interface IMapConfig {
       initialExtent: Extent;
   }
   defaultCenter: number[];
-  basemaps: (IBasemapWMTS | IBasemapWMS)[]; // Union of both types
+  basemaps: (IBasemapWMTS | IBasemapWMS)[];
   constraints: Extent;
   resolutions: number[];
 }

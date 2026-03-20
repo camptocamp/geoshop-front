@@ -459,8 +459,7 @@ export class MapService {
       ]
     });
 
-    this.map.on('rendercomplete', () => this.map_renderCompleteExecuted);
-    this.map.on('change', () => this.isMapLoading$.next(true));
+    this.map.on('rendercomplete', () => this.map_renderCompleteExecuted());
     this.map.on('moveend', () => {
       const bounds = this.map.getView().calculateExtent(this.map.getSize());
       this.store.dispatch(MapAction.saveState({
