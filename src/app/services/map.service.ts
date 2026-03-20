@@ -1,6 +1,6 @@
 import { formatArea } from '@app/helpers/geoHelper';
 import { OrderValidationStatus } from '@app/models/IApi';
-import {IBasemap, IConfig, IPageFormat} from '@app/models/IConfig';
+import { IBasemapWMS, IBasemapWMTS, IConfig, IPageFormat } from '@app/models/IConfig';
 import { Order } from '@app/models/IOrder';
 import { ISearchResult } from '@app/models/ISearch';
 import { ConfigService } from '@app/services/config.service';
@@ -33,10 +33,12 @@ import DragPan from 'ol/interaction/DragPan';
 import { createBox } from 'ol/interaction/Draw';
 import BaseLayer from 'ol/layer/Base';
 import LayerGroup from 'ol/layer/Group';
+import ImageLayer from 'ol/layer/Image';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
 import Projection from 'ol/proj/Projection';
 import { register } from 'ol/proj/proj4';
+import ImageWMS from 'ol/source/ImageWMS';
 import TileSource from 'ol/source/Tile';
 import VectorSource, { VectorSourceEvent } from 'ol/source/Vector';
 import WMTS, { Options } from 'ol/source/WMTS';
@@ -285,10 +287,18 @@ export class MapService {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  public async createTileLayer(baseMapConfig: IBasemap, isVisible: boolean): Promise<TileLayer<TileSource> | undefined> {
+  private isWmsBasemap(
+    basemap: IBasemapWMTS | IBasemapWMS
+  ): basemap is IBasemapWMS {
+    return basemap.type === 'wms';
+  }
+
+  private async createWmtsLayer(
+    baseMapConfig: IBasemapWMTS,
+    isVisible: boolean
+  ): Promise<TileLayer<TileSource>> {
     if (!this.resolutions || !this.initialExtent) {
       this.resolutions = this.config.map.resolutions || DEFAULT_RESOLUTIONS;
-
       await this.debounce(200);
     }
     const matrixIds = [];
@@ -302,19 +312,16 @@ export class MapService {
       matrixIds: matrixIds
     });
 
-    const options = {
+    const source = new WMTS({
       layer: baseMapConfig.id,
       projection: this.projection,
-      url: `${this.config.baseMapUrl}.${baseMapConfig.format}`,
+      url: `${baseMapConfig.wmtsBaseUrl}.${baseMapConfig.format}`,
       tileGrid: tileGrid,
       matrixSet: baseMapConfig.matrixSet,
       style: 'default',
       requestEncoding: 'REST'
-    }
-    if (!options) {
-      return undefined;
-    }
-    const source = new WMTS(options as Options);
+    } as Options);
+
     const tileLayer = new TileLayer({
       source,
       visible: isVisible,
@@ -324,6 +331,41 @@ export class MapService {
     tileLayer.set('thumbnail', baseMapConfig.thumbUrl);
 
     return tileLayer;
+  }
+
+  private createWmsLayer(
+    baseMapConfig: IBasemapWMS,
+    isVisible: boolean
+  ): ImageLayer<ImageWMS> {
+    const source = new ImageWMS({
+      url: baseMapConfig.wmsUrl,
+      projection: this.projection,
+      params: {
+        LAYERS: baseMapConfig.wmsLayers,
+        VERSION: baseMapConfig.wmsVersion || '1.3.0',
+      },
+    });
+
+    const imageLayer = new ImageLayer({
+      source,
+      visible: isVisible,
+    });
+
+    imageLayer.set('gsId', baseMapConfig.id);
+    imageLayer.set('label', baseMapConfig.label);
+    imageLayer.set('thumbnail', baseMapConfig.thumbUrl);
+
+    return imageLayer;
+  }
+
+  public async createTileLayer(
+    baseMapConfig: IBasemapWMTS | IBasemapWMS,
+    isVisible: boolean
+  ): Promise<BaseLayer> {
+    if (this.isWmsBasemap(baseMapConfig)) {
+      return this.createWmsLayer(baseMapConfig, isVisible);
+    }
+    return this.createWmtsLayer(baseMapConfig, isVisible);
   }
 
   /**
@@ -417,8 +459,7 @@ export class MapService {
       ]
     });
 
-    this.map.on('rendercomplete', () => this.map_renderCompleteExecuted);
-    this.map.on('change', () => this.isMapLoading$.next(true));
+    this.map.on('rendercomplete', () => this.map_renderCompleteExecuted());
     this.map.on('moveend', () => {
       const bounds = this.map.getView().calculateExtent(this.map.getSize());
       this.store.dispatch(MapAction.saveState({
@@ -430,7 +471,7 @@ export class MapService {
   /* Base Map Managment */
   public async generateBasemapLayersFromConfig() {
     let isVisible = true;  // -> display the first one
-    let basemaps: IBasemap[] = [];
+    let basemaps: (IBasemapWMTS | IBasemapWMS)[] = [];
     if (this.config.map.basemaps) {
       basemaps = this.config.map.basemaps;
     }
