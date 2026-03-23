@@ -14,7 +14,10 @@ import * as fromCart from '@app/store/cart/cart.action';
 
 import { AsyncPipe, CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, HostBinding, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators
+} from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -32,6 +35,7 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, filter, map, mergeMap, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import {ContactForm, OrderForm} from "@app/account/new-order/order-form.model";
 
 @Component({
   selector: 'gs2-new-order',
@@ -62,9 +66,9 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   readonly COUNTRIES = Constants.COUNTRIES;
 
 
-  orderFormGroup: UntypedFormGroup;
+  orderFormGroup: FormGroup<OrderForm>;
   addressChoiceForm: UntypedFormGroup;
-  contactFormGroup: UntypedFormGroup;
+  contactFormGroup: FormGroup<ContactForm>;
   orderItemFormGroup: UntypedFormGroup;
   invoiceContactsFormControls: Record<string, UntypedFormControl>;
 
@@ -187,30 +191,10 @@ export class NewOrderComponent implements OnInit, OnDestroy {
 
   private getInvoiceContact() {
     const iContact: IContact = {
-      first_name: '',
-      last_name: '',
-      email: '',
-      company_name: '',
-      ide_id: '',
-      url: '',
-      city: '',
-      country: '',
-      postcode: '',
-      phone: '',
-      sap_id: '',
-      street: '',
-      street2: '',
+      ...this.contactFormGroup.getRawValue()
     };
 
-    for (const attr in iContact) {
-      if (this.contactFormGroup.controls[attr]) {
-        iContact[attr] = this.contactFormGroup.controls[attr].value;
-      }
-    }
-
-    return iContact.first_name && iContact.last_name && iContact.email ?
-      new Contact(iContact) :
-      undefined;
+    return iContact.first_name && iContact.last_name && iContact.email ? new Contact(iContact) : undefined;
   }
 
   // FIXME this is a duplication of the same function in the order-item-view.component.ts
@@ -300,24 +284,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       this.addressChoiceCtrl?.setValue('1');
     }
 
-    if (this.contactFormGroup) {
-      this.contactFormGroup.setValue({
-        customer: null,
-        // first_name: order.invoiceContact?.first_name || '',
-        // last_name: order.invoiceContact?.last_name || '',
-        // email: order.invoiceContact?.email || '',
-        // company_name: order.invoiceContact?.company_name || '',
-        // ide_id: order.invoiceContact?.ide_id || '',
-        // phone: order.invoiceContact?.phone || '',
-        // street: order.invoiceContact?.street || '',
-        // street2: order.invoiceContact?.street2 || '',
-        // postcode: order.invoiceContact?.postcode || '',
-        // city: order.invoiceContact?.city || '',
-        // country: order.invoiceContact?.country || '',
-        // url: order.invoiceContact?.url || '',
-      });
-    }
-
+    this.contactFormGroup.reset();
     for (const attr in this.orderItemFormGroup.controls) {
       if (attr !== 'formatsForAll') {
         if (this.orderItemFormGroup.controls[attr]) {
@@ -346,7 +313,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       this.dataSource = new MatTableDataSource(order.items);
     }
 
-    this.updateDescription(this.orderFormGroup?.get('orderType')?.value);
+    this.updateDescription((this.orderFormGroup?.get('orderType')?.value) ?? this.orderTypes[0]);
     this.updateContactForm(this.addressChoiceCtrl?.value);
   }
 
@@ -372,7 +339,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   resetCustomerSearch() {
-    this.customerCtrl?.setValue('');
+    this.contactFormGroup.reset();
     this.isCustomerSelected = false;
     this.isNewInvoiceContact = false;
     this.currentSelectedContact = undefined;
@@ -380,7 +347,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   clearCustomerForm() {
-    this.customerCtrl?.setValue('');
+    this.contactFormGroup.reset();
     this.isCustomerSelected = true;
     this.isNewInvoiceContact = true;
     this.updateContactForm('2');
@@ -403,7 +370,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   clearForms() {
-    const orderTypeValue = this.orderFormGroup?.get('orderType')?.value;
+    const orderTypeValue = this.orderFormGroup?.get('orderType')?.value ?? this.orderTypes[0];
     this.updateDescription(orderTypeValue);
     const mandatoryContactOrders = ['Communal', 'Cantonal', 'Fédéral', 'Académique', 'Utilisateur permanent'];
     if (mandatoryContactOrders.indexOf(orderTypeValue.name) > -1) {
@@ -421,14 +388,14 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     if (addressChoice === '1') {
       for (const key in this.invoiceContactsFormControls) {
         if (this.invoiceContactsFormControls[key]) {
-          this.contactFormGroup.removeControl(key);
+          //this.contactFormGroup.removeControl(key);
           this.contactFormGroup.get(key)?.updateValueAndValidity();
         }
       }
     } else {
       for (const key in this.invoiceContactsFormControls) {
         if (this.invoiceContactsFormControls[key]) {
-          this.contactFormGroup.addControl(key, this.invoiceContactsFormControls[key]);
+          //this.contactFormGroup.addControl(key, this.invoiceContactsFormControls[key]);
           this.contactFormGroup.get(key)?.updateValueAndValidity();
         }
       }
@@ -445,10 +412,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       emailDeliverChoice: this.currentOrder.email_deliver ? '2' : '1',
       description: this.currentOrder.description,
     });
-    this.contactFormGroup.reset({
-      addressChoice: this.currentOrder.HasInvoiceContact ? '2' : '1',
-      customer: null,
-    });
+    this.contactFormGroup.reset();
 
     for (const key in this.invoiceContactsFormControls) {
       if (this.currentOrder.invoiceContact && this.currentOrder.invoiceContact[key]) {
@@ -456,7 +420,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.updateDescription(this.orderFormGroup?.get('orderType')?.value);
+    this.updateDescription((this.orderFormGroup?.get('orderType')?.value) ?? this.orderTypes[0]);
     this.updateContactForm(this.addressChoiceCtrl?.value);
   }
 
@@ -500,11 +464,11 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   private _createOrUpdateDraftOrder(invoiceContact: Contact | undefined, page = 0) {
-    this.currentOrder.title = this.orderFormGroup.get('title')?.value;
-    this.currentOrder.invoice_reference = this.orderFormGroup.get('invoice_reference')?.value;
-    this.currentOrder.email_deliver = this.orderFormGroup.get('emailDeliver')?.value;
-    this.currentOrder.description = this.orderFormGroup.get('description')?.value;
-    this.currentOrder.order_type = this.orderTypeCtrl?.value.name;
+    this.currentOrder.title = this.orderFormGroup.get('title')?.value ?? '';
+    this.currentOrder.invoice_reference = this.orderFormGroup.get('invoice_reference')?.value ?? '';
+    this.currentOrder.email_deliver = this.orderFormGroup.get('emailDeliver')?.value ?? '';
+    this.currentOrder.description = this.orderFormGroup.get('description')?.value ?? '';
+    this.currentOrder.order_type = this.orderTypeCtrl?.value.name ?? '';
     if (this.currentOrder.id === -1) {
       this.currentOrder.invoiceContact = invoiceContact;
       this.apiOrderService.createOrder(this.currentOrder.toPostAsJson, invoiceContact, this.IsAddressForCurrentUser)
