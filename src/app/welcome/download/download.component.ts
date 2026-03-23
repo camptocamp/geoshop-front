@@ -64,10 +64,10 @@ export class DownloadComponent implements OnInit, OnDestroy {
       .subscribe(order => {
         if (order) {
           this.order = order;
-          generateMiniMap(this.configService, this.mapService).then(result => {
+          generateMiniMap(this.configService, this.mapService).then(async result => {
             this.minimap = result.minimap;
             this.vectorSource = result.vectorSource;
-            displayMiniMap(this.order, [this.minimap], [this.vectorSource], 0);
+            await displayMiniMap(this.order, [this.minimap], [this.vectorSource], 0);
           });
         }
       });

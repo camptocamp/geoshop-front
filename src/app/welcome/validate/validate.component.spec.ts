@@ -114,7 +114,7 @@ describe('ValidateComponent', () => {
     vi.mock('@app/helpers/geoHelper', () => {
       return {
         generateMiniMap: async () => ({ minimap: null, vectorSource: null }),
-        displayMiniMap: () => ({})
+        displayMiniMap: async () => ({})
       };
     });
     items.next(fakeItem);

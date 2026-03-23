@@ -62,13 +62,16 @@ export class ValidateComponent implements OnInit, OnDestroy {
       map(data => data.order),
       filter(order => !!order),
     ).subscribe(order => {
-      generateMiniMap(this.configService, this.mapService).then(result => {
+      generateMiniMap(this.configService, this.mapService).then(async result => {
         // a delay is needed so that the DOM has finished rendering and the target of
         // type `mini-map-${order.id}` exists
         // TODO: improve this sync part with proper Angular logics (await for render)
         // angular experts needed ;-)
         // set timeout is a workaround which fixes the race condition.
-        setTimeout(() => displayMiniMap(order, [result.minimap], [result.vectorSource], 0), 50);
+        // setTimeout(() => displayMiniMap(order, [result.minimap], [result.vectorSource], 0), 50);
+        // 50ms is too short, do active wait for element
+        // waitForElementToDisplay(`#mini-map-${order.id}`, () => displayMiniMap(order, [result.minimap], [result.vectorSource], 0), 100, 5000);
+        await displayMiniMap(order, [result.minimap], [result.vectorSource], 0)
       });
     });
   }
@@ -87,3 +90,4 @@ export class ValidateComponent implements OnInit, OnDestroy {
     });
   }
 }
+

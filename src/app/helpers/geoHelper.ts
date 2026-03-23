@@ -91,11 +91,12 @@ export async function generateMiniMap(configService: ConfigService, mapService: 
   return { minimap, vectorSource };
 }
 
-export function displayMiniMap(order: Order, miniMaps: Map[], vectorSources: VectorSource[], index: number) {
+export async function displayMiniMap(order: Order, miniMaps: Map[], vectorSources: VectorSource[], index: number) {
   if (!order || !order.geom) {
     return;
   }
   const target = `mini-map-${order.id}`;
+  await waitForElementToDisplay(`#${target}`, 100, 5000);
   miniMaps[index].setTarget(target);
 
   const feature = new Feature();
@@ -113,4 +114,15 @@ export function displayMiniMap(order: Order, miniMaps: Map[], vectorSources: Vec
   miniMaps[index].getView().fit(order.geom, {
     padding: [50, 50, 50, 50]
   });
+}
+
+async function waitForElementToDisplay(selector: string, checkFrequencyInMs: number, timeoutInMs: number): Promise<boolean> {
+  const startTimeInMs = Date.now();
+  while (Date.now() - startTimeInMs < timeoutInMs) {
+    if (document.querySelector(selector) != null) {
+      return true;
+    }
+    await new Promise(resolve => setTimeout(resolve, checkFrequencyInMs));
+  }
+  return false;
 }
