@@ -1,6 +1,6 @@
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import { PHONE_REGEX, IDE_REGEX, EMAIL_REGEX, EXTRACT_FORBIDDEN_REGEX } from '@app/helpers/regex';
 import {IOrderType} from "@app/models/IOrder";
+
+import {FormControl} from '@angular/forms';
 
 export interface OrderForm {
   orderType: FormControl<IOrderType>;
@@ -25,6 +25,3 @@ export interface ContactForm {
   country: FormControl<string>;
   url: FormControl<string>;
 }
-
-// Helper type for the Group itself
-export type OrderFormGroup = FormGroup<OrderForm>;

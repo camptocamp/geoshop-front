@@ -1,0 +1,80 @@
+<form [formGroup]="orderItemFormGroup">
+
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <!-- Label Column -->
+      <ng-container matColumnDef="label">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>
+          Description / Disponibilité
+        </th>
+        <td mat-cell *matCellDef="let orderItem">
+          <div class="text-ellipsis-2">{{ getProductLabel(orderItem) }}</div>
+        </td>
+        <td mat-footer-cell *matFooterCellDef>
+          <div *ngIf="isOrderHasPendingItem" i18n>
+            Un ou plusieurs produits commandés doivent être devisés préalablement.<br>
+            N'hésitez pas à demander gratuitement votre devis sans engagement.<br>
+            Vous pourrez ensuite définitevement valider votre commande.
+          </div>
+
+          <ul class="padding-vertical-5" *ngIf="!isOrderHasPendingItem">
+            <li class="text-primary" i18n>Frais de traitement</li>
+            <li class="text-primary mat-body-strong" i18n>Total TTC</li>
+            <!-- FIXME TTC = toutes taxes comprises ??-->
+            <li class="mat-small" i18n>Dont TVA 8.1 %</li>
+          </ul>
+        </td>
+      </ng-container>
+
+      <!-- Format Column -->
+      <ng-container matColumnDef="format">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-select formControlName="formatsForAll" i18n-placeholder
+                      placeholder="Même format pour tous les produits">
+<!--                      (selectionChange)="updateAllDataFormats()"-->
+            <mat-option *ngFor="let format of allAvailableFormats" [value]="format">
+              {{ format }}
+            </mat-option>
+          </mat-select>
+          <mat-spinner *ngIf="isOrderPatchLoading" diameter="16" color="accent"
+                       style="margin-right: 10px"></mat-spinner>
+        </th>
+        <td mat-cell *matCellDef="let orderItem">
+          <mat-form-field color="primary">
+            <mat-select [formControlName]="getOrderItemControlName(orderItem)" required placeholder="Format">
+<!--              (selectionChange)="updateDataFormat(orderItem)"-->
+              <mat-option *ngFor="let format of orderItem.available_formats" [value]="format">
+                {{ format }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="orderItemFormGroup.get(getOrderItemControlName(orderItem))?.hasError('required')">
+              {{ AppConstants.REQUIRED }}
+            </mat-error>
+          </mat-form-field>
+        </td>
+        <td mat-footer-cell *matFooterCellDef class="text-primary"></td>
+      </ng-container>
+
+      <!-- Price Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef class="sitn-th-price" i18n>Prix</th>
+        <td mat-cell *matCellDef="let orderItem" class="sitn-td-price">
+          <span *ngIf="orderItem.price_status !== 'PENDING'">{{ orderItem.price | currency }}</span>
+          <span *ngIf="orderItem.price_status === 'PENDING'"> {{ getOrerStatus(orderItem) }}</span>
+        </td>
+        <td mat-footer-cell *matFooterCellDef class="sitn-tf-price">
+          <ul class="padding-vertical-5" *ngIf="!isOrderHasPendingItem">
+            <li class="text-primary">{{ order.processing_fee | currency: order.processing_fee_currency }}</li>
+            <li class="text-primary mat-body-strong">{{ order.total_with_vat | currency: order.total_with_vat_currency }}</li>
+            <li class="mat-small">{{ order.part_vat | currency: order.part_vat_currency }}</li>
+          </ul>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="text-primary"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="text-primary"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true" class="text-primary"></tr>
+    </table>
+  </div>
+</form>

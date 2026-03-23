@@ -1,4 +1,9 @@
-import { ConfirmDialogComponent } from '@app/components/confirm-dialog/confirm-dialog.component';
+import {ContactForm, OrderForm} from "@app/account/new-order/order-form.model";
+import {
+  ContactPricingStepComponent
+} from "@app/account/new-order/steps/contact-pricing-step/contact-pricing-step.component";
+import {DataFormatStepComponent} from "@app/account/new-order/steps/data-format-step/data-format-step.component";
+import {OrderTypeStepComponent} from "@app/account/new-order/steps/order-type-step/order-type-step.component";
 import * as Constants from '@app/constants';
 import { PHONE_REGEX, IDE_REGEX, EMAIL_REGEX, EXTRACT_FORBIDDEN_REGEX } from '@app/helpers/regex';
 import { Contact, IContact } from '@app/models/IContact';
@@ -18,10 +23,10 @@ import {
   FormGroup,
   FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators
 } from '@angular/forms';
-import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatError, MatInputModule } from '@angular/material/input';
@@ -35,8 +40,7 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, filter, map, mergeMap, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import {ContactForm, OrderForm} from "@app/account/new-order/order-form.model";
-import {OrderTypeStepComponent} from "@app/account/new-order/steps/order-type-step/order-type-step.component";
+
 
 @Component({
   selector: 'gs2-new-order',
@@ -46,7 +50,8 @@ import {OrderTypeStepComponent} from "@app/account/new-order/steps/order-type-st
     AsyncPipe, CommonModule, CurrencyPipe, FormsModule, MatAutocompleteModule, MatButtonModule,
     MatDialogModule, MatError, MatFormFieldModule, MatIconModule, MatInputModule,
     MatOptionModule, MatProgressSpinnerModule, MatRadioButton, MatRadioGroup, MatSelectModule,
-    MatStepperModule, MatTableModule, ReactiveFormsModule, OrderTypeStepComponent
+    MatStepperModule, MatTableModule, ReactiveFormsModule,
+    OrderTypeStepComponent, ContactPricingStepComponent, DataFormatStepComponent
   ],
 })
 export class NewOrderComponent implements OnInit, OnDestroy {
@@ -57,15 +62,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('stepper') stepper: MatStepper;
 
-  // constants
-  readonly REQUIRED = Constants.REQUIRED;
-  readonly WRONG_EMAIL = Constants.WRONG_EMAIL;
-  readonly WRONG_PHONE = Constants.WRONG_PHONE;
-  readonly NEXT = Constants.NEXT;
-  readonly PREVIOUS = Constants.PREVIOUS;
-  readonly BACK: string = $localize`Réinitialiser`;
-  readonly COUNTRIES = Constants.COUNTRIES;
-
+  readonly AppConstants = Constants;
 
   orderFormGroup: FormGroup<OrderForm>;
   addressChoiceForm: UntypedFormGroup;
@@ -73,12 +70,6 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   orderItemFormGroup: UntypedFormGroup;
   invoiceContactsFormControls: Record<string, UntypedFormControl>;
 
-  isSearchLoading = false;
-  isOrderPatchLoading = false;
-  isCustomerSelected = false;
-  isNewInvoiceContact = false;
-
-  currentSelectedContact: Contact | undefined;
   currentOrder: Order;
   currentUser$ = this.store.select(getUser);
   orderTypes: IOrderType[] = [];
@@ -88,22 +79,9 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   allAvailableFormats: Set<string>;
   dataSource: MatTableDataSource<IOrderItem>;
   products: IProduct[] = [];
-  displayedColumns: string[] = ['label', 'format', 'price'];
-
-  get customerCtrl() {
-    return this.contactFormGroup.get('customer');
-  }
-
-  get IsOrderTypePrivate() {
-    return this.orderFormGroup?.get('orderType')?.value?.id === 1;
-  }
 
   get orderTypeCtrl() {
     return this.orderFormGroup?.get('orderType');
-  }
-
-  get emailDeliverCtrl() {
-    return this.orderFormGroup?.get('emailDeliver');
   }
 
   get emailDeliverChoiceCtrl() {
@@ -122,12 +100,6 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     return this.currentOrder.items.every(x => x.price_status !== 'PENDING') ?
       $localize`Acheter maintenant` :
       $localize`Demander un devis`;
-  }
-
-  get isOrderHasPendingItem() {
-    return this.currentOrder ?
-      !this.currentOrder.isAllOrderItemCalculated :
-      false;
   }
 
   constructor(private formBuilder: UntypedFormBuilder,
@@ -164,11 +136,11 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       startWith(''),
       filter(x => typeof x === 'string' && x.length > 2),
       mergeMap(searchString => {
-        this.isSearchLoading = true;
+        //this.isSearchLoading = true;
         return this.apiService.find<IContact>(searchString, 'contact');
       }),
       map(x => {
-        this.isSearchLoading = false;
+        //this.isSearchLoading = false;
         return x ? x.results : [];
       })
     );
@@ -198,15 +170,6 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     return iContact.first_name && iContact.last_name && iContact.email ? new Contact(iContact) : undefined;
   }
 
-  // FIXME this is a duplication of the same function in the order-item-view.component.ts
-  getOrerStatus(orderItem: IOrderItem): string {
-    let returnValue = '';
-    if (orderItem.status !== undefined && Constants.ORDER_STATUS[orderItem.status]) {
-      returnValue = Constants.ORDER_STATUS[orderItem.status];
-    }
-    return returnValue;
-  }
-
   private getOrderType(key: number|string) {
     return this.orderTypes.find(x => key === x.id || key === x.name) || {
       id: 1,
@@ -224,11 +187,11 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       emailDeliver: new UntypedFormControl('', Validators.pattern(EMAIL_REGEX)),
       description: new UntypedFormControl('', Validators.required),
     });
-    this.orderTypeCtrl?.valueChanges.subscribe(
-      (choice) => {
-        //this.addressChoiceCtrl?.setValue(choice.id);
-      }
-    );
+    // this.orderTypeCtrl?.valueChanges.subscribe(
+    //   (choice) => {
+    //     //this.addressChoiceCtrl?.setValue(choice.id);
+    //   }
+    // );
     this.emailDeliverChoiceCtrl?.valueChanges.subscribe(
       (choice) => {
         if (choice === '1') {
@@ -268,7 +231,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   private updateForms(order: Order) {
-    this.isCustomerSelected = order.HasInvoiceContact;
+//    this.isCustomerSelected = order.HasInvoiceContact;
     this.orderFormGroup?.setValue({
       orderType: this.getOrderType(order.order_type),
       title: order.title,
@@ -280,7 +243,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
 
     if (order.HasInvoiceContact) {
       this.addressChoiceCtrl?.setValue('2');
-      this.currentSelectedContact = order.invoiceContact;
+      //this.currentSelectedContact = order.invoiceContact;
     } else {
       this.addressChoiceCtrl?.setValue('1');
     }
@@ -308,12 +271,12 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     }
 
     // create table source only on order PUT, don't refresh table on PATCH
-    if (this.isOrderPatchLoading) {
-      this.isOrderPatchLoading = false;
-    } else {
-      this.dataSource = new MatTableDataSource(order.items);
-    }
-
+    // if (this.isOrderPatchLoading) {
+    //   this.isOrderPatchLoading = false;
+    // } else {
+    //   this.dataSource = new MatTableDataSource(order.items);
+    // }
+    this.dataSource = new MatTableDataSource(order.items);
     this.updateDescription((this.orderFormGroup?.get('orderType')?.value) ?? this.orderTypes[0]);
     this.updateContactForm(this.addressChoiceCtrl?.value);
   }
@@ -322,43 +285,6 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     return customer ?
       customer.company_name ? customer.company_name :
         customer.first_name ? customer.first_name : '' : '';
-  }
-
-  updateCustomerForm(event: MatAutocompleteSelectedEvent) {
-    this.isCustomerSelected = true;
-    this.isNewInvoiceContact = false;
-
-    const iContact: IContact = event.option.value;
-    this.currentSelectedContact = new Contact(iContact);
-    for (const key in iContact) {
-      if (this.contactFormGroup.contains(key)) {
-        this.contactFormGroup.get(key)?.setValue(iContact[key]);
-      }
-    }
-
-    this.contactFormGroup.markAsPristine();
-  }
-
-  resetCustomerSearch() {
-    this.contactFormGroup.reset();
-    this.isCustomerSelected = false;
-    this.isNewInvoiceContact = false;
-    this.currentSelectedContact = undefined;
-    this.contactFormGroup.reset();
-  }
-
-  clearCustomerForm() {
-    this.contactFormGroup.reset();
-    this.isCustomerSelected = true;
-    this.isNewInvoiceContact = true;
-    this.updateContactForm('2');
-    for (const key in this.invoiceContactsFormControls) {
-      if (key === 'country') {
-        this.contactFormGroup.get(key)?.setValue(this.COUNTRIES.CH.name);
-      } else {
-        this.contactFormGroup.get(key)?.setValue('');
-      }
-    }
   }
 
   updateDescription(orderType: IOrderType) {
@@ -381,7 +307,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       this.addressChoiceCtrl?.setValue('1');
     }
     this.contactFormGroup.reset();
-    this.isCustomerSelected = false;
+//    this.isCustomerSelected = false;
   }
 
   updateContactForm(addressChoice: string) {
@@ -404,7 +330,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   resetForms() {
-    this.isCustomerSelected = this.currentOrder.HasInvoiceContact;
+ //   this.isCustomerSelected = this.currentOrder.HasInvoiceContact;
     this.orderFormGroup.reset({
       orderType: this.getOrderType(parseInt(this.currentOrder.order_type)),
       title: this.currentOrder.title,
@@ -429,37 +355,38 @@ export class NewOrderComponent implements OnInit, OnDestroy {
 
   createOrUpdateDraftOrder(page = 0) {
     const invoiceContact = this.getInvoiceContact();
-
-    // means the contact was updated
-    if (!this.isNewInvoiceContact && this.contactFormGroup.valid && this.contactFormGroup.dirty && invoiceContact
-      && this.currentSelectedContact) {
-
-      let dialogRef: MatDialogRef<ConfirmDialogComponent> | null = this.dialog.open(ConfirmDialogComponent, {
-        disableClose: false,
-      });
-
-      if (!dialogRef) {
-        return;
-      }
-
-      dialogRef.componentInstance.noButtonTitle = $localize`Annuler`;
-      dialogRef.componentInstance.yesButtonTitle = $localize`Continuer`;
-      dialogRef.componentInstance.confirmMessage =
-        $localize`Le contact <b style='color:#26a59a;'>${this.currentSelectedContact.first_name} ${this.currentSelectedContact.last_name}</b> a été modifié. Voulez-vous continuer?`;
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.apiOrderService.deleteContact(invoiceContact.Id).subscribe(confirmed => {
-            if (confirmed) {
-              invoiceContact.Id = -1;
-              this._createOrUpdateDraftOrder(invoiceContact, page);
-            }
-          });
-        }
-        dialogRef = null;
-      });
-    } else {
-      this._createOrUpdateDraftOrder(invoiceContact, page);
-    }
+    //
+    // // means the contact was updated
+    // if (!this.isNewInvoiceContact && this.contactFormGroup.valid && this.contactFormGroup.dirty && invoiceContact
+    //   && this.currentSelectedContact) {
+    //
+    //   let dialogRef: MatDialogRef<ConfirmDialogComponent> | null = this.dialog.open(ConfirmDialogComponent, {
+    //     disableClose: false,
+    //   });
+    //
+    //   if (!dialogRef) {
+    //     return;
+    //   }
+    //
+    //   dialogRef.componentInstance.noButtonTitle = $localize`Annuler`;
+    //   dialogRef.componentInstance.yesButtonTitle = $localize`Continuer`;
+    //   dialogRef.componentInstance.confirmMessage =
+    //     $localize`Le contact <b style='color:#26a59a;'>${this.currentSelectedContact.first_name} ${this.currentSelectedContact.last_name}</b> a été modifié. Voulez-vous continuer?`;
+    //   dialogRef.afterClosed().subscribe(result => {
+    //     if (result) {
+    //       this.apiOrderService.deleteContact(invoiceContact.Id).subscribe(confirmed => {
+    //         if (confirmed) {
+    //           invoiceContact.Id = -1;
+    //           this._createOrUpdateDraftOrder(invoiceContact, page);
+    //         }
+    //       });
+    //     }
+    //     dialogRef = null;
+    //   });
+    // } else {
+    //   this._createOrUpdateDraftOrder(invoiceContact, page);
+    // }
+    this._createOrUpdateDraftOrder(invoiceContact, page);
   }
 
   private _createOrUpdateDraftOrder(invoiceContact: Contact | undefined, page = 0) {
@@ -499,7 +426,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   updateAllDataFormats() {
-    this.isOrderPatchLoading = true;
+   // this.isOrderPatchLoading = true;
     const dataFormatName = this.orderItemFormGroup.get('formatsForAll')?.value || '';
     for (const item of this.currentOrder.items) {
       const availableFormats = item.available_formats || [];
@@ -546,43 +473,43 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   resetCustomerForm() {
-    if (this.currentSelectedContact) {
-      for (const attr in this.currentSelectedContact) {
-        if (this.currentSelectedContact[attr] != null && this.contactFormGroup.contains(attr)) {
-          this.contactFormGroup.get(attr)?.reset(this.currentSelectedContact[attr]);
-        }
-      }
-    }
+    // if (this.currentSelectedContact) {
+    //   for (const attr in this.currentSelectedContact) {
+    //     if (this.currentSelectedContact[attr] != null && this.contactFormGroup.contains(attr)) {
+    //       this.contactFormGroup.get(attr)?.reset(this.currentSelectedContact[attr]);
+    //     }
+    //   }
+    // }
   }
 
   deleteCurrentContact() {
-    const contact = this.getInvoiceContact();
-
-    if (this.isCustomerSelected && contact && contact.Id) {
-      let dialogRef: MatDialogRef<ConfirmDialogComponent> | null = this.dialog.open(ConfirmDialogComponent, {
-        disableClose: false,
-      });
-
-      if (!dialogRef) {
-        return;
-      }
-
-      dialogRef.componentInstance.noButtonTitle = $localize`Annuler`;
-      dialogRef.componentInstance.yesButtonTitle = $localize`Supprimer`;
-      dialogRef.componentInstance.confirmMessage =
-        $localize`Etes-vous sûr de vouloir supprimer le contact <b style='color:#26a59a;'>${contact.first_name} ${contact.last_name}</b> ?`;
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.apiOrderService.deleteContact(contact.Id).subscribe(confirmed => {
-            if (confirmed) {
-              this.clearCustomerForm();
-              this.isCustomerSelected = false;
-            }
-          });
-        }
-        dialogRef = null;
-      });
-    }
+    // const contact = this.getInvoiceContact();
+    //
+    // if (this.isCustomerSelected && contact && contact.Id) {
+    //   let dialogRef: MatDialogRef<ConfirmDialogComponent> | null = this.dialog.open(ConfirmDialogComponent, {
+    //     disableClose: false,
+    //   });
+    //
+    //   if (!dialogRef) {
+    //     return;
+    //   }
+    //
+    //   dialogRef.componentInstance.noButtonTitle = $localize`Annuler`;
+    //   dialogRef.componentInstance.yesButtonTitle = $localize`Supprimer`;
+    //   dialogRef.componentInstance.confirmMessage =
+    //     $localize`Etes-vous sûr de vouloir supprimer le contact <b style='color:#26a59a;'>${contact.first_name} ${contact.last_name}</b> ?`;
+    //   dialogRef.afterClosed().subscribe(result => {
+    //     if (result) {
+    //       this.apiOrderService.deleteContact(contact.Id).subscribe(confirmed => {
+    //         if (confirmed) {
+    //           //this.clearCustomerForm();
+    //           //this.isCustomerSelected = false;
+    //         }
+    //       });
+    //     }
+    //     dialogRef = null;
+    //   });
+    // }
   }
 
   public billingRequired(): boolean {
