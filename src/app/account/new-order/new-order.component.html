@@ -1,63 +1,21 @@
 <mat-horizontal-stepper #stepper [linear]="true">
   <mat-step [stepControl]="orderFormGroup" i18n-label label="Détails du mandat">
-    <form [formGroup]="orderFormGroup">
+    <!--
+      @Input() orderFormGroup: FormGroup<OrderForm>;
+  @Input() orderTypes: IOrderType[];
+  @Input() products: IProduct[] = [];
+  @Input() user: Partial<IIdentity>;
 
-      <!-- Order type -->
-      <mat-form-field>
-        <mat-label i18n>Type de mandat</mat-label>
-        <mat-select formControlName="orderType" required (selectionChange)="clearForms()"
-          [compareWith]="orderTypeCompareWith">
-          @for (orderType of orderTypes; track orderType) {
-          <mat-option [value]="orderType">{{getLocalizedTypeName(orderType)}}</mat-option>
-          }
-        </mat-select>
-        <mat-error *ngIf="orderFormGroup.get('orderType')?.hasError('required')">{{ REQUIRED }}</mat-error>
-      </mat-form-field>
+-->
+    <gs2-order-type-step [orderFormGroup]="orderFormGroup" [orderTypes]="orderTypes" [products]="products"
+      [user]="currentUser$ | async">
 
-      <!-- title -->
-      <mat-form-field>
-        <mat-label i18n>Titre du mandat</mat-label>
-        <textarea matInput required formControlName="title"></textarea>
-        <mat-error *ngIf="orderFormGroup.get('title')?.hasError('required')">{{ REQUIRED }}</mat-error>
-        <mat-error *ngIf="orderFormGroup.get('title')?.hasError('pattern')" i18n>
-          Le titre contient des caractères non supportés (parenthèses, guillemets, etc.)</mat-error>
-      </mat-form-field>
-
-      <!-- Description -->
-      <mat-form-field *ngIf="orderFormGroup.get('orderType')?.value?.id !== 1">
-        <mat-label i18n>Description du mandat</mat-label>
-        <textarea required matInput formControlName="description" i18n-placeholder
-          placeholder="Renseigner une courte description du mandat..."></textarea>
-        <mat-error *ngIf="orderFormGroup.get('description')?.hasError('required')">{{ REQUIRED }}</mat-error>
-      </mat-form-field>
-
-      <!-- My reference -->
-      <mat-form-field *ngIf="billingRequired()">
-        <mat-label i18n>Votre référence reportée sur la facture</mat-label>
-        <input matInput type="text" formControlName="invoice_reference" />
-      </mat-form-field>
-
-      <!-- Email for delivery -->
-      <mat-radio-group class="flex-column" formControlName="emailDeliverChoice" i18n-aria-label
-        aria-label="Choisir l'email de livraison">
-        <mat-radio-button value="1" i18n>Les données seront envoyées à l'adresse email de
-          l'utilisateur courant: {{(currentUser$|async)?.email}}</mat-radio-button>
-        <mat-radio-button value="2" i18n>Adresse de livraison des données différente</mat-radio-button>
-      </mat-radio-group>
-
-      <mat-form-field *ngIf="orderFormGroup?.get('emailDeliverChoice')?.value == '2'">
-        <mat-label i18n>Saisir l'adresse email de livraison</mat-label>
-        <input matInput type="email" formControlName="emailDeliver" autocomplete="on" />
-        <mat-error i18n *ngIf="orderFormGroup?.get('emailDeliver')?.hasError('pattern')">Adresse email non
-          valide</mat-error>
-      </mat-form-field>
-
-      <div class="bottom-container flex-row">
-        <button color="warn" mat-button (click)="resetForms();stepper.selectedIndex = 0">{{ BACK }}</button>
-        <button color="primary" matStepperNext mat-raised-button (click)="createOrUpdateDraftOrder(1)">{{ NEXT
-          }}</button>
-      </div>
-    </form>
+    </gs2-order-type-step>
+    <div class="bottom-container flex-row">
+      <button color="warn" mat-button (click)="resetForms();stepper.selectedIndex = 0">{{ BACK }}</button>
+      <button color="primary" matStepperNext mat-raised-button (click)="createOrUpdateDraftOrder(1)">{{ NEXT
+        }}</button>
+    </div>
   </mat-step>
 
   <mat-step *ngIf="billingRequired()" [stepControl]="contactFormGroup" i18n-label label="Facturation / Tiers">

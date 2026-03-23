@@ -36,6 +36,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, filter, map, mergeMap, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import {ContactForm, OrderForm} from "@app/account/new-order/order-form.model";
+import {OrderTypeStepComponent} from "@app/account/new-order/steps/order-type-step/order-type-step.component";
 
 @Component({
   selector: 'gs2-new-order',
@@ -45,7 +46,7 @@ import {ContactForm, OrderForm} from "@app/account/new-order/order-form.model";
     AsyncPipe, CommonModule, CurrencyPipe, FormsModule, MatAutocompleteModule, MatButtonModule,
     MatDialogModule, MatError, MatFormFieldModule, MatIconModule, MatInputModule,
     MatOptionModule, MatProgressSpinnerModule, MatRadioButton, MatRadioGroup, MatSelectModule,
-    MatStepperModule, MatTableModule, ReactiveFormsModule
+    MatStepperModule, MatTableModule, ReactiveFormsModule, OrderTypeStepComponent
   ],
 })
 export class NewOrderComponent implements OnInit, OnDestroy {
@@ -225,13 +226,13 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     });
     this.orderTypeCtrl?.valueChanges.subscribe(
       (choice) => {
-        this.addressChoiceCtrl?.setValue(choice.id);
+        //this.addressChoiceCtrl?.setValue(choice.id);
       }
     );
     this.emailDeliverChoiceCtrl?.valueChanges.subscribe(
       (choice) => {
         if (choice === '1') {
-          this.emailDeliverCtrl?.setValue('');
+          //this.emailDeliverCtrl?.setValue('');
         }
       }
     );
@@ -424,9 +425,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     this.updateContactForm(this.addressChoiceCtrl?.value);
   }
 
-  orderTypeCompareWith(a: IOrderType, b: IOrderType) {
-    return a && b && a.id === b.id;
-  }
+
 
   createOrUpdateDraftOrder(page = 0) {
     const invoiceContact = this.getInvoiceContact();
@@ -586,6 +585,11 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     }
   }
 
+  public billingRequired(): boolean {
+    return !this.config.config?.noBillingForFreeOrder ||
+      !this.products.every(product => product.pricing?.pricing_type === "FREE");
+  }
+
   public getLocalizedTypeName(type: IOrderType): string {
     switch (type.id) {
       case 1:
@@ -594,10 +598,5 @@ export class NewOrderComponent implements OnInit, OnDestroy {
         return Constants.ORDER_NAME.PUBLIC;
     };
     return type.name;
-  }
-
-  public billingRequired(): boolean {
-    return !this.config.config?.noBillingForFreeOrder ||
-      !this.products.every(product => product.pricing?.pricing_type === "FREE");
   }
 }
