@@ -31,8 +31,8 @@
       <ng-container matColumnDef="format">
         <th mat-header-cell *matHeaderCellDef>
           <mat-select formControlName="formatsForAll" i18n-placeholder
-                      placeholder="Même format pour tous les produits">
-<!--                      (selectionChange)="updateAllDataFormats()"-->
+                      placeholder="Même format pour tous les produits"
+                      (selectionChange)="updateAllDataFormats()">
             <mat-option *ngFor="let format of allAvailableFormats" [value]="format">
               {{ format }}
             </mat-option>

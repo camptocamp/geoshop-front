@@ -1,9 +1,12 @@
+import {OrderItemForm} from "@app/account/new-order/order-form.model";
 import * as Constants from "@app/constants";
-import {IOrderItem, Order} from "@app/models/IOrder";
+import {IOrder, IOrderItem, Order} from "@app/models/IOrder";
+import {ApiOrderService} from "@app/services/api-order.service";
+import {StoreService} from "@app/services/store.service";
 
 import { CommonModule, CurrencyPipe} from "@angular/common";
 import {Component, Input} from '@angular/core';
-import {FormsModule, ReactiveFormsModule, UntypedFormGroup} from "@angular/forms";
+import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatButtonModule} from "@angular/material/button";
 import {MatOptionModule} from "@angular/material/core";
@@ -31,7 +34,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 export class DataFormatStepComponent {
 
   @Input() dataSource: MatTableDataSource<IOrderItem>;
-  @Input() orderItemFormGroup: UntypedFormGroup;
+  @Input() orderItemFormGroup: FormGroup<OrderItemForm>;
   @Input() allAvailableFormats: Set<string> = new Set<string>();
   @Input() order: Order;
 
@@ -41,12 +44,34 @@ export class DataFormatStepComponent {
   isOrderPatchLoading = false;
   isOrderHasPendingItem = false;
 
+  constructor(
+    private readonly apiOrderService: ApiOrderService,
+    private readonly storeService: StoreService
+  ) {
+  }
+
   getProductLabel(orderItem: IOrderItem) {
     return Order.getProductLabel(orderItem);
   }
 
   getOrderItemControlName(orderItem: IOrderItem) {
     return `${orderItem.id}_${Order.getProductLabel(orderItem)}`;
+  }
+
+  updateAllDataFormats() {
+    this.isOrderPatchLoading = true;
+    const dataFormatName = this.orderItemFormGroup.get('formatsForAll')?.value || '';
+    for (const item of this.order.items) {
+      const availableFormats = item.available_formats || [];
+      if (availableFormats.indexOf(dataFormatName) > -1) {
+        item.data_format = dataFormatName;
+      }
+    }
+    this.apiOrderService.updateOrderItemsDataFormats(this.order).subscribe(newOrder => {
+      if (newOrder) {
+        this.storeService.addOrderToStore(new Order(newOrder as IOrder));
+      }
+    });
   }
 
   // FIXME this is a duplication of the same function in the order-item-view.component.ts

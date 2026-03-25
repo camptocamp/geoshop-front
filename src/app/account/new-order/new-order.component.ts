@@ -1,14 +1,19 @@
-import {ContactForm, OrderForm} from "@app/account/new-order/order-form.model";
+import {
+  AddressChoiceForm,
+  ContactForm,
+  createAddressChoiceForm,
+  createContactForm,
+  createOrderForm, createOrderItemForm,
+  OrderForm, OrderItemForm
+} from "@app/account/new-order/order-form.model";
 import {
   ContactPricingStepComponent
 } from "@app/account/new-order/steps/contact-pricing-step/contact-pricing-step.component";
 import {DataFormatStepComponent} from "@app/account/new-order/steps/data-format-step/data-format-step.component";
 import {OrderTypeStepComponent} from "@app/account/new-order/steps/order-type-step/order-type-step.component";
 import * as Constants from '@app/constants';
-import { PHONE_REGEX, IDE_REGEX, EMAIL_REGEX, EXTRACT_FORBIDDEN_REGEX } from '@app/helpers/regex';
 import { Contact, IContact } from '@app/models/IContact';
-import { IIdentity } from '@app/models/IIdentity';
-import { IOrder, IOrderType, Order, IOrderItem } from '@app/models/IOrder';
+import { IOrder, Order, IOrderItem } from '@app/models/IOrder';
 import { IProduct } from '@app/models/IProduct';
 import { ApiOrderService } from '@app/services/api-order.service';
 import { ApiService } from '@app/services/api.service';
@@ -17,47 +22,40 @@ import { StoreService } from '@app/services/store.service';
 import { AppState, getUser, selectOrder, selectAllProduct } from '@app/store';
 import * as fromCart from '@app/store/cart/cart.action';
 
-import { AsyncPipe, CommonModule, CurrencyPipe } from '@angular/common';
-import { Component, HostBinding, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {
-  FormGroup,
-  FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators
-} from '@angular/forms';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {FormGroup, FormsModule, ReactiveFormsModule, UntypedFormBuilder} from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatError, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, filter, map, mergeMap, startWith, switchMap, takeUntil } from 'rxjs/operators';
-
+import {Observable, of} from 'rxjs';
+import { debounceTime, filter, map, mergeMap, startWith, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'gs2-new-order',
   templateUrl: './new-order.component.html',
   styleUrls: ['./new-order.component.scss'],
   imports: [
-    AsyncPipe, CommonModule, CurrencyPipe, FormsModule, MatAutocompleteModule, MatButtonModule,
-    MatDialogModule, MatError, MatFormFieldModule, MatIconModule, MatInputModule,
-    MatOptionModule, MatProgressSpinnerModule, MatRadioButton, MatRadioGroup, MatSelectModule,
+    AsyncPipe, CommonModule, FormsModule, MatAutocompleteModule, MatButtonModule,
+    MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule,
+    MatOptionModule, MatProgressSpinnerModule, MatSelectModule,
     MatStepperModule, MatTableModule, ReactiveFormsModule,
     OrderTypeStepComponent, ContactPricingStepComponent, DataFormatStepComponent
   ],
 })
-export class NewOrderComponent implements OnInit, OnDestroy {
-
-  private onDestroy$ = new Subject<boolean>();
-
+export class NewOrderComponent implements OnInit {
   @HostBinding('class') class = 'main-container';
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('stepper') stepper: MatStepper;
@@ -65,15 +63,19 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   readonly AppConstants = Constants;
 
   orderFormGroup: FormGroup<OrderForm>;
-  addressChoiceForm: UntypedFormGroup;
+  addressChoiceForm: FormGroup<AddressChoiceForm>;
   contactFormGroup: FormGroup<ContactForm>;
-  orderItemFormGroup: UntypedFormGroup;
-  invoiceContactsFormControls: Record<string, UntypedFormControl>;
+  orderItemFormGroup: FormGroup<OrderItemForm>;
 
   currentOrder: Order;
-  currentUser$ = this.store.select(getUser);
-  orderTypes: IOrderType[] = [];
-  filteredCustomers$: Observable<IContact[]> | undefined;
+  invoiceContact: Contact|undefined;
+
+  readonly orderTypes$ = this.apiOrderService.getOrderTypes().pipe(
+    takeUntilDestroyed(),
+    map((orderTypes) => orderTypes ? orderTypes: []));
+
+  readonly currentUser$ = this.store.select(getUser);
+  filteredCustomers$: Observable<IContact[]> = of([]);
 
   // order item form: table's attributes
   allAvailableFormats: Set<string>;
@@ -84,16 +86,8 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     return this.orderFormGroup?.get('orderType');
   }
 
-  get emailDeliverChoiceCtrl() {
-    return this.orderFormGroup.get('emailDeliverChoice');
-  }
-
   get IsAddressForCurrentUser() {
-    return this.addressChoiceCtrl?.value === '1';
-  }
-
-  get addressChoiceCtrl() {
-    return this.addressChoiceForm.get('addressChoice');
+    return this.addressChoiceForm.get('addressChoice')?.value === '1';
   }
 
   get buttonConfirmLabel() {
@@ -112,26 +106,31 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     private config: ConfigService) {
 
     this.createForms();
-  }
-
-  ngOnInit(): void {
     this.store.pipe(
-      takeUntil(this.onDestroy$),
+      takeUntilDestroyed(),
       select(selectAllProduct)
     ).subscribe((cartProducts: IProduct[]) => {
       this.products = cartProducts;
     });
 
-    this.apiOrderService.getOrderTypes()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(orderTypes => {
-        this.orderTypes = orderTypes;
-        if (orderTypes.length > 0) {
-          this.orderTypeCtrl?.setValue(orderTypes[0]);
-        }
-      });
+    this.store.pipe(
+      takeUntilDestroyed(),
+      select(selectOrder),
+      switchMap(x => this.apiOrderService.getFullOrder(x)),
+    ).subscribe(order => {
+      if (order) {
+        this.currentOrder = order;
+        this.updateForms();
+      }
+    });
+  }
 
-    this.filteredCustomers$ = this.contactFormGroup.get('customer')?.valueChanges.pipe(
+  ngOnInit(): void {
+    const customer = this.contactFormGroup.get('customer');
+    if (!customer){
+      return;
+    }
+    this.filteredCustomers$ = customer.valueChanges.pipe(
       debounceTime(500),
       startWith(''),
       filter(x => typeof x === 'string' && x.length > 2),
@@ -145,320 +144,69 @@ export class NewOrderComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.store.pipe(
-      takeUntil(this.onDestroy$),
-      select(selectOrder),
-      switchMap(x => this.apiOrderService.getFullOrder(x)),
-    ).subscribe(order => {
-      if (order) {
-        this.currentOrder = order;
-        this.updateForms(this.currentOrder);
-      }
-    });
+
     //this._createOrUpdateDraftOrder(undefined, 0);
   }
 
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-  }
-
-  private getInvoiceContact() {
-    const iContact: IContact = {
-      ...this.contactFormGroup.getRawValue()
-    };
-
-    return iContact.first_name && iContact.last_name && iContact.email ? new Contact(iContact) : undefined;
-  }
-
-  private getOrderType(key: number|string) {
-    return this.orderTypes.find(x => key === x.id || key === x.name) || {
-      id: 1,
-      name: Constants.ORDERTYPE_PRIVATE
-    };
-  }
-
   private createForms() {
-    this.orderFormGroup = this.formBuilder.group({
-      orderType: new UntypedFormControl(this, Validators.required),
-      title: new UntypedFormControl('', Validators.compose(
-        [Validators.pattern(EXTRACT_FORBIDDEN_REGEX), Validators.required])),
-      invoice_reference: new UntypedFormControl(''),
-      emailDeliverChoice: new UntypedFormControl('1'),
-      emailDeliver: new UntypedFormControl('', Validators.pattern(EMAIL_REGEX)),
-      description: new UntypedFormControl('', Validators.required),
-    });
-    // this.orderTypeCtrl?.valueChanges.subscribe(
-    //   (choice) => {
-    //     //this.addressChoiceCtrl?.setValue(choice.id);
-    //   }
-    // );
-    this.emailDeliverChoiceCtrl?.valueChanges.subscribe(
-      (choice) => {
-        if (choice === '1') {
-          //this.emailDeliverCtrl?.setValue('');
-        }
-      }
-    );
-    this.invoiceContactsFormControls = {
-      first_name: new UntypedFormControl(null, Validators.required),
-      last_name: new UntypedFormControl(null, Validators.required),
-      email: new UntypedFormControl(null, Validators.compose(
-        [Validators.required, Validators.pattern(EMAIL_REGEX)])),
-      company_name: new UntypedFormControl(),
-      ide_id: new UntypedFormControl(null, Validators.compose(
-        [Validators.pattern(IDE_REGEX)])),
-      phone: new UntypedFormControl(null, Validators.pattern(PHONE_REGEX)),
-      street: new UntypedFormControl(),
-      street2: new UntypedFormControl(),
-      postcode: new UntypedFormControl(),
-      city: new UntypedFormControl(),
-      country: new UntypedFormControl(),
-      url: new UntypedFormControl(),
-    };
-
-    this.addressChoiceForm = new UntypedFormGroup({
-      addressChoice: new UntypedFormControl('1')
-    });
-    this.addressChoiceCtrl?.valueChanges.subscribe((choice) => this.updateContactForm(choice));
-
-    this.contactFormGroup = new UntypedFormGroup({
-      customer: new UntypedFormControl(null),
-      ...this.invoiceContactsFormControls
-    });
-    this.orderItemFormGroup = new UntypedFormGroup({
-      formatsForAll: new UntypedFormControl(null)
-    });
+    this.orderFormGroup = createOrderForm();
+    this.addressChoiceForm = createAddressChoiceForm();
+    this.contactFormGroup = createContactForm();
+    this.orderItemFormGroup = createOrderItemForm();
   }
 
-  private updateForms(order: Order) {
-//    this.isCustomerSelected = order.HasInvoiceContact;
-    this.orderFormGroup?.setValue({
-      orderType: this.getOrderType(order.order_type),
-      title: order.title,
-      invoice_reference: order.invoice_reference,
-      emailDeliver: order.email_deliver,
-      emailDeliverChoice: order.email_deliver ? "2" : "1",
-      description: order.description
-    });
+  public resetForms() {
+    this.createForms();
+    this.updateForms();
+  }
+  // Update form values from an order
+  private updateForms() {
+    this.orderFormGroup.patchValue(this.currentOrder);
+    this.contactFormGroup.patchValue(this.invoiceContact ?? {});
+    this.dataSource = new MatTableDataSource(this.currentOrder.items);
+  }
 
-    if (order.HasInvoiceContact) {
-      this.addressChoiceCtrl?.setValue('2');
-      //this.currentSelectedContact = order.invoiceContact;
+  // Create order from an order draft and the form values
+  private updateOrder() {
+    const order = this.orderFormGroup.getRawValue();
+    this.currentOrder.title = order.title;
+    this.currentOrder.invoice_reference = order.invoice_reference;
+    this.currentOrder.email_deliver = order.emailDeliver;
+    this.currentOrder.description = order.description;
+    this.currentOrder.order_type = order.orderType.name;
+
+    if (this.addressChoiceForm.get('addressChoice')?.value === '2') {
+      const contact:IContact = this.contactFormGroup.getRawValue();
+      this.invoiceContact = contact.first_name && contact.last_name && contact.email ?
+        new Contact(contact) :
+        undefined;
     } else {
-      this.addressChoiceCtrl?.setValue('1');
-    }
-
-    this.contactFormGroup.reset();
-    for (const attr in this.orderItemFormGroup.controls) {
-      if (attr !== 'formatsForAll') {
-        if (this.orderItemFormGroup.controls[attr]) {
-          this.orderItemFormGroup.removeControl(attr);
-        }
-      }
-    }
-
-    this.allAvailableFormats = new Set();
-    for (const item of order.items) {
-      item.available_formats?.forEach(format => this.allAvailableFormats.add(format));
-      const itemFormControl = new UntypedFormControl('', Validators.required);
-      const controlName = this.getOrderItemControlName(item);
-      this.orderItemFormGroup?.addControl(controlName, itemFormControl);
-
-      if (item.data_format && item.available_formats &&
-        item.available_formats.indexOf(item.data_format) > -1) {
-        itemFormControl.setValue(item.data_format);
-      }
-    }
-
-    // create table source only on order PUT, don't refresh table on PATCH
-    // if (this.isOrderPatchLoading) {
-    //   this.isOrderPatchLoading = false;
-    // } else {
-    //   this.dataSource = new MatTableDataSource(order.items);
-    // }
-    this.dataSource = new MatTableDataSource(order.items);
-    this.updateDescription((this.orderFormGroup?.get('orderType')?.value) ?? this.orderTypes[0]);
-    this.updateContactForm(this.addressChoiceCtrl?.value);
-  }
-
-  displayCustomer(customer: IIdentity) {
-    return customer ?
-      customer.company_name ? customer.company_name :
-        customer.first_name ? customer.first_name : '' : '';
-  }
-
-  updateDescription(orderType: IOrderType) {
-    if (orderType && orderType.id === 1) {
-      this.orderFormGroup.get('description')?.clearValidators();
-    } else {
-      this.orderFormGroup.get('description')?.setValidators(Validators.required);
-    }
-    this.orderFormGroup.get('description')?.updateValueAndValidity();
-  }
-
-  clearForms() {
-    const orderTypeValue = this.orderFormGroup?.get('orderType')?.value ?? this.orderTypes[0];
-    this.updateDescription(orderTypeValue);
-    const mandatoryContactOrders = ['Communal', 'Cantonal', 'Fédéral', 'Académique', 'Utilisateur permanent'];
-    if (mandatoryContactOrders.indexOf(orderTypeValue.name) > -1) {
-      // Force enable contact form because it's a public mandate
-      this.addressChoiceCtrl?.setValue('2');
-    } else {
-      this.addressChoiceCtrl?.setValue('1');
-    }
-    this.contactFormGroup.reset();
-//    this.isCustomerSelected = false;
-  }
-
-  updateContactForm(addressChoice: string) {
-    // current user, disable required form controls
-    if (addressChoice === '1') {
-      for (const key in this.invoiceContactsFormControls) {
-        if (this.invoiceContactsFormControls[key]) {
-          //this.contactFormGroup.removeControl(key);
-          this.contactFormGroup.get(key)?.updateValueAndValidity();
-        }
-      }
-    } else {
-      for (const key in this.invoiceContactsFormControls) {
-        if (this.invoiceContactsFormControls[key]) {
-          //this.contactFormGroup.addControl(key, this.invoiceContactsFormControls[key]);
-          this.contactFormGroup.get(key)?.updateValueAndValidity();
-        }
-      }
+      this.invoiceContact = undefined;
     }
   }
 
-  resetForms() {
- //   this.isCustomerSelected = this.currentOrder.HasInvoiceContact;
-    this.orderFormGroup.reset({
-      orderType: this.getOrderType(parseInt(this.currentOrder.order_type)),
-      title: this.currentOrder.title,
-      invoice_reference: this.currentOrder.invoice_reference,
-      emailDeliver: this.currentOrder.email_deliver,
-      emailDeliverChoice: this.currentOrder.email_deliver ? '2' : '1',
-      description: this.currentOrder.description,
-    });
-    this.contactFormGroup.reset();
-
-    for (const key in this.invoiceContactsFormControls) {
-      if (this.currentOrder.invoiceContact && this.currentOrder.invoiceContact[key]) {
-        this.contactFormGroup.get(key)?.setValue(this.currentOrder.invoiceContact[key]);
-      }
-    }
-
-    this.updateDescription((this.orderFormGroup?.get('orderType')?.value) ?? this.orderTypes[0]);
-    this.updateContactForm(this.addressChoiceCtrl?.value);
-  }
-
-
-
-  createOrUpdateDraftOrder(page = 0) {
-    const invoiceContact = this.getInvoiceContact();
-    //
-    // // means the contact was updated
-    // if (!this.isNewInvoiceContact && this.contactFormGroup.valid && this.contactFormGroup.dirty && invoiceContact
-    //   && this.currentSelectedContact) {
-    //
-    //   let dialogRef: MatDialogRef<ConfirmDialogComponent> | null = this.dialog.open(ConfirmDialogComponent, {
-    //     disableClose: false,
-    //   });
-    //
-    //   if (!dialogRef) {
-    //     return;
-    //   }
-    //
-    //   dialogRef.componentInstance.noButtonTitle = $localize`Annuler`;
-    //   dialogRef.componentInstance.yesButtonTitle = $localize`Continuer`;
-    //   dialogRef.componentInstance.confirmMessage =
-    //     $localize`Le contact <b style='color:#26a59a;'>${this.currentSelectedContact.first_name} ${this.currentSelectedContact.last_name}</b> a été modifié. Voulez-vous continuer?`;
-    //   dialogRef.afterClosed().subscribe(result => {
-    //     if (result) {
-    //       this.apiOrderService.deleteContact(invoiceContact.Id).subscribe(confirmed => {
-    //         if (confirmed) {
-    //           invoiceContact.Id = -1;
-    //           this._createOrUpdateDraftOrder(invoiceContact, page);
-    //         }
-    //       });
-    //     }
-    //     dialogRef = null;
-    //   });
-    // } else {
-    //   this._createOrUpdateDraftOrder(invoiceContact, page);
-    // }
-    this._createOrUpdateDraftOrder(invoiceContact, page);
-  }
-
-  private _createOrUpdateDraftOrder(invoiceContact: Contact | undefined, page = 0) {
-    this.currentOrder.title = this.orderFormGroup.get('title')?.value ?? '';
-    this.currentOrder.invoice_reference = this.orderFormGroup.get('invoice_reference')?.value ?? '';
-    this.currentOrder.email_deliver = this.orderFormGroup.get('emailDeliver')?.value ?? '';
-    this.currentOrder.description = this.orderFormGroup.get('description')?.value ?? '';
-    this.currentOrder.order_type = this.orderTypeCtrl?.value.name ?? '';
+  createOrUpdateDraft(nextPage: number) {
+    this.updateOrder()
     if (this.currentOrder.id === -1) {
-      this.currentOrder.invoiceContact = invoiceContact;
-      this.apiOrderService.createOrder(this.currentOrder.toPostAsJson, invoiceContact, this.IsAddressForCurrentUser)
+      this.apiOrderService.createOrder(this.currentOrder.toPostAsJson, this.invoiceContact, this.IsAddressForCurrentUser)
         .subscribe(newOrder => {
           if (newOrder) {
-            this.resetCustomerForm();
             this.storeService.addOrderToStore(new Order(newOrder as IOrder));
-            this.stepper.selectedIndex = page;
           }
         });
     } else {
-      this.apiOrderService.updateOrder(this.currentOrder, invoiceContact, this.IsAddressForCurrentUser)
+      this.apiOrderService.updateOrder(this.currentOrder, this.invoiceContact, this.IsAddressForCurrentUser)
         .subscribe(newOrder => {
           if (newOrder) {
-            this.resetCustomerForm();
             this.storeService.addOrderToStore(new Order(newOrder as IOrder));
-            this.stepper.selectedIndex = page;
           }
         });
     }
+    this.stepper.selectedIndex = nextPage;
   }
 
-  getProductLabel(orderItem: IOrderItem) {
-    return Order.getProductLabel(orderItem);
-  }
-
-  getOrderItemControlName(orderItem: IOrderItem) {
-    return `${orderItem.id}_${Order.getProductLabel(orderItem)}`;
-  }
-
-  updateAllDataFormats() {
-   // this.isOrderPatchLoading = true;
-    const dataFormatName = this.orderItemFormGroup.get('formatsForAll')?.value || '';
-    for (const item of this.currentOrder.items) {
-      const availableFormats = item.available_formats || [];
-      if (availableFormats.indexOf(dataFormatName) > -1) {
-        item.data_format = dataFormatName;
-      }
-    }
-    this.apiOrderService.updateOrderItemsDataFormats(this.currentOrder).subscribe(newOrder => {
-      if (newOrder) {
-        this.storeService.addOrderToStore(new Order(newOrder as IOrder));
-      }
-    });
-  }
-
-  updateDataFormat(orderItem: IOrderItem) {
-    if (orderItem.id == null) {
-      return;
-    }
-
-    const controlName = this.getOrderItemControlName(orderItem);
-    const dataFormat = this.orderItemFormGroup.get(controlName)?.value;
-
-    this.apiOrderService.updateOrderItemDataFormat(dataFormat, orderItem.id).subscribe(newOrderItem => {
-      if (newOrderItem) {
-        for (let i = 0; i < this.currentOrder.items.length; i++) {
-          if (Order.getProductLabel(this.currentOrder.items[i]) === Order.getProductLabel(newOrderItem)) {
-            this.currentOrder.items[i] = newOrderItem;
-          }
-        }
-        this.storeService.addOrderToStore(this.currentOrder);
-      }
-    });
+  submitOrder() {
+    // console.log(this.orderItemFormGroup.getRawValue());
   }
 
   confirm() {
@@ -472,58 +220,8 @@ export class NewOrderComponent implements OnInit, OnDestroy {
     }
   }
 
-  resetCustomerForm() {
-    // if (this.currentSelectedContact) {
-    //   for (const attr in this.currentSelectedContact) {
-    //     if (this.currentSelectedContact[attr] != null && this.contactFormGroup.contains(attr)) {
-    //       this.contactFormGroup.get(attr)?.reset(this.currentSelectedContact[attr]);
-    //     }
-    //   }
-    // }
-  }
-
-  deleteCurrentContact() {
-    // const contact = this.getInvoiceContact();
-    //
-    // if (this.isCustomerSelected && contact && contact.Id) {
-    //   let dialogRef: MatDialogRef<ConfirmDialogComponent> | null = this.dialog.open(ConfirmDialogComponent, {
-    //     disableClose: false,
-    //   });
-    //
-    //   if (!dialogRef) {
-    //     return;
-    //   }
-    //
-    //   dialogRef.componentInstance.noButtonTitle = $localize`Annuler`;
-    //   dialogRef.componentInstance.yesButtonTitle = $localize`Supprimer`;
-    //   dialogRef.componentInstance.confirmMessage =
-    //     $localize`Etes-vous sûr de vouloir supprimer le contact <b style='color:#26a59a;'>${contact.first_name} ${contact.last_name}</b> ?`;
-    //   dialogRef.afterClosed().subscribe(result => {
-    //     if (result) {
-    //       this.apiOrderService.deleteContact(contact.Id).subscribe(confirmed => {
-    //         if (confirmed) {
-    //           //this.clearCustomerForm();
-    //           //this.isCustomerSelected = false;
-    //         }
-    //       });
-    //     }
-    //     dialogRef = null;
-    //   });
-    // }
-  }
-
   public billingRequired(): boolean {
     return !this.config.config?.noBillingForFreeOrder ||
       !this.products.every(product => product.pricing?.pricing_type === "FREE");
-  }
-
-  public getLocalizedTypeName(type: IOrderType): string {
-    switch (type.id) {
-      case 1:
-        return Constants.ORDER_NAME.PRIVATE;
-      case 2:
-        return Constants.ORDER_NAME.PUBLIC;
-    };
-    return type.name;
   }
 }

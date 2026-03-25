@@ -1,0 +1,14 @@
+form {
+  display: flex;
+  flex-direction: column;
+
+  .mat-mdc-form-field {
+    margin-top: 10px;
+  }
+}
+
+form.billing-form .customer_data{
+  display: grid;
+  height: 640px;
+  margin-bottom: 10px;
+}

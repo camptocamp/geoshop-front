@@ -90,7 +90,7 @@
         <mat-label i18n>Téléphone mandant</mat-label>
         <input matInput type="tel" formControlName="phone">
         <mat-error *ngIf="contactFormGroup?.get('phone')?.hasError('pattern')">
-          <ul>{{ WRONG_PHONE }}:
+          <ul>{{ AppConstants.WRONG_PHONE }}:
             <li>+41225252356</li>
             <li>+41 22 225 25 23</li>
             <li>0041222252523</li>

@@ -54,7 +54,7 @@ export class ContactPricingStepComponent {
   }
 
   get IsOrderTypePrivate() {
-    return this.orderFormGroup?.get('orderType')?.value?.id === 1;
+    return this.orderFormGroup?.get('orderType')?.value.id === 1;
   }
 
   public getLocalizedTypeName(type: IOrderType): string {

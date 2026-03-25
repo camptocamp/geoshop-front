@@ -21,7 +21,6 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatTableModule} from "@angular/material/table";
 
-
 @Component({
   selector: 'gs2-order-type-step',
   imports: [
@@ -35,9 +34,9 @@ import {MatTableModule} from "@angular/material/table";
 })
 export class OrderTypeStepComponent {
   @Input() orderFormGroup: FormGroup<OrderForm>;
-  @Input() orderTypes: IOrderType[];
   @Input() products: IProduct[] = [];
   @Input() user: Partial<IIdentity>|null = null;
+  @Input() orderTypes: IOrderType[] = [];
 
   readonly AppConstants = Constants;
 
@@ -49,6 +48,7 @@ export class OrderTypeStepComponent {
   }
 
   onTypeSelected(type: IOrderType) {
+    this.orderFormGroup.get('orderType')?.setValue(type);
     if (type.id === 1) {
       this.orderFormGroup.get('description')?.setValue('');
     }
