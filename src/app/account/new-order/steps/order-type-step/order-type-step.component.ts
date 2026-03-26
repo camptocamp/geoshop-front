@@ -7,7 +7,7 @@ import {ConfigService} from "@app/services/config.service";
 
 import {CommonModule} from "@angular/common";
 import {Component, Input} from '@angular/core';
-import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatButtonModule} from "@angular/material/button";
 import {MatOptionModule} from "@angular/material/core";
@@ -49,9 +49,15 @@ export class OrderTypeStepComponent {
 
   onTypeSelected(type: IOrderType) {
     this.orderFormGroup.get('orderType')?.setValue(type);
+    const descriptionControl = this.orderFormGroup.get('description');
     if (type.id === 1) {
-      this.orderFormGroup.get('description')?.setValue('');
+      descriptionControl?.setValue('');
+      descriptionControl?.clearValidators();
+    } else {
+      descriptionControl?.setValidators(Validators.required);
     }
+    descriptionControl?.updateValueAndValidity();
+    this.orderFormGroup.updateValueAndValidity();
   }
 
   public getLocalizedTypeName(type: IOrderType): string {
