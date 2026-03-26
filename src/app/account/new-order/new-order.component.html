@@ -48,7 +48,7 @@
           {{ AppConstants.RESET }}
         </button>
         <button color="primary" mat-button matStepperPrevious>{{ AppConstants.PREVIOUS }}</button>
-        <button color="primary" mat-raised-button type="submit" [disabled]="orderItemFormGroup.invalid" (click)="submitOrder()">
+        <button color="primary" mat-raised-button type="submit" [disabled]="orderItemFormGroup.invalid" (click)="confirm()">
           {{buttonConfirmLabel}}
         </button>
       </div>

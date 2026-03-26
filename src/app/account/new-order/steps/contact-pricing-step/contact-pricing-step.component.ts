@@ -4,10 +4,11 @@ import {Contact, IContact} from "@app/models/IContact";
 import {IIdentity} from "@app/models/IIdentity";
 import {IOrderType} from "@app/models/IOrder";
 import {IProduct} from "@app/models/IProduct";
+import {ApiService} from "@app/services/api.service";
 import {ConfigService} from "@app/services/config.service";
 
 import {CommonModule} from "@angular/common";
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup, FormsModule, ReactiveFormsModule, UntypedFormGroup} from "@angular/forms";
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MatButtonModule} from "@angular/material/button";
@@ -22,6 +23,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatTableModule} from "@angular/material/table";
 import {Observable} from "rxjs";
+import {debounceTime, filter, map, mergeMap, startWith} from "rxjs/operators";
 
 @Component({
   selector: 'gs2-contact-pricing-step',
@@ -34,7 +36,7 @@ import {Observable} from "rxjs";
   templateUrl: './contact-pricing-step.component.html',
   styleUrl: './contact-pricing-step.component.scss'
 })
-export class ContactPricingStepComponent {
+export class ContactPricingStepComponent implements OnInit {
   @Input() contactFormGroup: FormGroup<ContactForm>;
   @Input() orderFormGroup: FormGroup<OrderForm>;
   @Input() orderTypes: IOrderType[];
@@ -50,7 +52,24 @@ export class ContactPricingStepComponent {
   currentSelectedContact: Contact | undefined;
   filteredCustomers$: Observable<IContact[]> | undefined;
 
-  constructor(private readonly config: ConfigService) {
+  constructor(
+    private readonly config: ConfigService,
+    private readonly apiService: ApiService
+  ) {
+  }
+  ngOnInit() {
+    this.filteredCustomers$ = this.contactFormGroup.get('customer')?.valueChanges.pipe(
+      debounceTime(500),
+      startWith(''),
+      filter(x => typeof x === 'string' && x.length > 2),
+      mergeMap(searchString => {
+        this.isSearchLoading = true;
+        return this.apiService.find<IContact>(searchString, 'contact');
+      }),
+      map(x => {
+        this.isSearchLoading = false;
+        return x ? x.results : [];
+      }));
   }
 
   get IsOrderTypePrivate() {
@@ -88,9 +107,12 @@ export class ContactPricingStepComponent {
   }
 
   displayCustomer(customer: IIdentity) {
-    return customer ?
-      customer.company_name ? customer.company_name :
-        customer.first_name ? customer.first_name : '' : '';
+    if (!customer) {
+      return '';
+    }
+    const company = customer.company_name ?? '';
+    const name = `${customer.first_name ?? ''} ${customer.last_name ?? ''}`.trim();
+    return (company && name) ? `${company} - ${name}` : (company || name);
   }
 
   public deleteCurrentContact() {
@@ -126,7 +148,6 @@ export class ContactPricingStepComponent {
         this.contactFormGroup.get(key)?.setValue(iContact[key]);
       }
     }
-
     this.contactFormGroup.markAsPristine();
   }
 

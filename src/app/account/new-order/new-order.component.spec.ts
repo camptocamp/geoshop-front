@@ -91,7 +91,7 @@ describe('NewOrderComponent', () => {
   it('should use CHF as default currency', () => {
     const fixture = TestBed.createComponent(NewOrderComponent);
     fixture.detectChanges();
-    fixture.componentInstance.createOrUpdateDraftOrder(2);
+    fixture.componentInstance.createOrUpdateDraft(2);
     fixture.detectChanges();
     fixture.whenRenderingDone();
 
@@ -101,7 +101,7 @@ describe('NewOrderComponent', () => {
   it('should use CHF as default currency', () => {
     const fixture = TestBed.createComponent(NewOrderComponent);
     fixture.detectChanges();
-    fixture.componentInstance.createOrUpdateDraftOrder(2);
+    fixture.componentInstance.createOrUpdateDraft(2);
     fixture.detectChanges();
     fixture.whenRenderingDone();
 

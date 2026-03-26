@@ -54,10 +54,6 @@ export class DataFormatStepComponent {
     return Order.getProductLabel(orderItem);
   }
 
-  getOrderItemControlName(orderItem: IOrderItem) {
-    return `${orderItem.id}_${Order.getProductLabel(orderItem)}`;
-  }
-
   updateAllDataFormats() {
     this.isOrderPatchLoading = true;
     const dataFormatName = this.orderItemFormGroup.get('formatsForAll')?.value || '';
@@ -71,6 +67,7 @@ export class DataFormatStepComponent {
       if (newOrder) {
         this.storeService.addOrderToStore(new Order(newOrder as IOrder));
       }
+      this.isOrderPatchLoading = false;
     });
   }
 
@@ -81,5 +78,9 @@ export class DataFormatStepComponent {
       returnValue = Constants.ORDER_STATUS[orderItem.status];
     }
     return returnValue;
+  }
+
+  updateDataFormat(item: IOrderItem, selectedFormat: string) {
+    item.data_format = selectedFormat;
   }
 }

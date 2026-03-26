@@ -3,6 +3,7 @@ import {IOrderType} from "@app/models/IOrder";
 
 import {inject} from '@angular/core';
 import {
+  FormArray,
   FormControl,
   FormGroup,
   NonNullableFormBuilder,
@@ -23,13 +24,13 @@ export function createAddressChoiceForm(): FormGroup<AddressChoiceForm> {
 
 // OrderItemForm
 export interface OrderItemForm {
-  formatsForAll: FormControl<string>;
+  format: FormArray<FormControl<string|undefined>>;
 }
 
 export function createOrderItemForm(): FormGroup<OrderItemForm> {
   const fb = inject(NonNullableFormBuilder);
   return fb.group({
-    formatsForAll: fb.control("", Validators.required),
+    format: fb.array<FormControl<string|undefined>>([])
   });
 }
 
@@ -46,7 +47,7 @@ export interface OrderForm {
 export function createOrderForm(): FormGroup<OrderForm> {
   const fb = inject(NonNullableFormBuilder);
   return fb.group({
-    orderType: fb.control({id: 1, name: "privat"}, Validators.required),
+    orderType: fb.control({id: 1, name: "private"}, Validators.required),
     title: fb.control("", Validators.compose([Validators.pattern(EXTRACT_FORBIDDEN_REGEX), Validators.min(0)])),
     invoice_reference: fb.control(""),
     emailDeliverChoice: fb.control("1"),

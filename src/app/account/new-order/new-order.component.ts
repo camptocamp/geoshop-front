@@ -25,7 +25,7 @@ import * as fromCart from '@app/store/cart/cart.action';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {FormGroup, FormsModule, ReactiveFormsModule, UntypedFormBuilder} from '@angular/forms';
+import {FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule} from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -96,7 +96,7 @@ export class NewOrderComponent implements OnInit {
       $localize`Demander un devis`;
   }
 
-  constructor(private formBuilder: UntypedFormBuilder,
+  constructor(private formBuilder: NonNullableFormBuilder,
     private apiOrderService: ApiOrderService,
     private apiService: ApiService,
     private storeService: StoreService,
@@ -163,6 +163,15 @@ export class NewOrderComponent implements OnInit {
   private updateForms() {
     this.orderFormGroup.patchValue(this.currentOrder);
     this.contactFormGroup.patchValue(this.invoiceContact ?? {});
+
+    this.allAvailableFormats = new Set();
+    const orderItemControls = this.orderItemFormGroup.controls.format;
+    orderItemControls.clear();
+    for (const item of this.currentOrder.items) {
+      item.available_formats?.forEach(format => this.allAvailableFormats.add(format));
+      orderItemControls.push(this.formBuilder.control(item.data_format));
+    }
+
     this.dataSource = new MatTableDataSource(this.currentOrder.items);
   }
 
@@ -186,7 +195,7 @@ export class NewOrderComponent implements OnInit {
   }
 
   createOrUpdateDraft(nextPage: number) {
-    this.updateOrder()
+    this.updateOrder();
     if (this.currentOrder.id === -1) {
       this.apiOrderService.createOrder(this.currentOrder.toPostAsJson, this.invoiceContact, this.IsAddressForCurrentUser)
         .subscribe(newOrder => {
@@ -205,11 +214,9 @@ export class NewOrderComponent implements OnInit {
     this.stepper.selectedIndex = nextPage;
   }
 
-  submitOrder() {
-    // console.log(this.orderItemFormGroup.getRawValue());
-  }
-
   confirm() {
+    this.updateOrder();
+    return;
     if (this.orderItemFormGroup.valid) {
       this.apiOrderService.confirmOrder(this.currentOrder.id).subscribe(async confirmed => {
         if (confirmed) {
@@ -221,6 +228,7 @@ export class NewOrderComponent implements OnInit {
   }
 
   public billingRequired(): boolean {
+    return true;
     return !this.config.config?.noBillingForFreeOrder ||
       !this.products.every(product => product.pricing?.pricing_type === "FREE");
   }
