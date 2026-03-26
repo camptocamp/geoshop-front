@@ -6,7 +6,7 @@ import {CartState} from "@app/store/cart/cart.reducer";
 import {provideHttpClient} from "@angular/common/http";
 import {provideHttpClientTesting} from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {UntypedFormControl, UntypedFormGroup} from "@angular/forms";
+import {ReactiveFormsModule, UntypedFormControl, UntypedFormGroup} from "@angular/forms";
 import {provideMockStore} from "@ngrx/store/testing";
 
 import { DataFormatStepComponent } from './data-format-step.component';
@@ -37,7 +37,10 @@ describe('DataFormatStepComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DataFormatStepComponent],
+      imports: [
+        DataFormatStepComponent,
+        ReactiveFormsModule,
+      ],
       providers:[
         provideHttpClient(),
         provideHttpClientTesting(),
