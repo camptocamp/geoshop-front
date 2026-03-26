@@ -1,9 +1,11 @@
 import {ContactForm, OrderForm} from "@app/account/new-order/order-form.model";
+import {ConfirmDialogComponent} from "@app/components/confirm-dialog/confirm-dialog.component";
 import * as Constants from "@app/constants";
 import {Contact, IContact} from "@app/models/IContact";
 import {IIdentity} from "@app/models/IIdentity";
 import {IOrderType} from "@app/models/IOrder";
 import {IProduct} from "@app/models/IProduct";
+import {ApiOrderService} from "@app/services/api-order.service";
 import {ApiService} from "@app/services/api.service";
 import {ConfigService} from "@app/services/config.service";
 
@@ -13,7 +15,7 @@ import {FormGroup, FormsModule, ReactiveFormsModule, UntypedFormGroup} from "@an
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MatButtonModule} from "@angular/material/button";
 import {MatOptionModule} from "@angular/material/core";
-import {MatDialogModule} from "@angular/material/dialog";
+import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatError, MatInputModule} from "@angular/material/input";
@@ -41,7 +43,7 @@ export class ContactPricingStepComponent implements OnInit {
   @Input() orderFormGroup: FormGroup<OrderForm>;
   @Input() orderTypes: IOrderType[];
   @Input() products: IProduct[] = [];
-  @Input() user: Partial<IIdentity>|null = null;
+  @Input() user: Partial<IIdentity> | null = null;
   @Input() addressChoiceForm: UntypedFormGroup;
 
   readonly AppConstants = Constants;
@@ -54,9 +56,12 @@ export class ContactPricingStepComponent implements OnInit {
 
   constructor(
     private readonly config: ConfigService,
-    private readonly apiService: ApiService
+    private readonly apiService: ApiService,
+    private readonly apiOrderService: ApiOrderService,
+    private dialog: MatDialog,
   ) {
   }
+
   ngOnInit() {
     this.filteredCustomers$ = this.contactFormGroup.get('customer')?.valueChanges.pipe(
       debounceTime(500),
@@ -82,7 +87,7 @@ export class ContactPricingStepComponent implements OnInit {
         return Constants.ORDER_NAME.PRIVATE;
       case 2:
         return Constants.ORDER_NAME.PUBLIC;
-    };
+    }
     return type.name;
   }
 
@@ -115,26 +120,54 @@ export class ContactPricingStepComponent implements OnInit {
     return (company && name) ? `${company} - ${name}` : (company || name);
   }
 
+  getInvoiceContact(): Contact | undefined {
+    const actualContact: IContact = {
+      ...this.contactFormGroup.getRawValue()
+    };
+    return actualContact.first_name && actualContact.last_name && actualContact.email ?
+      new Contact(actualContact) :
+      undefined;
+  }
+
   public deleteCurrentContact() {
-  //  alert("deleteCurrentContact");
+    const contact = this.getInvoiceContact();
+    if (!this.isCustomerSelected || !contact || !contact.Id) {
+      return;
+    }
+    let dialogRef: MatDialogRef<ConfirmDialogComponent> | null = this.dialog.open(ConfirmDialogComponent, {
+      disableClose: false,
+    });
+
+    if (!dialogRef) {
+      return;
+    }
+
+    dialogRef.componentInstance.noButtonTitle = $localize`Annuler`;
+    dialogRef.componentInstance.yesButtonTitle = $localize`Supprimer`;
+    dialogRef.componentInstance.confirmMessage =
+      $localize`Etes-vous sûr de vouloir supprimer le contact <b style='color:#26a59a;'>${contact.first_name} ${contact.last_name}</b> ?`;
+    dialogRef.afterClosed().subscribe(result => {
+      dialogRef = null;
+      if (!result) {
+        return;
+      }
+      this.apiOrderService.deleteContact(contact.Id).subscribe(confirmed => {
+        if (confirmed) {
+          this.clearCustomerForm();
+          this.isCustomerSelected = false;
+        }
+      });
+    });
   }
 
   public resetCustomerForm() {
- //   alert("resetCustomerForm");
+    this.contactFormGroup.reset(this.currentSelectedContact);
   }
 
   clearCustomerForm() {
     this.contactFormGroup.reset();
     this.isCustomerSelected = true;
     this.isNewInvoiceContact = true;
-    // this.updateContactForm('2');
-    // for (const key in this.invoiceContactsFormControls) {
-    //   if (key === 'country') {
-    //     this.contactFormGroup.get(key)?.setValue(this.COUNTRIES.CH.name);
-    //   } else {
-    //     this.contactFormGroup.get(key)?.setValue('');
-    //   }
-    // }
   }
 
   updateCustomerForm(event: MatAutocompleteSelectedEvent) {

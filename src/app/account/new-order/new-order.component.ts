@@ -91,6 +91,7 @@ export class NewOrderComponent implements OnInit {
   }
 
   get buttonConfirmLabel() {
+    if (!this.currentOrder) return "";
     return this.currentOrder.items.every(x => x.price_status !== 'PENDING') ?
       $localize`Acheter maintenant` :
       $localize`Demander un devis`;
