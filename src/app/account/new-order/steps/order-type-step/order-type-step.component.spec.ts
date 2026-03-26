@@ -63,4 +63,33 @@ describe('OrderTypeStepComponent', () => {
     descriptionControl?.setValue('');
     expect(descriptionControl?.valid).toBeTruthy();
   });
+
+  it("should hide emailDeliver field when emailDeliverChoice is '1'", () => {
+    component.onTypeSelected({id: 1, name: 'private'});
+    component.orderFormGroup.get('emailDeliverChoice')?.setValue('1');
+    fixture.detectChanges();
+    const emailField = fixture.nativeElement.querySelector('input[formControlName="emailDeliver"]');
+    expect(emailField).toBeFalsy();
+  });
+
+  it("should show emailDeliver field when emailDeliverChoice is '2'", () => {
+    component.orderFormGroup.get('emailDeliverChoice')?.setValue('2');
+    fixture.detectChanges();
+    const emailField = fixture.nativeElement.querySelector('input[formControlName="emailDeliver"]');
+    expect(emailField).toBeTruthy();
+
+    const emailControl = component.orderFormGroup.get('emailDeliver');
+    emailControl?.setValue('test@example.com');
+    expect(emailControl?.valid).toBeTruthy();
+
+    emailControl?.setValue('invalid-email');
+    expect(emailControl?.valid).toBeFalsy();
+    expect(emailControl?.hasError('pattern')).toBeTruthy();
+
+    emailControl?.setValue('');
+    expect(emailControl?.valid).toBeFalsy();
+    expect(emailControl?.hasError('required')).toBeTruthy();
+  });
+
+
 });

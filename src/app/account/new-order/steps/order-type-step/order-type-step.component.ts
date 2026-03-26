@@ -1,12 +1,13 @@
 import {OrderForm} from "@app/account/new-order/order-form.model";
 import * as Constants from '@app/constants';
+import {EMAIL_REGEX} from "@app/helpers/regex";
 import {IIdentity} from "@app/models/IIdentity";
 import {IOrderType} from "@app/models/IOrder";
 import {IProduct} from "@app/models/IProduct";
 import {ConfigService} from "@app/services/config.service";
 
 import {CommonModule} from "@angular/common";
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatButtonModule} from "@angular/material/button";
@@ -32,7 +33,7 @@ import {MatTableModule} from "@angular/material/table";
   templateUrl: './order-type-step.component.html',
   styleUrl: './order-type-step.component.scss'
 })
-export class OrderTypeStepComponent {
+export class OrderTypeStepComponent implements OnInit {
   @Input() orderFormGroup: FormGroup<OrderForm>;
   @Input() products: IProduct[] = [];
   @Input() user: Partial<IIdentity>|null = null;
@@ -41,6 +42,19 @@ export class OrderTypeStepComponent {
   readonly AppConstants = Constants;
 
   constructor(private readonly config: ConfigService) {
+  }
+
+  ngOnInit() {
+    this.orderFormGroup.get('emailDeliverChoice')?.valueChanges.subscribe(value => {
+      const emailControl = this.orderFormGroup.get('emailDeliver');
+      if (value === '2') {
+        emailControl?.setValidators([Validators.required, Validators.pattern(EMAIL_REGEX)]);
+      } else {
+        emailControl?.setValue('');
+        emailControl?.setValidators([Validators.pattern(EMAIL_REGEX)]);
+      }
+      emailControl?.updateValueAndValidity();
+    });
   }
 
   orderTypeCompareWith(a: IOrderType, b: IOrderType) {

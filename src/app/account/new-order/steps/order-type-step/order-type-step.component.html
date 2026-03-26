@@ -50,7 +50,10 @@
 
   <mat-form-field *ngIf="orderFormGroup?.get('emailDeliverChoice')?.value == '2'">
     <mat-label i18n>Saisir l'adresse email de livraison</mat-label>
-    <input matInput type="email" formControlName="emailDeliver" autocomplete="on" />
+    <input matInput type="email" required formControlName="emailDeliver" autocomplete="on" />
+    <mat-error *ngIf="orderFormGroup.get('emailDeliver')?.hasError('required')">
+      {{ AppConstants.REQUIRED }}
+    </mat-error>
     <mat-error i18n *ngIf="orderFormGroup?.get('emailDeliver')?.hasError('pattern')">Adresse email non
       valide</mat-error>
   </mat-form-field>
