@@ -1,0 +1,103 @@
+  .mat-stepper-horizontal {
+    width: 100%;
+    //height: calc(100vh - 64px);
+    max-width: 1920px;
+    margin: auto;
+
+    .mat-horizontal-content-container {
+      flex: 1;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+
+      &:not(.form-no-full-height) {
+        height: calc(100vh - 64px - 72px - 24px);
+      }
+
+      &.form-height-mini {
+        height: calc(100vh - 64px - 72px - 41px - 48px);
+      }
+
+      .mat-mdc-form-field {
+        margin-top: 10px;
+      }
+    }
+
+    .mat-mdc-raised-button {
+      margin-left: auto;
+    }
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+
+  .mat-mdc-card {
+    margin: 0 auto;
+  }
+
+  .autocomplete-action-button {
+    margin-left: 10px;
+  }
+
+  .table-container {
+    flex: 1;
+    overflow: auto;
+
+    .mat-table {
+      width: 100%;
+
+      .mat-column-label {
+        word-wrap: break-word !important;
+        white-space: unset !important;
+        flex: 0 0 auto !important;
+        width: auto !important;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        hyphens: auto;
+      }
+
+      .mat-column-format {
+        word-wrap: break-word !important;
+        white-space: unset !important;
+        flex: 0 0 20% !important;
+        width: 20% !important;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        hyphens: auto;
+      }
+
+      .mat-column-price {
+        word-wrap: break-word !important;
+        white-space: unset !important;
+        flex: 0 0 20% !important;
+        width: 20% !important;
+        min-width: 8rem !important;
+        overflow-wrap: break-word;
+        text-align: right;
+        word-break: break-word;
+        hyphens: auto;
+      }
+
+      .mat-mdc-form-field {
+        width: 100%;
+      }
+    }
+  }
+
+  form.billing-form .customer_data{
+    display: grid;
+    border: solid 1px red;
+    height: calc(100vh - 64px - 72px - 24px);
+  }
+
+  .bottom-container {
+    margin-top: auto;
+  }

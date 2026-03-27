@@ -111,13 +111,11 @@ export class ContactPricingStepComponent implements OnInit {
     this.contactFormGroup.reset();
   }
 
-  displayCustomer(customer: IIdentity) {
+  displayCustomer(customer: IIdentity|Contact) {
     if (!customer) {
       return '';
     }
-    const company = customer.company_name ?? '';
-    const name = `${customer.first_name ?? ''} ${customer.last_name ?? ''}`.trim();
-    return (company && name) ? `${company} - ${name}` : (company || name);
+    return `${customer.first_name} ${customer.last_name} (${customer.email})`.trim();
   }
 
   getInvoiceContact(): Contact | undefined {
@@ -161,7 +159,10 @@ export class ContactPricingStepComponent implements OnInit {
   }
 
   public resetCustomerForm() {
-    this.contactFormGroup.reset(this.currentSelectedContact);
+    this.contactFormGroup.reset({
+      customer: this.contactFormGroup.get("customer")?.value ?? "",
+      ...this.currentSelectedContact,
+    });
   }
 
   clearCustomerForm() {

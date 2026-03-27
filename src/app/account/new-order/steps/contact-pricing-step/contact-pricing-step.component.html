@@ -16,7 +16,7 @@
   <ng-container *ngIf="(IsOrderTypePrivate && !IsAddressForCurrentUser) || !IsOrderTypePrivate">
     <div class="flex-row">
       <!-- Search -->
-      <mat-form-field style="flex:0.4;">
+      <mat-form-field class="customer-search-field">
         <input matInput i18n-placeholder placeholder="Rechercher dans mes contacts"
                aria-label="Rechercher dans mes contacts" [matAutocomplete]="auto" formControlName="customer">
         <div matSuffix class="flex-row">
@@ -33,20 +33,22 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <button class="autocomplete-action-button" mat-mini-fab i18n-matTooltip matTooltip="Créer un nouveau contact"
-              aria-label="Créer un nouveau contact" color="primary" (click)="clearCustomerForm()">
-        <mat-icon>add</mat-icon>
-      </button>
-      <button class="autocomplete-action-button" mat-mini-fab i18n-matTooltip matTooltip="Annuler les changements"
-              aria-label="Annuler les changements" color="primary"
-              *ngIf="isCustomerSelected && contactFormGroup.dirty && contactFormGroup.touched"
-              (click)="resetCustomerForm()">
-        <mat-icon>clear</mat-icon>
-      </button>
-      <button class="autocomplete-action-button" mat-mini-fab i18n-matTooltip matTooltip="Supprimer ce contact"
-              aria-label="Supprimer ce contact" color="warn" *ngIf="isCustomerSelected" (click)="deleteCurrentContact()">
-        <mat-icon>delete</mat-icon>
-      </button>
+      <div class="button-wrapper">
+        <button color="primary"  class="autocomplete-action-button" mat-mini-fab i18n-matTooltip matTooltip="Créer un nouveau contact"
+                aria-label="Créer un nouveau contact" (click)="clearCustomerForm()">
+          <mat-icon>add</mat-icon>
+        </button>
+        <button color="primary"  class="autocomplete-action-button" mat-mini-fab i18n-matTooltip matTooltip="Annuler les changements"
+                aria-label="Annuler les changements"
+                *ngIf="isCustomerSelected && contactFormGroup.dirty && contactFormGroup.touched"
+                (click)="resetCustomerForm()">
+          <mat-icon>clear</mat-icon>
+        </button>
+        <button color="warn" class="autocomplete-action-button" mat-mini-fab i18n-matTooltip matTooltip="Supprimer ce contact"
+                aria-label="Supprimer ce contact" *ngIf="isCustomerSelected" (click)="deleteCurrentContact()">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
     </div>
 
     <div class="customer_data" style="overflow: auto" *ngIf="isCustomerSelected">

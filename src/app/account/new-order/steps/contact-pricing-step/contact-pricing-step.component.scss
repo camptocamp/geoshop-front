@@ -12,3 +12,24 @@ form.billing-form .customer_data{
   height: 640px;
   margin-bottom: 10px;
 }
+
+.flex-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.flex-row .customer-search-field {
+  flex: 0.5;
+}
+.button-wrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  gap: 8px;
+}
+
+.autocomplete-action-button {
+  color: var(--mat-sys-on-primary);
+  background-color: var(--mat-sys-primary);
+}
