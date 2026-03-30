@@ -10,7 +10,7 @@ import { AsyncPipe, CommonModule, CurrencyPipe } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DEFAULT_CURRENCY_CODE } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,6 +30,7 @@ import { of } from 'rxjs';
 import { expect, it, describe, beforeEach } from 'vitest';
 
 import { NewOrderComponent } from './new-order.component';
+import {OrderTypeStepComponent} from "@app/account/new-order/steps/order-type-step/order-type-step.component";
 
 class MockConfig {
   config = {
@@ -65,6 +66,9 @@ const initialState = {
 
 describe('NewOrderComponent', () => {
 
+  let component: NewOrderComponent;
+  let fixture: ComponentFixture<NewOrderComponent>;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -82,37 +86,31 @@ describe('NewOrderComponent', () => {
         { provide: ApiOrderService, useClass: MockApiOrderService },
       ],
     }).compileComponents();
+    fixture = TestBed.createComponent(NewOrderComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(TestBed.createComponent(NewOrderComponent).componentInstance).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it('should use CHF as default currency', () => {
-    const fixture = TestBed.createComponent(NewOrderComponent);
+    component.createOrUpdateDraft(2);
     fixture.detectChanges();
-    fixture.componentInstance.createOrUpdateDraft(2);
-    fixture.detectChanges();
-    fixture.whenRenderingDone();
 
     expect(fixture.nativeElement.querySelector(".sitn-td-price span").innerHTML).toEqual("CHF100.00");
   });
 
   it('should use CHF as default currency', () => {
-    const fixture = TestBed.createComponent(NewOrderComponent);
+    component.createOrUpdateDraft(2);
     fixture.detectChanges();
-    fixture.componentInstance.createOrUpdateDraft(2);
-    fixture.detectChanges();
-    fixture.whenRenderingDone();
 
     expect(fixture.nativeElement.querySelector(".sitn-td-price span").innerHTML).toEqual("CHF100.00");
   });
 
   it('should select default order type', () => {
-    const fixture = TestBed.createComponent(NewOrderComponent);
     fixture.detectChanges();
-    fixture.whenRenderingDone();
-
     expect(fixture.componentInstance.orderTypeCtrl?.value).toEqual({
       id: 1, name:Constants.ORDERTYPE_PRIVATE
     });

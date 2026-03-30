@@ -5,7 +5,7 @@ import {ApiOrderService} from "@app/services/api-order.service";
 import {StoreService} from "@app/services/store.service";
 
 import { CommonModule, CurrencyPipe} from "@angular/common";
-import {Component, Input} from '@angular/core';
+import {ChangeDetectorRef, Component, Input} from '@angular/core';
 import {FormArray, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatButtonModule} from "@angular/material/button";
@@ -46,7 +46,8 @@ export class DataFormatStepComponent {
 
   constructor(
     private readonly apiOrderService: ApiOrderService,
-    private readonly storeService: StoreService
+    private readonly storeService: StoreService,
+    private cdr: ChangeDetectorRef
   ) {
   }
 
@@ -72,7 +73,9 @@ export class DataFormatStepComponent {
         this.storeService.addOrderToStore(new Order(newOrder as IOrder));
       }
       this.isOrderPatchLoading = false;
+      this.cdr.detectChanges();
     });
+    this.cdr.detectChanges();
   }
 
   // FIXME this is a duplication of the same function in the order-item-view.component.ts
@@ -90,5 +93,6 @@ export class DataFormatStepComponent {
     if (formatControl) {
       formatControl.setValue(selectedFormat);
     }
+    this.cdr.detectChanges();
   }
 }

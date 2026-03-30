@@ -21,7 +21,7 @@ import { AppState, getUser, selectOrder, selectAllProduct } from '@app/store';
 import * as fromCart from '@app/store/cart/cart.action';
 
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import {ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule} from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -101,7 +101,8 @@ export class NewOrderComponent implements OnInit {
     private router: Router,
     private store: Store<AppState>,
     private dialog: MatDialog,
-    private config: ConfigService) {
+    private config: ConfigService,
+    private cdr: ChangeDetectorRef) {
 
     this.createForms();
     this.store.pipe(
@@ -156,6 +157,7 @@ export class NewOrderComponent implements OnInit {
     this.createForms();
     this.updateForms();
   }
+
   // Update form values from an order
   private updateForms() {
     this.orderFormGroup.patchValue({
@@ -173,6 +175,7 @@ export class NewOrderComponent implements OnInit {
     }
 
     this.dataSource = new MatTableDataSource(this.currentOrder.items);
+    this.cdr.detectChanges();
   }
 
   // Create order from an order draft and the form values
@@ -195,13 +198,6 @@ export class NewOrderComponent implements OnInit {
   }
 
   createOrUpdateDraft(nextPage: number) {
-    console.log("VALID: ", this.contactFormGroup.valid);
-    Object.keys(this.contactFormGroup.controls).forEach(key => {
-      const controlErrors = this.contactFormGroup.get(key)?.errors;
-      if (controlErrors != null) {
-        console.log('Key control: ' + key + ', errors: ', controlErrors);
-      }
-    });
     this.updateOrder();
     if (this.currentOrder.id === -1) {
       this.apiOrderService.createOrder(this.currentOrder.toPostAsJson, this.invoiceContact, this.IsAddressForCurrentUser)
@@ -235,7 +231,6 @@ export class NewOrderComponent implements OnInit {
   }
 
   public billingRequired(): boolean {
-    return true;
     return !this.config.config?.noBillingForFreeOrder ||
       !this.products.every(product => product.pricing?.pricing_type === "FREE");
   }
