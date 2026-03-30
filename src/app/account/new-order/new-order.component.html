@@ -1,4 +1,4 @@
-<mat-horizontal-stepper #stepper [linear]="true">
+<mat-horizontal-stepper #stepper linear *ngIf="currentOrder">
   <mat-step [stepControl]="orderFormGroup" i18n-label label="Détails du mandat">
     <gs2-order-type-step
       [orderFormGroup]="orderFormGroup"
@@ -10,14 +10,14 @@
       <button color="warn" mat-button (click)="resetForms();stepper.selectedIndex = 0">
         {{ AppConstants.RESET }}
       </button>
-      <button color="primary" matStepperNext mat-raised-button (click)="createOrUpdateDraft(1)">
-        {{ AppConstants.NEXT }}</button>
+      <button color="primary" mat-raised-button (click)="createOrUpdateDraft(1)">
+        {{ AppConstants.NEXT }}
+      </button>
     </div>
   </mat-step>
 
   <mat-step *ngIf="billingRequired()" [stepControl]="contactFormGroup" i18n-label label="Facturation / Tiers">
     <gs2-contact-pricing-step
-      [addressChoiceForm]="addressChoiceForm"
       [contactFormGroup]="contactFormGroup"
       [orderFormGroup]="orderFormGroup"
       [orderTypes]="orderTypes$ | async"

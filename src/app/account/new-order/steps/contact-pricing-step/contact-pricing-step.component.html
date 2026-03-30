@@ -1,18 +1,18 @@
-<form class="form-no-full-height" [formGroup]="addressChoiceForm">
+<form class="form-no-full-height" [formGroup]="contactFormGroup">
   <mat-radio-group *ngIf="IsOrderTypePrivate" class="flex-column" formControlName="addressChoice"
                    aria-label="Choisir une option">
     <mat-radio-button value="1" i18n>La facturation est adressée à
-      l'utilisateur courant: {{user?.username}} ({{user?.email}})</mat-radio-button>
+      l'utilisateur courant: {{ user?.username }} ({{ user?.email }})
+    </mat-radio-button>
     <mat-radio-button value="2" i18n>La facturation est adressée à un mandant</mat-radio-button>
   </mat-radio-group>
-</form>
 
-<mat-label *ngIf="!IsOrderTypePrivate && orderFormGroup.get('orderType')?.value" i18n>
-  Vous devez spécifier les informations de contact du tiers pour un mandat de type
-  &quot;{{ getLocalizedTypeName(orderFormGroup.get('orderType')?.value) }}&quot;.
-</mat-label>
 
-<form class="form-height-mini billing-form " [formGroup]="contactFormGroup">
+  <mat-label *ngIf="!IsOrderTypePrivate && orderFormGroup.get('orderType')?.value" i18n>
+    Vous devez spécifier les informations de contact du tiers pour un mandat de type
+    &quot;{{ getLocalizedTypeName(orderFormGroup.get('orderType')?.value) }}&quot;.
+  </mat-label>
+
   <ng-container *ngIf="(IsOrderTypePrivate && !IsAddressForCurrentUser) || !IsOrderTypePrivate">
     <div class="flex-row">
       <!-- Search -->
@@ -34,17 +34,20 @@
         </mat-autocomplete>
       </mat-form-field>
       <div class="button-wrapper">
-        <button color="primary"  class="autocomplete-action-button" mat-mini-fab i18n-matTooltip matTooltip="Créer un nouveau contact"
+        <button color="primary" class="autocomplete-action-button" mat-mini-fab i18n-matTooltip
+                matTooltip="Créer un nouveau contact"
                 aria-label="Créer un nouveau contact" (click)="clearCustomerForm()">
           <mat-icon>add</mat-icon>
         </button>
-        <button color="primary"  class="autocomplete-action-button" mat-mini-fab i18n-matTooltip matTooltip="Annuler les changements"
+        <button color="primary" class="autocomplete-action-button" mat-mini-fab i18n-matTooltip
+                matTooltip="Annuler les changements"
                 aria-label="Annuler les changements"
                 *ngIf="isCustomerSelected && contactFormGroup.dirty && contactFormGroup.touched"
                 (click)="resetCustomerForm()">
           <mat-icon>clear</mat-icon>
         </button>
-        <button color="warn" class="autocomplete-action-button" mat-mini-fab i18n-matTooltip matTooltip="Supprimer ce contact"
+        <button color="warn" class="autocomplete-action-button" mat-mini-fab i18n-matTooltip
+                matTooltip="Supprimer ce contact"
                 aria-label="Supprimer ce contact" *ngIf="isCustomerSelected" (click)="deleteCurrentContact()">
           <mat-icon>delete</mat-icon>
         </button>
@@ -56,13 +59,15 @@
       <mat-form-field color="primary">
         <input formControlName="first_name" autocapitalize="off" autofocus spellcheck="false" required matInput
                i18n-placeholder placeholder="Prénom">
-        <mat-error *ngIf="contactFormGroup?.get('first_name')?.hasError('required')">{{ AppConstants.REQUIRED }}</mat-error>
+        <mat-error *ngIf="contactFormGroup?.get('first_name')?.hasError('required')">{{ AppConstants.REQUIRED }}
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field color="primary">
         <input formControlName="last_name" autocapitalize="off" autofocus spellcheck="false" required matInput
                i18n-placeholder placeholder="Nom">
-        <mat-error *ngIf="contactFormGroup?.get('last_name')?.hasError('required')">{{ AppConstants.REQUIRED }}</mat-error>
+        <mat-error *ngIf="contactFormGroup?.get('last_name')?.hasError('required')">{{ AppConstants.REQUIRED }}
+        </mat-error>
       </mat-form-field>
 
       <!-- Email -->
@@ -84,7 +89,8 @@
         <mat-label i18n>Numéro d’identification des entreprises (IDE)</mat-label>
         <input matInput type="text" formControlName="ide_id">
         <mat-error *ngIf="contactFormGroup?.get('ide_id')?.hasError('pattern')"
-                   i18n="@@new-order.bad_IDE_format">Mauvais format du numéro IDE, accepté : CHE-012.345.678</mat-error>
+                   i18n="@@new-order.bad_IDE_format">Mauvais format du numéro IDE, accepté : CHE-012.345.678
+        </mat-error>
       </mat-form-field>
 
       <!-- Phone -->
@@ -126,8 +132,8 @@
       <mat-form-field> <!-- TODO Why is there only Suiss and France?-->
         <mat-label i18n>Pays</mat-label>
         <mat-select formControlName="country">
-          <mat-option [value]="'{{AppConstants.COUNTRIES.CH.name}}'">{{AppConstants.COUNTRIES.CH.name}}</mat-option>
-          <mat-option [value]="'{{AppConstants.COUNTRIES.FR.name}}'">{{AppConstants.COUNTRIES.FR.name}}</mat-option>
+          <mat-option [value]="'{{AppConstants.COUNTRIES.CH.name}}'">{{ AppConstants.COUNTRIES.CH.name }}</mat-option>
+          <mat-option [value]="'{{AppConstants.COUNTRIES.FR.name}}'">{{ AppConstants.COUNTRIES.FR.name }}</mat-option>
         </mat-select>
       </mat-form-field>
 

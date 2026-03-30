@@ -44,7 +44,6 @@ export class ContactPricingStepComponent implements OnInit {
   @Input() orderTypes: IOrderType[];
   @Input() products: IProduct[] = [];
   @Input() user: Partial<IIdentity> | null = null;
-  @Input() addressChoiceForm: UntypedFormGroup;
 
   readonly AppConstants = Constants;
 
@@ -96,7 +95,7 @@ export class ContactPricingStepComponent implements OnInit {
   }
 
   get addressChoiceCtrl() {
-    return this.addressChoiceForm.get('addressChoice');
+    return this.contactFormGroup.get('addressChoice');
   }
 
   get IsAddressForCurrentUser() {

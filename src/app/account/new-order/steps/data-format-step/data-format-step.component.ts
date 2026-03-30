@@ -6,7 +6,7 @@ import {StoreService} from "@app/services/store.service";
 
 import { CommonModule, CurrencyPipe} from "@angular/common";
 import {Component, Input} from '@angular/core';
-import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormArray, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatButtonModule} from "@angular/material/button";
 import {MatOptionModule} from "@angular/material/core";
@@ -54,13 +54,17 @@ export class DataFormatStepComponent {
     return Order.getProductLabel(orderItem);
   }
 
-  updateAllDataFormats() {
+  updateAllDataFormats(dataFormatName: string) {
     this.isOrderPatchLoading = true;
-    const dataFormatName = this.orderItemFormGroup.get('formatsForAll')?.value || '';
-    for (const item of this.order.items) {
-      const availableFormats = item.available_formats || [];
+    for (let i = 0; i < this.order.items.length; i++) {
+      const item = this.order.items[i];
+      const availableFormats = item.available_formats || [];;
       if (availableFormats.indexOf(dataFormatName) > -1) {
         item.data_format = dataFormatName;
+        const formatControl = (this.orderItemFormGroup.get("format") as FormArray).at(i);
+        if (formatControl) {
+          formatControl.setValue(dataFormatName);
+        }
       }
     }
     this.apiOrderService.updateOrderItemsDataFormats(this.order).subscribe(newOrder => {
@@ -80,7 +84,11 @@ export class DataFormatStepComponent {
     return returnValue;
   }
 
-  updateDataFormat(item: IOrderItem, selectedFormat: string) {
+  updateDataFormat(item: IOrderItem, selectedFormat: string, index: number) {
     item.data_format = selectedFormat;
+    const formatControl = (this.orderItemFormGroup.get("format") as FormArray).at(index);
+    if (formatControl) {
+      formatControl.setValue(selectedFormat);
+    }
   }
 }

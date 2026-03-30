@@ -57,9 +57,6 @@ describe('ContactPricingStepComponent', () => {
     component = fixture.componentInstance;
     component.contactFormGroup = TestBed.runInInjectionContext(() =>createContactForm());
     component.orderFormGroup = TestBed.runInInjectionContext(() => createOrderForm());
-    component.addressChoiceForm = new UntypedFormGroup({
-      addressChoice: new UntypedFormControl('1')
-    });
     fixture.detectChanges();
   });
 
@@ -76,7 +73,7 @@ describe('ContactPricingStepComponent', () => {
 
   it('should hide "customer" input if order type is private (id 1) and addressChoice is "1"', () => {
     component.orderFormGroup.get('orderType')?.setValue({id: 1, name: 'private'});
-    component.addressChoiceForm.get('addressChoice')?.setValue('1');
+    component.contactFormGroup.get('addressChoice')?.setValue('1');
     fixture.detectChanges();
     const customerInput = fixture.nativeElement.querySelector('input[formControlName="customer"]');
     expect(customerInput).toBeFalsy();
@@ -84,7 +81,7 @@ describe('ContactPricingStepComponent', () => {
 
   it('should show "customer" input if order type is private (id 1) and addressChoice is "2"', () => {
     component.orderFormGroup.get('orderType')?.setValue({id: 1, name: 'private'});
-    component.addressChoiceForm.get('addressChoice')?.setValue('2');
+    component.contactFormGroup.get('addressChoice')?.setValue('2');
     fixture.detectChanges();
     const customerInput = fixture.nativeElement.querySelector('input[formControlName="customer"]');
     expect(customerInput).toBeTruthy();
@@ -95,7 +92,7 @@ describe('ContactPricingStepComponent', () => {
     const findSpy = vi.spyOn(apiService, 'find');
 
     component.orderFormGroup.get('orderType')?.setValue({id: 1, name: 'private'});
-    component.addressChoiceForm.get('addressChoice')?.setValue('2');
+    component.contactFormGroup.get('addressChoice')?.setValue('2');
     fixture.detectChanges();
 
     const harness = await loader.getHarness(MatAutocompleteHarness);

@@ -1,4 +1,4 @@
-<form [formGroup]="orderItemFormGroup">
+<form [formGroup]="orderItemFormGroup" *ngIf="order">
 
   <div class="table-container">
     <table mat-table [dataSource]="dataSource" matSort>
@@ -30,7 +30,7 @@
       <!-- Format Column -->
       <ng-container matColumnDef="format">
         <th mat-header-cell *matHeaderCellDef>
-          <mat-select i18n-placeholder  placeholder="Même format pour tous les produits" (selectionChange)="updateAllDataFormats()">
+          <mat-select i18n-placeholder  placeholder="Même format pour tous les produits" (selectionChange)="updateAllDataFormats($event.value)">
             <mat-option *ngFor="let format of allAvailableFormats" [value]="format">
               {{ format }}
             </mat-option>
@@ -39,9 +39,9 @@
 
           </mat-spinner>
         </th>
-        <td mat-cell *matCellDef="let orderItem">
+        <td mat-cell *matCellDef="let orderItem; let i = index" formArrayName="format">
           <mat-form-field color="primary">
-            <mat-select required placeholder="Format" (selectionChange)="updateDataFormat(orderItem, $event.value)">
+            <mat-select required placeholder="Format" (selectionChange)="updateDataFormat(orderItem, $event.value, i)" [formControlName]="i">
               <mat-option *ngFor="let format of orderItem.available_formats" [value]="format">
                 {{ format }}
               </mat-option>

@@ -1,7 +1,5 @@
 import {
-  AddressChoiceForm,
   ContactForm,
-  createAddressChoiceForm,
   createContactForm,
   createOrderForm, createOrderItemForm,
   OrderForm, OrderItemForm
@@ -63,7 +61,6 @@ export class NewOrderComponent implements OnInit {
   readonly AppConstants = Constants;
 
   orderFormGroup: FormGroup<OrderForm>;
-  addressChoiceForm: FormGroup<AddressChoiceForm>;
   contactFormGroup: FormGroup<ContactForm>;
   orderItemFormGroup: FormGroup<OrderItemForm>;
 
@@ -87,7 +84,7 @@ export class NewOrderComponent implements OnInit {
   }
 
   get IsAddressForCurrentUser() {
-    return this.addressChoiceForm.get('addressChoice')?.value === '1';
+    return this.contactFormGroup?.get('addressChoice')?.value === '1';
   }
 
   get buttonConfirmLabel() {
@@ -151,7 +148,6 @@ export class NewOrderComponent implements OnInit {
 
   private createForms() {
     this.orderFormGroup = createOrderForm();
-    this.addressChoiceForm = createAddressChoiceForm();
     this.contactFormGroup = createContactForm();
     this.orderItemFormGroup = createOrderItemForm();
   }
@@ -162,7 +158,10 @@ export class NewOrderComponent implements OnInit {
   }
   // Update form values from an order
   private updateForms() {
-    this.orderFormGroup.patchValue(this.currentOrder);
+    this.orderFormGroup.patchValue({
+      orderType: this.currentOrder.order_type === "private" ? {id: 1, name: "private"} : {id: 2, name: "public"},
+      ...this.currentOrder
+    });
     this.contactFormGroup.patchValue(this.invoiceContact ?? {});
 
     this.allAvailableFormats = new Set();
@@ -185,7 +184,7 @@ export class NewOrderComponent implements OnInit {
     this.currentOrder.description = order.description;
     this.currentOrder.order_type = order.orderType.name;
 
-    if (this.addressChoiceForm.get('addressChoice')?.value === '2') {
+    if (this.contactFormGroup.get('addressChoice')?.value === '2') {
       const contact:IContact = this.contactFormGroup.getRawValue();
       this.invoiceContact = contact.first_name && contact.last_name && contact.email ?
         new Contact(contact) :
@@ -196,6 +195,13 @@ export class NewOrderComponent implements OnInit {
   }
 
   createOrUpdateDraft(nextPage: number) {
+    console.log("VALID: ", this.contactFormGroup.valid);
+    Object.keys(this.contactFormGroup.controls).forEach(key => {
+      const controlErrors = this.contactFormGroup.get(key)?.errors;
+      if (controlErrors != null) {
+        console.log('Key control: ' + key + ', errors: ', controlErrors);
+      }
+    });
     this.updateOrder();
     if (this.currentOrder.id === -1) {
       this.apiOrderService.createOrder(this.currentOrder.toPostAsJson, this.invoiceContact, this.IsAddressForCurrentUser)

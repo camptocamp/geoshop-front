@@ -10,18 +10,6 @@ import {
   Validators
 } from '@angular/forms';
 
-// AddressChoiceForm
-export interface AddressChoiceForm {
-  addressChoice: FormControl<string>;
-}
-
-export function createAddressChoiceForm(): FormGroup<AddressChoiceForm> {
-  const fb = inject(NonNullableFormBuilder);
-  return fb.group({
-    addressChoice: fb.control("1", Validators.required),
-  });
-}
-
 // OrderItemForm
 export interface OrderItemForm {
   format: FormArray<FormControl<string|undefined>>;
@@ -46,18 +34,29 @@ export interface OrderForm {
 
 export function createOrderForm(): FormGroup<OrderForm> {
   const fb = inject(NonNullableFormBuilder);
-  return fb.group({
+  const form = fb.group({
     orderType: fb.control({id: 1, name: "private"}, Validators.required),
     title: fb.control("", Validators.compose([Validators.pattern(EXTRACT_FORBIDDEN_REGEX), Validators.min(0)])),
     invoice_reference: fb.control(""),
     emailDeliverChoice: fb.control("1"),
     emailDeliver: fb.control("", Validators.pattern(EMAIL_REGEX)),
-    description: fb.control("", Validators.required),
+    description: fb.control(""),
   });
+  form.get('orderType')?.valueChanges.subscribe(({id}) => {
+    const description = form.get('description');
+    if (id === 2) {
+      description?.setValidators([Validators.required]);
+    } else {
+      description?.clearValidators();
+    }
+    description?.updateValueAndValidity();
+  });
+  return form;
 }
 
 // ContactForm
 export interface ContactForm {
+  addressChoice: FormControl<string>;
   customer: FormControl<string>;
   first_name: FormControl<string>;
   last_name: FormControl<string>;
@@ -75,14 +74,15 @@ export interface ContactForm {
 
 export function createContactForm(): FormGroup<ContactForm> {
   const fb = inject(NonNullableFormBuilder);
-  return fb.group({
+  const form = fb.group({
+    addressChoice: fb.control("1", Validators.required),
     customer: fb.control(""),
-    first_name: fb.control("", Validators.required),
-    last_name: fb.control("", Validators.required),
-    email: fb.control("", Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEX)])),
+    first_name: fb.control(""),
+    last_name: fb.control(""),
+    email: fb.control(""),
     company_name: fb.control(""),
-    ide_id: fb.control("", Validators.compose([Validators.pattern(IDE_REGEX)])),
-    phone: fb.control("", Validators.pattern(PHONE_REGEX)),
+    ide_id: fb.control(""),
+    phone: fb.control(""),
     street: fb.control(""),
     street2: fb.control(""),
     postcode: fb.control(""),
@@ -90,4 +90,41 @@ export function createContactForm(): FormGroup<ContactForm> {
     country: fb.control(""),
     url: fb.control("")
   });
+
+  const updateValidators = (addressChoice: string) => {
+    const first_name = form.get('first_name');
+    const last_name = form.get('last_name');
+    const email = form.get('email');
+    const ide_id = form.get('ide_id');
+    const phone = form.get('phone');
+
+    if (addressChoice === '2') {
+      first_name?.setValidators([Validators.required]);
+      last_name?.setValidators([Validators.required]);
+      email?.setValidators(Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEX)]));
+      ide_id?.setValidators([Validators.pattern(IDE_REGEX)]);
+      phone?.setValidators([Validators.pattern(PHONE_REGEX)]);
+    } else {
+      first_name?.clearValidators();
+      last_name?.clearValidators();
+      email?.clearValidators();
+      ide_id?.clearValidators();
+      phone?.clearValidators();
+    }
+
+    first_name?.updateValueAndValidity();
+    last_name?.updateValueAndValidity();
+    email?.updateValueAndValidity();
+    ide_id?.updateValueAndValidity();
+    phone?.updateValueAndValidity();
+  };
+
+  form.get('addressChoice')?.valueChanges.subscribe(value => {
+    updateValidators(value);
+  });
+
+  // Initial call to set validators based on default value
+  updateValidators(form.get('addressChoice')?.value ?? "1");
+
+  return form;
 }
