@@ -7,11 +7,10 @@ import {IOrderType} from "@app/models/IOrder";
 import {IProduct} from "@app/models/IProduct";
 import {ApiOrderService} from "@app/services/api-order.service";
 import {ApiService} from "@app/services/api.service";
-import {ConfigService} from "@app/services/config.service";
 
 import {CommonModule} from "@angular/common";
 import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MatButtonModule} from "@angular/material/button";
 import {MatOptionModule} from "@angular/material/core";
@@ -54,7 +53,6 @@ export class ContactPricingStepComponent implements OnInit {
   filteredCustomers$: Observable<IContact[]> | undefined;
 
   constructor(
-    private readonly config: ConfigService,
     private readonly apiService: ApiService,
     private readonly apiOrderService: ApiOrderService,
     private dialog: MatDialog,
@@ -110,7 +108,7 @@ export class ContactPricingStepComponent implements OnInit {
     this.contactFormGroup.reset();
   }
 
-  displayCustomer(customer: IIdentity|Contact) {
+  displayCustomer(customer: IIdentity | Contact) {
     if (!customer) {
       return '';
     }
@@ -152,6 +150,7 @@ export class ContactPricingStepComponent implements OnInit {
         if (confirmed) {
           this.clearCustomerForm();
           this.isCustomerSelected = false;
+          this.currentSelectedContact = undefined;
         }
       });
     });

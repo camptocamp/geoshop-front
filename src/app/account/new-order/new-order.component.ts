@@ -21,7 +21,7 @@ import {AppState, getUser, selectOrder, selectAllProduct} from '@app/store';
 import * as fromCart from '@app/store/cart/cart.action';
 
 import {AsyncPipe, CommonModule} from '@angular/common';
-import {ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, DestroyRef, HostBinding, inject, OnInit, ViewChild} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
@@ -57,6 +57,8 @@ export class NewOrderComponent implements OnInit {
   @HostBinding('class') class = 'main-container';
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild('stepper') stepper: MatStepper;
+
+  private destroyRef = inject(DestroyRef);
 
   readonly AppConstants = Constants;
 
@@ -119,11 +121,11 @@ export class NewOrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.allProducts$.subscribe((cartProducts: IProduct[]) => {
+    this.allProducts$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((cartProducts: IProduct[]) => {
       this.products = cartProducts;
     });
 
-    this.currentOrder$.subscribe(order => {
+    this.currentOrder$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(order => {
       if (order) {
         this.currentOrder = order;
         this.updateForms();
@@ -134,6 +136,7 @@ export class NewOrderComponent implements OnInit {
       return;
     }
     this.filteredCustomers$ = customer.valueChanges.pipe(
+      takeUntilDestroyed(this.destroyRef),
       debounceTime(500),
       startWith(''),
       filter(x => typeof x === 'string' && x.length > 2),
@@ -163,8 +166,12 @@ export class NewOrderComponent implements OnInit {
   // Update form values from an order
   private updateForms() {
     this.orderFormGroup.patchValue({
-      orderType: this.currentOrder.order_type === "private" ? {id: 1, name: "private"} : {id: 2, name: "public"},
-      ...this.currentOrder
+      orderType: this.currentOrder.order_type === Constants.ORDERTYPE_PUBLIC ? {id: 2, name: Constants.ORDERTYPE_PUBLIC} : {id: 1, name: Constants.ORDERTYPE_PRIVATE},
+      title: this.currentOrder.title,
+      invoice_reference: this.currentOrder.invoice_reference,
+      emailDeliver: this.currentOrder.email_deliver,
+      emailDeliverChoice: this.currentOrder.email_deliver ? "2" : "1",
+      description: this.currentOrder.description
     });
     this.contactFormGroup.patchValue(this.invoiceContact ?? {});
 
@@ -182,12 +189,12 @@ export class NewOrderComponent implements OnInit {
 
   // Create order from an order draft and the form values
   private updateOrder() {
-    const order = this.orderFormGroup.getRawValue();
-    this.currentOrder.title = order.title;
-    this.currentOrder.invoice_reference = order.invoice_reference;
-    this.currentOrder.email_deliver = order.emailDeliver;
-    this.currentOrder.description = order.description;
-    this.currentOrder.order_type = order.orderType.name;
+    const orderValues = this.orderFormGroup.getRawValue();
+    this.currentOrder.title = orderValues.title;
+    this.currentOrder.invoice_reference = orderValues.invoice_reference;
+    this.currentOrder.email_deliver = orderValues.emailDeliverChoice === '2' ? orderValues.emailDeliver : '';
+    this.currentOrder.description = orderValues.description;
+    this.currentOrder.order_type = orderValues.orderType.name;
 
     if (this.contactFormGroup.get('addressChoice')?.value === '2') {
       const contact: IContact = this.contactFormGroup.getRawValue();

@@ -102,14 +102,6 @@ describe('NewOrderComponent', () => {
     expect(fixture.nativeElement.querySelector(".sitn-td-price span").innerHTML).toEqual("CHF100.00");
   });
 
-  it('should use CHF as default currency', () => {
-    component.stepper.selectedIndex = 1;
-    component.createOrUpdateDraft();
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.querySelector(".sitn-td-price span").innerHTML).toEqual("CHF100.00");
-  });
-
   it('should select default order type', () => {
     component.stepper.selectedIndex = 1;
     fixture.detectChanges();

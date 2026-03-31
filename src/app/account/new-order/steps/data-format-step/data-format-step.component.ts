@@ -13,7 +13,7 @@ import {MatOptionModule} from "@angular/material/core";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
-import {MatError, MatInputModule} from "@angular/material/input";
+import {MatInputModule} from "@angular/material/input";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatSelectModule} from "@angular/material/select";
 import {MatStepperModule} from "@angular/material/stepper";
@@ -24,7 +24,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
   selector: 'gs2-data-format-step',
   imports: [
     CommonModule, CurrencyPipe, FormsModule, MatAutocompleteModule, MatButtonModule,
-    MatDialogModule, MatError, MatFormFieldModule, MatIconModule, MatInputModule,
+    MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule,
     MatOptionModule, MatProgressSpinnerModule, MatSelectModule,
     MatStepperModule, MatTableModule, ReactiveFormsModule
   ],
@@ -59,7 +59,7 @@ export class DataFormatStepComponent {
     this.isOrderPatchLoading = true;
     for (let i = 0; i < this.order.items.length; i++) {
       const item = this.order.items[i];
-      const availableFormats = item.available_formats || [];;
+      const availableFormats = item.available_formats || [];
       if (availableFormats.indexOf(dataFormatName) > -1) {
         item.data_format = dataFormatName;
         const formatControl = (this.orderItemFormGroup.get("format") as FormArray).at(i);
