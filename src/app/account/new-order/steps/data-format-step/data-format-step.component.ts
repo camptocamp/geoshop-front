@@ -42,13 +42,16 @@ export class DataFormatStepComponent {
   readonly AppConstants = Constants;
 
   isOrderPatchLoading = false;
-  isOrderHasPendingItem = false;
 
   constructor(
     private readonly apiOrderService: ApiOrderService,
     private readonly storeService: StoreService,
     private cdr: ChangeDetectorRef
   ) {
+  }
+
+  get hasPendingItem(): boolean {
+    return this.order && this.order.isAllOrderItemCalculated;
   }
 
   getProductLabel(orderItem: IOrderItem) {

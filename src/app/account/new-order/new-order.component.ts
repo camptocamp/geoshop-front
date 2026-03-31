@@ -148,7 +148,6 @@ export class NewOrderComponent implements OnInit {
       })
     );
 
-
     //this._createOrUpdateDraftOrder(undefined, 0);
   }
 

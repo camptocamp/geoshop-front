@@ -105,7 +105,7 @@ describe('NewOrderComponent', () => {
   it('should select default order type', () => {
     component.stepper.selectedIndex = 1;
     fixture.detectChanges();
-    expect(fixture.componentInstance.orderTypeCtrl?.value).toEqual({
+    expect(component.orderTypeCtrl?.value).toEqual({
       id: 1, name:Constants.ORDERTYPE_PRIVATE
     });
   });

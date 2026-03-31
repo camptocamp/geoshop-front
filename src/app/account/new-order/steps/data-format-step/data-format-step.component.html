@@ -12,13 +12,13 @@
           <div class="text-ellipsis-2">{{ getProductLabel(orderItem) }}</div>
         </td>
         <td mat-footer-cell *matFooterCellDef>
-          <div *ngIf="isOrderHasPendingItem" i18n>
+          <div *ngIf="hasPendingItem" i18n>
             Un ou plusieurs produits commandés doivent être devisés préalablement.<br>
             N'hésitez pas à demander gratuitement votre devis sans engagement.<br>
             Vous pourrez ensuite définitevement valider votre commande.
           </div>
 
-          <ul class="padding-vertical-5" *ngIf="!isOrderHasPendingItem">
+          <ul class="padding-vertical-5" *ngIf="!hasPendingItem">
             <li class="text-primary" i18n>Frais de traitement</li>
             <li class="text-primary mat-body-strong" i18n>Total TTC</li>
             <!-- FIXME TTC = toutes taxes comprises ??-->
@@ -59,7 +59,7 @@
           <span *ngIf="orderItem.price_status === 'PENDING'"> {{ getOrerStatus(orderItem) }}</span>
         </td>
         <td mat-footer-cell *matFooterCellDef class="sitn-tf-price">
-          <ul class="padding-vertical-5" *ngIf="!isOrderHasPendingItem">
+          <ul class="padding-vertical-5" *ngIf="!hasPendingItem">
             <li class="text-primary">{{ order.processing_fee | currency: order.processing_fee_currency }}</li>
             <li class="text-primary mat-body-strong">{{ order.total_with_vat | currency: order.total_with_vat_currency }}</li>
             <li class="mat-small">{{ order.part_vat | currency: order.part_vat_currency }}</li>

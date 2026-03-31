@@ -36,7 +36,9 @@ export function createOrderForm(): FormGroup<OrderForm> {
   const fb = inject(NonNullableFormBuilder);
   const form = fb.group({
     orderType: fb.control({id: 1, name: "private"}, Validators.required),
-    title: fb.control("", Validators.compose([Validators.pattern(EXTRACT_FORBIDDEN_REGEX), Validators.min(0)])),
+    title: fb.control("", Validators.compose([
+      Validators.pattern(EXTRACT_FORBIDDEN_REGEX), Validators.required
+    ])),
     invoice_reference: fb.control(""),
     emailDeliverChoice: fb.control("1"),
     emailDeliver: fb.control("", Validators.pattern(EMAIL_REGEX)),

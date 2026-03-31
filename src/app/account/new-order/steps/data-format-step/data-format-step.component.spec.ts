@@ -1,3 +1,4 @@
+import {createOrderItemForm} from "@app/account/new-order/order-form.model";
 import * as Constants from "@app/constants";
 import {IOrder, IOrderItem, Order} from "@app/models/IOrder";
 import {AppState} from "@app/store";
@@ -6,7 +7,7 @@ import {CartState} from "@app/store/cart/cart.reducer";
 import {provideHttpClient} from "@angular/common/http";
 import {provideHttpClientTesting} from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {ReactiveFormsModule, UntypedFormControl, UntypedFormGroup} from "@angular/forms";
+import {ReactiveFormsModule} from "@angular/forms";
 import {provideMockStore} from "@ngrx/store/testing";
 
 import { DataFormatStepComponent } from './data-format-step.component';
@@ -51,9 +52,7 @@ describe('DataFormatStepComponent', () => {
 
     fixture = TestBed.createComponent(DataFormatStepComponent);
     component = fixture.componentInstance;
-    component.orderItemFormGroup = new UntypedFormGroup({
-      formatsForAll:new UntypedFormControl(null)
-    });
+    component.orderItemFormGroup = TestBed.runInInjectionContext(() => createOrderItemForm());
     component.order = new Order({
       items: [] as IOrderItem[]
     } as IOrder);
