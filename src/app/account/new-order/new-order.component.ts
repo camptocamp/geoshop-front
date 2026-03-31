@@ -10,36 +10,36 @@ import {
 import {DataFormatStepComponent} from "@app/account/new-order/steps/data-format-step/data-format-step.component";
 import {OrderTypeStepComponent} from "@app/account/new-order/steps/order-type-step/order-type-step.component";
 import * as Constants from '@app/constants';
-import { Contact, IContact } from '@app/models/IContact';
-import { IOrder, Order, IOrderItem } from '@app/models/IOrder';
-import { IProduct } from '@app/models/IProduct';
-import { ApiOrderService } from '@app/services/api-order.service';
-import { ApiService } from '@app/services/api.service';
-import { ConfigService } from '@app/services/config.service';
-import { StoreService } from '@app/services/store.service';
-import { AppState, getUser, selectOrder, selectAllProduct } from '@app/store';
+import {Contact, IContact} from '@app/models/IContact';
+import {IOrder, Order, IOrderItem} from '@app/models/IOrder';
+import {IProduct} from '@app/models/IProduct';
+import {ApiOrderService} from '@app/services/api-order.service';
+import {ApiService} from '@app/services/api.service';
+import {ConfigService} from '@app/services/config.service';
+import {StoreService} from '@app/services/store.service';
+import {AppState, getUser, selectOrder, selectAllProduct} from '@app/store';
 import * as fromCart from '@app/store/cart/cart.action';
 
-import { AsyncPipe, CommonModule } from '@angular/common';
+import {AsyncPipe, CommonModule} from '@angular/common';
 import {ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule} from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatButtonModule } from '@angular/material/button';
-import { MatOptionModule } from '@angular/material/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSort } from '@angular/material/sort';
-import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatButtonModule} from '@angular/material/button';
+import {MatOptionModule} from '@angular/material/core';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSelectModule} from '@angular/material/select';
+import {MatSort} from '@angular/material/sort';
+import {MatStepper, MatStepperModule} from '@angular/material/stepper';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {Router} from '@angular/router';
+import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
-import { debounceTime, filter, map, mergeMap, startWith, switchMap } from 'rxjs/operators';
+import {debounceTime, filter, map, mergeMap, startWith, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'gs2-new-order',
@@ -55,7 +55,7 @@ import { debounceTime, filter, map, mergeMap, startWith, switchMap } from 'rxjs/
 })
 export class NewOrderComponent implements OnInit {
   @HostBinding('class') class = 'main-container';
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild('stepper') stepper: MatStepper;
 
   readonly AppConstants = Constants;
@@ -65,11 +65,11 @@ export class NewOrderComponent implements OnInit {
   orderItemFormGroup: FormGroup<OrderItemForm>;
 
   currentOrder: Order;
-  invoiceContact: Contact|undefined;
+  invoiceContact: Contact | undefined;
 
   readonly orderTypes$ = this.apiOrderService.getOrderTypes().pipe(
     takeUntilDestroyed(),
-    map((orderTypes) => orderTypes ? orderTypes: []));
+    map((orderTypes) => orderTypes ? orderTypes : []));
 
   readonly currentUser$ = this.store.select(getUser);
   filteredCustomers$: Observable<IContact[]> = of([]);
@@ -94,39 +94,43 @@ export class NewOrderComponent implements OnInit {
       $localize`Demander un devis`;
   }
 
+  private allProducts$ = this.store.pipe(
+    takeUntilDestroyed(),
+    select(selectAllProduct)
+  );
+
+  private currentOrder$ = this.store.pipe(
+    takeUntilDestroyed(),
+    select(selectOrder),
+    switchMap(x => this.apiOrderService.getFullOrder(x)),
+  );
+
   constructor(private formBuilder: NonNullableFormBuilder,
-    private apiOrderService: ApiOrderService,
-    private apiService: ApiService,
-    private storeService: StoreService,
-    private router: Router,
-    private store: Store<AppState>,
-    private dialog: MatDialog,
-    private config: ConfigService,
-    private cdr: ChangeDetectorRef) {
+              private apiOrderService: ApiOrderService,
+              private apiService: ApiService,
+              private storeService: StoreService,
+              private router: Router,
+              private store: Store<AppState>,
+              private dialog: MatDialog,
+              private config: ConfigService,
+              private cdr: ChangeDetectorRef) {
 
     this.createForms();
-    this.store.pipe(
-      takeUntilDestroyed(),
-      select(selectAllProduct)
-    ).subscribe((cartProducts: IProduct[]) => {
+  }
+
+  ngOnInit(): void {
+    this.allProducts$.subscribe((cartProducts: IProduct[]) => {
       this.products = cartProducts;
     });
 
-    this.store.pipe(
-      takeUntilDestroyed(),
-      select(selectOrder),
-      switchMap(x => this.apiOrderService.getFullOrder(x)),
-    ).subscribe(order => {
+    this.currentOrder$.subscribe(order => {
       if (order) {
         this.currentOrder = order;
         this.updateForms();
       }
     });
-  }
-
-  ngOnInit(): void {
     const customer = this.contactFormGroup.get('customer');
-    if (!customer){
+    if (!customer) {
       return;
     }
     this.filteredCustomers$ = customer.valueChanges.pipe(
@@ -134,11 +138,9 @@ export class NewOrderComponent implements OnInit {
       startWith(''),
       filter(x => typeof x === 'string' && x.length > 2),
       mergeMap(searchString => {
-        //this.isSearchLoading = true;
         return this.apiService.find<IContact>(searchString, 'contact');
       }),
       map(x => {
-        //this.isSearchLoading = false;
         return x ? x.results : [];
       })
     );
@@ -188,7 +190,7 @@ export class NewOrderComponent implements OnInit {
     this.currentOrder.order_type = order.orderType.name;
 
     if (this.contactFormGroup.get('addressChoice')?.value === '2') {
-      const contact:IContact = this.contactFormGroup.getRawValue();
+      const contact: IContact = this.contactFormGroup.getRawValue();
       this.invoiceContact = contact.first_name && contact.last_name && contact.email ?
         new Contact(contact) :
         undefined;
@@ -197,37 +199,33 @@ export class NewOrderComponent implements OnInit {
     }
   }
 
-  createOrUpdateDraft(nextPage: number) {
-    this.updateOrder();
+  private createOrUpdateOrder() {
     if (this.currentOrder.id === -1) {
-      this.apiOrderService.createOrder(this.currentOrder.toPostAsJson, this.invoiceContact, this.IsAddressForCurrentUser)
-        .subscribe(newOrder => {
-          if (newOrder) {
-            this.storeService.addOrderToStore(new Order(newOrder as IOrder));
-          }
-        });
+      return this.apiOrderService.createOrder(this.currentOrder.toPostAsJson, this.invoiceContact, this.IsAddressForCurrentUser)
+        .pipe(filter(newOrder => !!newOrder));
     } else {
-      this.apiOrderService.updateOrder(this.currentOrder, this.invoiceContact, this.IsAddressForCurrentUser)
-        .subscribe(newOrder => {
-          if (newOrder) {
-            this.storeService.addOrderToStore(new Order(newOrder as IOrder));
-          }
-        });
+      return this.apiOrderService.updateOrder(this.currentOrder, this.invoiceContact, this.IsAddressForCurrentUser)
+        .pipe(filter(newOrder => !!newOrder));
     }
-    this.stepper.selectedIndex = nextPage;
+  }
+
+  createOrUpdateDraft() {
+    this.updateOrder();
+    this.createOrUpdateOrder().subscribe(newOrder => {
+      this.storeService.addOrderToStore(new Order(newOrder as IOrder));
+    })
   }
 
   confirm() {
     this.updateOrder();
-    return;
-    if (this.orderItemFormGroup.valid) {
-      this.apiOrderService.confirmOrder(this.currentOrder.id).subscribe(async confirmed => {
-        if (confirmed) {
-          this.store.dispatch(fromCart.deleteOrder());
-          await this.router.navigate(['/account/orders']);
-        }
-      });
-    }
+    this.createOrUpdateOrder().pipe(
+      switchMap((order: IOrder) => this.apiOrderService.confirmOrder(order.id))
+    ).subscribe(async confirmed => {
+      if (confirmed) {
+        this.store.dispatch(fromCart.deleteOrder());
+        await this.router.navigate(['/account/orders']);
+      }
+    });
   }
 
   public billingRequired(): boolean {

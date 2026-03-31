@@ -1,4 +1,4 @@
-import { createContactForm, createOrderForm } from "@app/account/new-order/order-form.model";
+import {createContactForm, createOrderForm} from "@app/account/new-order/order-form.model";
 import {IApiResponse} from "@app/models/IApi";
 import {IContact} from "@app/models/IContact";
 import {ApiService} from "@app/services/api.service";
@@ -7,15 +7,15 @@ import {HarnessLoader} from "@angular/cdk/testing";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
 import {provideHttpClient} from "@angular/common/http";
 import {provideHttpClientTesting} from "@angular/common/http/testing";
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup} from "@angular/forms";
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {ReactiveFormsModule} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatAutocompleteHarness} from "@angular/material/autocomplete/testing";
 import {MatInputModule} from "@angular/material/input";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {of} from "rxjs";
 
-import { ContactPricingStepComponent } from './contact-pricing-step.component';
+import {ContactPricingStepComponent} from './contact-pricing-step.component';
 
 class MockApiService {
   apiUrl = "";
@@ -23,8 +23,8 @@ class MockApiService {
     return of({
       count: 0, next: "", previous: "",
       results: [
-        {company_name: "Company name",  first_name: "First name",  last_name: "Last name",  email: "valid@email.com"},
-        {company_name: "Another",  first_name: "Hello",  last_name: "World",  email: "hello@world.com"},
+        {company_name: "Company name", first_name: "First name", last_name: "Last name", email: "valid@email.com"},
+        {company_name: "Another", first_name: "Hello", last_name: "World", email: "hello@world.com"},
       ]
     } as IApiResponse<IContact>);
   }
@@ -44,18 +44,18 @@ describe('ContactPricingStepComponent', () => {
         NoopAnimationsModule,
         ReactiveFormsModule,
       ],
-      providers:[
+      providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        { provide: ApiService, useClass: MockApiService },
+        {provide: ApiService, useClass: MockApiService},
       ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ContactPricingStepComponent);
     loader = TestbedHarnessEnvironment.loader(fixture);
     component = fixture.componentInstance;
-    component.contactFormGroup = TestBed.runInInjectionContext(() =>createContactForm());
+    component.contactFormGroup = TestBed.runInInjectionContext(() => createContactForm());
     component.orderFormGroup = TestBed.runInInjectionContext(() => createOrderForm());
     fixture.detectChanges();
   });

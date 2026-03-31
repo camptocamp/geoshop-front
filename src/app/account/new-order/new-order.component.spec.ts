@@ -30,7 +30,6 @@ import { of } from 'rxjs';
 import { expect, it, describe, beforeEach } from 'vitest';
 
 import { NewOrderComponent } from './new-order.component';
-import {OrderTypeStepComponent} from "@app/account/new-order/steps/order-type-step/order-type-step.component";
 
 class MockConfig {
   config = {
@@ -96,20 +95,23 @@ describe('NewOrderComponent', () => {
   });
 
   it('should use CHF as default currency', () => {
-    component.createOrUpdateDraft(2);
+    component.stepper.selectedIndex = 1;
+    component.createOrUpdateDraft();
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelector(".sitn-td-price span").innerHTML).toEqual("CHF100.00");
   });
 
   it('should use CHF as default currency', () => {
-    component.createOrUpdateDraft(2);
+    component.stepper.selectedIndex = 1;
+    component.createOrUpdateDraft();
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelector(".sitn-td-price span").innerHTML).toEqual("CHF100.00");
   });
 
   it('should select default order type', () => {
+    component.stepper.selectedIndex = 1;
     fixture.detectChanges();
     expect(fixture.componentInstance.orderTypeCtrl?.value).toEqual({
       id: 1, name:Constants.ORDERTYPE_PRIVATE
