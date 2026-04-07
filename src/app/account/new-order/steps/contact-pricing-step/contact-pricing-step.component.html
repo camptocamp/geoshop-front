@@ -1,5 +1,5 @@
 <form class="form-no-full-height billing-form" [formGroup]="contactFormGroup">
-  <mat-radio-group *ngIf="IsOrderTypePrivate" class="flex-column" formControlName="addressChoice"
+  <mat-radio-group *ngIf="isOrderTypePrivate" class="flex-column" formControlName="addressChoice"
                    aria-label="Choisir une option">
     <mat-radio-button value="1" i18n>La facturation est adressée à
       l'utilisateur courant: {{ user?.username }} ({{ user?.email }})
@@ -8,12 +8,12 @@
   </mat-radio-group>
 
 
-  <mat-label *ngIf="!IsOrderTypePrivate && orderFormGroup.get('orderType')?.value" i18n>
+  <mat-label *ngIf="!isOrderTypePrivate && orderFormGroup.get('orderType')?.value" i18n>
     Vous devez spécifier les informations de contact du tiers pour un mandat de type
     &quot;{{ getLocalizedTypeName(orderFormGroup.get('orderType')?.value) }}&quot;.
   </mat-label>
 
-  <ng-container *ngIf="(IsOrderTypePrivate && !IsAddressForCurrentUser) || !IsOrderTypePrivate">
+  <ng-container *ngIf="(isOrderTypePrivate && !IsAddressForCurrentUser) || !isOrderTypePrivate">
     <div class="flex-row">
       <!-- Search -->
       <mat-form-field class="customer-search-field">
@@ -129,7 +129,7 @@
         <input formControlName="city" matInput>
       </mat-form-field>
 
-      <mat-form-field> <!-- TODO Why is there only Suiss and France?-->
+      <mat-form-field> <!-- TODO Why is there only Switzerland and France?-->
         <mat-label i18n>Pays</mat-label>
         <mat-select formControlName="country">
           <mat-option [value]="AppConstants.COUNTRIES.CH.name">{{ AppConstants.COUNTRIES.CH.name }}</mat-option>

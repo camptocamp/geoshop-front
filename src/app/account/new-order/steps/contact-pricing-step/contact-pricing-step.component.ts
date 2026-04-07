@@ -9,7 +9,8 @@ import {ApiOrderService} from "@app/services/api-order.service";
 import {ApiService} from "@app/services/api.service";
 
 import {CommonModule} from "@angular/common";
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, DestroyRef, inject, Input, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MatButtonModule} from "@angular/material/button";
@@ -44,13 +45,14 @@ export class ContactPricingStepComponent implements OnInit {
   @Input() products: IProduct[] = [];
   @Input() user: Partial<IIdentity> | null = null;
 
-  readonly AppConstants = Constants;
+  public readonly AppConstants = Constants;
+  private readonly destroyRef = inject(DestroyRef);
 
-  isSearchLoading = false;
-  isCustomerSelected = false;
-  isNewInvoiceContact = false;
-  currentSelectedContact: Contact | undefined;
-  filteredCustomers$: Observable<IContact[]> | undefined;
+  public isSearchLoading = false;
+  public isCustomerSelected = false;
+  public isNewInvoiceContact = false;
+  public currentSelectedContact: Contact | undefined;
+  public filteredCustomers$: Observable<IContact[]> | undefined;
 
   constructor(
     private readonly apiService: ApiService,
@@ -59,7 +61,7 @@ export class ContactPricingStepComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.filteredCustomers$ = this.contactFormGroup.get('customer')?.valueChanges.pipe(
       debounceTime(500),
       startWith(''),
@@ -71,10 +73,12 @@ export class ContactPricingStepComponent implements OnInit {
       map(x => {
         this.isSearchLoading = false;
         return x ? x.results : [];
-      }));
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    );
   }
 
-  get IsOrderTypePrivate() {
+  public get isOrderTypePrivate(): boolean {
     return this.orderFormGroup?.get('orderType')?.value.id === 1;
   }
 
@@ -96,11 +100,11 @@ export class ContactPricingStepComponent implements OnInit {
     return this.contactFormGroup.get('addressChoice');
   }
 
-  get IsAddressForCurrentUser() {
+  get IsAddressForCurrentUser(): boolean {
     return this.addressChoiceCtrl?.value === '1';
   }
 
-  resetCustomerSearch() {
+  public resetCustomerSearch() {
     this.contactFormGroup.reset();
     this.isCustomerSelected = false;
     this.isNewInvoiceContact = false;
@@ -108,14 +112,14 @@ export class ContactPricingStepComponent implements OnInit {
     this.contactFormGroup.reset();
   }
 
-  displayCustomer(customer: IIdentity | Contact) {
+  public displayCustomer(customer: IIdentity | Contact) {
     if (!customer) {
       return '';
     }
     return `${customer.first_name} ${customer.last_name} (${customer.email})`.trim();
   }
 
-  getInvoiceContact(): Contact | undefined {
+  public getInvoiceContact(): Contact | undefined {
     const actualContact: IContact = {
       ...this.contactFormGroup.getRawValue()
     };
@@ -126,7 +130,7 @@ export class ContactPricingStepComponent implements OnInit {
 
   public deleteCurrentContact() {
     const contact = this.getInvoiceContact();
-    if (!this.isCustomerSelected || !contact || !contact.Id) {
+    if (!this.isCustomerSelected || !contact?.Id) {
       return;
     }
     let dialogRef: MatDialogRef<ConfirmDialogComponent> | null = this.dialog.open(ConfirmDialogComponent, {
@@ -141,12 +145,12 @@ export class ContactPricingStepComponent implements OnInit {
     dialogRef.componentInstance.yesButtonTitle = $localize`Supprimer`;
     dialogRef.componentInstance.confirmMessage =
       $localize`Etes-vous sûr de vouloir supprimer le contact <b style='color:#26a59a;'>${contact.first_name} ${contact.last_name}</b> ?`;
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(result => {
       dialogRef = null;
       if (!result) {
         return;
       }
-      this.apiOrderService.deleteContact(contact.Id).subscribe(confirmed => {
+      this.apiOrderService.deleteContact(contact.Id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(confirmed => {
         if (confirmed) {
           this.clearCustomerForm();
           this.isCustomerSelected = false;
@@ -163,7 +167,7 @@ export class ContactPricingStepComponent implements OnInit {
     });
   }
 
-  clearCustomerForm() {
+  public clearCustomerForm() {
     this.contactFormGroup.reset({
       addressChoice: this.contactFormGroup.get("addressChoice")?.value ?? "1",
     });
@@ -171,7 +175,7 @@ export class ContactPricingStepComponent implements OnInit {
     this.isNewInvoiceContact = true;
   }
 
-  updateCustomerForm(event: MatAutocompleteSelectedEvent) {
+  public updateCustomerForm(event: MatAutocompleteSelectedEvent) {
     this.isCustomerSelected = true;
     this.isNewInvoiceContact = false;
 

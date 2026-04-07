@@ -39,7 +39,7 @@ export class OrderTypeStepComponent implements OnInit {
   @Input() user: Partial<IIdentity>|null = null;
   @Input() orderTypes: IOrderType[] = [];
 
-  readonly AppConstants = Constants;
+  public readonly AppConstants = Constants;
 
   constructor(private readonly config: ConfigService) {
   }
@@ -57,11 +57,11 @@ export class OrderTypeStepComponent implements OnInit {
     });
   }
 
-  orderTypeCompareWith(a: IOrderType, b: IOrderType) {
+  public orderTypeCompareWith(a: IOrderType, b: IOrderType): boolean {
     return a && b && a.id === b.id;
   }
 
-  onTypeSelected(type: IOrderType) {
+  public onTypeSelected(type: IOrderType) {
     this.orderFormGroup.get('orderType')?.setValue(type);
     const descriptionControl = this.orderFormGroup.get('description');
     if (type.id === 1) {

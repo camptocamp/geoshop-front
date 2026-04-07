@@ -60,36 +60,35 @@ export class NewOrderComponent implements OnInit {
 
   private destroyRef = inject(DestroyRef);
 
-  readonly AppConstants = Constants;
+  public readonly AppConstants = Constants;
+  public orderFormGroup: FormGroup<OrderForm>;
+  public contactFormGroup: FormGroup<ContactForm>;
+  public orderItemFormGroup: FormGroup<OrderItemForm>;
 
-  orderFormGroup: FormGroup<OrderForm>;
-  contactFormGroup: FormGroup<ContactForm>;
-  orderItemFormGroup: FormGroup<OrderItemForm>;
-
-  currentOrder: Order;
-  invoiceContact: Contact | undefined;
+  public currentOrder: Order;
+  public invoiceContact: Contact | undefined;
 
   readonly orderTypes$ = this.apiOrderService.getOrderTypes().pipe(
     takeUntilDestroyed(),
     map((orderTypes) => orderTypes ? orderTypes : []));
 
-  readonly currentUser$ = this.store.select(getUser);
-  filteredCustomers$: Observable<IContact[]> = of([]);
+  public readonly currentUser$ = this.store.select(getUser);
+  public filteredCustomers$: Observable<IContact[]> = of([]);
 
   // order item form: table's attributes
-  allAvailableFormats: Set<string>;
-  dataSource: MatTableDataSource<IOrderItem>;
-  products: IProduct[] = [];
+  public allAvailableFormats: Set<string>;
+  public dataSource: MatTableDataSource<IOrderItem>;
+  public products: IProduct[] = [];
 
   get orderTypeCtrl() {
     return this.orderFormGroup?.get('orderType');
   }
 
-  get IsAddressForCurrentUser() {
+  get IsAddressForCurrentUser(): boolean {
     return this.contactFormGroup?.get('addressChoice')?.value === '1';
   }
 
-  get buttonConfirmLabel() {
+  get buttonConfirmLabel():string {
     if (!this.currentOrder) return "";
     return this.currentOrder.items.every(x => x.price_status !== 'PENDING') ?
       $localize`Acheter maintenant` :
@@ -205,7 +204,7 @@ export class NewOrderComponent implements OnInit {
     }
   }
 
-  private createOrUpdateOrder() {
+  private createOrUpdateOrder(): Observable<IOrder> {
     if (this.currentOrder.id === -1) {
       return this.apiOrderService.createOrder(this.currentOrder.toPostAsJson, this.invoiceContact, this.IsAddressForCurrentUser)
         .pipe(filter(newOrder => !!newOrder));
@@ -215,14 +214,14 @@ export class NewOrderComponent implements OnInit {
     }
   }
 
-  createOrUpdateDraft() {
+  public createOrUpdateDraft() {
     this.updateOrder();
     this.createOrUpdateOrder().subscribe(newOrder => {
       this.storeService.addOrderToStore(new Order(newOrder as IOrder));
     })
   }
 
-  confirm() {
+  public confirm() {
     this.updateOrder();
     this.createOrUpdateOrder().pipe(
       switchMap((order: IOrder) => this.apiOrderService.confirmOrder(order.id))

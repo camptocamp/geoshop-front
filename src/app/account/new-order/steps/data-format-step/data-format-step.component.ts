@@ -38,10 +38,8 @@ export class DataFormatStepComponent {
   @Input() allAvailableFormats: Set<string> = new Set<string>();
   @Input() order: Order;
 
-  readonly displayedColumns: string[] = ['label', 'format', 'price'];
-  readonly AppConstants = Constants;
-
-  isOrderPatchLoading = false;
+  public readonly displayedColumns: string[] = ['label', 'format', 'price'];
+  public isOrderPatchLoading = false;
 
   constructor(
     private readonly apiOrderService: ApiOrderService,
@@ -54,14 +52,13 @@ export class DataFormatStepComponent {
     return this.order && this.order.isAllOrderItemCalculated;
   }
 
-  getProductLabel(orderItem: IOrderItem) {
+  public getProductLabel(orderItem: IOrderItem): string {
     return Order.getProductLabel(orderItem);
   }
 
-  updateAllDataFormats(dataFormatName: string) {
+  public updateAllDataFormats(dataFormatName: string) {
     this.isOrderPatchLoading = true;
-    for (let i = 0; i < this.order.items.length; i++) {
-      const item = this.order.items[i];
+    this.order.items.forEach((item, i) => {
       const availableFormats = item.available_formats || [];
       if (availableFormats.indexOf(dataFormatName) > -1) {
         item.data_format = dataFormatName;
@@ -70,7 +67,7 @@ export class DataFormatStepComponent {
           formatControl.setValue(dataFormatName);
         }
       }
-    }
+    });
     this.apiOrderService.updateOrderItemsDataFormats(this.order).subscribe(newOrder => {
       if (newOrder) {
         this.storeService.addOrderToStore(new Order(newOrder as IOrder));
@@ -82,7 +79,7 @@ export class DataFormatStepComponent {
   }
 
   // FIXME this is a duplication of the same function in the order-item-view.component.ts
-  getOrerStatus(orderItem: IOrderItem): string {
+  public getOrerStatus(orderItem: IOrderItem): string {
     let returnValue = '';
     if (orderItem.status !== undefined && Constants.ORDER_STATUS[orderItem.status]) {
       returnValue = Constants.ORDER_STATUS[orderItem.status];
@@ -90,7 +87,7 @@ export class DataFormatStepComponent {
     return returnValue;
   }
 
-  updateDataFormat(item: IOrderItem, selectedFormat: string, index: number) {
+  public updateDataFormat(item: IOrderItem, selectedFormat: string, index: number) {
     item.data_format = selectedFormat;
     const formatControl = (this.orderItemFormGroup.get("format") as FormArray).at(index);
     if (formatControl) {
