@@ -157,8 +157,10 @@ export class NewOrderComponent implements OnInit {
   }
 
   public resetForms() {
-    this.createForms();
-    this.updateForms();
+    this.orderFormGroup.reset();
+    this.contactFormGroup.reset();
+    this.orderItemFormGroup.reset();
+    this.stepper.reset();
   }
 
   // Update form values from an order

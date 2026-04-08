@@ -7,7 +7,7 @@
       [user]="currentUser$ | async">
     </gs2-order-type-step>
     <div class="bottom-container flex-row">
-      <button color="warn" mat-button (click)="resetForms();stepper.selectedIndex = 0">
+      <button color="warn" mat-button (click)="resetForms()">
         {{ AppConstants.RESET }}
       </button>
       <button color="primary" mat-raised-button matStepperNext (click)="createOrUpdateDraft()">
@@ -26,7 +26,7 @@
     </gs2-contact-pricing-step>
 
       <div class="bottom-container flex-row">
-        <button color="warn" mat-button (click)="resetForms();stepper.selectedIndex = 0">
+        <button color="warn" mat-button (click)="resetForms()">
           {{ AppConstants.RESET }}
         </button>
         <button color="primary" mat-button matStepperPrevious>{{ AppConstants.PREVIOUS }}</button>
@@ -43,7 +43,7 @@
         [order]="currentOrder">
       </gs2-data-format-step>
       <div class="flex-row">
-        <button color="warn" mat-button type="button" (click)="resetForms();stepper.selectedIndex = 0">
+        <button color="warn" mat-button type="button" (click)="resetForms()">
           {{ AppConstants.RESET }}
         </button>
         <button color="primary" mat-button matStepperPrevious>{{ AppConstants.PREVIOUS }}</button>
