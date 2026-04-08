@@ -1,4 +1,4 @@
-import {ContactForm, OrderForm} from "@app/account/new-order/order-form.model";
+import {AddressChoice, ContactForm, OrderForm} from "@app/account/new-order/order-form.model";
 import {ConfirmDialogComponent} from "@app/components/confirm-dialog/confirm-dialog.component";
 import * as Constants from "@app/constants";
 import {Contact, IContact} from "@app/models/IContact";
@@ -163,13 +163,14 @@ export class ContactPricingStepComponent implements OnInit {
   public resetCustomerForm() {
     this.contactFormGroup.reset({
       ...this.currentSelectedContact,
+      addressChoice: this.contactFormGroup.get("addressChoice")?.value ?? AddressChoice.CURRENT_USER,
       customer: this.contactFormGroup.get("customer")?.value ?? ""
     });
   }
 
   public clearCustomerForm() {
     this.contactFormGroup.reset({
-      addressChoice: this.contactFormGroup.get("addressChoice")?.value ?? "1",
+      addressChoice: this.contactFormGroup.get("addressChoice")?.value ?? AddressChoice.CURRENT_USER,
     });
     this.isCustomerSelected = true;
     this.isNewInvoiceContact = true;

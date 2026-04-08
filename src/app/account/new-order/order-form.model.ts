@@ -57,8 +57,13 @@ export function createOrderForm(): FormGroup<OrderForm> {
 }
 
 // ContactForm
+export enum AddressChoice {
+  CURRENT_USER = "1",
+  OTHER_PERSON = "2"
+}
+
 export interface ContactForm {
-  addressChoice: FormControl<string>;
+  addressChoice: FormControl<AddressChoice>;
   customer: FormControl<string>;
   first_name: FormControl<string>;
   last_name: FormControl<string>;
@@ -77,7 +82,7 @@ export interface ContactForm {
 export function createContactForm(): FormGroup<ContactForm> {
   const fb = inject(NonNullableFormBuilder);
   const form = fb.group({
-    addressChoice: fb.control("1", Validators.required),
+    addressChoice: fb.control(AddressChoice.CURRENT_USER, Validators.required),
     customer: fb.control(""),
     first_name: fb.control(""),
     last_name: fb.control(""),

@@ -1,4 +1,4 @@
-import {createContactForm, createOrderForm} from "@app/account/new-order/order-form.model";
+import {AddressChoice, createContactForm, createOrderForm} from "@app/account/new-order/order-form.model";
 import {IApiResponse} from "@app/models/IApi";
 import {IContact} from "@app/models/IContact";
 import {ApiService} from "@app/services/api.service";
@@ -73,7 +73,7 @@ describe('ContactPricingStepComponent', () => {
 
   it('should hide "customer" input if order type is private (id 1) and addressChoice is "1"', () => {
     component.orderFormGroup.get('orderType')?.setValue({id: 1, name: 'private'});
-    component.contactFormGroup.get('addressChoice')?.setValue('1');
+    component.contactFormGroup.get('addressChoice')?.setValue(AddressChoice.CURRENT_USER);
     fixture.detectChanges();
     const customerInput = fixture.nativeElement.querySelector('input[formControlName="customer"]');
     expect(customerInput).toBeFalsy();
@@ -81,7 +81,7 @@ describe('ContactPricingStepComponent', () => {
 
   it('should show "customer" input if order type is private (id 1) and addressChoice is "2"', () => {
     component.orderFormGroup.get('orderType')?.setValue({id: 1, name: 'private'});
-    component.contactFormGroup.get('addressChoice')?.setValue('2');
+    component.contactFormGroup.get('addressChoice')?.setValue(AddressChoice.OTHER_PERSON);
     fixture.detectChanges();
     const customerInput = fixture.nativeElement.querySelector('input[formControlName="customer"]');
     expect(customerInput).toBeTruthy();
@@ -92,7 +92,7 @@ describe('ContactPricingStepComponent', () => {
     const findSpy = vi.spyOn(apiService, 'find');
 
     component.orderFormGroup.get('orderType')?.setValue({id: 1, name: 'private'});
-    component.contactFormGroup.get('addressChoice')?.setValue('2');
+    component.contactFormGroup.get('addressChoice')?.setValue(AddressChoice.OTHER_PERSON);
     fixture.detectChanges();
 
     const harness = await loader.getHarness(MatAutocompleteHarness);

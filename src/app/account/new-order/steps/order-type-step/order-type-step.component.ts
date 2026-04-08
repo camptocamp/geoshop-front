@@ -57,7 +57,7 @@ export class OrderTypeStepComponent implements OnInit {
     });
   }
 
-  public orderTypeCompareWith(a: IOrderType, b: IOrderType): boolean {
+  public sortOrderType(a: IOrderType, b: IOrderType): boolean {
     return a && b && a.id === b.id;
   }
 
@@ -80,7 +80,7 @@ export class OrderTypeStepComponent implements OnInit {
         return Constants.ORDER_NAME.PRIVATE;
       case 2:
         return Constants.ORDER_NAME.PUBLIC;
-    };
+    }
     return type.name;
   }
 

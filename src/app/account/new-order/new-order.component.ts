@@ -1,4 +1,5 @@
 import {
+  AddressChoice,
   ContactForm,
   createContactForm,
   createOrderForm, createOrderItemForm,
@@ -85,7 +86,7 @@ export class NewOrderComponent implements OnInit {
   }
 
   get IsAddressForCurrentUser(): boolean {
-    return this.contactFormGroup?.get('addressChoice')?.value === '1';
+    return this.contactFormGroup?.get('addressChoice')?.value === AddressChoice.CURRENT_USER;
   }
 
   get buttonConfirmLabel(): string {
@@ -199,7 +200,7 @@ export class NewOrderComponent implements OnInit {
     this.currentOrder.description = orderValues.description;
     this.currentOrder.order_type = orderValues.orderType.name;
 
-    if (this.contactFormGroup.get('addressChoice')?.value === '2') {
+    if (this.contactFormGroup.get('addressChoice')?.value === AddressChoice.OTHER_PERSON) {
       const contact: IContact = this.contactFormGroup.getRawValue();
       this.invoiceContact = contact.first_name && contact.last_name && contact.email ?
         new Contact(contact) :
