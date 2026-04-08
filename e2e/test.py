@@ -24,12 +24,8 @@ class E2ETests(unittest.TestCase):
         options = webdriver.ChromeOptions()
         options.add_argument("--no-sandbox")
         options.enable_downloads = True
-        driver = webdriver.Remote(
-          command_executor='http://localhost:4444/wd/hub',
-          options=options
-        )
-        driver.implicitly_wait(5)
-        cls._driver = driver
+        cls._driver = webdriver.Firefox()
+        cls._driver.implicitly_wait(5)
 
     @classmethod
     def tearDownClass(cls):

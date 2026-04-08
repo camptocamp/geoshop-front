@@ -27,7 +27,7 @@ import {FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule} fro
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatButtonModule} from '@angular/material/button';
 import {MatOptionModule} from '@angular/material/core';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
@@ -88,7 +88,7 @@ export class NewOrderComponent implements OnInit {
     return this.contactFormGroup?.get('addressChoice')?.value === '1';
   }
 
-  get buttonConfirmLabel():string {
+  get buttonConfirmLabel(): string {
     if (!this.currentOrder) return "";
     return this.currentOrder.items.every(x => x.price_status !== 'PENDING') ?
       $localize`Acheter maintenant` :
@@ -106,15 +106,15 @@ export class NewOrderComponent implements OnInit {
     switchMap(x => this.apiOrderService.getFullOrder(x)),
   );
 
-  constructor(private formBuilder: NonNullableFormBuilder,
-              private apiOrderService: ApiOrderService,
-              private apiService: ApiService,
-              private storeService: StoreService,
-              private router: Router,
-              private store: Store<AppState>,
-              private dialog: MatDialog,
-              private config: ConfigService,
-              private cdr: ChangeDetectorRef) {
+  constructor(
+    private formBuilder: NonNullableFormBuilder,
+    private apiOrderService: ApiOrderService,
+    private apiService: ApiService,
+    private storeService: StoreService,
+    private router: Router,
+    private store: Store<AppState>,
+    private config: ConfigService,
+    private cdr: ChangeDetectorRef) {
 
     this.createForms();
   }
@@ -166,7 +166,10 @@ export class NewOrderComponent implements OnInit {
   // Update form values from an order
   private updateForms() {
     this.orderFormGroup.patchValue({
-      orderType: this.currentOrder.order_type === Constants.ORDERTYPE_PUBLIC ? {id: 2, name: Constants.ORDERTYPE_PUBLIC} : {id: 1, name: Constants.ORDERTYPE_PRIVATE},
+      orderType: this.currentOrder.order_type === Constants.ORDERTYPE_PUBLIC ? {
+        id: 2,
+        name: Constants.ORDERTYPE_PUBLIC
+      } : {id: 1, name: Constants.ORDERTYPE_PRIVATE},
       title: this.currentOrder.title,
       invoice_reference: this.currentOrder.invoice_reference,
       emailDeliver: this.currentOrder.email_deliver,
