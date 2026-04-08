@@ -162,8 +162,8 @@ export class ContactPricingStepComponent implements OnInit {
 
   public resetCustomerForm() {
     this.contactFormGroup.reset({
-      customer: this.contactFormGroup.get("customer")?.value ?? "",
       ...this.currentSelectedContact,
+      customer: this.contactFormGroup.get("customer")?.value ?? ""
     });
   }
 
