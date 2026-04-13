@@ -9,10 +9,14 @@ import {ApiOrderService} from "@app/services/api-order.service";
 import {ApiService} from "@app/services/api.service";
 
 import {CommonModule} from "@angular/common";
-import {Component, DestroyRef, inject, Input, OnInit} from '@angular/core';
+import {Component, DestroyRef, inject, Input, OnInit, ViewChild} from '@angular/core';
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {
+  MatAutocompleteModule,
+  MatAutocompleteSelectedEvent,
+  MatAutocompleteTrigger
+} from "@angular/material/autocomplete";
 import {MatButtonModule} from "@angular/material/button";
 import {MatOptionModule} from "@angular/material/core";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
@@ -24,8 +28,8 @@ import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {MatSelectModule} from "@angular/material/select";
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatTableModule} from "@angular/material/table";
-import {Observable} from "rxjs";
-import {debounceTime, filter, map, mergeMap, startWith} from "rxjs/operators";
+import {Observable, of} from "rxjs";
+import {debounceTime, map, mergeMap, startWith} from "rxjs/operators";
 
 @Component({
   selector: 'gs2-contact-pricing-step',
@@ -44,6 +48,8 @@ export class ContactPricingStepComponent implements OnInit {
   @Input() orderTypes: IOrderType[];
   @Input() products: IProduct[] = [];
   @Input() user: Partial<IIdentity> | null = null;
+
+  @ViewChild(MatAutocompleteTrigger) autocompleteTrigger: MatAutocompleteTrigger;
 
   public readonly AppConstants = Constants;
   private readonly destroyRef = inject(DestroyRef);
@@ -65,8 +71,10 @@ export class ContactPricingStepComponent implements OnInit {
     this.filteredCustomers$ = this.contactFormGroup.get('customer')?.valueChanges.pipe(
       debounceTime(500),
       startWith(''),
-      filter(x => typeof x === 'string' && x.length > 2),
       mergeMap(searchString => {
+        if (typeof searchString !== 'string' || searchString.length < 3) {
+          return of(null);
+        }
         this.isSearchLoading = true;
         return this.apiService.find<IContact>(searchString, 'contact');
       }),
@@ -155,6 +163,7 @@ export class ContactPricingStepComponent implements OnInit {
           this.clearCustomerForm();
           this.isCustomerSelected = false;
           this.currentSelectedContact = undefined;
+          this.autocompleteTrigger.closePanel();
         }
       });
     });
