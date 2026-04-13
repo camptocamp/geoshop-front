@@ -400,9 +400,9 @@ export class MapService {
       }
       let poly: SimpleGeometry;
       const area = getArea(originalExtent);
-      if (geometry instanceof Polygon && area > 1000000) {
+      if (geometry instanceof Polygon && (area > 1000000 || searchResult.category === 'Grundstück')) {
         poly = geometry;
-      } if (geometry instanceof MultiPolygon) {
+      } else if (geometry instanceof MultiPolygon) {
         poly = geometry.getPolygon(0);
       } else {
         const bufferValue = area * 0.001;
