@@ -280,7 +280,7 @@ export class ApiOrderService {
         map((contact) => {
           if (contact) {
             this.snackBar.open(
-              $localize`Added contact \"${contact.first_name} ${contact.last_name}\"`, 'Ok', {
+              $localize`Contact ajouté \"${contact.first_name} ${contact.last_name}\"`, 'Ok', {
                 panelClass: 'notification-info'
               }
             );
