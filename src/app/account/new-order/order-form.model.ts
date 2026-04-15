@@ -15,7 +15,7 @@ export interface OrderItemForm {
   format: FormArray<FormControl<string|undefined>>;
 }
 
-export function createOrderItemForm(): FormGroup<OrderItemForm> {
+export const createOrderItemForm = (): FormGroup<OrderItemForm> => {
   const fb = inject(NonNullableFormBuilder);
   return fb.group({
     format: fb.array<FormControl<string|undefined>>([])
@@ -32,7 +32,7 @@ export interface OrderForm {
   description: FormControl<string>;
 }
 
-export function createOrderForm(): FormGroup<OrderForm> {
+export const createOrderForm = (): FormGroup<OrderForm> => {
   const fb = inject(NonNullableFormBuilder);
   const form = fb.group({
     orderType: fb.control({id: 1, name: "private"}, Validators.required),
@@ -79,7 +79,7 @@ export interface ContactForm {
   url: FormControl<string>;
 }
 
-export function createContactForm(): FormGroup<ContactForm> {
+export const createContactForm = (): FormGroup<ContactForm> => {
   const fb = inject(NonNullableFormBuilder);
   const form = fb.group({
     addressChoice: fb.control(AddressChoice.CURRENT_USER, Validators.required),
