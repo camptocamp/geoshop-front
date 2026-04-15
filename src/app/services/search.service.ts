@@ -45,6 +45,16 @@ export class SearchService {
 
   }
 
+  /**
+   * Executes a search potentially across multiple configured search providers.
+   *
+   * - Provides a unified search entry point for the application.
+   * - Aggregates search results from various search endpoints as defined in the application configuration.
+   * - Automatically attempts to interpret the query as coordinates and includes it as a result if valid.
+   *
+   * @param query The search string entered by the user.
+   * @returns An Observable emitting an array of {@link ISearchResult} objects.
+   */
   public search(query: string): Observable<ISearchResult[]> {
     if (!query || query.length === 0 || typeof query !== 'string') {
       return of([]);
