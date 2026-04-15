@@ -1,4 +1,4 @@
-import {OrderForm} from "@app/account/new-order/order-form.model";
+import {AddressChoice, OrderForm} from "@app/account/new-order/order-form.model";
 import * as Constants from '@app/constants';
 import {EMAIL_REGEX} from "@app/helpers/regex";
 import {IIdentity} from "@app/models/IIdentity";
@@ -40,6 +40,7 @@ export class OrderTypeStepComponent implements OnInit {
   @Input() orderTypes: IOrderType[] = [];
 
   public readonly AppConstants = Constants;
+  public readonly AppAddressChoice = AddressChoice;
 
   constructor(private readonly config: ConfigService) {
   }

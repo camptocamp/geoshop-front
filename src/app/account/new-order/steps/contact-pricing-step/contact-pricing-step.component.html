@@ -1,10 +1,10 @@
 <form class="form-no-full-height billing-form" [formGroup]="contactFormGroup">
   <mat-radio-group *ngIf="isOrderTypePrivate" class="flex-column" formControlName="addressChoice"
                    aria-label="Choisir une option">
-    <mat-radio-button value="1" i18n>La facturation est adressée à
+    <mat-radio-button value="{{AppAddressChoice.CURRENT_USER}}" i18n>La facturation est adressée à
       l'utilisateur courant: {{ user?.username }} ({{ user?.email }})
     </mat-radio-button>
-    <mat-radio-button value="2" i18n>La facturation est adressée à un mandant</mat-radio-button>
+    <mat-radio-button value="{{AppAddressChoice.OTHER_PERSON}}" i18n>La facturation est adressée à un mandant</mat-radio-button>
   </mat-radio-group>
 
 

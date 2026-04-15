@@ -79,7 +79,7 @@ export class DataFormatStepComponent {
   }
 
   // FIXME this is a duplication of the same function in the order-item-view.component.ts
-  public getOrerStatus(orderItem: IOrderItem): string {
+  public getOrderStatus(orderItem: IOrderItem): string {
     let returnValue = '';
     if (orderItem.status !== undefined && Constants.ORDER_STATUS[orderItem.status]) {
       returnValue = Constants.ORDER_STATUS[orderItem.status];

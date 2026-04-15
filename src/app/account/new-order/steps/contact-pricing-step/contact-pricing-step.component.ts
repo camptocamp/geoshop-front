@@ -52,6 +52,7 @@ export class ContactPricingStepComponent implements OnInit {
   @ViewChild(MatAutocompleteTrigger) autocompleteTrigger: MatAutocompleteTrigger;
 
   public readonly AppConstants = Constants;
+  public readonly AppAddressChoice = AddressChoice;
   private readonly destroyRef = inject(DestroyRef);
 
   public isSearchLoading = false;
