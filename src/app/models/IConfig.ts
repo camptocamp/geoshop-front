@@ -28,6 +28,7 @@ export interface ISearchConfig {
   url: string;
   queryParamName: string;
   querySuffix: string;
+  layersParamName: string;
   layers: string;
   providerType: string;
 }
@@ -47,7 +48,7 @@ export interface IMapConfig {
 export interface IConfig {
   apiUrl: string;
   mediaUrl: string;
-  search: ISearchConfig;
+  search: ISearchConfig[];
   contact: {
     links: { conditions: string; tariffs: string; support: string;};
     phone: { label: string; number: string };

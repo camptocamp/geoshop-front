@@ -374,7 +374,7 @@ export class MapService {
    * - The feature itself highlighted
    *
    * If the extent of the feature returned by the geocoder is bigger than 1km², typically a cadastre, commune
-   * then the order permimeter will be set to the feature itself and not the extent.
+   * then the order perimeter will be set to the feature itself and not the extent.
    *
    * @param feature - The feature returned by the geocoder
    */

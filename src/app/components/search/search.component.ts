@@ -1,24 +1,22 @@
-import { SEARCH_CATEGORY, SEARCH_CATEGORY_GENERAL } from '@app/constants';
-import { ISearchResult } from '@app/models/ISearch';
-import { StripHtmlPipe } from '@app/pipes/strip-html.pipe';
-import { MapService } from '@app/services/map.service';
-import { SearchService } from '@app/services/search.service';
+import {SEARCH_CATEGORY, SEARCH_CATEGORY_GENERAL} from '@app/constants';
+import {ISearchResult} from '@app/models/ISearch';
+import {StripHtmlPipe} from '@app/pipes/strip-html.pipe';
+import {MapService} from '@app/services/map.service';
+import {SearchService} from '@app/services/search.service';
 
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { MatAutocompleteModule, MatOptgroup, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatButtonModule} from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatOptionModule } from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule, MatHint } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {CommonModule} from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup} from '@angular/forms';
+import {MatAutocompleteModule, MatAutocompleteSelectedEvent, MatOptgroup} from '@angular/material/autocomplete';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatOptionModule} from '@angular/material/core';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatHint, MatInputModule} from '@angular/material/input';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import Geometry from 'ol/geom/Geometry';
-import { debounceTime, switchMap} from 'rxjs/operators';
-
-
+import {debounceTime, switchMap} from 'rxjs/operators';
 
 
 @Component({
@@ -29,7 +27,7 @@ import { debounceTime, switchMap} from 'rxjs/operators';
     MatProgressSpinnerModule, MatCardModule, ReactiveFormsModule, FormsModule,
     MatFormFieldModule, MatAutocompleteModule, MatIconModule, MatInputModule, MatOptgroup,
     CommonModule,MatOptionModule, MatButtonModule, MatHint,
-    StripHtmlPipe  
+    StripHtmlPipe
   ],
 })
 export class SearchComponent implements OnInit {
@@ -69,7 +67,7 @@ export class SearchComponent implements OnInit {
           this.isSearchLoading = false;
           this.shouldDisplayClearButton = true;
           this.featureByCategory = features.reduce((acc, feature) => {
-            const categoryId = SEARCH_CATEGORY.get(feature.category) || SEARCH_CATEGORY_GENERAL;
+            const categoryId: string = SEARCH_CATEGORY.get(feature.category) || SEARCH_CATEGORY_GENERAL;
             if (!acc.has(categoryId)) {
               acc.set(categoryId, []);
             }
