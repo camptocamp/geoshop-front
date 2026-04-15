@@ -46,32 +46,30 @@ export class SearchService {
   }
 
   /**
-   * Executes a search potentially across multiple configured search providers.
+   * Executes a search across multiple configured search providers and aggregates the results.
    *
-   * - Provides a unified search entry point for the application.
-   * - Aggregates search results from various search endpoints as defined in the application configuration.
-   * - Automatically attempts to interpret the query as coordinates and includes it as a result if valid.
+   * Maps each configured search provider to a query, executes them in parallel using `forkJoin`,
+   * and flattens the results into a single array of {@link ISearchResult} objects.
    *
-   * @param query The search string entered by the user.
-   * @returns An Observable emitting an array of {@link ISearchResult} objects.
+   * @param query - The search string entered by the user. Can be a text search or coordinates.
+   * @returns An Observable emitting an aggregated array of {@link ISearchResult} objects.
+   *          If the query is invalid or no providers are configured, an empty array is emitted.
    */
   public search(query: string): Observable<ISearchResult[]> {
-    if (!query || query.length === 0 || typeof query !== 'string') {
-      return of([]);
-    }
     const searchConfigs: ISearchConfig[] | undefined = this.configService.config?.search;
-    if (!searchConfigs || searchConfigs.length === 0) {
+    if (typeof query !== 'string' || !query.trim() || !searchConfigs?.length) {
       return of([]);
     }
-    const resultsObservables: Observable<ISearchResult[]>[] = searchConfigs.map(searchConfig => {
-      const resultFormat = this.searchResultFormat.get(searchConfig.providerType);
-      if (!resultFormat) {
-        return of([]);
-      }
-      return this.performQuery(query, searchConfig).pipe(
-        map(result => result.map(resultFormat))
-      );
-    });
+    const resultsObservables: Observable<ISearchResult[]>[] = searchConfigs
+      .map(searchConfig => {
+        const resultFormat = this.searchResultFormat.get(searchConfig.providerType);
+        if (!resultFormat) {
+          return of([]);
+        }
+        return this.performQuery(query, searchConfig).pipe(
+          map(result => result.map(resultFormat))
+        );
+      });
 
     return forkJoin(resultsObservables).pipe(
       map((resultsArray: ISearchResult[][]) => {
@@ -86,7 +84,7 @@ export class SearchService {
     url.searchParams.append(config.queryParamName, query);
     const layersParamName: string = config.layersParamName;
     const layers: string = config.layers;
-    if (layersParamName && layersParamName.length > 0 && layers && layers.length > 0) {
+    if (layersParamName && layers) {
       url.searchParams.append(layersParamName, layers)
     }
     url.search += `&${config.querySuffix}`;
