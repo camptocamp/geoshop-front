@@ -66,14 +66,7 @@ export class SearchComponent implements OnInit {
         .subscribe(features => {
           this.isSearchLoading = false;
           this.shouldDisplayClearButton = true;
-          this.featureByCategory = features.reduce((acc, feature) => {
-            const categoryId: string = SEARCH_CATEGORY.get(feature.category) || feature.category || SEARCH_CATEGORY_GENERAL;
-            if (!acc.has(categoryId)) {
-              acc.set(categoryId, []);
-            }
-            acc.get(categoryId)?.push(feature);
-            return acc;
-          }, new Map<string, ISearchResult[]>);
+          this.featureByCategory = this.groupFeaturesByCategory(features);
         });
     }
   }
@@ -85,5 +78,23 @@ export class SearchComponent implements OnInit {
   displayGeocoderResultOnTheMap(evt: MatAutocompleteSelectedEvent) {
     this.mapService.addFeatureFromGeocoderToDrawing(evt.option.value);
     this.shouldDisplayClearButton = true;
+  }
+
+  /**
+   * Groups features (in terms of {@link ISearchResult}) by their category.
+   *
+   * @param {ISearchResult[]} features - An array of features to be grouped by category.
+   * @return {Map<string, ISearchResult[]>} A map where the keys are category IDs and
+   *      the values are arrays of features belonging to those categories.
+   */
+  private groupFeaturesByCategory(features: ISearchResult[]): Map<string, ISearchResult[]> {
+    return features.reduce((acc, feature) => {
+      const categoryId: string = SEARCH_CATEGORY.get(feature.category) || feature.category || SEARCH_CATEGORY_GENERAL;
+      if (!acc.has(categoryId)) {
+        acc.set(categoryId, []);
+      }
+      acc.get(categoryId)?.push(feature);
+      return acc;
+    }, new Map<string, ISearchResult[]>);
   }
 }
