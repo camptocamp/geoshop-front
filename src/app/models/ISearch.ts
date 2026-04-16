@@ -4,6 +4,7 @@ export interface ISearchConfig {
   url: string;
   queryParamName: string;
   querySuffix: string;
+  layersParamName: string;
   layers: string;
   providerType: string;
 }

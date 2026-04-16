@@ -54,6 +54,7 @@ export const SEARCH_CATEGORY = new Map<string, string>([
   ["Adressen", $localize`:@@search.category.address:Adresses`],
   ["Gemeindegrenzen", $localize`:@@search.category.gemeinden:Communes`],
   ["Kantone", $localize`:@@search.category.kanton:Cantons`],
+  ["Grundstück", $localize`:@@search.category.parcel:Parcelles`],
 ]);
 
 export const SEARCH_CATEGORY_GENERAL = $localize`:@@search.category.unknown:Général`;

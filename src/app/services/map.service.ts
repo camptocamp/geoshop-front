@@ -374,7 +374,7 @@ export class MapService {
    * - The feature itself highlighted
    *
    * If the extent of the feature returned by the geocoder is bigger than 1km², typically a cadastre, commune
-   * then the order permimeter will be set to the feature itself and not the extent.
+   * then the order perimeter will be set to the feature itself and not the extent.
    *
    * @param feature - The feature returned by the geocoder
    */
@@ -400,9 +400,9 @@ export class MapService {
       }
       let poly: SimpleGeometry;
       const area = getArea(originalExtent);
-      if (geometry instanceof Polygon && area > 1000000) {
+      if (geometry instanceof Polygon && (area > 1000000 || searchResult.category === 'Grundstück')) {
         poly = geometry;
-      } if (geometry instanceof MultiPolygon) {
+      } else if (geometry instanceof MultiPolygon) {
         poly = geometry.getPolygon(0);
       } else {
         const bufferValue = area * 0.001;
