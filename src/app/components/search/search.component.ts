@@ -67,7 +67,7 @@ export class SearchComponent implements OnInit {
           this.isSearchLoading = false;
           this.shouldDisplayClearButton = true;
           this.featureByCategory = features.reduce((acc, feature) => {
-            const categoryId: string = SEARCH_CATEGORY.get(feature.category) || SEARCH_CATEGORY_GENERAL;
+            const categoryId: string = SEARCH_CATEGORY.get(feature.category) || feature.category || SEARCH_CATEGORY_GENERAL;
             if (!acc.has(categoryId)) {
               acc.set(categoryId, []);
             }
