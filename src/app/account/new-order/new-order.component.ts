@@ -2,8 +2,10 @@ import {
   AddressChoice,
   ContactForm,
   createContactForm,
-  createOrderForm, createOrderItemForm,
-  OrderForm, OrderItemForm
+  createOrderForm,
+  createOrderItemForm,
+  OrderForm,
+  OrderItemForm
 } from "@app/account/new-order/order-form.model";
 import {
   ContactPricingStepComponent
@@ -12,13 +14,13 @@ import {DataFormatStepComponent} from "@app/account/new-order/steps/data-format-
 import {OrderTypeStepComponent} from "@app/account/new-order/steps/order-type-step/order-type-step.component";
 import * as Constants from '@app/constants';
 import {Contact, IContact} from '@app/models/IContact';
-import {IOrder, Order, IOrderItem} from '@app/models/IOrder';
+import {IOrder, IOrderItem, Order} from '@app/models/IOrder';
 import {IProduct} from '@app/models/IProduct';
 import {ApiOrderService} from '@app/services/api-order.service';
 import {ApiService} from '@app/services/api.service';
 import {ConfigService} from '@app/services/config.service';
 import {StoreService} from '@app/services/store.service';
-import {AppState, getUser, selectOrder, selectAllProduct} from '@app/store';
+import {AppState, getUser, selectAllProduct, selectOrder} from '@app/store';
 import * as fromCart from '@app/store/cart/cart.action';
 
 import {AsyncPipe, CommonModule} from '@angular/common';
@@ -178,6 +180,11 @@ export class NewOrderComponent implements OnInit {
       description: this.currentOrder.description
     });
     this.contactFormGroup.patchValue(this.invoiceContact ?? {});
+    if (this.orderFormGroup.get('orderType')?.value?.id !== 1) {
+      this.contactFormGroup.patchValue({
+        addressChoice: AddressChoice.OTHER_PERSON
+      });
+    }
 
     this.allAvailableFormats = new Set();
     const orderItemControls = this.orderItemFormGroup.controls.format;

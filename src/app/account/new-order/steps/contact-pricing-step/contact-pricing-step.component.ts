@@ -114,11 +114,14 @@ export class ContactPricingStepComponent implements OnInit {
   }
 
   public resetCustomerSearch() {
-    this.contactFormGroup.reset();
     this.isCustomerSelected = false;
     this.isNewInvoiceContact = false;
     this.currentSelectedContact = undefined;
     this.contactFormGroup.reset();
+    if (!this.isOrderTypePrivate) {
+      this.contactFormGroup.patchValue({addressChoice: AddressChoice.OTHER_PERSON});
+      this.contactFormGroup.markAsTouched();
+    };
   }
 
   public displayCustomer(customer: IIdentity | Contact) {

@@ -105,7 +105,7 @@ export const createContactForm = (): FormGroup<ContactForm> => {
     const ide_id = form.get('ide_id');
     const phone = form.get('phone');
 
-    if (addressChoice === '2') {
+    if (addressChoice === AddressChoice.OTHER_PERSON) {
       first_name?.setValidators([Validators.required]);
       last_name?.setValidators([Validators.required]);
       email?.setValidators(Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEX)]));
