@@ -277,6 +277,16 @@ export class ApiOrderService {
 
     return this.http.post<IContact | null>(url.toString(), contact)
       .pipe(
+        map((contact) => {
+          if (contact) {
+            this.snackBar.open(
+              $localize`Contact ajouté \"${contact.first_name} ${contact.last_name}\"`, 'Ok', {
+                panelClass: 'notification-info'
+              }
+            );
+          }
+          return contact;
+        }),
         catchError(() => {
           return of(null);
         })

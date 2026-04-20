@@ -10,7 +10,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 GEOSHOP_FRONT = os.environ.get("GEOSHOP_FRONT", "http://localhost:4200")
-SELENIUM_HUB = os.environ.get("SELENIUM_HUB", "http://selenium-hub:4444/wd/hub")
+USERNAME = os.environ.get("USERNAME", "")
+PASSWORD = os.environ.get("PASSWORD", "")
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -21,20 +22,15 @@ class E2ETests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         logger.info("Starting tests")
-        options = webdriver.ChromeOptions()
+        options = webdriver.FirefoxOptions()
         options.add_argument("--no-sandbox")
         options.enable_downloads = True
-        driver = webdriver.Remote(
-          command_executor='http://localhost:4444/wd/hub',
-          options=options
-        )
-        driver.implicitly_wait(5)
-        cls._driver = driver
+        cls._driver = webdriver.Firefox(options)
+        cls._driver.implicitly_wait(5)
 
     @classmethod
     def tearDownClass(cls):
-        # cls._driver.close()
-        pass
+        cls._driver.close()
 
     @classmethod
     def click(cls, selector):

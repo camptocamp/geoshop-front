@@ -1,0 +1,60 @@
+<form [formGroup]="orderFormGroup">
+
+  <!-- Order type -->
+  <mat-form-field>
+    <mat-label i18n>Type de mandat</mat-label>
+    <mat-select required formControlName="orderType"
+                (selectionChange)="onTypeSelected($event.value)"
+                [compareWith]="sortOrderType">
+      @for (orderType of orderTypes; track orderType) {
+        <mat-option [value]="orderType">{{getLocalizedTypeName(orderType)}}</mat-option>
+      }
+    </mat-select>
+    <mat-error *ngIf="orderFormGroup.get('orderType')?.hasError('required')">{{ AppConstants.REQUIRED }}</mat-error>
+  </mat-form-field>
+
+  <!-- title -->
+  <mat-form-field>
+    <mat-label i18n>Titre du mandat</mat-label>
+    <textarea matInput required formControlName="title"></textarea>
+    <mat-error *ngIf="orderFormGroup.get('title')?.hasError('required')">
+      {{ AppConstants.REQUIRED }}
+    </mat-error>
+    <mat-error *ngIf="orderFormGroup.get('title')?.hasError('pattern')" i18n>
+      Le titre contient des caractères non supportés (parenthèses, guillemets, etc.)</mat-error>
+  </mat-form-field>
+
+  <!-- Description -->
+  <mat-form-field *ngIf="orderFormGroup.get('orderType')?.value?.id !== 1">
+    <mat-label i18n>Description du mandat</mat-label>
+    <textarea required matInput formControlName="description" i18n-placeholder
+              placeholder="Renseigner une courte description du mandat..."></textarea>
+    <mat-error *ngIf="orderFormGroup.get('description')?.hasError('required')">
+      {{ AppConstants.REQUIRED }}
+    </mat-error>
+  </mat-form-field>
+
+  <!-- My reference -->
+  <mat-form-field *ngIf="billingRequired()">
+    <mat-label i18n>Votre référence reportée sur la facture</mat-label>
+    <input matInput type="text" formControlName="invoice_reference" />
+  </mat-form-field>
+
+  <!-- Email for delivery -->
+  <mat-radio-group class="flex-column" formControlName="emailDeliverChoice" i18n-aria-label
+                   aria-label="Choisir l'email de livraison">
+    <mat-radio-button value="{{AppAddressChoice.CURRENT_USER}}" i18n>Les données seront envoyées à l'adresse email de
+      l'utilisateur courant: {{user?.email}}</mat-radio-button>
+    <mat-radio-button value="{{AppAddressChoice.OTHER_PERSON}}" i18n>Adresse de livraison des données différente</mat-radio-button>
+  </mat-radio-group>
+
+  <mat-form-field *ngIf="orderFormGroup?.get('emailDeliverChoice')?.value == '2'">
+    <mat-label i18n>Saisir l'adresse email de livraison</mat-label>
+    <input matInput type="email" required formControlName="emailDeliver" autocomplete="on" />
+    <mat-error *ngIf="orderFormGroup.get('emailDeliver')?.hasError('required')">
+      {{ AppConstants.REQUIRED }}
+    </mat-error>
+    <mat-error i18n *ngIf="orderFormGroup?.get('emailDeliver')?.hasError('pattern')">Adresse email non
+      valide</mat-error>
+  </mat-form-field>
+</form>
