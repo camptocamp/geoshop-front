@@ -10,7 +10,7 @@
       <button color="warn" mat-button (click)="resetForms()">
         {{ AppConstants.RESET }}
       </button>
-      <button color="primary" mat-raised-button matStepperNext (click)="createOrUpdateDraft()">
+      <button color="primary" mat-raised-button matStepperNext (click)="createOrUpdateDraft()" [disabled]="!orderFormGroup.valid">
         {{ AppConstants.NEXT }}
       </button>
     </div>
@@ -30,7 +30,8 @@
           {{ AppConstants.RESET }}
         </button>
         <button color="primary" mat-button matStepperPrevious>{{ AppConstants.PREVIOUS }}</button>
-        <button color="primary" mat-raised-button matStepperNext (click)="createOrUpdateDraft()">{{ AppConstants.NEXT }}
+        <button color="primary" mat-raised-button matStepperNext (click)="createOrUpdateDraft()" [disabled]="!contactFormGroup.valid">
+          {{ AppConstants.NEXT }}
         </button>
       </div>
   </mat-step>
