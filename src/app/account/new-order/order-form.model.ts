@@ -24,7 +24,7 @@ export const createOrderItemForm = (): FormGroup<OrderItemForm> => {
 
 // OrderForm
 export interface OrderForm {
-  orderType: FormControl<IOrderType>;
+  orderType: FormControl<IOrderType|null>;
   title: FormControl<string>;
   invoice_reference: FormControl<string>;
   emailDeliverChoice: FormControl<string>;
@@ -35,7 +35,7 @@ export interface OrderForm {
 export const createOrderForm = (): FormGroup<OrderForm> => {
   const fb = inject(NonNullableFormBuilder);
   const form = fb.group({
-    orderType: fb.control({id: 1, name: "private"}, Validators.required),
+    orderType: fb.control<IOrderType|null>({value: null, disabled: true}, Validators.required),
     title: fb.control("", Validators.compose([
       Validators.pattern(EXTRACT_FORBIDDEN_REGEX), Validators.required
     ])),
@@ -44,9 +44,9 @@ export const createOrderForm = (): FormGroup<OrderForm> => {
     emailDeliver: fb.control("", Validators.pattern(EMAIL_REGEX)),
     description: fb.control(""),
   });
-  form.get('orderType')?.valueChanges.subscribe(({id}) => {
+  form.get('orderType')?.valueChanges.subscribe((newType) => {
     const description = form.get('description');
-    if (id === 2) {
+    if (!newType || newType?.id === 2) {
       description?.setValidators([Validators.required]);
     } else {
       description?.clearValidators();

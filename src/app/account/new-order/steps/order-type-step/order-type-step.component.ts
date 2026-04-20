@@ -7,7 +7,7 @@ import {IProduct} from "@app/models/IProduct";
 import {ConfigService} from "@app/services/config.service";
 
 import {CommonModule} from "@angular/common";
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatButtonModule} from "@angular/material/button";
@@ -33,7 +33,7 @@ import {MatTableModule} from "@angular/material/table";
   templateUrl: './order-type-step.component.html',
   styleUrl: './order-type-step.component.scss'
 })
-export class OrderTypeStepComponent implements OnInit {
+export class OrderTypeStepComponent implements OnInit, OnChanges {
   @Input() orderFormGroup: FormGroup<OrderForm>;
   @Input() products: IProduct[] = [];
   @Input() user: Partial<IIdentity>|null = null;
@@ -56,6 +56,19 @@ export class OrderTypeStepComponent implements OnInit {
       }
       emailControl?.updateValueAndValidity();
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['orderTypes'] || !this.orderTypes?.length) {
+      return;
+    }
+    const typeSelect = this.orderFormGroup.get('orderType');
+    if (!typeSelect?.value || this.orderTypes.every(t => t.id !== typeSelect?.value?.id)) {
+      this.orderFormGroup.get('orderType')?.setValue(this.orderTypes[0]);
+    }
+    console.log("HERE-BEFORE: ", typeSelect?.disabled);
+    typeSelect?.enable();
+    console.log("HERE-AFTER: ", typeSelect?.disabled);
   }
 
   public sortOrderType(a: IOrderType, b: IOrderType): boolean {

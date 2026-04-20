@@ -198,7 +198,7 @@ export class NewOrderComponent implements OnInit {
     this.currentOrder.invoice_reference = orderValues.invoice_reference;
     this.currentOrder.email_deliver = orderValues.emailDeliverChoice === '2' ? orderValues.emailDeliver : '';
     this.currentOrder.description = orderValues.description;
-    this.currentOrder.order_type = orderValues.orderType.name;
+    this.currentOrder.order_type = orderValues.orderType?.name ?? "";
 
     if (this.contactFormGroup.get('addressChoice')?.value === AddressChoice.OTHER_PERSON) {
       const contact: IContact = this.contactFormGroup.getRawValue();

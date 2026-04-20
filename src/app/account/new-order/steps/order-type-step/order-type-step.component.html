@@ -5,7 +5,8 @@
     <mat-label i18n>Type de mandat</mat-label>
     <mat-select required formControlName="orderType"
                 (selectionChange)="onTypeSelected($event.value)"
-                [compareWith]="sortOrderType">
+                [compareWith]="sortOrderType"
+                >
       @for (orderType of orderTypes; track orderType) {
         <mat-option [value]="orderType">{{getLocalizedTypeName(orderType)}}</mat-option>
       }

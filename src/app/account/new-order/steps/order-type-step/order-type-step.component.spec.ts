@@ -2,10 +2,12 @@ import {createOrderForm} from "@app/account/new-order/order-form.model";
 
 import {provideHttpClient} from "@angular/common/http";
 import {provideHttpClientTesting} from "@angular/common/http/testing";
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import {ReactiveFormsModule } from "@angular/forms";
 
 import { OrderTypeStepComponent } from './order-type-step.component';
+import { MatInputModule } from "@angular/material/input";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 
 describe('OrderTypeStepComponent', () => {
   let component: OrderTypeStepComponent;
@@ -14,6 +16,8 @@ describe('OrderTypeStepComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        MatInputModule,
+        NoopAnimationsModule,
         OrderTypeStepComponent,
         ReactiveFormsModule,
       ],
@@ -91,5 +95,14 @@ describe('OrderTypeStepComponent', () => {
     expect(emailControl?.hasError('required')).toBeTruthy();
   });
 
+  it("should block order type select if no order types loaded", () => {
+    component.orderTypes = [];
+    fixture.detectChanges();
+    expect(component.orderFormGroup.get('orderType')?.disabled).toBeTruthy();
+
+    component.orderTypes = [{id: 1, name: 'private'}];
+    fixture.detectChanges();
+    expect(component.orderFormGroup.get('orderType')?.disabled).toBeFalsy();
+  });
 
 });
