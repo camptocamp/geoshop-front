@@ -59,16 +59,18 @@ export class OrderTypeStepComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes['orderTypes'] || !this.orderTypes?.length) {
+    if (!changes['orderTypes']) {
       return;
     }
     const typeSelect = this.orderFormGroup.get('orderType');
+    if (!this.orderTypes?.length) {
+      typeSelect?.disable();
+      return;
+    }
     if (!typeSelect?.value || this.orderTypes.every(t => t.id !== typeSelect?.value?.id)) {
       this.orderFormGroup.get('orderType')?.setValue(this.orderTypes[0]);
     }
-    console.log("HERE-BEFORE: ", typeSelect?.disabled);
     typeSelect?.enable();
-    console.log("HERE-AFTER: ", typeSelect?.disabled);
   }
 
   public sortOrderType(a: IOrderType, b: IOrderType): boolean {

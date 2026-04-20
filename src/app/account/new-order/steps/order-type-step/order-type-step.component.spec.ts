@@ -2,12 +2,12 @@ import {createOrderForm} from "@app/account/new-order/order-form.model";
 
 import {provideHttpClient} from "@angular/common/http";
 import {provideHttpClientTesting} from "@angular/common/http/testing";
-import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {ReactiveFormsModule } from "@angular/forms";
-
-import { OrderTypeStepComponent } from './order-type-step.component';
 import { MatInputModule } from "@angular/material/input";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+
+import { OrderTypeStepComponent } from './order-type-step.component';
 
 describe('OrderTypeStepComponent', () => {
   let component: OrderTypeStepComponent;
@@ -96,13 +96,32 @@ describe('OrderTypeStepComponent', () => {
   });
 
   it("should block order type select if no order types loaded", () => {
-    component.orderTypes = [];
+    fixture.componentRef.setInput('orderTypes', []);
     fixture.detectChanges();
     expect(component.orderFormGroup.get('orderType')?.disabled).toBeTruthy();
 
-    component.orderTypes = [{id: 1, name: 'private'}];
+    fixture.componentRef.setInput('orderTypes', [{id: 1, name: 'private'}]);
     fixture.detectChanges();
     expect(component.orderFormGroup.get('orderType')?.disabled).toBeFalsy();
   });
 
+  it("should set default order type if no order type is selected", () => {
+    fixture.componentRef.setInput('orderTypes', [{id: 1, name: 'private'}, {id: 2, name: 'public'}]);
+    fixture.detectChanges();
+    expect(component.orderFormGroup.get('orderType')?.value).toStrictEqual({id: 1, name: 'private'});
+  });
+
+  it("should not set default order type if already selected", () => {
+    component.orderFormGroup.get('orderType')?.setValue({id: 2, name: 'public'});
+    fixture.componentRef.setInput('orderTypes', [{id: 1, name: 'private'}, {id: 2, name: 'public'}]);
+    fixture.detectChanges();
+    expect(component.orderFormGroup.get('orderType')?.value).toStrictEqual({id: 2, name: 'public'});
+  });
+
+  it("should set default order type if current value is unknown", () => {
+    component.orderFormGroup.get('orderType')?.setValue({id: 3, name: 'whatever'});
+    fixture.componentRef.setInput('orderTypes', [{id: 1, name: 'private'}, {id: 2, name: 'public'}]);
+    fixture.detectChanges();
+    expect(component.orderFormGroup.get('orderType')?.value).toStrictEqual({id: 1, name: 'private'});
+  });
 });
