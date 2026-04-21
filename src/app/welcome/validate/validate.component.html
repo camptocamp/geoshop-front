@@ -38,6 +38,7 @@
     <div *ngIf="isAuthenticated && data && data.order && data.item">
       @let order = data.order;
       @let item = data.item;
+      @let contact = data.contact;
       <mat-card-header>
         <mat-card-title i18n>{{item.product.id}}. {{item.product.label}} - à valider</mat-card-title>
         <mat-card-subtitle i18n>
@@ -59,8 +60,8 @@
           <span *ngIf="order.client.phone">{{ order.client.phone }}<br></span>
           <a href="mailto:{{ order.client.email }}">{{ order.client.email }}</a>
         </p>
-        @let contact = data.contact;
-        @if (contact) {;
+        <h4 i18n>Contact de facturation:: {{contact}}::</h4>
+        @if (contact) {
           <h4 i18n>Contact de facturation</h4>
           <p>
             {{contact.first_name}} {{contact.last_name}}<br>
