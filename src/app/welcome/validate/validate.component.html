@@ -59,6 +59,18 @@
           <span *ngIf="order.client.phone">{{ order.client.phone }}<br></span>
           <a href="mailto:{{ order.client.email }}">{{ order.client.email }}</a>
         </p>
+        @let contact = data.contact;
+        @if (contact) {;
+          <h4 i18n>Contact de facturation</h4>
+          <p>
+            {{contact.first_name}} {{contact.last_name}}<br>
+            {{contact.street}}<br>
+            <span *ngIf="contact.street2">{{contact.street2}}<br></span>
+            {{contact.postcode}} {{contact.city}}<br>
+            <span *ngIf="contact.phone">{{ contact.phone }}<br></span>
+            <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+          </p>
+        }
         <div class="mini-map" [id]="'mini-map-' + order.id"></div>
       </mat-card-content>
       <mat-card-actions>

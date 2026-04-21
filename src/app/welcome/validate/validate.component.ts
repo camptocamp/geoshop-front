@@ -1,4 +1,5 @@
 import { generateMiniMap, displayMiniMap } from '@app/helpers/geoHelper';
+import {IContact} from "@app/models/IContact";
 import { IOrderItem, Order } from '@app/models/IOrder';
 import { ApiOrderService } from '@app/services/api-order.service';
 import { AuthService } from '@app/services/auth.service';
@@ -6,14 +7,20 @@ import { ConfigService } from '@app/services/config.service';
 import { MapService } from '@app/services/map.service';
 
 import { CommonModule, LowerCasePipe } from '@angular/common';
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import {Component, DestroyRef, HostBinding, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Observable, of, Subject } from 'rxjs';
-import { filter, map, mergeMap, skipUntil, takeUntil } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import {filter, map, switchMap, skipUntil, take} from 'rxjs/operators';
 
+interface ValidationData {
+  order: Order | null;
+  item: IOrderItem | null;
+  contact: IContact | null;
+}
 
 @Component({
   selector: 'gs2-validate',
@@ -24,14 +31,13 @@ import { filter, map, mergeMap, skipUntil, takeUntil } from 'rxjs/operators';
     RouterLink
   ],
 })
-export class ValidateComponent implements OnInit, OnDestroy {
+export class ValidateComponent implements OnInit {
 
   @HostBinding('class') class = 'main-container';
 
-  private onDestroy$ = new Subject<void>();
-  token$: Observable<string>;
-  orderData$: Observable<{ order: Order | null, item: IOrderItem | null }>;
-  isAuthenticated$ = this.auth.isAuthenticated;
+  public token$: Observable<string>;
+  public orderData$: Observable<ValidationData>;
+  public isAuthenticated$ = this.auth.isAuthenticated;
 
   constructor(
     private readonly apiOrderService: ApiOrderService,
@@ -39,23 +45,39 @@ export class ValidateComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly configService: ConfigService,
     private readonly auth: AuthService,
-    private readonly mapService: MapService) {
+    private readonly mapService: MapService,
+    private readonly destroyRef: DestroyRef,
+    ) {
 
-    this.token$ = this.route.params
-      .pipe(
-        takeUntil(this.onDestroy$),
-        map(params => params.token)
-      );
+    this.token$ = this.route.params.pipe(takeUntilDestroyed(this.destroyRef), map(params => params.token));
   }
 
-  ngOnInit(): void {
+  private initValidationData(token: string): Observable<ValidationData> {
+    return this.apiOrderService.getOrderItemByToken(token).pipe(
+      map(item => ({ item, order: null, contact: null }))
+    );
+  }
+
+  private addOrderData(data: ValidationData): Observable<ValidationData> {
+    if (!data.item?.order_guid) {
+      return of(data);
+    }
+    return this.apiOrderService.getOrderByUUID(data.item.order_guid).pipe(map(order => ({ ...data, order })));
+  }
+
+  private addContactData(data: ValidationData): Observable<ValidationData> {
+    if (!data.order?.invoice_contact) {
+      return of(data);
+    }
+    return this.apiOrderService.getContact(data.order.invoice_contact).pipe(map(contact => ({ ...data, contact })));
+  }
+
+  public ngOnInit(): void {
     this.orderData$ = this.token$.pipe(
       skipUntil(this.isAuthenticated$.pipe(filter((value) => value))),
-      mergeMap(token => this.apiOrderService.getOrderItemByToken(token)),
-      mergeMap(
-        item => item ? this.apiOrderService.getOrderByUUID(item.order_guid).pipe(
-          map(order => ({ order, item }))) : of({ order: null, item: null })
-      )
+      switchMap(token => this.initValidationData(token)),
+      switchMap(data => this.addOrderData(data)),
+      switchMap(data => this.addContactData(data))
     );
 
     this.orderData$.pipe(
@@ -76,18 +98,12 @@ export class ValidateComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-  }
-
-  proceedOrder(isAccepted: boolean) {
-    this.token$.subscribe(token => {
-      this.apiOrderService.updateOrderItemStatus(token, isAccepted).subscribe(async confirmed => {
-        if (confirmed) {
-          await this.router.navigate(['/welcome']);
-        }
-      });
-    });
+  public proceedOrder(isAccepted: boolean) {
+    this.token$.pipe(
+        switchMap(token => this.apiOrderService.updateOrderItemStatus(token, isAccepted)),
+        filter(confirmed => confirmed),
+        take(1)
+      ).subscribe(() =>  this.router.navigate(['/welcome']));
   }
 }
 
