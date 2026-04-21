@@ -7,7 +7,6 @@
     <mat-radio-button value="{{AppAddressChoice.OTHER_PERSON}}" i18n>La facturation est adressée à un mandant</mat-radio-button>
   </mat-radio-group>
 
-
   <mat-label *ngIf="!isOrderTypePrivate && orderFormGroup.get('orderType')?.value" i18n>
     Vous devez spécifier les informations de contact du tiers pour un mandat de type
     &quot;{{ getLocalizedTypeName(orderFormGroup.get('orderType')?.value) }}&quot;.
@@ -53,7 +52,6 @@
         </button>
       </div>
     </div>
-
     <div class="customer_data" style="overflow: auto" *ngIf="isCustomerSelected">
       <!-- Contact info -->
       <mat-form-field color="primary">
