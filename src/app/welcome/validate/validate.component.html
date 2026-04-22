@@ -38,6 +38,7 @@
     <div *ngIf="isAuthenticated && data && data.order && data.item">
       @let order = data.order;
       @let item = data.item;
+      @let contact = data.contact;
       <mat-card-header>
         <mat-card-title i18n>{{item.product.id}}. {{item.product.label}} - à valider</mat-card-title>
         <mat-card-subtitle i18n>
@@ -59,6 +60,17 @@
           <span *ngIf="order.client.phone">{{ order.client.phone }}<br></span>
           <a href="mailto:{{ order.client.email }}">{{ order.client.email }}</a>
         </p>
+        @if (contact) {
+          <h4 i18n>Contact de facturation</h4>
+          <p>
+            {{contact.first_name}} {{contact.last_name}}<br>
+            {{contact.street}}<br>
+            <span *ngIf="contact.street2">{{contact.street2}}<br></span>
+            {{contact.postcode}} {{contact.city}}<br>
+            <span *ngIf="contact.phone">{{ contact.phone }}<br></span>
+            <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+          </p>
+        }
         <div class="mini-map" [id]="'mini-map-' + order.id"></div>
       </mat-card-content>
       <mat-card-actions>

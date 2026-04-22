@@ -1,3 +1,4 @@
+import { IContact } from "@app/models/IContact";
 import { Order, OrderItem } from "@app/models/IOrder";
 import { ApiOrderService } from "@app/services/api-order.service";
 import { AuthService } from "@app/services/auth.service";
@@ -45,16 +46,25 @@ const fakeOrder = {
   },
 } as unknown as Order;
 
+const fakeContact = {
+  first_name: "fake first name",
+  last_name: "fake last name",
+  email: "fake email",
+} as unknown as IContact;
+
 describe('ValidateComponent', () => {
   let fixture: ComponentFixture<ValidateComponent>;
   let params: Subject<Params>;
   let items: Subject<OrderItem | null>;
   let orders: Subject<Order | null>;
+  let contacts: Subject<IContact | null>;
 
   beforeEach(() => {
     params = new BehaviorSubject<Params>({ token: "token" });
     orders = new Subject<Order>();
     items = new Subject<OrderItem>();
+    contacts = new Subject<IContact>();
+
     TestBed.configureTestingModule({
       imports: [
         CommonModule, LowerCasePipe, MatButtonModule, MatCardModule, MatProgressSpinnerModule,
@@ -71,6 +81,7 @@ describe('ValidateComponent', () => {
           provide: ApiOrderService, useValue: {
             getOrderItemByToken: vi.fn().mockImplementation(() => items),
             getOrderByUUID: vi.fn().mockImplementation(() => orders),
+            getContact: vi.fn().mockImplementation(() => contacts)
           }
         },
         { provide: ConfigService, useClass: ConfigServiceMock },
@@ -122,5 +133,27 @@ describe('ValidateComponent', () => {
     fixture.detectChanges();
     expect(el.querySelector("mat-card-content mat-spinner")).toBeFalsy();
     expect(el.querySelector("mat-card-content").innerHTML).toContain("Titre du mandat");
+  });
+
+  it('should show contact information if exist', () => {
+    const el = fixture.nativeElement;
+    vi.mock('@app/helpers/geoHelper', () => {
+      return {
+        generateMiniMap: async () => ({ minimap: null, vectorSource: null }),
+        displayMiniMap: async () => ({})
+      };
+    });
+    items.next(fakeItem);
+    orders.next({client: fakeOrder.client, invoice_contact: 123} as unknown as Order);
+    contacts.next(fakeContact);
+    fixture.detectChanges();
+    expect(el.querySelector("mat-card-content mat-spinner")).toBeFalsy();
+    expect(el.querySelector("mat-card-content").innerHTML).toContain("Titre du mandat");
+
+    const cardContent = el.querySelector("mat-card-content").innerHTML;
+    expect(cardContent).includes("Contact de facturation");
+    expect(cardContent).includes(fakeContact.first_name);
+    expect(cardContent).includes(fakeContact.last_name);
+    expect(cardContent).includes(fakeContact.email);
   });
 });
