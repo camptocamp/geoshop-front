@@ -273,8 +273,10 @@ export class ApiOrderService {
       return of(null);
     }
     const needUpdate = contact.HasId;
-    const url = new URL(`${this.apiUrl}/contact/${needUpdate ? contact.Id : ""}`).toString();
-    const query = (needUpdate ? this.http.patch : this.http.post)<IContact | null>(url, contact);
+    const url = new URL(`${this.apiUrl}/contact/${needUpdate ? (contact.Id + "/") : ""}`).toString();
+    const query = needUpdate ?
+      this.http.patch<IContact | null>(url,contact) :
+      this.http.post<IContact | null>(url, contact);
     return query.pipe(
       tap((contact) => {
         if (!contact) {
