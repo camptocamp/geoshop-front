@@ -185,14 +185,13 @@ export class ApiOrderService {
     return this.createOrUpdateContact(contact)
       .pipe(
         mergeMap((newJsonContact) => {
-            if (!isAddressForCurrentUser) {
-              if (newJsonContact) {
+            if (!isAddressForCurrentUser && newJsonContact) {
                 jsonOrder.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
-              }
             }
             return this.http.post<IOrder | null>(url.toString(), jsonOrder)
               .pipe(
-                catchError(() => {
+                catchError((err) => {
+                  console.error('Error creating order:', err);
                   return of(null);
                 })
               );
@@ -215,7 +214,8 @@ export class ApiOrderService {
             }
             return this.http.put<IOrder | null>(`${url.toString()}${order.id}/`, orderToPost)
               .pipe(
-                catchError(() => {
+                catchError((err) => {
+                  console.error('Error updating order:', err);
                   return of(null);
                 })
               );
@@ -288,7 +288,10 @@ export class ApiOrderService {
         this.snackBar.open(msg, 'Ok', { panelClass: 'notification-info'}
         );
       }),
-      catchError(() => of(null)));
+      catchError((err) => {
+        console.error('Error creating or updating contact:', err);
+        return of(null);
+      }));
   }
 
   updateOrderItemDataFormat(dataFormat: string, orderItemId: number): Observable<IOrderItem | null> {
