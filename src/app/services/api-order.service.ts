@@ -1,16 +1,16 @@
-import { IApiResponse, OrderValidationStatus } from '@app/models/IApi';
-import { Contact, IContact } from '@app/models/IContact';
-import { IOrder, IOrderItem, IOrderSummary, IOrderToPost, IOrderType, Order } from '@app/models/IOrder';
-import { IProduct } from '@app/models/IProduct';
+import {IApiResponse, OrderValidationStatus} from '@app/models/IApi';
+import {Contact, IContact} from '@app/models/IContact';
+import {IOrder, IOrderItem, IOrderSummary, IOrderToPost, IOrderType, Order} from '@app/models/IOrder';
+import {IProduct} from '@app/models/IProduct';
 
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, of, zip } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import {HttpClient, HttpResponse} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {Observable, of, zip} from 'rxjs';
+import {catchError, map, mergeMap, tap} from 'rxjs/operators';
 
-import { ConfigService } from './config.service';
-import { deepCopyOrder, extractIdFromUrl } from '../helpers/GeoshopUtils';
+import {ConfigService} from './config.service';
+import {deepCopyOrder, extractIdFromUrl} from '../helpers/GeoshopUtils';
 
 
 @Injectable({
@@ -24,7 +24,8 @@ export class ApiOrderService {
     private http: HttpClient,
     private configService: ConfigService,
     private snackBar: MatSnackBar,
-  ) { }
+  ) {
+  }
 
   private _getApiUrl() {
     if (!this.apiUrl) {
@@ -83,8 +84,8 @@ export class ApiOrderService {
       map(() => {
         this.snackBar.open(
           $localize`Décision soumise avec succès`, 'Ok', {
-          panelClass: 'notification-info'
-        }
+            panelClass: 'notification-info'
+          }
         );
         return true
       }),
@@ -184,18 +185,17 @@ export class ApiOrderService {
     return this.createOrUpdateContact(contact)
       .pipe(
         mergeMap((newJsonContact) => {
-          if (!isAddressForCurrentUser) {
-            if (newJsonContact) {
-              jsonOrder.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
+            if (!isAddressForCurrentUser && newJsonContact) {
+                jsonOrder.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
             }
+            return this.http.post<IOrder | null>(url.toString(), jsonOrder)
+              .pipe(
+                catchError((err) => {
+                  console.error('Error creating order:', err);
+                  return of(null);
+                })
+              );
           }
-          return this.http.post<IOrder | null>(url.toString(), jsonOrder)
-            .pipe(
-              catchError(() => {
-                return of(null);
-              })
-            );
-        }
         ));
   }
 
@@ -206,19 +206,20 @@ export class ApiOrderService {
     return this.createOrUpdateContact(contact)
       .pipe(
         mergeMap((newJsonContact) => {
-          const orderToPost = order.toPostAsJson;
-          if (!isAddressForCurrentUser) {
-            if (newJsonContact) {
-              orderToPost.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
+            const orderToPost = order.toPostAsJson;
+            if (!isAddressForCurrentUser) {
+              if (newJsonContact) {
+                orderToPost.invoice_contact = extractIdFromUrl((newJsonContact as IContact).url);
+              }
             }
+            return this.http.put<IOrder | null>(`${url.toString()}${order.id}/`, orderToPost)
+              .pipe(
+                catchError((err) => {
+                  console.error('Error updating order:', err);
+                  return of(null);
+                })
+              );
           }
-          return this.http.put<IOrder | null>(`${url.toString()}${order.id}/`, orderToPost)
-            .pipe(
-              catchError(() => {
-                return of(null);
-              })
-            );
-        }
         ));
   }
 
@@ -232,8 +233,8 @@ export class ApiOrderService {
         map(() => {
           this.snackBar.open(
             $localize`Commande passée avec succès! Vous recevrez un email lorsque tous les téléchargements seront prêts.`, 'Ok', {
-            panelClass: 'notification-info'
-          }
+              panelClass: 'notification-info'
+            }
           );
           return true
         }),
@@ -268,29 +269,29 @@ export class ApiOrderService {
 
   createOrUpdateContact(contact: Contact | undefined): Observable<IContact | null> {
     this._getApiUrl();
-
-    if (!contact || contact.HasId) {
-      return of(contact ?? null);
+    if (!contact) {
+      return of(null);
     }
-
-    const url = new URL(`${this.apiUrl}/contact/`);
-
-    return this.http.post<IContact | null>(url.toString(), contact)
-      .pipe(
-        map((contact) => {
-          if (contact) {
-            this.snackBar.open(
-              $localize`Contact ajouté \"${contact.first_name} ${contact.last_name}\"`, 'Ok', {
-                panelClass: 'notification-info'
-              }
-            );
-          }
-          return contact;
-        }),
-        catchError(() => {
-          return of(null);
-        })
-      );
+    const needUpdate = contact.HasId;
+    const url = new URL(`${this.apiUrl}/contact/${needUpdate ? (contact.Id + "/") : ""}`).toString();
+    const query = needUpdate ?
+      this.http.patch<IContact | null>(url,contact) :
+      this.http.post<IContact | null>(url, contact);
+    return query.pipe(
+      tap((contact) => {
+        if (!contact) {
+          return;
+        }
+        const msg = needUpdate ?
+          $localize`Contact mis à jour \"${contact.first_name} ${contact.last_name}\"` :
+          $localize`Contact ajouté \"${contact.first_name} ${contact.last_name}\"`;
+        this.snackBar.open(msg, 'Ok', { panelClass: 'notification-info'}
+        );
+      }),
+      catchError((err) => {
+        console.error('Error creating or updating contact:', err);
+        return of(null);
+      }));
   }
 
   updateOrderItemDataFormat(dataFormat: string, orderItemId: number): Observable<IOrderItem | null> {
@@ -298,7 +299,7 @@ export class ApiOrderService {
 
     const url = new URL(`${this.apiUrl}/orderitem/${orderItemId}/`);
 
-    return this.http.patch<IOrderItem | null>(url.toString(), { data_format: dataFormat })
+    return this.http.patch<IOrderItem | null>(url.toString(), {data_format: dataFormat})
       .pipe(
         catchError(() => {
           return of(null);
@@ -313,7 +314,7 @@ export class ApiOrderService {
 
     return this.http.patch<IOrder | null>(url.toString(), {
       items: order.items.map(x => {
-        x.product = { label: x.product.label } as IProduct;
+        x.product = {label: x.product.label} as IProduct;
         if (!x.data_format) {
           delete x.data_format;
         }
