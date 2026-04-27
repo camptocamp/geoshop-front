@@ -64,14 +64,14 @@ describe('ContactPricingStepComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show "customer" input if order type is not private (id 2)', () => {
+  it('should hide "customer" input if order type is not private (id 2) and addressChoice default', () => {
     component.orderFormGroup.get('orderType')?.setValue({id: 2, name: 'public'});
     fixture.detectChanges();
     const customerInput = fixture.nativeElement.querySelector('input[formControlName="customer"]');
-    expect(customerInput).toBeTruthy();
+    expect(customerInput).toBeFalsy();
   });
 
-  it('should hide "customer" input if order type is private (id 1) and addressChoice is "1"', () => {
+  it('should hide "customer" input if order type is private (id 1) and addressChoice is "current user"', () => {
     component.orderFormGroup.get('orderType')?.setValue({id: 1, name: 'private'});
     component.contactFormGroup.get('addressChoice')?.setValue(AddressChoice.CURRENT_USER);
     fixture.detectChanges();
@@ -108,4 +108,18 @@ describe('ContactPricingStepComponent', () => {
     expect(await harness.isOpen()).toBe(true);
     expect(document.querySelectorAll("mat-option").length).toBe(2);
   }));
+
+  it('should allow to skip billing form if current user and public order', () => {
+    component.orderFormGroup.get('orderType')?.setValue({id: 2, name: 'public'});
+    component.contactFormGroup.get('addressChoice')?.setValue(AddressChoice.CURRENT_USER);
+    fixture.detectChanges();
+    expect(component.contactFormGroup.valid).toBe(true);
+  });
+
+  it('should validate billing form if current user and public order', () => {
+    component.orderFormGroup.get('orderType')?.setValue({id: 2, name: 'public'});
+    component.contactFormGroup.get('addressChoice')?.setValue(AddressChoice.OTHER_PERSON);
+    fixture.detectChanges();
+    expect(component.contactFormGroup.valid).toBe(false);
+  });
 });

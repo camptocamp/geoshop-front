@@ -1,6 +1,5 @@
 <form class="form-no-full-height billing-form" [formGroup]="contactFormGroup">
-  <mat-radio-group *ngIf="isOrderTypePrivate" class="flex-column" formControlName="addressChoice"
-                   aria-label="Choisir une option">
+  <mat-radio-group class="flex-column" formControlName="addressChoice" aria-label="Choisir une option">
     <mat-radio-button value="{{AppAddressChoice.CURRENT_USER}}" i18n>La facturation est adressée à
       l'utilisateur courant: {{ user?.username }} ({{ user?.email }})
     </mat-radio-button>
@@ -12,7 +11,7 @@
     &quot;{{ getLocalizedTypeName(orderFormGroup.get('orderType')?.value) }}&quot;.
   </mat-label>
 
-  <ng-container *ngIf="(isOrderTypePrivate && !IsAddressForCurrentUser) || !isOrderTypePrivate">
+  <ng-container *ngIf="!IsAddressForCurrentUser">
     <div class="flex-row">
       <!-- Search -->
       <mat-form-field class="customer-search-field">
