@@ -82,7 +82,7 @@ export class ModifyProfileComponent {
         city: this.formModifyUser.get('city')?.value ?? "",
         country: this.formModifyUser.get('country')?.value ?? "",
         company_name: this.formModifyUser.get('company_name')?.value ?? "",
-        ide_id: this.formModifyUser.get('ide_id')?.value ?? 0,
+        ide_id: this.formModifyUser.get('ide_id')?.value ?? "",
         phone: this.formModifyUser.get('phone')?.value ?? "",
       };
 
