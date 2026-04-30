@@ -19,7 +19,7 @@ export interface IIdentity {
   country?: string;
   phone?: string;
   sap_id?: number;
-  ide_id?: number;
+  ide_id?: string;
   birthday?: string;
   contract_accepted?: boolean;
   token?: string;

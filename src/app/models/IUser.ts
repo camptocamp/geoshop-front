@@ -13,7 +13,7 @@ export interface IUserToPost {
   city: string;
   country: string;
   company_name: string;
-  ide_id?: number;
+  ide_id?: string;
   phone: string;
 }
 
@@ -30,6 +30,6 @@ export interface IUser {
   city: string;
   country: string;
   company_name: string;
-  ide_id?: number;
+  ide_id?: string;
   phone: string;
 }
