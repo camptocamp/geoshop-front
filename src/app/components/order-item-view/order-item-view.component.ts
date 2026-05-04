@@ -45,6 +45,9 @@ export class OrderItemViewComponent implements OnInit {
     if (orderItem.status !== undefined && Constants.ORDER_STATUS[orderItem.status]) {
       returnValue = Constants.ORDER_STATUS[orderItem.status];
     }
+    if (orderItem.validation_reason) {
+      returnValue = `${returnValue}: ${orderItem.validation_reason}`;
+    }
     return returnValue;
   }
 

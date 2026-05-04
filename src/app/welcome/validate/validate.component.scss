@@ -11,6 +11,24 @@
     max-width: 960px;
   }
 
+  .mat-mdc-card-content {
+    display: grid;
+    grid-gap: 1em;
+  }
+
+  .mat-mdc-card-content div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mat-mdc-card-content div h4 {
+    margin-bottom: 0.5em;
+  }
+
+  .mat-mdc-card-content div p {
+    margin: 0em;
+  }
+
   .flex {
     display: flex;
     justify-content: center;

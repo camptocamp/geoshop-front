@@ -73,13 +73,14 @@ export class ApiOrderService {
       );
   }
 
-  updateOrderItemStatus(token: string, isAccepted: boolean) {
+  updateOrderItemStatus(token: string, reason:string, isAccepted: boolean) {
     this._getApiUrl();
 
     const url = new URL(`${this.apiUrl}/validate/orderitem/${token}`);
 
     return this.http.patch<boolean>(url.toString(), {
-      'is_validated': isAccepted
+      'is_validated': isAccepted,
+      'validation_reason': reason,
     }).pipe(
       map(() => {
         this.snackBar.open(

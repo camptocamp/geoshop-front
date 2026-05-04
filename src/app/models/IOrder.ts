@@ -51,6 +51,7 @@ export interface IOrderItem {
   order?: number;
   status?: OrderItemStatus;
   download_guid?: string;
+  validation_reason?: string;
 }
 
 export interface IOrderToPost {
@@ -136,6 +137,7 @@ export class OrderItem {
   /** id of the order   */
   order?: number;
   status?: OrderItemStatus;
+  validation_reason?: string;
 
   constructor(options: IOrderItem) {
     if (!options) {
