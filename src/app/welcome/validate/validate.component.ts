@@ -9,12 +9,15 @@ import { MapService } from '@app/services/map.service';
 import { CommonModule, LowerCasePipe } from '@angular/common';
 import {Component, DestroyRef, HostBinding, OnInit} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import {filter, map, switchMap, skipUntil, take} from 'rxjs/operators';
+import {filter, map, switchMap, skipUntil, take, tap} from 'rxjs/operators';
 
 interface ValidationData {
   order: Order | null;
@@ -27,8 +30,8 @@ interface ValidationData {
   templateUrl: './validate.component.html',
   styleUrls: ['./validate.component.scss'],
   imports: [
-    MatCardModule, MatProgressSpinnerModule, LowerCasePipe, MatButtonModule, CommonModule,
-    RouterLink
+    MatCardModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule, LowerCasePipe, MatButtonModule, CommonModule,
+    RouterLink, ReactiveFormsModule,
   ],
 })
 export class ValidateComponent implements OnInit {
@@ -38,6 +41,7 @@ export class ValidateComponent implements OnInit {
   public token$: Observable<string>;
   public orderData$: Observable<ValidationData>;
   public isAuthenticated$ = this.auth.isAuthenticated;
+  public reason = new FormControl<string>('');
 
   constructor(
     private readonly apiOrderService: ApiOrderService,
@@ -77,7 +81,10 @@ export class ValidateComponent implements OnInit {
       skipUntil(this.isAuthenticated$.pipe(filter((value) => value))),
       switchMap(token => this.initValidationData(token)),
       switchMap(data => this.addOrderData(data)),
-      switchMap(data => this.addContactData(data))
+      switchMap(data => this.addContactData(data)),
+      tap((data) => {
+        this.reason.setValue(data.item?.validation_reason ?? "");
+      })
     );
 
     this.orderData$.pipe(
@@ -100,7 +107,7 @@ export class ValidateComponent implements OnInit {
 
   public proceedOrder(isAccepted: boolean) {
     this.token$.pipe(
-        switchMap(token => this.apiOrderService.updateOrderItemStatus(token, isAccepted)),
+        switchMap(token => this.apiOrderService.updateOrderItemStatus(token, this.reason.value ?? "", isAccepted)),
         filter(confirmed => confirmed),
         take(1)
       ).subscribe(() =>  this.router.navigate(['/welcome']));
