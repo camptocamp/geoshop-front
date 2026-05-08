@@ -282,32 +282,25 @@
           <context context-type="linenumber">9</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="8589795542459120521" datatype="html">
-        <source> Un ou plusieurs produits commandés doivent être devisés préalablement.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> N&apos;hésitez pas à demander gratuitement votre devis sans engagement.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> Vous pourrez ensuite définitevement valider votre commande. </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/account/new-order/steps/data-format-step/data-format-step.component.html</context>
-          <context context-type="linenumber">16</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="3463003845627505807" datatype="html">
         <source>Frais de traitement</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/steps/data-format-step/data-format-step.component.html</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="linenumber">21</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2230099960340457652" datatype="html">
         <source>Total TTC</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/steps/data-format-step/data-format-step.component.html</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">22</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1045569605826003279" datatype="html">
         <source>Dont TVA 8.1 %</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/steps/data-format-step/data-format-step.component.html</context>
-          <context context-type="linenumber">25</context>
+          <context context-type="linenumber">24</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/order-item-view/order-item-view.component.html</context>
@@ -318,14 +311,14 @@
         <source>Même format pour tous les produits</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/steps/data-format-step/data-format-step.component.html</context>
-          <context context-type="linenumber">33</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="112341503084835" datatype="html">
         <source>Prix</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/steps/data-format-step/data-format-step.component.html</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8656503343366918763" datatype="html">
@@ -434,7 +427,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/order-item-view/order-item-view.component.ts</context>
-          <context context-type="linenumber">67</context>
+          <context context-type="linenumber">70</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/download/download.component.ts</context>
@@ -1801,6 +1794,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/welcome/validate/validate.component.html</context>
           <context context-type="linenumber">83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8998997283125961903" datatype="html">
+        <source> Veuillez confirmer votre commande.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/> Veuillez noter que le produit «Leitungskataster» est payant (voir les informations tarifaires à droite). </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/new-order/steps/data-format-step/data-format-step.component.html</context>
+          <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
     </body>
