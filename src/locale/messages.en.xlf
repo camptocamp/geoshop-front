@@ -363,7 +363,7 @@
         <target>Address</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/steps/contact-pricing-step/contact-pricing-step.component.html</context>
-          <context context-type="linenumber">110</context>
+          <context context-type="linenumber">104</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6840029554610349837" datatype="html">
@@ -371,7 +371,7 @@
         <target>Address complement</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/steps/contact-pricing-step/contact-pricing-step.component.html</context>
-          <context context-type="linenumber">115</context>
+          <context context-type="linenumber">109</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/modify-profile.component.html</context>
@@ -391,7 +391,7 @@
         <target>Postal code</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/steps/contact-pricing-step/contact-pricing-step.component.html</context>
-          <context context-type="linenumber">120</context>
+          <context context-type="linenumber">114</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/modify-profile.component.html</context>
@@ -411,7 +411,7 @@
         <target>City</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/steps/contact-pricing-step/contact-pricing-step.component.html</context>
-          <context context-type="linenumber">125</context>
+          <context context-type="linenumber">119</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/modify-profile.component.html</context>
@@ -431,7 +431,7 @@
         <target>Country</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/new-order/steps/contact-pricing-step/contact-pricing-step.component.html</context>
-          <context context-type="linenumber">130</context>
+          <context context-type="linenumber">124</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/account/profile/modify-profile.component.html</context>
@@ -1015,8 +1015,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="wrong_phone" datatype="html">
-        <source>Mauvais format de téléphone, accepté :</source>
-        <target>Wrong phone format, accepted:</target>
+        <source>Mauvais format de téléphone, accepté</source>
+        <target>Wrong phone format, accepted</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
           <context context-type="linenumber">10</context>

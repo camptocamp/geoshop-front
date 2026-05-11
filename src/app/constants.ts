@@ -7,7 +7,7 @@ export const NEXT: string = $localize`:@@logout:Suivant`;
 export const RESET: string = $localize`:@@reset:Réinitialiser`;
 export const PREVIOUS: string = $localize`:@@previous:Retour`;
 export const WRONG_EMAIL: string = $localize`:@@wrong_email:Format de courriel incorrect`;
-export const WRONG_PHONE: string = $localize`:@@wrong_phone:Mauvais format de téléphone, accepté :`;
+export const WRONG_PHONE: string = $localize`:@@wrong_phone:Mauvais format de téléphone, accepté`;
 
 // FIXME currently this needs to be configured in the DB with the exact same string in the table geoshop.order_type
 export const ORDERTYPE_PRIVATE = 'private';
