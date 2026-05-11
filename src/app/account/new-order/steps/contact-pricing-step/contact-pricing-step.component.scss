@@ -34,3 +34,9 @@ form.billing-form .customer_data{
   color: var(--mat-sys-on-primary);
   background-color: var(--mat-sys-primary);
 }
+
+.long-error {
+  overflow:hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}

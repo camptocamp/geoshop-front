@@ -94,15 +94,9 @@
       <mat-form-field>
         <mat-label i18n>Téléphone mandant</mat-label>
         <input matInput type="tel" formControlName="phone">
-        <mat-error *ngIf="contactFormGroup?.get('phone')?.hasError('pattern')">
-          <ul>{{ AppConstants.WRONG_PHONE }}:
-            <li>+41225252356</li>
-            <li>+41 22 225 25 23</li>
-            <li>0041222252523</li>
-            <li>0041 22 225 25 23</li>
-            <li>0225232523</li>
-            <li>02 25 25 25 23</li>
-          </ul>
+        <mat-error *ngIf="contactFormGroup?.get('phone')?.hasError('pattern')" class="long-error">
+          {{ AppConstants.WRONG_PHONE }}: +41225252356, +41 22 225 25 23, 0041222252523,
+          0041 22 225 25 23, 0225232523, 02 25 25 25 23, etc
         </mat-error>
       </mat-form-field>
 
