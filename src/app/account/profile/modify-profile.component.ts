@@ -91,9 +91,9 @@ export class ModifyProfileComponent {
           if (res) {
             // TODO translate after updating snackbar
             this.snackBar.open(
-              'Vos modifications ont été soumises aux gestionnaires du Geoshop' +
+              $localize `${'Vos modifications ont été soumises aux gestionnaires du Geoshop' +
               ' et un email de confirmation vous a été envoyé. Vos modifications' +
-              ' seront validées dans les meilleurs délais.',
+              ' seront validées dans les meilleurs délais.'}`,
               'Ok', { panelClass: 'notification-info' });
             await this.router.navigate(['/account/profile']);
           } else {
