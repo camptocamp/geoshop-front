@@ -49,5 +49,9 @@ And navigate to [http://localhost:4200](http://localhost:4200)
 
 ## With Docker:
 
-
-An `.env.sample` is provided as an example.
+```bash
+# Build an image
+docker build -t geoshop-frontend .
+# Run it, 4200 is mapped to 8080 only to let us use the same URLs for docker and npm runs
+docker run --rm -p 4200:8080 geoshop-frontend
+```
