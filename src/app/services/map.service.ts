@@ -42,7 +42,6 @@ import ImageWMS from 'ol/source/ImageWMS';
 import TileSource from 'ol/source/Tile';
 import VectorSource, { VectorSourceEvent } from 'ol/source/Vector';
 import WMTS, { Options } from 'ol/source/WMTS';
-import { getArea as getAreaSphere } from 'ol/sphere.js';
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
 // @ts-expect-error: plain js import
@@ -593,10 +592,12 @@ export class MapService {
       this.areaTooltipElement.style.visibility = "hidden";
       return
     }
-    let content = formatArea(getAreaSphere(geom));
+    // Use the planar LV95 (EPSG:2056) area — the same the backend
+    const planarArea = (geom as Polygon).getArea();
+    let content = formatArea(planarArea);
     if (status.error && !status.valid) {
       this.areaTooltipElement.classList.add('invalid');
-      content += `<br/> ${status.error.message[0]}: (By ${formatArea(status.error.excluded[0] - status.error.expected[0])})`;
+      content += $localize`Selected area is too large, selected: ${formatArea(status.error.actual[0])}, overflow: ${formatArea( status.error.actual[0] - status.error.expected[0])}`;
     }
     this.areaTooltipElement.style.visibility = "visible";
     this.areaTooltip.setPosition(getCenter(geom.getExtent()));
@@ -647,7 +648,7 @@ export class MapService {
       return;
     }
     const polygon = this.currentFeature.getGeometry() as Polygon;
-    const area = formatArea(getAreaSphere(polygon));
+    const area = formatArea(polygon.getArea());
     this.currentFeature.set('area', area);
     this.store.dispatch(updateGeometry({ geom: this.geoJsonFormatter.writeGeometry(polygon) }));
     if (fitMap) {

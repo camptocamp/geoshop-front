@@ -1667,11 +1667,15 @@
         </context-group>
       </trans-unit>
       <trans-unit id="5300981229662517671" datatype="html">
-        <source>Selected area is too large, selected: <x id="PH" equiv-text="formatArea(err.actual[0])"/>, overflow: <x id="PH_1" equiv-text="formatArea(err.excluded[0])"/></source>
-        <target state="new">Selected area is too large, selected: <x id="PH" equiv-text="formatArea(err.actual[0])"/>, overflow: <x id="PH_1" equiv-text="formatArea(err.excluded[0])"/></target>
+        <source>Selected area is too large, selected: <x id="PH" equiv-text="formatArea(err.actual[0])"/>, overflow: <x id="PH_1" equiv-text="formatArea(err.actual[0] - err.expected[0])"/></source>
+        <target state="new">Selected area is too large, selected: <x id="PH" equiv-text="formatArea(err.actual[0])"/>, overflow: <x id="PH_1" equiv-text="formatArea(err.actual[0] - err.expected[0])"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/interceptors/errorInterceptor.ts</context>
           <context context-type="linenumber">19</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/services/map.service.ts</context>
+          <context context-type="linenumber">600</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7356921708715046963" datatype="html">
