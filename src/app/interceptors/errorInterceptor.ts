@@ -15,8 +15,8 @@ function formatArea(area: number): string {
     `${Math.round(area * 100) / 100}m²`;
 }
 
-function formatAreaError(err: { message: [string], excluded: [number], actual: [number] }): string {
-  return $localize`Selected area is too large, selected: ${formatArea(err.actual[0])}, overflow: ${formatArea(err.excluded[0])}`;
+function formatAreaError(err: { message: [string], expected: [number], actual: [number] }): string {
+  return $localize`Selected area is too large, selected: ${formatArea(err.actual[0])}, overflow: ${formatArea(err.actual[0] - err.expected[0])}`;
 }
 
 function formatConnectionError(response: HttpErrorResponse): string {
