@@ -2046,7 +2046,7 @@
       </trans-unit>
       <trans-unit id="3558275494178084348" datatype="html">
         <source>Order area is too large, overflow: <x id="PH" equiv-text="formatArea( status.error.actual[0] - status.error.expected[0])"/></source>
-        <target state="new">Order area is too large, overflow: <x id="PH" equiv-text="formatArea( status.error.actual[0] - status.error.expected[0])"/></target>
+        <target state="new">Die gewählte Fläche ist zu gross. Überschreitung: <x id="PH" equiv-text="formatArea( status.error.actual[0] - status.error.expected[0])"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/services/map.service.ts</context>
           <context context-type="linenumber">600</context>
