@@ -597,7 +597,7 @@ export class MapService {
     let content = formatArea(planarArea);
     if (status.error && !status.valid) {
       this.areaTooltipElement.classList.add('invalid');
-      content +=`<br/>` + $localize`Order area is too large, overflow: ${formatArea( status.error.actual[0] - status.error.expected[0])}`;
+      content +=`<br/>` + $localize`Order area is too large, overflow: ${formatArea(status.error.actual[0] - status.error.expected[0])}`;
     }
     this.areaTooltipElement.style.visibility = "visible";
     this.areaTooltip.setPosition(getCenter(geom.getExtent()));
