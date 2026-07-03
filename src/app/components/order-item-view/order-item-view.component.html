@@ -2,7 +2,7 @@
 
   <!-- product Column -->
   <ng-container matColumnDef="product">
-    <th mat-header-cell *matHeaderCellDef i18n="@@oder.product">Produit</th>
+    <th mat-header-cell *matHeaderCellDef i18n="@@order.product">Produit</th>
     <td mat-cell *matCellDef="let element"><span class="text-ellipsis-2 mr-1">{{getProductLabel(element)}}</span></td>
     <td mat-footer-cell *matFooterCellDef>
       <div *ngIf="!order.isAllOrderItemCalculated" i18n>
