@@ -1,6 +1,6 @@
 # Geoshop Frontend
 
-This is meant to work with a geoshop-backend: https://github.com/sitn/geoshop-back
+This is meant to work with a geoshop-backend: https://github.com/camptocamp/geoshop-back
 
 ## Requirements
 
@@ -8,16 +8,18 @@ This is meant to work with a geoshop-backend: https://github.com/sitn/geoshop-ba
  * @angular/cli
  * typescript
 
-## Getting started without Docker
+## Running
+
+### Preparing the config:
+Copy the config template and adapt it as needed. Do not
 
 ```sh
-npm i
-```
-### Config settings:
-Copy the config template and adapt it as needed
+cp .env.sample .env
+set -a
+source .env
+set +a
+envsubst < src/assets/configs/config.json.tmpl > src/assets/configs/config.json
 
-```sh
-cp src\assets\configs\config.json.tmpl src\assets\configs\config.json
 ```
 
 **TODO work with env variables or somthing similar!**
@@ -30,33 +32,26 @@ cp src\assets\configs\config.json.tmpl src\assets\configs\config.json
 - `basemaps` : configure the base maps that can be selected
 - `mediaUrl` : if set to an empty string it will not be used. Instead the media/metadata will require a full functional URL
 
+### Auth configuration
+| Variable          | Example                                   | Description                                           |
+| ----------------- | ----------------------------------------- | ----------------------------------------------------- |
+| OIDC_OP_BASE_URL  | https://geoshop-demo-abcdef.zitadel.cloud | Your Zitadel instance url                             |
+| OIDC_RP_CLIENT_ID | 123456789098765432                        | The Client ID you copied when creating the application |
+
 ### Start the application:
 
 ```sh
+npm run build
 npm start
 ```
-**OR**
-```sh
-ng serve
-```
+And navigate to [http://localhost:4200](http://localhost:4200)
+
 
 ## With Docker:
 
-**TODO: is not tested!**
-
-An `.env.sample` is provided as an example.
-
-
-## TODO:
-
-- [ ] There are three forms that are used that are similar and re use a lot of the same code. Unify them into one comonent. The forms are:
-
-	- geoshop-front/src/app/auth/register/register.component.html
-	- geoshop-front/src/app/account/profile/modify-profile.component.html
-	- geoshop-front/src/app/account/new-order/new-order.component.html
-
-- [ ] Update deprecated external libraries
-
-- [ ] Add translation files for translation into german
-
-- [ ] Make the TVA number a variable that is set in the top level settings or from the DB - perhaps together with the BE
+```bash
+# Build an image
+docker build -t geoshop-frontend .
+# Run it, 4200 is mapped to 8080 only to let us use the same URLs for docker and npm runs
+docker run --rm -p 4200:8080 geoshop-frontend
+```
