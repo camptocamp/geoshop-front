@@ -15,10 +15,12 @@ import {OrderTypeStepComponent} from "@app/account/new-order/steps/order-type-st
 import * as Constants from '@app/constants';
 import {Contact, IContact} from '@app/models/IContact';
 import {IOrder, IOrderItem, Order} from '@app/models/IOrder';
+import {IPrepareResult} from '@app/models/IPayment';
 import {IProduct} from '@app/models/IProduct';
 import {ApiOrderService} from '@app/services/api-order.service';
 import {ApiService} from '@app/services/api.service';
 import {ConfigService} from '@app/services/config.service';
+import {HiddenFeaturesService} from '@app/services/hidden-features.service';
 import {StoreService} from '@app/services/store.service';
 import {AppState, getUser, selectAllProduct, selectOrder} from '@app/store';
 import * as fromCart from '@app/store/cart/cart.action';
@@ -35,14 +37,21 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatSort} from '@angular/material/sort';
-import {MatStepper, MatStepperModule} from '@angular/material/stepper';
+import {MatStep, MatStepper, MatStepperModule} from '@angular/material/stepper';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import {Observable, of} from 'rxjs';
-import {debounceTime, filter, map, mergeMap, startWith, switchMap} from 'rxjs/operators';
+import {Observable, of, Subject} from 'rxjs';
+import {catchError, debounceTime, filter, map, mergeMap, startWith, switchMap} from 'rxjs/operators';
+
+/** Collapses a burst of format changes into a single persist + prepare round. */
+const PREPARE_DEBOUNCE_MS = 400;
+
+export type PaymentMethod = 'card' | 'invoice';
 
 @Component({
   selector: 'gs2-new-order',
@@ -51,7 +60,7 @@ import {debounceTime, filter, map, mergeMap, startWith, switchMap} from 'rxjs/op
   imports: [
     AsyncPipe, CommonModule, FormsModule, MatAutocompleteModule, MatButtonModule,
     MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule,
-    MatOptionModule, MatProgressSpinnerModule, MatSelectModule,
+    MatOptionModule, MatProgressSpinnerModule, MatRadioButton, MatRadioGroup, MatSelectModule,
     MatStepperModule, MatTableModule, ReactiveFormsModule,
     OrderTypeStepComponent, ContactPricingStepComponent, DataFormatStepComponent
   ],
@@ -60,6 +69,7 @@ export class NewOrderComponent implements OnInit {
   @HostBinding('class') class = 'main-container';
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild('stepper') stepper: MatStepper;
+  @ViewChild('previewStep') previewStep: MatStep;
 
   private destroyRef = inject(DestroyRef);
 
@@ -70,6 +80,22 @@ export class NewOrderComponent implements OnInit {
 
   public currentOrder: Order;
   public invoiceContact: Contact | undefined;
+
+  /**
+   * Prepare only describes a server-side preview of the final price and payment option.
+   */
+  public prepareResult: IPrepareResult | null = null;
+  public isPreparing = false;
+
+  /**
+   * How the buyer chose to pay. Defaults to invoice so that the one-click behaviour of the
+   * existing flow is preserved and card is always a deliberate choice.
+   */
+  public selectedPaymentMethod: PaymentMethod = 'invoice';
+  public isPaying = false;
+
+  /** Emits when the formats have settled and the checkout should be prepared. */
+  private readonly prepareCheckout$ = new Subject<void>();
 
   readonly orderTypes$ = this.apiOrderService.getOrderTypes().pipe(
     takeUntilDestroyed(),
@@ -93,9 +119,25 @@ export class NewOrderComponent implements OnInit {
 
   get buttonConfirmLabel(): string {
     if (!this.currentOrder) return "";
+    if (this.isCardPaymentAvailable && this.selectedPaymentMethod === 'card') {
+      return $localize`Payer par carte`;
+    }
     return this.currentOrder.items.every(x => x.price_status !== 'PENDING') ?
       $localize`Acheter maintenant` :
       $localize`Demander un devis`;
+  }
+
+  /**
+   * Whether the buyer may choose between card and invoice: the hidden feature must be on and the
+   * backend must have priced the order automatically. Anything else stays invoice-only.
+   */
+  get isCardPaymentAvailable(): boolean {
+    return this.hiddenFeatures.isCardPaymentEnabled &&
+      this.prepareResult?.payment_option === 'card';
+  }
+
+  private get isOnPreviewStep(): boolean {
+    return !!this.previewStep && this.stepper?.selected === this.previewStep;
   }
 
   private allProducts$ = this.store.pipe(
@@ -117,6 +159,8 @@ export class NewOrderComponent implements OnInit {
     private router: Router,
     private store: Store<AppState>,
     private config: ConfigService,
+    private hiddenFeatures: HiddenFeaturesService,
+    private snackBar: MatSnackBar,
     private cdr: ChangeDetectorRef) {
 
     this.createForms();
@@ -133,6 +177,29 @@ export class NewOrderComponent implements OnInit {
         this.updateForms();
       }
     });
+
+    this.prepareCheckout$.pipe(
+      debounceTime(PREPARE_DEBOUNCE_MS),
+      switchMap(() => {
+        this.isPreparing = true;
+        // The formats must be persisted (with the order update) before prepare can price them.
+        return this.apiOrderService.updateOrderItemsDataFormats(this.currentOrder).pipe(
+          switchMap(freshOrder => {
+            if (!freshOrder) {
+              return of(null);
+            }
+            this.storeService.addOrderToStore(new Order(freshOrder));
+            return this.apiOrderService.prepareOrder(this.currentOrder.id);
+          }),
+          catchError(() => of(null)),
+        );
+      }),
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe(result => {
+      this.prepareResult = result;
+      this.isPreparing = false;
+    });
+
     const customer = this.contactFormGroup.get('customer');
     if (!customer) {
       return;
@@ -164,6 +231,35 @@ export class NewOrderComponent implements OnInit {
     this.contactFormGroup.reset();
     this.orderItemFormGroup.reset();
     this.stepper.reset();
+    this.prepareResult = null;
+    this.selectedPaymentMethod = 'invoice';
+  }
+
+  /**
+   * Re-prices the checkout.
+   * Drops the previous result first, so a stale total is never on screen while a new one is being
+   * computed.
+   */
+  public refreshPreparedCheckout() {
+    this.prepareResult = null;
+    // The choice belonged to the price we just discarded.
+    this.selectedPaymentMethod = 'invoice';
+
+    // Hidden feature: without the opt-in nothing here is shown, so spend no requests on it.
+    if (!this.hiddenFeatures.isCardPaymentEnabled) {
+      return;
+    }
+    // prepare rejects an order whose items lack a data_format, and this is the same condition that
+    // already disables the confirm button.
+    if (this.orderItemFormGroup.invalid) {
+      return;
+    }
+    // The order only exists server-side once the first "Suivant" created it.
+    if (!this.currentOrder || this.currentOrder.id <= 0) {
+      return;
+    }
+
+    this.prepareCheckout$.next();
   }
 
   // Update form values from an order
@@ -231,10 +327,17 @@ export class NewOrderComponent implements OnInit {
     this.updateOrder();
     this.createOrUpdateOrder().subscribe(newOrder => {
       this.storeService.addOrderToStore(new Order(newOrder as IOrder));
+      if (this.isOnPreviewStep) {
+        this.refreshPreparedCheckout();
+      }
     })
   }
 
   public confirm() {
+    if (this.isCardPaymentAvailable && this.selectedPaymentMethod === 'card') {
+      this.payByCard();
+      return;
+    }
     this.updateOrder();
     this.createOrUpdateOrder().pipe(
       switchMap((order: IOrder) => this.apiOrderService.confirmOrder(order.id))
@@ -243,6 +346,50 @@ export class NewOrderComponent implements OnInit {
         this.store.dispatch(fromCart.deleteOrder());
         await this.router.navigate(['/account/orders']);
       }
+    });
+  }
+
+  /**
+   * Opens a card payment and hands the buyer over to the provider's hosted page.
+   *
+   * The cart is deliberately *not* cleared here: the payment can still fail or be abandoned, and
+   * the buyer needs it intact to retry. It is cleared once the payment has settled.
+   */
+  private payByCard() {
+    const expectedTotal = this.prepareResult?.total;
+    this.isPaying = true;
+
+    this.updateOrder();
+    this.createOrUpdateOrder().pipe(
+      switchMap((order: IOrder) => this.apiOrderService.payOrder(order.id)),
+    ).subscribe({
+      next: result => {
+        this.isPaying = false;
+
+        // Nothing left to charge (the total reached zero): the backend already confirmed it.
+        if (!result.payment_required) {
+          this.store.dispatch(fromCart.deleteOrder());
+          this.router.navigate(['/account/orders']);
+          return;
+        }
+
+        // The backend reprices when opening the payment, so this is the one place where a stale
+        // displayed total is caught. Never send the buyer to pay an amount they were not shown.
+        if (expectedTotal !== undefined && result.amount !== expectedTotal) {
+          this.refreshPreparedCheckout();
+          this.snackBar.open(
+            $localize`Le montant de la commande a changé, veuillez vérifier le nouveau total avant de payer.`,
+            'Ok',
+            {panelClass: 'notification-error'}
+          );
+          return;
+        }
+
+        // The provider's hosted page is on another origin, so this is a browser navigation.
+        window.location.assign(result.redirect_url);
+      },
+      // The global error interceptor has already shown the message.
+      error: () => this.isPaying = false,
     });
   }
 

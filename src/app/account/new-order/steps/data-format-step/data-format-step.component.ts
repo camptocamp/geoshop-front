@@ -5,7 +5,7 @@ import {ApiOrderService} from "@app/services/api-order.service";
 import {StoreService} from "@app/services/store.service";
 
 import { CommonModule, CurrencyPipe} from "@angular/common";
-import {ChangeDetectorRef, Component, Input} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormArray, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatButtonModule} from "@angular/material/button";
@@ -37,6 +37,8 @@ export class DataFormatStepComponent {
   @Input() orderItemFormGroup: FormGroup<OrderItemForm>;
   @Input() allAvailableFormats: Set<string> = new Set<string>();
   @Input() order: Order;
+  @Input() isPreparing = false;
+  @Output() formatsChanged = new EventEmitter<void>();
 
   public readonly displayedColumns: string[] = ['label', 'format', 'price'];
   public isOrderPatchLoading = false;
@@ -73,6 +75,7 @@ export class DataFormatStepComponent {
         this.storeService.addOrderToStore(new Order(newOrder as IOrder));
       }
       this.isOrderPatchLoading = false;
+      this.formatsChanged.emit();
       this.cdr.detectChanges();
     });
     this.cdr.detectChanges();
@@ -93,6 +96,7 @@ export class DataFormatStepComponent {
     if (formatControl) {
       formatControl.setValue(selectedFormat);
     }
+    this.formatsChanged.emit();
     this.cdr.detectChanges();
   }
 }

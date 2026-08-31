@@ -24,6 +24,8 @@ export const ORDER_STATUS = {
   PROCESSED: $localize`:@@order.processed:Traitée`,
   ARCHIVED: $localize`:@@order.archived:Archivée`,
   REJECTED: $localize`:@@order.rejected:Annulée`,
+  AWAITING_PAYMENT: $localize`:@@order.awaiting_payment:En attente du paiement`,
+  PAYMENT_FAILED: $localize`:@@order.payment_failed:Paiement échoué`,
   // CONFIRM_REQUEST: $localize `:@@order.rejected:Rejected`, // TODO: looks not used
   UNKNOWN: $localize`:@@order.unkown:Etat inconnu`
 };

@@ -29,7 +29,9 @@ export type OrderStatus = 'DRAFT' |
   'PROCESSED' |
   'ARCHIVED' |
   'REJECTED' |
-  'CONFIRM_REQUIRED';
+  'CONFIRM_REQUIRED' |
+  'AWAITING_PAYMENT' |
+  'PAYMENT_FAILED';
 
 export type OrderItemStatus = 'PENDING' |
   'IN_EXTRACT' |
@@ -358,6 +360,20 @@ export class Order {
         result = {
           text: Constants.ORDER_STATUS.REJECTED,
           iconName: 'cancel',
+          color: '#000000'
+        };
+        break;
+      case 'AWAITING_PAYMENT':
+        result = {
+          text: Constants.ORDER_STATUS.AWAITING_PAYMENT,
+          iconName: 'hourglass_empty',
+          color: '#7593f0'
+        };
+        break;
+      case 'PAYMENT_FAILED':
+        result = {
+          text: Constants.ORDER_STATUS.PAYMENT_FAILED,
+          iconName: 'error_outline',
           color: '#000000'
         };
         break;

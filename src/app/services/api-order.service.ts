@@ -1,6 +1,7 @@
 import {IApiResponse, OrderValidationStatus} from '@app/models/IApi';
 import {Contact, IContact} from '@app/models/IContact';
 import {IOrder, IOrderItem, IOrderSummary, IOrderToPost, IOrderType, Order} from '@app/models/IOrder';
+import {IPayResult, IPrepareResult} from '@app/models/IPayment';
 import {IProduct} from '@app/models/IProduct';
 
 import {HttpClient, HttpResponse} from '@angular/common/http';
@@ -243,6 +244,29 @@ export class ApiOrderService {
       );
   }
 
+  /**
+   * Computes the definitive final price of an order and which payment option applies to it.
+   */
+  prepareOrder(orderId: number): Observable<IPrepareResult> {
+    this._getApiUrl();
+
+    const url = new URL(`${this.apiUrl}/order/${orderId}/prepare/`);
+
+    return this.http.post<IPrepareResult>(url.toString(), {});
+  }
+
+  /**
+   * Opens a card payment for an order. The caller must send the buyer to `redirect_url`, which is
+   * the payment provider's hosted page — an external origin, so `window.location`, not the router.
+   */
+  payOrder(orderId: number): Observable<IPayResult> {
+    this._getApiUrl();
+
+    const url = new URL(`${this.apiUrl}/order/${orderId}/pay/`);
+
+    return this.http.post<IPayResult>(url.toString(), {});
+  }
+
   public downloadResult(guid: string): Observable<HttpResponse<Blob | null>> {
     this._getApiUrl();
     const url = new URL(`${this.apiUrl}/download/${guid}/result`);
@@ -314,12 +338,14 @@ export class ApiOrderService {
     const url = new URL(`${this.apiUrl}/order/${order.id}/`);
 
     return this.http.patch<IOrder | null>(url.toString(), {
+      // Build copies: mutating order.items here would strip `pricing` and `metadata` off the
+      // products the caller is still displaying, and a failed request would leave them stripped.
       items: order.items.map(x => {
-        x.product = {label: x.product.label} as IProduct;
-        if (!x.data_format) {
-          delete x.data_format;
+        const item: IOrderItem = {...x, product: {label: Order.getProductLabel(x)} as IProduct};
+        if (!item.data_format) {
+          delete item.data_format;
         }
-        return x;
+        return item;
       })
     })
       .pipe(

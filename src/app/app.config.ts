@@ -3,6 +3,7 @@ import { routes } from '@app/app.routes';
 import { interceptor as authInterceptor } from '@app/interceptors/authInterceptor';
 import { interceptor as errorInterceptor } from '@app/interceptors/errorInterceptor';
 import { ConfigService } from '@app/services/config.service';
+import { HiddenFeaturesService } from '@app/services/hidden-features.service';
 import { OIDCStorageService } from '@app/services/oidc-storage.service';
 import * as store from '@app/store';
 import { AuthEffects } from '@app/store/auth/auth.effects';
@@ -44,6 +45,7 @@ export const appConfig: ApplicationConfig = {
     { provide: AbstractSecurityStorage, useClass: OIDCStorageService },
     provideEffects(AuthEffects, CartEffects),
     provideStore(store.reducers, { metaReducers: store.metaReducers }),
+    provideAppInitializer(() => inject(HiddenFeaturesService).captureFromUrl()),
     provideAppInitializer(() => inject(ConfigService).load())
   ]
 };
