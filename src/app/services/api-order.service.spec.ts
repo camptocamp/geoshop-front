@@ -1,4 +1,5 @@
-import { IPayResult, IPrepareResult } from '@app/models/IPayment';
+import { IOrder } from '@app/models/IOrder';
+import { IPayResult } from '@app/models/IPayment';
 import { ConfigService } from '@app/services/config.service';
 
 import { provideHttpClient } from '@angular/common/http';
@@ -35,43 +36,37 @@ describe('ApiOrderService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('prepareOrder', () => {
-    it('posts to /order/{id}/prepare/ and returns the result', () => {
-      const expected: IPrepareResult = { payment_option: 'card', total: '42.00', currency: 'CHF' };
-      let actual: IPrepareResult | undefined;
+  describe('confirmCheckout', () => {
+    it('posts to /order/{id}/confirm-checkout/ and returns the order', () => {
+      const expected = { id: 11710, order_status: 'READY', total_with_vat: '42.00' } as unknown as IOrder;
+      let actual: IOrder | null | undefined;
 
-      service.prepareOrder(11710).subscribe(result => actual = result);
+      service.confirmCheckout(11710).subscribe(result => actual = result);
 
-      const req = httpMock.expectOne(`${API_URL}/order/11710/prepare/`);
+      const req = httpMock.expectOne(`${API_URL}/order/11710/confirm-checkout/`);
       expect(req.request.method).toBe('POST');
       req.flush(expected);
 
       expect(actual).toEqual(expected);
     });
 
-    it('propagates errors instead of swallowing them into null', () => {
-      let errored = false;
-      let nexted = false;
+    it('resolves to null on failure so the caller can stay put', () => {
+      let actual: IOrder | null | undefined;
 
-      service.prepareOrder(11710).subscribe({
-        next: () => nexted = true,
-        error: () => errored = true,
-      });
+      service.confirmCheckout(11710).subscribe(result => actual = result);
 
-      httpMock.expectOne(`${API_URL}/order/11710/prepare/`)
-        .flush({ detail: 'boom' }, { status: 500, statusText: 'Server Error' });
+      httpMock.expectOne(`${API_URL}/order/11710/confirm-checkout/`)
+        .flush({ detail: 'boom' }, { status: 403, statusText: 'Forbidden' });
 
-      expect(errored).toBe(true);
-      expect(nexted).toBe(false);
+      expect(actual).toBeNull();
     });
   });
 
   describe('payOrder', () => {
     it('posts to /order/{id}/pay/ and returns the redirect url', () => {
       const expected: IPayResult = {
-        payment_required: true,
         redirect_url: 'https://checkout.postfinance.ch/s/1234',
-        payment_id: 'abc-123',
+        payment_id: 4321,
         amount: '42.00',
       };
       let actual: IPayResult | undefined;

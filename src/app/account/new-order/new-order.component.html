@@ -36,34 +36,19 @@
       </div>
   </mat-step>
 
-  <mat-step #previewStep [stepControl]="orderItemFormGroup" i18n-label label="Aperçu de la commande">
+  <mat-step [stepControl]="orderItemFormGroup" i18n-label label="Aperçu de la commande">
       <gs2-data-format-step
         [dataSource]="dataSource"
         [orderItemFormGroup]="orderItemFormGroup"
         [allAvailableFormats]="allAvailableFormats"
-        [order]="currentOrder"
-        [isPreparing]="isPreparing"
-        (formatsChanged)="refreshPreparedCheckout()">
+        [order]="currentOrder">
       </gs2-data-format-step>
-
-      <!-- Payment choice: only for orders the backend priced automatically -->
-      <mat-radio-group *ngIf="isCardPaymentAvailable" class="flex-column payment-method-group"
-                       [(ngModel)]="selectedPaymentMethod" [ngModelOptions]="{standalone: true}"
-                       i18n-aria-label aria-label="Choisir le moyen de paiement">
-        <mat-radio-button value="card" i18n>
-          Payer par carte ou TWINT
-          <span class="mat-small">({{ prepareResult?.total | currency: prepareResult?.currency }})</span>
-        </mat-radio-button>
-        <mat-radio-button value="invoice" i18n>Payer sur facture</mat-radio-button>
-      </mat-radio-group>
-
       <div class="flex-row">
         <button color="warn" mat-button type="button" (click)="resetForms()">
           {{ AppConstants.RESET }}
         </button>
         <button color="primary" mat-button matStepperPrevious>{{ AppConstants.PREVIOUS }}</button>
-        <button color="primary" mat-raised-button type="submit"
-                [disabled]="orderItemFormGroup.invalid || isPreparing || isPaying" (click)="confirm()">
+        <button color="primary" mat-raised-button type="submit" [disabled]="orderItemFormGroup.invalid" (click)="confirm()">
           {{buttonConfirmLabel}}
         </button>
       </div>

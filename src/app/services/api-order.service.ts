@@ -1,7 +1,7 @@
 import {IApiResponse, OrderValidationStatus} from '@app/models/IApi';
 import {Contact, IContact} from '@app/models/IContact';
 import {IOrder, IOrderItem, IOrderSummary, IOrderToPost, IOrderType, Order} from '@app/models/IOrder';
-import {IPayResult, IPrepareResult} from '@app/models/IPayment';
+import {IPayResult} from '@app/models/IPayment';
 import {IProduct} from '@app/models/IProduct';
 
 import {HttpClient, HttpResponse} from '@angular/common/http';
@@ -45,6 +45,19 @@ export class ApiOrderService {
             return of(null);
           })
         );
+  }
+
+  getOrderById(orderId: number): Observable<IOrder | null> {
+    this._getApiUrl();
+
+    const url = new URL(`${this.apiUrl}/order/${orderId}/`);
+
+    return this.http.get<IOrder>(url.toString())
+      .pipe(
+        catchError(() => {
+          return of(null);
+        })
+      );
   }
 
   getOrderByUUID(uuid: string | undefined): Observable<Order | null> {
@@ -245,14 +258,25 @@ export class ApiOrderService {
   }
 
   /**
-   * Computes the definitive final price of an order and which payment option applies to it.
+   * New confirm implementation for the payment process.
+   * It returns the order after confirming the checkout.
    */
-  prepareOrder(orderId: number): Observable<IPrepareResult> {
+  confirmCheckout(orderId: number): Observable<IOrder | null> {
     this._getApiUrl();
 
-    const url = new URL(`${this.apiUrl}/order/${orderId}/prepare/`);
+    const url = new URL(`${this.apiUrl}/order/${orderId}/confirm-checkout/`);
 
-    return this.http.post<IPrepareResult>(url.toString(), {});
+    return this.http.post<IOrder>(url.toString(), {})
+      .pipe(
+        tap(() => {
+          this.snackBar.open(
+            $localize`Commande passée avec succès! Vous recevrez un email lorsque tous les téléchargements seront prêts.`, 'Ok', {
+              panelClass: 'notification-info'
+            }
+          );
+        }),
+        catchError(() => of(null))
+      );
   }
 
   /**
@@ -338,14 +362,12 @@ export class ApiOrderService {
     const url = new URL(`${this.apiUrl}/order/${order.id}/`);
 
     return this.http.patch<IOrder | null>(url.toString(), {
-      // Build copies: mutating order.items here would strip `pricing` and `metadata` off the
-      // products the caller is still displaying, and a failed request would leave them stripped.
       items: order.items.map(x => {
-        const item: IOrderItem = {...x, product: {label: Order.getProductLabel(x)} as IProduct};
-        if (!item.data_format) {
-          delete item.data_format;
+        x.product = {label: x.product.label} as IProduct;
+        if (!x.data_format) {
+          delete x.data_format;
         }
-        return item;
+        return x;
       })
     })
       .pipe(

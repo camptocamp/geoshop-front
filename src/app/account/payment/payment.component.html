@@ -1,0 +1,69 @@
+<mat-spinner *ngIf="isLoading" diameter="32" color="accent"></mat-spinner>
+
+<mat-card class="payment-card" *ngIf="!isLoading">
+  <mat-card-header>
+    <mat-card-title i18n="@@payment.title">Paiement de la commande</mat-card-title>
+    <mat-card-subtitle *ngIf="order?.title">{{ order?.title }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p *ngIf="hasFailed" class="payment-notice payment-notice-error">
+      <mat-icon>error_outline</mat-icon>
+      <span i18n="@@payment.failed">
+        Le paiement n'a pas abouti. Vous pouvez réessayer ou choisir de payer sur facture.
+      </span>
+    </p>
+
+    <p *ngIf="isAwaitingSettlement" class="payment-notice">
+      <mat-spinner diameter="16" color="accent"></mat-spinner>
+      <span i18n="@@payment.awaiting">
+        Paiement en cours de confirmation. Votre commande est enregistrée et son traitement a
+        démarré. Si le paiement n'aboutit pas, vous recevrez une facture.
+      </span>
+    </p>
+
+    <p *ngIf="isPaid" class="payment-notice payment-notice-done">
+      <mat-icon>check_circle_outline</mat-icon>
+      <span i18n="@@payment.done">Cette commande a été payée. Merci&nbsp;!</span>
+    </p>
+
+    <ng-container *ngIf="isPayable">
+      <!-- Same three lines, labels and i18n ids as the order summary, so they read alike -->
+      <dl class="payment-breakdown">
+        <dt i18n="@@order.fees">Frais de traitement</dt>
+        <dd>{{ order?.processing_fee | currency: order?.processing_fee_currency }}</dd>
+
+        <dt class="payment-breakdown-total" i18n="@@order.vat">Total incl. TTC</dt>
+        <dd class="payment-breakdown-total">
+          {{ order?.total_with_vat | currency: order?.total_with_vat_currency }}
+        </dd>
+
+        <dt class="payment-breakdown-vat" i18n>Dont TVA 8.1 %</dt>
+        <dd class="payment-breakdown-vat">
+          {{ order?.part_vat | currency: order?.part_vat_currency }}
+        </dd>
+      </dl>
+      <p class="mat-small" i18n="@@payment.hint">
+        Payez maintenant par carte ou TWINT, ou choisissez de payer plus tard sur facture.
+      </p>
+    </ng-container>
+  </mat-card-content>
+
+  <mat-card-actions class="payment-actions">
+    <ng-container *ngIf="isPayable">
+      <button mat-raised-button color="primary" [disabled]="isPaying" (click)="payByCard()"
+              i18n="@@payment.pay_by_card">
+        Payer par carte
+      </button>
+      <button mat-raised-button color="primary" [disabled]="isPaying" (click)="payByInvoice()"
+              i18n="@@payment.pay_by_invoice">
+        Payer sur facture
+      </button>
+    </ng-container>
+
+    <button *ngIf="!isPayable" mat-button color="primary" (click)="goToOrders()"
+            i18n="@@payment.see_orders">
+      Voir mes commandes
+    </button>
+  </mat-card-actions>
+</mat-card>

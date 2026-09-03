@@ -6,6 +6,7 @@ import Polygon from 'ol/geom/Polygon';
 
 import { Contact } from './IContact';
 import { IIdentity } from './IIdentity';
+import { PaymentStatus } from './IPayment';
 import { PricingStatus } from './IPricing';
 import { IProduct } from './IProduct';
 
@@ -29,9 +30,7 @@ export type OrderStatus = 'DRAFT' |
   'PROCESSED' |
   'ARCHIVED' |
   'REJECTED' |
-  'CONFIRM_REQUIRED' |
-  'AWAITING_PAYMENT' |
-  'PAYMENT_FAILED';
+  'CONFIRM_REQUIRED';
 
 export type OrderItemStatus = 'PENDING' |
   'IN_EXTRACT' |
@@ -124,6 +123,7 @@ export interface IOrder {
   date_ordered: string | undefined;
   date_processed: string | undefined;
   invoice_contact: string | number;
+  payment_status?: PaymentStatus | null;
 }
 
 export class OrderItem {
@@ -360,20 +360,6 @@ export class Order {
         result = {
           text: Constants.ORDER_STATUS.REJECTED,
           iconName: 'cancel',
-          color: '#000000'
-        };
-        break;
-      case 'AWAITING_PAYMENT':
-        result = {
-          text: Constants.ORDER_STATUS.AWAITING_PAYMENT,
-          iconName: 'hourglass_empty',
-          color: '#7593f0'
-        };
-        break;
-      case 'PAYMENT_FAILED':
-        result = {
-          text: Constants.ORDER_STATUS.PAYMENT_FAILED,
-          iconName: 'error_outline',
           color: '#000000'
         };
         break;

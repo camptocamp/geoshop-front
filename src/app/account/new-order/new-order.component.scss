@@ -101,12 +101,4 @@
   .bottom-container {
     margin-top: auto;
   }
-
-  // `flex-column` is not defined globally, so the stacking is set explicitly here.
-  .payment-method-group {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin: 16px 0 8px;
-  }
 }
