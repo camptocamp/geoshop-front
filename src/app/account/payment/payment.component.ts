@@ -149,7 +149,7 @@ export class PaymentComponent implements OnInit {
 
   public payByInvoice(): void {
     this.snackBar.open(
-      $localize`Vous recevrez une facture pour cette commande.`, 'Ok', {
+      $localize`:@@payment.invoice_notice:Vous recevrez une facture pour cette commande.`, 'Ok', {
         panelClass: 'notification-info'
       }
     );
