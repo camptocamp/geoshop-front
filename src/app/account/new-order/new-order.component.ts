@@ -19,6 +19,7 @@ import {IProduct} from '@app/models/IProduct';
 import {ApiOrderService} from '@app/services/api-order.service';
 import {ApiService} from '@app/services/api.service';
 import {ConfigService} from '@app/services/config.service';
+import {HiddenFeaturesService} from '@app/services/hidden-features.service';
 import {StoreService} from '@app/services/store.service';
 import {AppState, getUser, selectAllProduct, selectOrder} from '@app/store';
 import * as fromCart from '@app/store/cart/cart.action';
@@ -117,6 +118,7 @@ export class NewOrderComponent implements OnInit {
     private router: Router,
     private store: Store<AppState>,
     private config: ConfigService,
+    private hiddenFeatures: HiddenFeaturesService,
     private cdr: ChangeDetectorRef) {
 
     this.createForms();
@@ -236,6 +238,10 @@ export class NewOrderComponent implements OnInit {
 
   public confirm() {
     this.updateOrder();
+    if (this.hiddenFeatures.isCardPaymentEnabled) {
+      this.confirmForCheckout();
+      return;
+    }
     this.createOrUpdateOrder().pipe(
       switchMap((order: IOrder) => this.apiOrderService.confirmOrder(order.id))
     ).subscribe(async confirmed => {
@@ -244,6 +250,36 @@ export class NewOrderComponent implements OnInit {
         await this.router.navigate(['/account/orders']);
       }
     });
+  }
+
+  /**
+   * Confirms through the endpoint that returns the order, so the buyer can be sent to choose a
+   * payment method when there is something to pay. Identical to `confirm()` otherwise.
+   */
+  private confirmForCheckout() {
+    this.createOrUpdateOrder().pipe(
+      switchMap((order: IOrder) => this.apiOrderService.confirmCheckout(order.id))
+    ).subscribe(async confirmedOrder => {
+      if (!confirmedOrder) {
+        return;
+      }
+      this.store.dispatch(fromCart.deleteOrder());
+      await this.router.navigate(NewOrderComponent.destinationAfterConfirm(confirmedOrder));
+    });
+  }
+
+  /**
+   * Where to send the buyer once the order is placed: the payment choice when the order is priced
+   * and costs something, the order list otherwise (a free order, or one awaiting a manual quote).
+   */
+  private static destinationAfterConfirm(order: IOrder): string[] {
+    const total = Number(order.total_with_vat);
+    const hasSomethingToPay = order.order_status === 'READY' &&
+      Number.isFinite(total) && total > 0;
+
+    return hasSomethingToPay ?
+      ['/account/orders', String(order.id), 'payment'] :
+      ['/account/orders'];
   }
 
   public billingRequired(): boolean {

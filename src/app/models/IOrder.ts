@@ -6,6 +6,7 @@ import Polygon from 'ol/geom/Polygon';
 
 import { Contact } from './IContact';
 import { IIdentity } from './IIdentity';
+import { PaymentStatus } from './IPayment';
 import { PricingStatus } from './IPricing';
 import { IProduct } from './IProduct';
 
@@ -122,6 +123,7 @@ export interface IOrder {
   date_ordered: string | undefined;
   date_processed: string | undefined;
   invoice_contact: string | number;
+  payment_status?: PaymentStatus | null;
 }
 
 export class OrderItem {

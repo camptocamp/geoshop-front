@@ -1,6 +1,7 @@
 import {IApiResponse, OrderValidationStatus} from '@app/models/IApi';
 import {Contact, IContact} from '@app/models/IContact';
 import {IOrder, IOrderItem, IOrderSummary, IOrderToPost, IOrderType, Order} from '@app/models/IOrder';
+import {IPayResult} from '@app/models/IPayment';
 import {IProduct} from '@app/models/IProduct';
 
 import {HttpClient, HttpResponse} from '@angular/common/http';
@@ -44,6 +45,19 @@ export class ApiOrderService {
             return of(null);
           })
         );
+  }
+
+  getOrderById(orderId: number): Observable<IOrder | null> {
+    this._getApiUrl();
+
+    const url = new URL(`${this.apiUrl}/order/${orderId}/`);
+
+    return this.http.get<IOrder>(url.toString())
+      .pipe(
+        catchError(() => {
+          return of(null);
+        })
+      );
   }
 
   getOrderByUUID(uuid: string | undefined): Observable<Order | null> {
@@ -241,6 +255,40 @@ export class ApiOrderService {
         }),
         catchError(() => of(false))
       );
+  }
+
+  /**
+   * New confirm implementation for the payment process.
+   * It returns the order after confirming the checkout.
+   */
+  confirmCheckout(orderId: number): Observable<IOrder | null> {
+    this._getApiUrl();
+
+    const url = new URL(`${this.apiUrl}/order/${orderId}/confirm-checkout/`);
+
+    return this.http.post<IOrder>(url.toString(), {})
+      .pipe(
+        tap(() => {
+          this.snackBar.open(
+            $localize`Commande passée avec succès! Vous recevrez un email lorsque tous les téléchargements seront prêts.`, 'Ok', {
+              panelClass: 'notification-info'
+            }
+          );
+        }),
+        catchError(() => of(null))
+      );
+  }
+
+  /**
+   * Opens a card payment for an order. The caller must send the buyer to `redirect_url`, which is
+   * the payment provider's hosted page — an external origin, so `window.location`, not the router.
+   */
+  payOrder(orderId: number): Observable<IPayResult> {
+    this._getApiUrl();
+
+    const url = new URL(`${this.apiUrl}/order/${orderId}/pay/`);
+
+    return this.http.post<IPayResult>(url.toString(), {});
   }
 
   public downloadResult(guid: string): Observable<HttpResponse<Blob | null>> {

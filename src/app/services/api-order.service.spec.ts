@@ -1,12 +1,19 @@
+import { IOrder } from '@app/models/IOrder';
+import { IPayResult } from '@app/models/IPayment';
+import { ConfigService } from '@app/services/config.service';
+
 import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { ApiOrderService } from './api-order.service';
 
 
+const API_URL = 'https://example.com/api';
+
 describe('ApiOrderService', () => {
   let service: ApiOrderService;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -16,9 +23,77 @@ describe('ApiOrderService', () => {
       ],
     });
     service = TestBed.inject(ApiOrderService);
+    httpMock = TestBed.inject(HttpTestingController);
+    // The service reads the api url lazily from the config, which is normally loaded at bootstrap.
+    TestBed.inject(ConfigService).config = { apiUrl: API_URL } as never;
+  });
+
+  afterEach(() => {
+    httpMock.verify();
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  describe('confirmCheckout', () => {
+    it('posts to /order/{id}/confirm-checkout/ and returns the order', () => {
+      const expected = { id: 11710, order_status: 'READY', total_with_vat: '42.00' } as unknown as IOrder;
+      let actual: IOrder | null | undefined;
+
+      service.confirmCheckout(11710).subscribe(result => actual = result);
+
+      const req = httpMock.expectOne(`${API_URL}/order/11710/confirm-checkout/`);
+      expect(req.request.method).toBe('POST');
+      req.flush(expected);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('resolves to null on failure so the caller can stay put', () => {
+      let actual: IOrder | null | undefined;
+
+      service.confirmCheckout(11710).subscribe(result => actual = result);
+
+      httpMock.expectOne(`${API_URL}/order/11710/confirm-checkout/`)
+        .flush({ detail: 'boom' }, { status: 403, statusText: 'Forbidden' });
+
+      expect(actual).toBeNull();
+    });
+  });
+
+  describe('payOrder', () => {
+    it('posts to /order/{id}/pay/ and returns the redirect url', () => {
+      const expected: IPayResult = {
+        redirect_url: 'https://checkout.postfinance.ch/s/1234',
+        payment_id: 4321,
+        amount: '42.00',
+      };
+      let actual: IPayResult | undefined;
+
+      service.payOrder(11710).subscribe(result => actual = result);
+
+      const req = httpMock.expectOne(`${API_URL}/order/11710/pay/`);
+      expect(req.request.method).toBe('POST');
+      req.flush(expected);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('propagates errors instead of swallowing them into null', () => {
+      let errored = false;
+      let nexted = false;
+
+      service.payOrder(11710).subscribe({
+        next: () => nexted = true,
+        error: () => errored = true,
+      });
+
+      httpMock.expectOne(`${API_URL}/order/11710/pay/`)
+        .flush({ detail: 'boom' }, { status: 502, statusText: 'Bad Gateway' });
+
+      expect(errored).toBe(true);
+      expect(nexted).toBe(false);
+    });
   });
 });
