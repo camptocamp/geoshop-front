@@ -2052,6 +2052,78 @@
           <context context-type="linenumber">600</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="payment.title" datatype="html">
+        <source>Paiement de la commande</source>
+        <target>Zahlung der Bestellung</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/payment/payment.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="payment.failed" datatype="html">
+        <source> Le paiement n'a pas abouti. Vous pouvez réessayer ou choisir de payer sur facture. </source>
+        <target> Die Zahlung ist fehlgeschlagen. Sie können es erneut versuchen oder auf Rechnung bezahlen. </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/payment/payment.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="payment.awaiting" datatype="html">
+        <source> Paiement en cours de confirmation. Votre commande est enregistrée et son traitement a démarré. </source>
+        <target> Die Zahlung wird bestätigt. Ihre Bestellung wurde registriert und die Bearbeitung hat begonnen. </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/payment/payment.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="payment.done" datatype="html">
+        <source>Cette commande a été payée. Merci !</source>
+        <target>Diese Bestellung wurde bezahlt. Vielen Dank!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/payment/payment.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="payment.hint" datatype="html">
+        <source> Payez maintenant par carte ou TWINT, ou choisissez de payer plus tard sur facture. </source>
+        <target> Bezahlen Sie jetzt per Karte oder TWINT, oder entscheiden Sie sich, später auf Rechnung zu bezahlen. </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/payment/payment.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="payment.pay_by_card" datatype="html">
+        <source> Payer par carte </source>
+        <target> Mit Karte bezahlen </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/payment/payment.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="payment.pay_by_invoice" datatype="html">
+        <source> Payer sur facture </source>
+        <target> Auf Rechnung bezahlen </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/payment/payment.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="payment.see_orders" datatype="html">
+        <source> Voir mes commandes </source>
+        <target> Meine Bestellungen ansehen </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/payment/payment.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="payment.invoice_notice" datatype="html">
+        <source>Vous recevrez une facture pour cette commande.</source>
+        <target>Sie erhalten eine Rechnung für diese Bestellung.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/account/payment/payment.component.ts</context>
+          <context context-type="linenumber">152</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
