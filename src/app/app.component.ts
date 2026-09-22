@@ -1,7 +1,7 @@
 import { AccountOverlayComponent } from '@app/components/account-overlay/account-overlay.component';
 import { CartOverlayComponent } from '@app/components/cart-overlay/cart-overlay.component';
 import { HelpOverlayComponent } from '@app/components/help-overlay/help-overlay.component';
-import { ProductUpdateFeedOverlayComponent } from '@app/components/product-update-feed-overlay/product-update-feed-overlay';
+import { ProductUpdateFeedOverlayComponent } from '@app/components/product-update-feed-overlay/product-update-feed-overlay.component';
 import { SearchComponent } from '@app/components/search/search.component';
 import { ConfigService } from '@app/services/config.service';
 import { AppState, selectCartTotal, selectOrder } from '@app/store';

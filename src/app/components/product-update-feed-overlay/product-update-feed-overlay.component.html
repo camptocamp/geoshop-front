@@ -1,0 +1,10 @@
+<div class="title" mat-menu-item disabled>
+  <span>Product Update Feed</span>
+</div>
+<mat-divider></mat-divider>
+
+@for (feed of allFeeds | async; track feed.name) {
+  <a mat-menu-item [href]="feed.url" target="_blank">
+    {{ feed.name }}
+  </a>
+}

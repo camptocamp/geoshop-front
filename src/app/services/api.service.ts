@@ -1,4 +1,5 @@
 import { IApiResponse } from '@app/models/IApi';
+import {IFeed} from "@app/models/IFeed";
 import { ICredentials, IIdentity } from '@app/models/IIdentity';
 import { IMetadata } from '@app/models/IMetadata';
 import { IProduct } from '@app/models/IProduct';
@@ -58,6 +59,18 @@ export class ApiService {
         })
       );
   }
+
+  getProductUpdateFeeds() {
+    this._getApiUrl();
+    const url = new URL(`${this.apiUrl}/feeds`);
+    return this.http.get<IFeed[]>(url.toString())
+      .pipe(
+        catchError(() => {
+          return of(null);
+        })
+      );
+  }
+
 
   getProduct(productid: number) {
     this._getApiUrl();
