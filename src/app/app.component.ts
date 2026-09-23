@@ -1,6 +1,7 @@
 import { AccountOverlayComponent } from '@app/components/account-overlay/account-overlay.component';
 import { CartOverlayComponent } from '@app/components/cart-overlay/cart-overlay.component';
 import { HelpOverlayComponent } from '@app/components/help-overlay/help-overlay.component';
+import { ProductUpdateFeedOverlayComponent } from '@app/components/product-update-feed-overlay/product-update-feed-overlay.component';
 import { SearchComponent } from '@app/components/search/search.component';
 import { ConfigService } from '@app/services/config.service';
 import { AppState, selectCartTotal, selectOrder } from '@app/store';
@@ -31,7 +32,7 @@ import { AuthService } from './services/auth.service';
     RouterOutlet, RouterLink, AsyncPipe,
     MatBadgeModule, MatDividerModule, MatIconModule, MatToolbarModule, MatMenuModule, MatMenuTrigger,
     AccountOverlayComponent, CartOverlayComponent, HelpOverlayComponent, CommonModule, MatInputModule,
-    MatFormFieldModule, MatButtonModule, SearchComponent
+    MatFormFieldModule, MatButtonModule, SearchComponent, ProductUpdateFeedOverlayComponent
   ],
 })
 export class AppComponent implements OnDestroy, OnInit {
@@ -57,7 +58,7 @@ export class AppComponent implements OnDestroy, OnInit {
     const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
 
     // This URL permalink listener must be in app.component during startup of the app
-    // URL is decoded first of all into the mapState
+    // URL is decoded first into the mapState
     const initialParams = routerNavEnd$.subscribe(() => {
       const params = new URLSearchParams(window.location.search);
       const bounds = params.get("bounds")?.split(",").map(parseFloat);

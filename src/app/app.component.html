@@ -8,6 +8,13 @@
   <span class="header-subtitle">{{subTitle}}</span>
   <mat-divider *ngIf="subTitle" vertical="true" color="accent"></mat-divider>
 
+  <button mat-icon-button [matMenuTriggerFor]="productUpdateFeedOverlay">
+    <img src="assets/images/feed.svg" alt="Support" width="24" height="24" style="vertical-align: middle;" />
+  </button>
+  <mat-menu #productUpdateFeedOverlay="matMenu" class="overlay-menu-container">
+    <gs2-product-update-feed-overlay></gs2-product-update-feed-overlay>
+  </mat-menu>
+
   <button mat-icon-button [matMenuTriggerFor]="helpOverlay">
     <img src="assets/images/info.svg" alt="Support" width="24" height="24" style="vertical-align: middle;" />
   </button>
