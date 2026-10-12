@@ -52,6 +52,7 @@
           {{ DOWNLOAD }}
         </button>
         <span *ngIf="element.status !== 'PROCESSED'">{{ getOrderStatus(element) }}</span>
+        <span *ngIf="element.status === 'PROCESSED' && element.comment">{{ element.comment }}</span>
       </td>
       <td mat-footer-cell *matFooterCellDef class="text-primary"></td>
     </ng-container>
