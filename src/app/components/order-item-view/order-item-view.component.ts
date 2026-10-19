@@ -48,6 +48,9 @@ export class OrderItemViewComponent implements OnInit {
     if (orderItem.validation_reason) {
       returnValue = `${returnValue}: ${orderItem.validation_reason}`;
     }
+    if (orderItem.comment) {
+      returnValue = `${returnValue}: ${orderItem.comment}`;
+    }
     return returnValue;
   }
 
