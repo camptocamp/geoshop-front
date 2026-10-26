@@ -43,8 +43,7 @@ export class AppComponent implements OnDestroy, OnInit {
   subTitle = '';
   showSearch = false;
 
-  // An empty message hides the banner. The class drives --gs2-app-height,
-  // so every full-height page shrinks while the banner is visible.
+  // An empty MAINTENANCE_BANNER_MESSAGE hides the banner.
   @HostBinding('class.has-maintenance-banner')
   maintenanceMessage = '';
 

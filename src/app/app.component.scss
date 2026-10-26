@@ -1,8 +1,5 @@
-// Keep this in step with the height of .maintenance-banner.
 $banner-height: 56px;
 
-// Every full-height page below the toolbar sizes itself with --gs2-app-height.
-// The banner shrinks that height, so no page runs past the viewport bottom.
 :host(.has-maintenance-banner) {
   --gs2-app-height: calc(100vh - #{$banner-height});
 }
