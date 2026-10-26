@@ -1,0 +1,35 @@
+// The height is fixed, so the app shell can subtract a single known value.
+// Keep it in step with $banner-height in app.component.scss.
+.maintenance-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-sizing: border-box;
+  height: 56px;
+  padding: 8px 16px;
+  background-color: #fff3cd;
+  color: #664d03;
+  border-bottom: 1px solid #ffe69c;
+  font-size: 14px;
+  line-height: 20px;
+
+  .banner-icon {
+    flex: 0 0 auto;
+    display: block;
+  }
+
+  // A long message must not grow the banner beyond its fixed height.
+  .banner-message {
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .banner-close {
+    flex: 0 0 auto;
+    color: inherit;
+    font-size: 24px;
+    line-height: 1;
+  }
+}

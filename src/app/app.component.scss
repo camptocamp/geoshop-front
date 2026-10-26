@@ -1,11 +1,27 @@
+// Keep this in step with the height of .maintenance-banner.
+$banner-height: 56px;
+
+// Every full-height page below the toolbar sizes itself with --gs2-app-height.
+// The banner shrinks that height, so no page runs past the viewport bottom.
+:host(.has-maintenance-banner) {
+  --gs2-app-height: calc(100vh - #{$banner-height});
+}
+
 :host {
+  --gs2-app-height: 100vh;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
 
   main {
-    height: calc(100vh - var(--mat-toolbar-standard-height));
+    height: calc(var(--gs2-app-height) - var(--mat-toolbar-standard-height));
     overflow: hidden;
+  }
+
+  .mat-toolbar {
+    // The search bar inside the toolbar is absolutely positioned. It must
+    // resolve against the toolbar, not against the viewport.
+    position: relative;
   }
 
   .mat-icon {

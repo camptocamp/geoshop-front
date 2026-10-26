@@ -1,3 +1,8 @@
+@if (maintenanceMessage) {
+  <gs2-maintenance-banner [message]="maintenanceMessage"
+    (dismissed)="dismissMaintenanceBanner()"></gs2-maintenance-banner>
+}
+
 <mat-toolbar>
   <img *ngIf="appLogo1" class="first-logo" src="{{appLogo1.path}}" alt="{{appLogo1.alt}}" />
   <img *ngIf="appLogo" src="{{appLogo.path}}" alt="{{appLogo.alt}}" />

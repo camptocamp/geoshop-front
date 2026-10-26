@@ -2,6 +2,9 @@
   display: block;
   width: 100%;
   height: 100%;
+  // The buttons, the scale line and the spinner below are absolutely
+  // positioned. They must resolve against the map, not against the viewport.
+  position: relative;
 
   #map {
     width: 100%;
@@ -37,7 +40,7 @@
     padding: 2px;
     margin-left: 10px;
     position: absolute;
-    top: 100px;
+    top: 10px;
     transition: left 300ms;
 
     button {

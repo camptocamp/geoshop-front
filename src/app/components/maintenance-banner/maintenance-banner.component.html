@@ -1,0 +1,8 @@
+<div class="maintenance-banner" role="status">
+  <img class="banner-icon" src="assets/images/info.svg" alt="" width="20" height="20" />
+  <span class="banner-message">{{message}}</span>
+  <button mat-icon-button class="banner-close" (click)="dismissed.emit()"
+    i18n-aria-label="@@maintenance.banner.close" aria-label="Fermer l'avertissement">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>

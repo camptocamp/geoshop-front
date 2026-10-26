@@ -3,7 +3,7 @@
   justify-content: center;
   padding-top: 2em;
   overflow-y: auto;
-  height: calc(100vh - 8.55em);
+  height: calc(var(--gs2-app-height) - 8.55em);
 
   .mat-mdc-card {
     height: max-content;
