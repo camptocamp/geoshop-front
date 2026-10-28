@@ -1,6 +1,5 @@
   .mat-stepper-horizontal {
     width: 100%;
-    //height: calc(100vh - 64px);
     max-width: 1920px;
     margin: auto;
 
@@ -13,11 +12,11 @@
       flex-direction: column;
 
       &:not(.form-no-full-height) {
-        height: calc(100vh - 64px - 72px - 24px);
+        height: calc(var(--gs2-app-height) - 64px - 72px - 24px);
       }
 
       &.form-height-mini {
-        height: calc(100vh - 64px - 72px - 41px - 48px);
+        height: calc(var(--gs2-app-height) - 64px - 72px - 41px - 48px);
       }
 
       .mat-mdc-form-field {
@@ -94,7 +93,7 @@
 
   form.billing-form .customer_data{
     display: grid;
-    height: calc(100vh - 64px - 72px - 24px);
+    height: calc(var(--gs2-app-height) - 64px - 72px - 24px);
   }
 
   .bottom-container {

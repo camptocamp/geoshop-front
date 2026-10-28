@@ -12,7 +12,7 @@
   }
 
   mat-card-content {
-    height: calc(100vh - 300px);
+    height: calc(var(--gs2-app-height) - 300px);
     overflow:scroll;
   }
 

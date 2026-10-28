@@ -1,6 +1,6 @@
 :host {
   display: flex;
-  height: calc(100vh - 64px);
+  height: calc(var(--gs2-app-height) - 64px);
 
   .mat-mdc-card {
     margin: 10px auto;
@@ -9,7 +9,7 @@
   }
 
   form {
-    height: calc(100vh - 64px - 60px - 40px - 60px - 72px);
+    height: calc(var(--gs2-app-height) - 64px - 60px - 40px - 60px - 72px);
     overflow-y: auto;
   }
 

@@ -1,6 +1,7 @@
 import { AccountOverlayComponent } from '@app/components/account-overlay/account-overlay.component';
 import { CartOverlayComponent } from '@app/components/cart-overlay/cart-overlay.component';
 import { HelpOverlayComponent } from '@app/components/help-overlay/help-overlay.component';
+import { MaintenanceBannerComponent } from '@app/components/maintenance-banner/maintenance-banner.component';
 import { ProductUpdateFeedOverlayComponent } from '@app/components/product-update-feed-overlay/product-update-feed-overlay.component';
 import { SearchComponent } from '@app/components/search/search.component';
 import { ConfigService } from '@app/services/config.service';
@@ -8,7 +9,7 @@ import { AppState, selectCartTotal, selectOrder } from '@app/store';
 import * as MapAction from '@app/store/map/map.action';
 
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -32,7 +33,8 @@ import { AuthService } from './services/auth.service';
     RouterOutlet, RouterLink, AsyncPipe,
     MatBadgeModule, MatDividerModule, MatIconModule, MatToolbarModule, MatMenuModule, MatMenuTrigger,
     AccountOverlayComponent, CartOverlayComponent, HelpOverlayComponent, CommonModule, MatInputModule,
-    MatFormFieldModule, MatButtonModule, SearchComponent, ProductUpdateFeedOverlayComponent
+    MatFormFieldModule, MatButtonModule, SearchComponent, ProductUpdateFeedOverlayComponent,
+    MaintenanceBannerComponent
   ],
 })
 export class AppComponent implements OnDestroy, OnInit {
@@ -40,6 +42,10 @@ export class AppComponent implements OnDestroy, OnInit {
   title = 'front';
   subTitle = '';
   showSearch = false;
+
+  // An empty MAINTENANCE_BANNER_MESSAGE hides the banner.
+  @HostBinding('class.has-maintenance-banner')
+  maintenanceMessage = '';
 
   order$ = this.store.select(selectOrder);
   numberOfItemInTheCart$ = this.store.select(selectCartTotal);
@@ -54,6 +60,8 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
+
+    this.maintenanceMessage = this.configService.config?.maintenanceBanner?.message || '';
 
     const routerNavEnd$ = this.router.events.pipe(filter(x => x instanceof NavigationEnd));
 
@@ -96,6 +104,10 @@ export class AppComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.auth.cleanup();
+  }
+
+  dismissMaintenanceBanner(): void {
+    this.maintenanceMessage = '';
   }
 
   get appLogo(): { path: string, alt: string } | undefined {

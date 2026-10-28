@@ -2,6 +2,7 @@
   display: block;
   width: 100%;
   height: 100%;
+  position: relative;
 
   #map {
     width: 100%;
@@ -37,7 +38,7 @@
     padding: 2px;
     margin-left: 10px;
     position: absolute;
-    top: 100px;
+    top: 10px;
     transition: left 300ms;
 
     button {

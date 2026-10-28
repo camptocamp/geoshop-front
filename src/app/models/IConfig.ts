@@ -67,6 +67,9 @@ export interface IConfig {
     path: string;
     alt: string;
   } | undefined;
+  maintenanceBanner?: {
+    message: string;
+  };
 
 }
 

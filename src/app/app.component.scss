@@ -1,11 +1,24 @@
+$banner-height: 56px;
+
+:host(.has-maintenance-banner) {
+  --gs2-app-height: calc(100vh - #{$banner-height});
+}
+
 :host {
+  --gs2-app-height: 100vh;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
 
   main {
-    height: calc(100vh - var(--mat-toolbar-standard-height));
+    height: calc(var(--gs2-app-height) - var(--mat-toolbar-standard-height));
     overflow: hidden;
+  }
+
+  .mat-toolbar {
+    // The search bar inside the toolbar is absolutely positioned. It must
+    // resolve against the toolbar, not against the viewport.
+    position: relative;
   }
 
   .mat-icon {
