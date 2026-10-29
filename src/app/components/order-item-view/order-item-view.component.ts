@@ -41,17 +41,17 @@ export class OrderItemViewComponent implements OnInit {
   }
 
   getOrderStatus(orderItem: IOrderItem): string {
-    let returnValue = '';
+    const parts: string[] = [];
     if (orderItem.status !== undefined && Constants.ORDER_STATUS[orderItem.status]) {
-      returnValue = Constants.ORDER_STATUS[orderItem.status];
+      parts.push(Constants.ORDER_STATUS[orderItem.status]);
     }
     if (orderItem.validation_reason) {
-      returnValue = `${returnValue}: ${orderItem.validation_reason}`;
+      parts.push(orderItem.validation_reason);
     }
     if (orderItem.comment) {
-      returnValue = `${returnValue}: ${orderItem.comment}`;
+      parts.push(orderItem.comment);
     }
-    return returnValue;
+    return parts.join(': ');
   }
 
   downloadOrder(event: MouseEvent, item: IOrderItem) {
