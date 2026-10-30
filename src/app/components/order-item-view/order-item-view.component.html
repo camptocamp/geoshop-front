@@ -41,9 +41,9 @@
     </td>
   </ng-container>
 
-  <!-- Action Column -->
+  <!-- Status Column -->
   <div *ngIf="showAction">
-    <ng-container matColumnDef="download">
+    <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef i18n="@@order.status">Statut</th>
       <td mat-cell *matCellDef="let element">
         <button class="download-button" mat-raised-button color="primary"

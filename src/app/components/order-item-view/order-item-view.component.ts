@@ -32,7 +32,7 @@ export class OrderItemViewComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.showAction) {
-      this.displayedColumns.push('download');
+      this.displayedColumns.push('status');
     }
   }
 
