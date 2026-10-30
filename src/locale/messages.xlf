@@ -1063,6 +1063,13 @@
           <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="order.status" datatype="html">
+        <source>Statut</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/order-item-view/order-item-view.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="6839832173064993832" datatype="html">
         <source>Rechercher un lieu ou une paire de coordonnées...</source>
         <context-group purpose="location">
@@ -1204,7 +1211,14 @@
         <source>Annulée</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/constants.ts</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="order.validation_pending" datatype="html">
+        <source>En attente de validation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/constants.ts</context>
+          <context context-type="linenumber">19</context>
         </context-group>
       </trans-unit>
       <trans-unit id="order.unkown" datatype="html">
