@@ -16,6 +16,7 @@ export const ORDERTYPE_PUBLIC = 'public'; // This is the seccond typ but does no
 // Orders
 export const ORDER_STATUS = {
   DRAFT: $localize`:@@order.draft:Brouillon`,
+  VALIDATION_PENDING: $localize`:@@order.validation_pending:En attente de validation`,
   PENDING: $localize`:@@order.pending:En attente du devis`,
   QUOTE_DONE: $localize`:@@order.quote_done:Devis réalisé, en attente de confirmation`,
   READY: $localize`:@@order.ready:Extraction en cours`,

@@ -32,7 +32,8 @@ export type OrderStatus = 'DRAFT' |
   'REJECTED' |
   'CONFIRM_REQUIRED';
 
-export type OrderItemStatus = 'PENDING' |
+export type OrderItemStatus = 'VALIDATION_PENDING' |
+  'PENDING' |
   'IN_EXTRACT' |
   'PROCESSED' |
   'ARCHIVED' |
